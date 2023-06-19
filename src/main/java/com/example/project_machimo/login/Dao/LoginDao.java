@@ -1,4 +1,11 @@
 package com.example.project_machimo.login.Dao;
 
-public class LoginDao {
+import com.example.project_machimo.login.Dto.LoginDto;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.ArrayList;
+
+@Mapper
+public interface LoginDao {
+    public ArrayList<LoginDto> list();
 }
