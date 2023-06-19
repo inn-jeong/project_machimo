@@ -34,8 +34,9 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.mybatis/mybatis
 	implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.13'
 
-	// https://mvnrepository.com/artifact/com.boylesoftware.thyme/thyme
-	implementation group: 'com.boylesoftware.thyme', name: 'thyme', version: '1.0.1'
+//	// https://mvnrepository.com/artifact/com.boylesoftware.thyme/thyme
+//	implementation group: 'com.boylesoftware.thyme', name: 'thyme', version: '1.0.1'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {
