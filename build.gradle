@@ -21,6 +21,7 @@ dependencies {
 	implementation 'org.projectlombok:lombok:1.18.26'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 
 //	# lombok plugin
 	implementation('org.projectlombok:lombok')
@@ -29,6 +30,12 @@ dependencies {
 //	# test 환경
 	testImplementation('org.projectlombok:lombok')
 	testAnnotationProcessor('org.projectlombok:lombok')
+
+	// https://mvnrepository.com/artifact/org.mybatis/mybatis
+	implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.13'
+
+	// https://mvnrepository.com/artifact/com.boylesoftware.thyme/thyme
+	implementation group: 'com.boylesoftware.thyme', name: 'thyme', version: '1.0.1'
 }
 
 tasks.named('test') {
