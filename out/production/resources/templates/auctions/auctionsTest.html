@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <title>Title</title>
+</head>
+<body>
+
+<table border="1">
+    <tr th:each="auctions :${aList} ">
+        <td th:text="${auctions.auoctionId()}"></td>
+        <td th:text="${auctions.userId()}"></td>
+        <td th:text="${auctions.productsId()}"></td>
+        <td th:text="${auctions.startTime()}"></td>
+        <td th:text="${auctions.endTime()}"></td>
+        <td th:text="${auctions.highestBid()}"></td>
+        
+
+
+<!--        <td th:text="${list.}"></td>-->
+
+    </tr>
+
+</table>
+<form>
+<div th:each="product : ${pView}">
+        <div>
+            <span th:if="${hasBidHistory}">
+            <input  type="text" name="bids" th:value="${product.priceA()}">
+            </span>
+            <span th:unless="${hasBidHistory}">
+            <input  type="text" name="bids" th:value="${amount}">
+            </span>
+            <input value="입찰" type="submit">
+        </div>
+    </div>
+</form>
+</body>
+</html>
