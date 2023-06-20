@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.project_machimo.login.Dao.LoginDao">
+    <insert id="memberInsert" parameterType="hashmap">
+        insert into users(USERS_ID,U_CREATED_AT,U_EMAIL,U_PASSWORD,U_NAME,U_PHONE_NUMBER,U_ADDRESS,U_ID,U_JUMIN,U_NICKNAME) values
+        ((select max(users_id) from users)+1,
+                TO_CHAR(sysdate,'YYYY-MM-DD'),
+                #{u_email},#{u_password},
+                #{u_name},#{u_phone_number},
+                #{u_address},#{u_id},
+                #{u_jumin},#{u_nickname})
+    </insert>
+
+<!--    <select id="loginYn" resultType="com.example.project_machimo.login.Dto.LoginDto">-->
+<!--        select u_id,u_password,u_name from users where u_id=#{u_id}-->
+<!--    </select>-->
+
+    <select id="findMem" resultType="com.example.project_machimo.login.Dto.MemDto">
+        select users_id,u_id,u_password,
+                u_name,u_jumin,u_email,
+                u_phone_number,u_address,
+                u_nickname,u_point,
+                u_created_at,u_updated_at,
+                u_signout from users where u_id=#{u_id}
+    </select>
+</mapper>
