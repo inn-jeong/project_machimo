@@ -6,6 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/board.css}"/>
     <title>Document</title>
 </head>
 <body>
@@ -19,29 +20,33 @@
                     <col width="20%"/>
                 </colgroup>
         <thead>
-<!--        <tr>-->
-<!--            <th scope="col">글번호</th>-->
-<!--            <th scope="col">제목</th>-->
+        <tr>
+            <th scope="col">글번호</th>
+            <th scope="col">제품번호</th>
+            <th scope="col">작성자</th>
+            <th scope="col">제목</th>
+            <th scope="col">별점</th>
 <!--            <th scope="col">조회수</th>-->
 <!--            <th scope="col">작성일</th>-->
-<!--        </tr>-->
-        </thead>
-        <tbody id="list">
-        <tr th:if="${#lists.size(list)}>0" th:each="dto:${list}">
-            <td class=review_id" th:text="${dto.review_id}"></td>
-            <td class=products_id" th:text="${dto.products_id}"></td>
-            <td class=users_id" th:text="${dto.users_id}"></td>
-            <td class=review_title" th:text="${dto.review_title}"></td>
-            <td class=review_content" th:text="${dto.review_content}"></td>
-            <td class=review_star" th:text="${dto.review_star}"></td>
-            <td class=review_img" th:text="${dto.review_img}"></td>
         </tr>
+        </thead>
+        <tbody>
+<!--        <tr>-->
+        <tr th:if="${#lists.size(list)}>0" th:each="list:${list}">
+            <td th:text="${list.reviewId}"></td>
+            <td th:text="${list.productsId}"></td>
+            <td th:text="${list.usersId}"></td>
+            <td th:text="${list.reviewTitle}"></td>
+<!--            <td class=review_content" th:text="${dto.review_content}"></td>-->
+            <td th:text="${list.reviewStar}"></td>
+<!--            <td class=review_img" th:text="${dto.review_img}"></td>-->
         <tr th:unless="${#lists.size(list)} > 0">
+<!--        </tr>-->
             <td colspan="4">조회된 결과가 없습니다.</td>
         </tr>
         </tbody>
     </table>
-<a href="openBoardWrite" class="btn">글 쓰기</a>
+<a href="#" class="btn">글 쓰기</a>
 </div>
 </body>
 </html>

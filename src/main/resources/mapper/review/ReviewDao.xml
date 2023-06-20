@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_machimo.review.dao.ReviewDao">
+    <insert id="write" parameterType="hashmap">
+        insert into REVIEW(review_id, products_id, users_id, review_title, review_content, review_star, review_img) values
+<!--        (REVIEW_SEQ.NEXTVAL,#{products_id},#{users_id},#{review_title},#{review_content},#{review_star},#{review_img})-->
+        (REVIEW_SEQ.NEXTVAL, #{productsId}, #{usersId}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg})
+    </insert>
+
+    <update id="modify" parameterType="hashmap">
+        update REVIEW set review_title = #{reviewTitle}, review_content = #{reviewContent}
+        , review_star = #{reviewStar}, review_img = #{reviewImg}
+        where review_id=#{reviewId}
+    </update>
+
+    <delete id="delete" parameterType="hashmap">
+        delete REVIEW where review_id=#{reviewId}
+    </delete>
+
+    <select id="list" resultType="com.example.project_machimo.review.dto.ReviewDto">
+<!--        select review_id, products_id, users_id, review_title, review_content, review_star, review_img from REVIEW-->
+<!--        select review_id, products_id, users_id, review_title, review_star from REVIEW-->
+        select * from REVIEW
+    </select>
+
+    <select id="contentView" parameterType="hashmap" resultType="com.example.project_machimo.review.dto.ReviewDto">
+        select review_id, products_id, users_id, review_title, review_content, review_star, review_img from REVIEW where review_id=#{reviewId}
+    </select>
+</mapper>

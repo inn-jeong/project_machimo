@@ -9,7 +9,6 @@ import java.util.HashMap;
 public interface ReviewDao {
     ArrayList<ReviewDto> list();
     void write(HashMap<String,String> param);
-
     ReviewDto contentView(HashMap<String,String> param);
     void modify(HashMap<String,String> param);
     void delete(HashMap<String,String> param);

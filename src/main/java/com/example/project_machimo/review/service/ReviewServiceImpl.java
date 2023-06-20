@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Slf4j
-@Service("service")
+@Service
 public class ReviewServiceImpl implements ReviewService{
     @Autowired
     private SqlSession sqlSession;
+
     @Override
     public ArrayList<ReviewDto> list() {
         log.info("@# BServiceImpl.list() start");

@@ -13,17 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 
 @Slf4j
-@RestController
-@RequiredArgsConstructor
+@Controller
+//@RestController
+//@RequiredArgsConstructor
+@RequestMapping("/review")
 public class ReviewController {
     @Autowired
     private ReviewService service;
 
-    @RequestMapping("/review/list")
+    @RequestMapping("/list")
     public String list(Model model) {
         log.info("@# list");
         ArrayList<ReviewDto> list = service.list();
+//        model.addAttribute("list",list);
         model.addAttribute("list",list);
-        return "/review/list";
+        return "list";
     }
 }
