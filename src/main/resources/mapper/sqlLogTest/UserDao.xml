@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.example.project_machimo.sqlLogTest.UserDao">
+
+
+
+
+    <select id="getEmp" resultType="com.example.project_machimo.sqlLogTest.UserDTO">
+        select A.ename as ename1, B.deptno as dno1, B.dname dname1
+        FROM emp A
+                 join dept B on A.deptno = B.deptno and B.deptno = 10
+        order by 1
+
+
+    </select>
+</mapper>

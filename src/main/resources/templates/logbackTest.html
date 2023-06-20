@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<!--타임리프 문법으로 테스트 ()는 emp의 값이 클래스가 아닌 record이기 때문에 매소드로 취급하는거 같음-->
+<table border="1">
+    <tr th:each="emp : ${employee}">
+        <td th:text="${emp.ename1()}"></td>
+        <td th:text="${emp.dno1()}"></td>
+        <td th:text="${emp.dname1()}"></td>
+    </tr>
+</table>
+
+</body>
+</html>
