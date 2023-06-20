@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<table border="1">
+    <tr th:each="list : ${list}">
+        <td th:text="${list.auoctionId()}"></td>
+        <td th:text="${list.userId()}"></td>
+        <td th:text="${list.productsId()}"></td>
+        <td th:text="${list.startTime()}"></td>
+        <td th:text="${list.endTime()}"></td>
+        <td th:text="${list.highestBid()}"></td>
+
+
+
+    </tr>
+</table>
+</body>
+</html>
