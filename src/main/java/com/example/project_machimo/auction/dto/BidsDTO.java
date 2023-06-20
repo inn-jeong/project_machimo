@@ -1,4 +1,4 @@
-package com.example.project_machimo.auotion.dto;
+package com.example.project_machimo.auction.dto;
 
 public record BidsDTO(
         Integer auoctionId,

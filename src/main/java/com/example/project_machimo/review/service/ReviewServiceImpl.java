@@ -1,5 +1,7 @@
 package com.example.project_machimo.review.service;
 
+
+
 import com.example.project_machimo.review.dao.ReviewDao;
 import com.example.project_machimo.review.dto.ReviewDto;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Slf4j
-@Service("service")
+@Service
 public class ReviewServiceImpl implements ReviewService{
     @Autowired
     private SqlSession sqlSession;
@@ -19,6 +21,7 @@ public class ReviewServiceImpl implements ReviewService{
     public ArrayList<ReviewDto> list() {
         log.info("@# BServiceImpl.list() start");
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+        log.info("여기까진 됨?");
         ArrayList<ReviewDto> list = dao.list();
         log.info("@# BServiceImpl.list() end");
         return list;

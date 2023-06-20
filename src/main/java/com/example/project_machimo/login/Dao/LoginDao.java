@@ -8,4 +8,5 @@ import java.util.ArrayList;
 @Mapper
 public interface LoginDao {
     public ArrayList<LoginDto> list();
+
 }
