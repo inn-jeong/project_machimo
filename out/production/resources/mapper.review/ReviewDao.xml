@@ -2,10 +2,27 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--IBdao와 연결되어있어야하므로. namespqce에 IBDao 의 경로 적어줌-->
 <mapper namespace="com.example.project_machimo.review.dao.ReviewDao">
+    <insert id="write" parameterType="hashmap">
+        insert into REVIEW(review_id, products_id, users_id, review_title, review_content, review_star, review_img) values
+        (REVIEW_SEQ.NEXTVAL,#{products_id},#{users_id},#{review_title},#{review_content},#{review_star},#{review_img})
+    </insert>
 
-    <select id="list" resultType="com.example.project_machimo.review.dao.ReviewDao">
+    <update id="modify" parameterType="hashmap">
+        update REVIEW set review_title = #{review_title}, review_title = #{review_title}, review_content = #{review_content}
+        , review_star = #{review_star}, review_img = #{review_img}
+        where review_id=#{review_id}
+    </update>
 
+    <delete id="delete" parameterType="hashmap">
+        delete REVIEW where review_id=#{review_id}
+    </delete>
+
+    <select id="list" parameterType="hashmap" resultType="com.example.project_machimo.review.dto.ReviewDto">
+        select review_id, products_id, users_id, review_title, review_content, review_star, review_img from REVIEW;
+    </select>
+
+    <select id="contentView" parameterType="hashmap" resultType="com.example.project_machimo.review.dto.ReviewDto">
+        select review_id, products_id, users_id, review_title, review_content, review_star, review_img from REVIEW where review_id=#{review_id}
     </select>
 </mapper>
