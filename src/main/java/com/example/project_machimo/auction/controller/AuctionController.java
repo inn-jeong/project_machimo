@@ -4,12 +4,14 @@ package com.example.project_machimo.auction.controller;
 import com.example.project_machimo.auction.dto.AuctionDTO;
 import com.example.project_machimo.auction.dto.ProductsDTO;
 import com.example.project_machimo.auction.service.AuctionService;
+import com.example.project_machimo.auction.service.BidsService;
 import com.example.project_machimo.auction.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -24,18 +26,23 @@ public class AuctionController {
     private AuctionService auctionService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private BidsService bidsService;
     @RequestMapping("/action-list")
     public String showProduct(Model model, HttpServletRequest request){
 
         int id = parseInt(request.getParameter("no"));
         System.out.println("@!#!@#$!@#@!#"+id);
-        List<AuctionDTO> auctionDTOS = auctionService.aList(id);
+        List<AuctionDTO> aList = auctionService.aList(id);
+        List<ProductsDTO> pView = productService.pView(id);
+        boolean hasBidHistory = bidsService.hasBidHistory(id);
+        Integer amount = bidsService.maxAmount(id);
+        model.addAttribute("aList",aList);
+        model.addAttribute("pView",pView);
+        model.addAttribute("hasBidHistory",hasBidHistory);
+        model.addAttribute("amount",amount);
 
-        model.addAttribute("list",auctionDTOS);
-
-
-
-        return "auotionsTest";
+        return "auctions/auctionsTest";
     }
 
     @GetMapping("/product")
@@ -43,6 +50,12 @@ public class AuctionController {
         List<ProductsDTO> productsDTOS = productService.pList();
         model.addAttribute("tlqkf",productsDTOS);
 
-        return "productList";
+        return "auctions/productList";
+    }
+    @PostMapping("/amountCheck")
+    public String updateAmount(HttpServletRequest request,Model model){
+
+
+        return "0";
     }
 }

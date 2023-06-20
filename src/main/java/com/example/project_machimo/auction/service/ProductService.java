@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ProductService {
     List<ProductsDTO> pList();
+    List<ProductsDTO> pView(int id);
 }

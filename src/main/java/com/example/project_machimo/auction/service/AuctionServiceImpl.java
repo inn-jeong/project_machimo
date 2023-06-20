@@ -16,8 +16,7 @@ public class AuctionServiceImpl implements AuctionService{
     public List<AuctionDTO> aList(int id) {
         AuctionDAO auctionDAO = session.getMapper(AuctionDAO.class);
         List<AuctionDTO> auctionDTOS = auctionDAO.pList(id);
-
-
         return auctionDTOS;
     }
+
 }
