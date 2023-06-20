@@ -2,10 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--IBdao와 연결되어있어야하므로. namespqce에 IBDao 의 경로 적어줌-->
-<mapper namespace="com.example.project_machimo.review.dao.ReviewDao">
+<mapper namespace="com.example.project_machimo.review.dto">
 
     <select id="list" resultType="com.example.project_machimo.review.dao.ReviewDao">
-
     </select>
 </mapper>
