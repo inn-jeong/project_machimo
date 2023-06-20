@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class LoginDto {
-    private String user_id;
-    private String user_pw;
+    private String u_id;
+    private String u_password;
 }
