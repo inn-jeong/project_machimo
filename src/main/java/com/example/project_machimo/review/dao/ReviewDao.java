@@ -1,14 +1,12 @@
-package com.example.project_machimo.review.service;
+package com.example.project_machimo.review.dao;
 
 import com.example.project_machimo.review.dto.ReviewDto;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-
-public interface ReviewService {
+@Mapper
+public interface ReviewDao {
     ArrayList<ReviewDto> list();
     void write(HashMap<String,String> param);
 
