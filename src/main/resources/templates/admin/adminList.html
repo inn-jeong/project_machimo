@@ -10,22 +10,6 @@
 <body>
     <div class="container">
     <h1>사용자관리</h1>
-        <div class="d-flex">
-            <div class="me-2" style="width: 150px">
-                <select class="form-select">
-                    <option id="usersId" value="usersId">회원번호</option>
-                    <option id="userLoginId" value="userLoginId">회원ID</option>
-                    <option id="name" value="name">이름</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <div class="form-outline">
-                   <input th:type="text" th:name="keyword"></input>
-                </div>
-                    <button type="button">검색</button>
-            </div>
-        </div>
-
 
     </div>
     <!-- Begin Page Content -->
@@ -36,76 +20,94 @@
         <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
             For more information about DataTables, please visit the </p>
 
-        <!-- DataTales Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">MACHIMO USER LIST</h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                        <tr>
-                            <th scope="col">회원번호</th>
-                            <th scope="col">ID</th>
-                            <th scope="col">닉네임</th>
-                            <th scope="col">이메일</th>
-                            <th scope="col">적립금</th>
-                            <th scope="col">가입일</th>
-                            <th scope="col">회원권한</th>
-                            <th scope="col">회원탈퇴</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="user: ${adminList}" th:if="${user != null}">
-                            <td th:text="${user.user_id}"></td>
-                            <td th:text="${user.u_id}"></td>
-                            <td th:text="${user.u_nickname}"></td>
-                            <td th:text="${user.u_email}"></td>
-                            <td th:text="${user.u_point}"></td>
-                            <td th:text="${user.u_created_at}"></td>
-                            <td>
-                               <span th:if="${user.u_role == 0}">USER</span>
-                               <span th:if="${user.u_role == 1}">ADMIN</span>
-                            </td>
-                            <td>
-                                <a th:href="@{|/admin/adminDelete/${user.user_id}}">회원탈퇴</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+
+<div class="row">
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">MACHIMO USER LIST</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <!--검색기능-->
+                <div class="row">
+                    <div class="col-sm-12 col-md-6"></div>
+                    <div class="col-sm-12 col-md-6"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th scope="col">회원번호</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">닉네임</th>
+                                    <th scope="col">이메일</th>
+                                    <th scope="col">적립금</th>
+                                    <th scope="col">가입일</th>
+                                    <th scope="col">회원권한</th>
+                                    <th scope="col">회원탈퇴</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="user: ${adminList}" th:if="${user != null}">
+                                    <td th:text="${user.user_id}"></td>
+                                    <td th:text="${user.u_id}"></td>
+                                    <td th:text="${user.u_nickname}"></td>
+                                    <td th:text="${user.u_email}"></td>
+                                    <td th:text="${user.u_point}"></td>
+                                    <td th:text="${user.u_created_at}"></td>
+                                    <td>
+                                       <span th:if="${user.u_role == 0}">USER</span>
+                                       <span th:if="${user.u_role == 1}">ADMIN</span>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{|/admin/adminDelete/${user.user_id}}">회원탈퇴</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                            showing <span th:text="${pageMaker.getStartPage()}"> to <span th:text="${pageMaker.getEndPage()}"> of <span th:text="${pageMaker.getTotal()}"> entries
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                            <ul class="pagination">
+                                <li th:if="${pageMaker.prev}" class="paginate_button page-item previous disabled" id="dataTable_previous">
+                                    <a th:href="${pageMaker.startPage - 1}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">
+                                        <font style="vertical-align: inherit;">Previous</font>
+                                    </a>
+                                </li>
+                                <li class="paginate_button" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}"
+                                    th:classappend="${pageMaker.cri.pageNum == num} ? 'paginate_button page-item active' : 'paginate_button page-item'">
+                                    <a th:href="${num}" th:text="${num}" class="page-link">
+                                    </a>
+                                </li>
+                                <li th:if="${pageMaker.next}" class="paginate_button page-item next" id="dataTable_next">
+                                    <a th:href="${pageMaker.startPage + 1}" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">
+        <!--                                <span th:text="NEXT"></span>-->
+                                        <font style="vertical-align: inherit;">Next</font>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-7">
-                <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                    <ul class="pagination">
-                        <li th:if="${pageMaker.prev}" class="paginate_button page-item previous disabled" id="dataTable_previous">
-                            <a th:href="${pageMaker.startPage - 1}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">
-                                <font style="vertical-align: inherit;">Previous</font>
-                            </a>
-                        </li>
-                        <li class="paginate_button" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}"
-                            th:classappend="${pageMaker.cri.pageNum == num} ? 'paginate_button page-item active' : 'paginate_button page-item'">
-                            <a th:href="${num}" th:text="${num}" class="page-link">
-                            </a>
-                        </li>
-                        <li th:if="${pageMaker.next}" class="paginate_button page-item next" id="dataTable_next">
-                            <a th:href="${pageMaker.startPage + 1}" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">
-<!--                                <span th:text="NEXT"></span>-->
-                                <font style="vertical-align: inherit;">Next</font>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-
         </div>
-
+    </div>
+</div>
 <!--            <li class="paginate_button" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">-->
 <!--                <span th:if="${num == ${pageMaker.getCri().getPageNum()}}" th:text="${num}"></span>-->
 <!--                <span th:unless="${num == ${pageMaker.getCri().getPageNum()}}">-->
 <!--                                <a th:text="${num}"></a>-->
-<!--                            </span>-->
+<!--                </span>-->
 <!--            </li>-->
 
     </div>
@@ -114,6 +116,7 @@
             <input type="hidden" name="pageNum" th:value="*{pageNum}">
             <input type="hidden" name="amount" th:value="*{amount}">
         </form>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
