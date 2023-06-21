@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryDto {
-    private String cate_name;
-    private Integer category_id;
-    private Integer category_id2;
+    private String c_name;//카테고리 이름
+    private Integer c_id;//카테고리 번호
+    private Integer c_id2;//카테고리 번호자기참조
 }

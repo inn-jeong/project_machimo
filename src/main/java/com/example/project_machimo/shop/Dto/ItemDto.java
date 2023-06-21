@@ -9,8 +9,7 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class ProductDto {
+public class ItemDto {
     private Integer products_id;//제품번호
     private Integer users_id;//유저 번호
     private Integer c_id;//카테고리 번호
@@ -27,6 +26,6 @@ public class ProductDto {
     private String p_account;//판매정산계좌
     private String p_address;//반송주소
     private String p_bank;//은행명
+    private String u_nickname; //사용자의 닉네임
+    private String i_sub_image; //제품의 서브 이미지
 }
-
-
