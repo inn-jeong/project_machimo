@@ -6,7 +6,7 @@
     <insert id="write" parameterType="hashmap">
         insert into REVIEW(review_id, products_id, users_id, review_title, review_content, review_star, review_img) values
 <!--        (REVIEW_SEQ.NEXTVAL,#{products_id},#{users_id},#{review_title},#{review_content},#{review_star},#{review_img})-->
-        (REVIEW_SEQ.NEXTVAL, #{productsId}, #{usersId}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg})
+        (#{reviewId}, #{productsId}, #{reivewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg})
     </insert>
 
     <update id="modify" parameterType="hashmap">
@@ -20,12 +20,10 @@
     </delete>
 
     <select id="list" resultType="com.example.project_machimo.review.dto.ReviewDto">
-<!--        select review_id, products_id, users_id, review_title, review_content, review_star, review_img from REVIEW-->
-<!--        select review_id, products_id, users_id, review_title, review_star from REVIEW-->
         select * from REVIEW
     </select>
 
     <select id="contentView" parameterType="hashmap" resultType="com.example.project_machimo.review.dto.ReviewDto">
-        select review_id, products_id, users_id, review_title, review_content, review_star, review_img from REVIEW where review_id=#{reviewId}
+        select * from REVIEW where review_id=#{reviewId}
     </select>
 </mapper>
