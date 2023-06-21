@@ -54,4 +54,9 @@ public class LoginController {
         service.memberInsert(param);
         return "redirect:login";
     }
+
+    @RequestMapping("/callback")
+    public String naverCallback(){
+        return "callback";
+    }
 }
