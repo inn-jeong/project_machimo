@@ -11,8 +11,8 @@
 <mapper namespace="com.example.project_machimo.admin.dao.AdminDao">
     <select id="adminList" resultType="com.example.project_machimo.admin.dto.UsersDto">
         <![CDATA[
-            SELECT user_id, u_id, u_nickname, u_email, u_point,u_created_at,u_role
-			from (SELECT rownum rn, user_id, u_id, u_nickname, u_email, u_point, u_created_at,u_role
+            SELECT user_id, u_id, u_nickname, u_email, u_point, u_created_at, u_role
+                from (SELECT rownum rn, user_id, u_id, u_nickname, u_email, u_point, u_created_at, u_role
 			              FROM users
 			            WHERE rownum <= (#{pageNum} * #{amount})
 			            order by user_id asc
@@ -25,18 +25,4 @@
         select count(*) from users
     </select>
 
-<!--    <select id="listSearch" parameterType="hashMap" resultType="com.example.project_machimo.admin.dao.UsersDao">-->
-<!--        select users_id,user_login_id,name,email,created_at,signout-->
-<!--        from users-->
-<!--        <if test="searchType.equals('users_id')">-->
-<!--        where users_id like concat('%',#{test}, '%')-->
-<!--        </if>-->
-<!--        <if test="searchType.equals('users_id')">-->
-<!--            where user_login_id like concat('%',#{test}, '%')-->
-<!--        </if>-->
-<!--        <if test="searchType.equals('users_id')">-->
-<!--            where name like concat('%',#{test}, '%')-->
-<!--        </if>-->
-<!--        order by users_id desc-->
-<!--    </select>-->
 </mapper>

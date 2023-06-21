@@ -25,7 +25,7 @@ public class AdminController {
     //사용자관리
     @RequestMapping("/adminList")
     public String adminList(Criteria cri, Model model){
-        log.info("@# adminList");
+        log.info("@# controller adminList start");
         model.addAttribute("adminList",service.adminList(cri));
         int total = service.getTotalCount();
         model.addAttribute("pageMaker",new PageDto(total, cri));

@@ -19,7 +19,8 @@ public class AdminServiceImpl implements AdminService  {
 
     @Override
     public ArrayList<UsersDto> adminList(Criteria cri) {
-        log.info("@#cri" + cri.getPageNum() + cri.getAmount());
+        log.info("@# AdminServiceImpl adminList start");
+        log.info("@# cri.pageNum" + cri.getPageNum() +"@# cri.getAmount" + cri.getAmount());
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         return dao.adminList(cri);
     }

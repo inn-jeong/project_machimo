@@ -1,218 +1,216 @@
-CREATE TABLE products (
-	products_id	NUMBER		NOT NULL,
-	c_id	NUMBER		NOT NULL,
-	user_id	NUMBER		NOT NULL,
-	p_name	VARCHAR2(50)		NULL,
-	p_info	VARCHAR2(1000)		NULL,
-	p_direct	NUMBER	DEFAULT 0	NOT NULL,
-	p_dur	TIMESTAMP	DEFAULT sysdate	NOT NULL,
-	p_b_price	NUMBER	DEFAULT 0	NOT NULL,
-	p_created_at	TIMESTAMP		NOT NULL,
-	p_updated_at	TIMESTAMP		NULL,
-	p_hit	NUMBER	DEFAULT 0	NOT NULL,
-	p_sales_status	NUMBER		NOT NULL,
-	p_sale_type	NUMBER		NOT NULL,
-	p_account	VARCHAR2(20)		NOT NULL,
-	p_address	VARCHAR2(200)		NOT NULL,
-	p_bank	VARCHAR2(10)		NOT NULL
+CREATE TABLE "products" (
+	"products_id"	NUMBER		NOT NULL,
+	"c_id"	NUMBER		NOT NULL,
+	"c_id2"	NUMBER		NOT NULL,
+	"user_id"	NUMBER		NOT NULL,
+	"p_name"	VARCHAR2(50)		NULL,
+	"p_info"	VARCHAR2(1000)		NULL,
+	"p_direct"	NUMBER	DEFAULT 0	NOT NULL,
+	"p_dur"	TIMESTAMP	DEFAULT sysdate	NOT NULL,
+	"p_b_price"	NUMBER	DEFAULT 0	NOT NULL,
+	"p_created_at"	TIMESTAMP		NOT NULL,
+	"p_updated_at"	TIMESTAMP		NULL,
+	"p_hit"	NUMBER	DEFAULT 0	NOT NULL,
+	"p_sales_status"	NUMBER		NOT NULL,
+	"p_sale_type"	NUMBER		NOT NULL,
+	"p_account"	VARCHAR2(20)		NOT NULL,
+	"p_address"	VARCHAR2(200)		NOT NULL,
+	"p_bank"	VARCHAR2(10)		NOT NULL
 );
 
-CREATE TABLE category (
-	c_id	NUMBER		NOT NULL,
-	c_idRef	NUMBER		NULL,
-	c_name	VARCHAR2(20)		NOT NULL,
-	c_level	NUMBER	DEFAULT 0	NULL
+CREATE TABLE "category" (
+	"c_id"	NUMBER		NOT NULL,
+	"c_id2"	NUMBER		NOT NULL,
+	"c_name"	VARCHAR2(20)		NOT NULL,
+	"c_name2"	VARCHAR2(20)		NOT NULL
 );
 
-CREATE TABLE product_images (
-	i_id	NUMBER		NOT NULL,
-	product_id	NUMBER		NOT NULL,
-	i_image	VARCHAR2(1000)		NOT NULL,
-	i_sub_img	VARCHAR2(1000)		NULL
+CREATE TABLE "product_images" (
+	"i_id"	NUMBER		NOT NULL,
+	"product_id"	NUMBER		NOT NULL,
+	"i_image"	VARCHAR2(1000)		NOT NULL,
+	"i_sub_img"	VARCHAR2(1000)		NULL
 );
 
-CREATE TABLE wishlists (
-	wishlists_id	NUMBER		NOT NULL,
-	user_id	NUMBER		NOT NULL,
-	product_id	NUMBER		NOT NULL
+CREATE TABLE "wishlists" (
+	"wishlists_id"	NUMBER		NOT NULL,
+	"user_id"	NUMBER		NOT NULL,
+	"product_id"	NUMBER		NOT NULL
 );
 
-CREATE TABLE orders (
-	orders_id	NUMBER		NOT NULL,
-	user_id	NUMBER		NOT NULL,
-	products_id	NUMBER		NOT NULL,
-	order_status_id	NUMBER		NOT NULL,
-	created_at	TIMESTAMP	DEFAULT sysdate	NOT NULL,
-	updated_at	TIMESTAMP		NULL,
-	order_req	VARCHAR2(100)	DEFAULT '조심히 안전하게 와주세요'	NOT NULL
+CREATE TABLE "orders" (
+	"orders_id"	NUMBER		NOT NULL,
+	"user_id"	NUMBER		NOT NULL,
+	"products_id"	NUMBER		NOT NULL,
+	"order_status_id"	NUMBER		NOT NULL,
+	"created_at"	TIMESTAMP	DEFAULT sysdate	NOT NULL,
+	"updated_at"	TIMESTAMP		NULL,
+	"order_req"	VARCHAR2(100)	DEFAULT '조심히 안전하게 와주세요'	NOT NULL
 );
 
-CREATE TABLE order_status (
-	order_status_id	NUMBER		NOT NULL,
-	order_status	VARCHAR2(20)		NOT NULL
+CREATE TABLE "order_status" (
+	"order_status_id"	NUMBER		NOT NULL,
+	"order_status"	VARCHAR2(20)		NOT NULL
 );
 
-CREATE TABLE Loudspeaker (
-	speaker_id	NUMBER		NOT NULL,
-	content	VARCHAR2(300)		NOT NULL,
-	title	VARCHAR2(100)		NOT NULL
+CREATE TABLE "Loudspeaker" (
+	"speaker_id"	NUMBER		NOT NULL,
+	"content"	VARCHAR2(300)		NOT NULL,
+	"title"	VARCHAR2(100)		NOT NULL
 );
 
-CREATE TABLE board (
-	board_id	NUMBER		NOT NULL,
-	user_id	NUMBER		NOT NULL,
-	b_category	VARCHAR2(10)		NOT NULL,
-	inquiry_category	VARCHAR2(10)		NOT NULL,
-	b_title	VARCHAR2(50)		NULL,
-	b_writer	VARCHAR2(15)		NOT NULL,
-	b_content	VARCHAR2(1000)		NULL,
-	b_date	TIMESTAMP	DEFAULT sysdate	NOT NULL,
-	b_hit	NUMBER	DEFAULT 0	NOT NULL,
-	b_pwd	NUMBER		NULL
+CREATE TABLE "board" (
+	"board_id"	NUMBER		NOT NULL,
+	"user_id"	NUMBER		NOT NULL,
+	"b_category"	VARCHAR2(10)		NOT NULL,
+	"inquiry_category"	VARCHAR2(10)		NOT NULL,
+	"b_title"	VARCHAR2(50)		NULL,
+	"b_writer"	VARCHAR2(15)		NOT NULL,
+	"b_content"	VARCHAR2(1000)		NULL,
+	"b_date"	TIMESTAMP	DEFAULT sysdate	NOT NULL,
+	"b_hit"	NUMBER	DEFAULT 0	NOT NULL,
+	"b_pwd"	NUMBER		NULL
 );
 
-CREATE TABLE c_qna (
-	c_no	NUMBER		NOT NULL,
-	board_id	NUMBER		NOT NULL,
-	c_writer	VARCHAR2(15)		NULL,
-	c_comment_date	TIMESTAMP	DEFAULT sysdate	NOT NULL,
-	c_content	VARCHAR2(2000)		NOT NULL
+CREATE TABLE "c_qna" (
+	"c_no"	NUMBER		NOT NULL,
+	"board_id"	NUMBER		NOT NULL,
+	"c_writer"	VARCHAR2(15)		NULL,
+	"c_comment_date"	TIMESTAMP	DEFAULT sysdate	NOT NULL,
+	"c_content"	VARCHAR2(2000)		NOT NULL
 );
 
-CREATE TABLE auctions (
-	auction_id	NUMBER		NOT NULL,
-	user_id	NUMBER		NOT NULL,
-	products_id	NUMBER		NOT NULL,
-	start_time	TIMESTAMP	DEFAULT sysdate	NOT NULL,
-	end_time	TIMESTAMP		NOT NULL,
-	highest_bid	NUMBER		NULL
+CREATE TABLE "auctions" (
+	"auction_id"	NUMBER		NOT NULL,
+	"user_id"	NUMBER		NOT NULL,
+	"products_id"	NUMBER		NOT NULL,
+	"start_time"	TIMESTAMP	DEFAULT sysdate	NOT NULL,
+	"end_time"	TIMESTAMP		NOT NULL,
+	"highest_bid"	NUMBER		NULL
 );
 
-CREATE TABLE bids (
-	products_id	NUMBER		NOT NULL,
-	auction_id	NUMBER		NOT NULL,
-	user_id	NUMBER		NOT NULL,
-	amount	NUMBER		NULL,
-	start_price	NUMBER		NOT NULL,
-	bids_code	NUMBER		NOT NULL
+CREATE TABLE "bids" (
+	"auction_id"	NUMBER		NOT NULL,
+	"user_id"	NUMBER		NOT NULL,
+	"products_id"	NUMBER		NOT NULL,
+	"amount"	NUMBER		NULL,
+	"start_price"	NUMBER		NOT NULL,
+	"bids_code"	NUMBER		NOT NULL
 );
 
-CREATE TABLE basket (
-	basket_id	NUMBER		NOT NULL,
-	user_id	NUMBER		NOT NULL,
-	products_id	NUMBER		NOT NULL
+CREATE TABLE "basket" (
+	"basket_id"	NUMBER		NOT NULL,
+	"user_id"	NUMBER		NOT NULL,
+	"products_id"	NUMBER		NOT NULL
 );
 
-CREATE TABLE report (
-	report_id	NUMBER		NOT NULL,
-	user_id	NUMBER		NOT NULL,
-	products_id	NUMBER		NOT NULL,
-	report_content	VARCHAR2(200)		NOT NULL,
-	report_date	TIMESTAMP		NOT NULL
+CREATE TABLE "report" (
+	"report_id"	NUMBER		NOT NULL,
+	"user_id"	NUMBER		NOT NULL,
+	"products_id"	NUMBER		NOT NULL,
+	"report_content"	VARCHAR2(200)		NOT NULL,
+	"report_date"	TIMESTAMP		NOT NULL
 );
 
-CREATE TABLE review (
-	review_id	NUMBER		NOT NULL,
-	products_id	NUMBER		NOT NULL,
-	review_writter	VARCHAR2(15)		NOT NULL,
-	review_title	VARCHAR2(30)		NULL,
-	review_content	VARCHAR2(200)		NULL,
-	review_star	NUMBER		NULL,
-	review_img	VARCHAR2(1000)		NULL,
-	review_date	TIMESTAMP	DEFAULT sysdate	NOT NULL,
-	review_hit	NUMBER		NOT NULL
+CREATE TABLE "review" (
+	"review_id"	NUMBER		NOT NULL,
+	"products_id"	NUMBER		NOT NULL,
+	"review_writter"	VARCHAR2(15)		NOT NULL,
+	"review_title"	VARCHAR2(30)		NULL,
+	"review_content"	VARCHAR2(200)		NULL,
+	"review_star"	NUMBER		NULL,
+	"review_img"	VARCHAR2(1000)		NULL,
+	"review_date"	TIMESTAMP	DEFAULT sysdate	NOT NULL,
+	"review_hit"	NUMBER		NOT NULL
 );
 
-CREATE TABLE users (
-	user_id	NUMBER		NOT NULL,
-	u_id	VARCHAR2(50)		NOT NULL,
-	u_password	VARCHAR2(150)		NOT NULL,
-	u_email	VARCHAR2(50)		NULL,
-	u_name	VARCHAR2(20)		NOT NULL,
-	u_jumin	VARCHAR2(15))		NOT NULL,
-	u_phone	VARCHAR2(15)		NULL,
-	u_address	VARCHAR2(200)		NOT NULL,
-	u_nickname	VARCHAR2(50)		NOT NULL,
-	u_point	NUMBER	DEFAULT 0	NOT NULL,
-	u_created_at	TIMESTAMP		NOT NULL,
-	u_updated_at	TIMESTAMP		NULL,
-	u_role	NUMBER		NOT NULL,
-	u_signout	VARCHAR2(1)	DEFAULT 'N'	NOT NULL
+CREATE TABLE "users" (
+	"user_id"	NUMBER		NOT NULL,
+	"u_id"	VARCHAR2(50)		NOT NULL,
+	"u_password"	VARCHAR2(150)		NOT NULL,
+	"u_email"	VARCHAR2(50)		NULL,
+	"u_name"	VARCHAR2(20)		NOT NULL,
+	"u_jumin"	VARCHAR2(15)		NOT NULL,
+	"u_phone"	VARCHAR2(15)		NULL,
+	"u_address"	VARCHAR2(200)		NOT NULL,
+	"u_nickname"	VARCHAR2(50)		NOT NULL,
+	"u_point"	NUMBER	DEFAULT 0	NOT NULL,
+	"u_created_at"	TIMESTAMP		NOT NULL,
+	"u_updated_at"	TIMESTAMP		NULL,
+	"u_role"	NUMBER		NOT NULL,
+	"u_signout"	VARCHAR2(1)	DEFAULT 'N'	NOT NULL
 );
 
-ALTER TABLE products ADD CONSTRAINT PK_PRODUCTS PRIMARY KEY (
-	products_id
+ALTER TABLE "products" ADD CONSTRAINT "PK_PRODUCTS" PRIMARY KEY (
+	"products_id"
 );
 
-ALTER TABLE category ADD CONSTRAINT PK_CATEGORY PRIMARY KEY (
-	c_id
+ALTER TABLE "category" ADD CONSTRAINT "PK_CATEGORY" PRIMARY KEY (
+	"c_id",
+	"c_id2"
 );
 
-ALTER TABLE product_images ADD CONSTRAINT PK_PRODUCT_IMAGES PRIMARY KEY (
-	i_id
+ALTER TABLE "product_images" ADD CONSTRAINT "PK_PRODUCT_IMAGES" PRIMARY KEY (
+	"i_id"
 );
 
-ALTER TABLE wishlists ADD CONSTRAINT PK_WISHLISTS PRIMARY KEY (
-	wishlists_id
+ALTER TABLE "wishlists" ADD CONSTRAINT "PK_WISHLISTS" PRIMARY KEY (
+	"wishlists_id"
 );
 
-ALTER TABLE orders ADD CONSTRAINT PK_ORDERS PRIMARY KEY (
-	orders_id
+ALTER TABLE "orders" ADD CONSTRAINT "PK_ORDERS" PRIMARY KEY (
+	"orders_id"
 );
 
-ALTER TABLE order_status ADD CONSTRAINT PK_ORDER_STATUS PRIMARY KEY (
-	order_status_id
+ALTER TABLE "order_status" ADD CONSTRAINT "PK_ORDER_STATUS" PRIMARY KEY (
+	"order_status_id"
 );
 
-ALTER TABLE Loudspeaker ADD CONSTRAINT PK_LOUDSPEAKER PRIMARY KEY (
-	speaker_id
+ALTER TABLE "Loudspeaker" ADD CONSTRAINT "PK_LOUDSPEAKER" PRIMARY KEY (
+	"speaker_id"
 );
 
-ALTER TABLE board ADD CONSTRAINT PK_BOARD PRIMARY KEY (
-	board_id
+ALTER TABLE "board" ADD CONSTRAINT "PK_BOARD" PRIMARY KEY (
+	"board_id"
 );
 
-ALTER TABLE c_qna ADD CONSTRAINT PK_C_QNA PRIMARY KEY (
-	c_no,
-	board_id
+ALTER TABLE "c_qna" ADD CONSTRAINT "PK_C_QNA" PRIMARY KEY (
+	"c_no",
+	"board_id"
 );
 
-ALTER TABLE auctions ADD CONSTRAINT PK_AUCTIONS PRIMARY KEY (
-	auction_id
+ALTER TABLE "auctions" ADD CONSTRAINT "PK_AUCTIONS" PRIMARY KEY (
+	"auction_id"
 );
 
-ALTER TABLE bids ADD CONSTRAINT PK_BIDS PRIMARY KEY (
-	products_id
+ALTER TABLE "basket" ADD CONSTRAINT "PK_BASKET" PRIMARY KEY (
+	"basket_id"
 );
 
-ALTER TABLE basket ADD CONSTRAINT PK_BASKET PRIMARY KEY (
-	basket_id
+ALTER TABLE "report" ADD CONSTRAINT "PK_REPORT" PRIMARY KEY (
+	"report_id"
 );
 
-ALTER TABLE report ADD CONSTRAINT PK_REPORT PRIMARY KEY (
-	report_id
+ALTER TABLE "review" ADD CONSTRAINT "PK_REVIEW" PRIMARY KEY (
+	"review_id",
+	"products_id"
 );
 
-ALTER TABLE review ADD CONSTRAINT PK_REVIEW PRIMARY KEY (
-	review_id,
-	products_id
+ALTER TABLE "users" ADD CONSTRAINT "PK_USERS" PRIMARY KEY (
+	"user_id"
 );
 
-ALTER TABLE users ADD CONSTRAINT PK_USERS PRIMARY KEY (
-	user_id
-);
-
-ALTER TABLE c_qna ADD CONSTRAINT FK_board_TO_c_qna_1 FOREIGN KEY (
-	board_id
+ALTER TABLE "c_qna" ADD CONSTRAINT "FK_board_TO_c_qna_1" FOREIGN KEY (
+	"board_id"
 )
-REFERENCES board (
-	board_id
+REFERENCES "board" (
+	"board_id"
 );
 
-ALTER TABLE review ADD CONSTRAINT FK_products_TO_review_1 FOREIGN KEY (
-	products_id
+ALTER TABLE "review" ADD CONSTRAINT "FK_products_TO_review_1" FOREIGN KEY (
+	"products_id"
 )
-REFERENCES products (
-	products_id
+REFERENCES "products" (
+	"products_id"
 );
 
