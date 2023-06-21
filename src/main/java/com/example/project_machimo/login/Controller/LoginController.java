@@ -29,7 +29,8 @@ public class LoginController {
     @RequestMapping("/login")
     public String login(Model model) {
         log.info("login");
-        return "loginTest";
+//        return "loginTest";
+        return "main";
     }
 
     @RequestMapping("/login-process")
