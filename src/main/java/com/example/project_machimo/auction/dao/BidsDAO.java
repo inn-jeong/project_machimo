@@ -14,6 +14,7 @@ public interface BidsDAO {
 
     Integer maxAmount(int id);
 
-    int write(Map<String,Integer> param);
+    int write(int amount,int id,int firstPrice);
 
+     void amountUpdate(int amount,int id);
 }

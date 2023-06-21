@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface AuctionService {
     public List<AuctionDTO>aList(int id);
+    void highestBidUpdate(int amount, int id);
 }

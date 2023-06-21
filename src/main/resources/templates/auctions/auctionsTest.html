@@ -8,36 +8,65 @@
 
 <table border="1">
     <tr th:each="auctions :${aList} ">
-        <td th:text="${auctions.auoctionId()}"></td>
+        <td th:text="${auctions.auctionId()}"></td>
         <td th:text="${auctions.userId()}"></td>
         <td th:text="${auctions.productsId()}"></td>
         <td th:text="${auctions.startTime()}"></td>
         <td th:text="${auctions.endTime()}"></td>
         <td th:text="${auctions.highestBid()}"></td>
-        
-
-
 <!--        <td th:text="${list.}"></td>-->
-
     </tr>
 
 </table>
-<form method="post" action="amountCheck">
 
-<div th:each="product : ${pView}">
+<div th:each="product :${pView}">
+
+<form th:if="${product.pSaleType() == 0}" method="post" action="amountCheck">
 
         <div>
             <span th:if="${hasBidHistory}">
-            <input  type="text" name="bids" th:value="${product.priceA()}">
+                <h1 th:text="${product.pBPrice()}"> 아이 시발 진짜 좀</h1>
+            <input  type="text" name="bids">
+                <input type="hidden" th:value="true" name="bidsHistory">
+                <input type="hidden" th:value="${product.pBPrice()}" name="firstPrice">
+                <input type="hidden" name="productId" th:value="${product.productsId()}">
+                <input type="submit" value="입찰">
+            </span>
+
+            <span th:unless="${hasBidHistory}">
+                <h1>입찰이력</h1>
+                <span th:each="bList : ${bList}">
+                    <b th:text="${bList.amount()}"></b><br>
+
+
+                </span>
+                <h1>최고 가격</h1>
+                <h1 th:text="${amount}"></h1>
+            <input  type="text" name="bids" >
+                <input type="hidden" th:value="false" name="bidsHistory">
+            <input value="입찰" type="submit">
+            <input type="hidden" name="productId" th:value="${product.productsId()}">
+            </span>
+
+        </div>
+</form>
+<form th:if="${product.pSaleType()  == 1}" method="post" action="나중에 변경">
+
+        <div>
+            <span th:if="${hasBidHistory}">
+            <input  type="text" name="bids" th:value="${product.pDirect()}">
             </span>
             <span th:unless="${hasBidHistory}">
             <input  type="text" name="bids" th:value="${amount}">
             </span>
-            <input value="입찰" type="submit">
+
+            <input value="즉시구매" type="submit">
             <input type="hidden" name="productId" th:value="${product.productsId()}">
 
         </div>
-    </div>
 </form>
+    </div>
+
+
 </body>
 </html>

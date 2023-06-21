@@ -4,17 +4,20 @@ import java.sql.Timestamp;
 
 public record ProductsDTO(
         Integer productsId
+        ,Byte cId
         ,Integer userId
-        ,Byte categoryId
-        ,String name
-        ,Timestamp createAt
-        ,Timestamp upadateAt
-        ,Integer hit
-        ,String productsInfo
-        ,Integer priceI
-        ,Timestamp auction_dur
-        ,Integer priceA
-        ,Integer salesStatus
-        ,Integer saleType
+        ,String pName
+        ,String pInfo
+        ,Integer pDirect
+        ,Timestamp pDur
+        ,Integer pBPrice
+        ,Timestamp pCreatedAt
+        ,Timestamp pUpdatedAt
+        ,Integer pHit
+        ,Integer pSalesStatus
+        ,Integer pSaleType
+        ,String pAccount
+        ,String pAddress
+        ,String pBank
         ) {
 }

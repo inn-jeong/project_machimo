@@ -3,21 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.project_machimo.auction.dao.BidsDAO">
+    <!--    입찰 이력 있을때-->
+    <insert id="amountUpdate">
+        INSERT INTO bids (products_id, AUCTION_ID, USER_ID, AMOUNT, bids_code,START_PRICE)
+        SELECT #{param2}, A.AUCTION_ID, 2, #{param1}, (SELECT COALESCE(MAX(bids_code), 0) + 1 FROM bids
+        where P.PRODUCTS_ID = #{param2} ),P.p_b_price
+        FROM PRODUCTS P
+        JOIN AUCTIONS A ON P.PRODUCTS_ID = A.PRODUCTS_ID
+        WHERE P.PRODUCTS_ID = #{param2}
+    </insert>
+    <update id="write">
+        insert into bids (PRODUCTS_ID, AUCTION_ID, USER_ID, AMOUNT, START_PRICE, bids_code)
+        select P.PRODUCTS_ID, A.AUCTION_ID, 1, #{param1}, #{param3},1
+        from PRODUCTS P
+        join AUCTIONS A on P.PRODUCTS_ID = A.PRODUCTS_ID
+        where p.PRODUCTS_ID = #{param2}
+    </update>
 
     <select id="bList" resultType="com.example.project_machimo.auction.dto.BidsDTO">
-        select * from bids where products_id = #{0}
-<<<<<<< HEAD
-
-    </select>
-=======
+        select * from bids where products_id = #{0} order by amount
     </select>
     <select id="hasBidHistory" resultType="java.lang.Integer">
-       select AMOUNT from BIDS where PRODUCTS_ID = #{0}
+        select max(AMOUNT) from BIDS where PRODUCTS_ID = #{0}
     </select>
     <select id="maxAmount" resultType="java.lang.Integer">
         select max(amount) from bids where PRODUCTS_ID = #{0}
     </select>
 
 
->>>>>>> origin/auction
 </mapper>

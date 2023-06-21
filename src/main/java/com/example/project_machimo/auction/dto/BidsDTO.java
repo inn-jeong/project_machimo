@@ -1,7 +1,7 @@
 package com.example.project_machimo.auction.dto;
 
 public record BidsDTO(
-        Integer auoctionId,
+        Integer auctionId,
         Integer userId,
         Integer productsId,
         Integer amount,

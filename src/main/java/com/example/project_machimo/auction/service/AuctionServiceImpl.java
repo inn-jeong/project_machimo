@@ -19,4 +19,9 @@ public class AuctionServiceImpl implements AuctionService{
         return auctionDTOS;
     }
 
+    @Override
+    public void highestBidUpdate(int amount, int id) {
+        AuctionDAO auctionDAO = session.getMapper(AuctionDAO.class);
+        auctionDAO.highestBidUpdate(amount,id);
+    }
 }

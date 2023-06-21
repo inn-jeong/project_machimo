@@ -9,7 +9,7 @@
 <table border="1">
     <tr th:each="p : ${tlqkf}">
         <td>
-            <a th:href="'action-list?no=' + ${p.productsId()}" th:text="${p.name}"></a>
+            <a th:href="'action-list?no=' + ${p.productsId()}" th:text="${p.pName()}"></a>
         </td>
 
 
