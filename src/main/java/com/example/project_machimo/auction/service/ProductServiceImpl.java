@@ -14,10 +14,15 @@ public class ProductServiceImpl implements ProductService {
     private SqlSession session;
 
     @Override
+    public List<ProductsDTO> pView(int id) {
+        ProductsDAO productsDAO = session.getMapper(ProductsDAO.class);
+        return productsDAO.pView(id);
+    }
+
+    @Override
     public List<ProductsDTO> pList() {
         ProductsDAO productsDAO = session.getMapper(ProductsDAO.class);
-        List<ProductsDTO> productsDTOS = productsDAO.pList();
 
-        return productsDTOS;
+        return productsDAO.pList();
     }
 }
