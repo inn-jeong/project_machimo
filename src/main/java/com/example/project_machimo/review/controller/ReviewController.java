@@ -58,10 +58,11 @@ public class ReviewController {
         return "redirect:list";
     }
     @RequestMapping("/delete")
-    public String delete(@RequestParam HashMap<String, String> param) {
+//    public String delete(@RequestParam("reviewId") HashMap<String, String> param) {
+    public String delete(@RequestParam("reviewId") String reviewId) {
         log.info("@# delete");
 
-        service.delete(param);
+        service.delete(reviewId);
 
         return "redirect:list";
     }

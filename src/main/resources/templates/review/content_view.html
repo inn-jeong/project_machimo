@@ -7,8 +7,9 @@
 </head>
 
 <body>
+<div class="container">
 <h1>리뷰 내용</h1>
-<table>
+<table class="board_detail">
   <tr>
     <td>리뷰 ID:</td>
     <td><span th:text="${content_view.reviewId}"></span></td>
@@ -46,11 +47,17 @@
     <td><span th:text="${content_view.reviewContent}"></span></td>
   </tr>
   <tr>
-    <td colspan="2">
-      <input type="submit" value="수정">
-      &nbsp;&nbsp;<a href="list">목록보기</a>
-      &nbsp;&nbsp;<a href="delete?reviewId=${content_view.reviewId}">삭제</a>
+    <td colspan="3">
+      <input type="submit" value="수정" class="btn">
+      &nbsp;&nbsp;<a class="btn" href="list">목록보기</a>
+<!--      jsp에서는 되는데 타임리프에선 안됨-->
+<!--      &nbsp;&nbsp;<a href="delete?reviewId=${content_view.reviewId}">삭제</a>-->
+      &nbsp;&nbsp;<a class="btn" th:href="'delete?reviewId='+${content_view.reviewId}">삭제</a>
+<!--      타임리프 문법-->
+<!--      @{/board/view(id = ${board.id})}-->
     </td>
-  </tr></table>
+  </tr>
+</table>
+</div>
 </body>
 </html>

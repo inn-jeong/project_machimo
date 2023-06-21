@@ -9,12 +9,6 @@
         FROM review
     </select>
 
-<!--    <insert id="write">-->
-<!--&lt;!&ndash;        INSERT INTO review (products_id, review_writter, review_title, review_content, review_star, review_img, review_date )&ndash;&gt;-->
-<!--&lt;!&ndash;        VALUES (#{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg}, #{reviewDate})&ndash;&gt;-->
-<!--        INSERT INTO review (reviewId, products_id, review_writter, review_title, review_content, review_star, review_img)-->
-<!--        VALUES ((select max(reviewId)+1 from review),#{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg})-->
-<!--    </insert>-->
     <insert id="write">
         INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img)
         VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg})
@@ -27,44 +21,23 @@
     </select>
 
     <update id="modify" parameterType="HashMap">
+<!--        스프링부트와 타임리프에서는 자체 템플릿엔진으로 특문처리가능.-->
+<!--        <![CDATA[-->
         UPDATE review
         SET review_title = #{reviewTitle},
         review_content = #{reviewContent},
-        review_star = #{reviewtar},
+        review_star = #{reviewStar},
         review_img = #{reviewImg},
         review_date = #{reviewDate},
         review_hit = #{reviewHit}
         WHERE review_id = #{reviewId}
+<!--        ]]>-->
     </update>
 
-    <delete id="delete" parameterType="HashMap">
+    <delete id="delete" parameterType="String">
         DELETE FROM review
         WHERE review_id = #{reviewId}
     </delete>
-
-<!--    <insert id="write" parameterType="hashmap">-->
-<!--        insert into REVIEW(review_id, products_id, users_id, review_title, review_content, review_star, review_img) values-->
-<!--&lt;!&ndash;        (REVIEW_SEQ.NEXTVAL,#{products_id},#{users_id},#{review_title},#{review_content},#{review_star},#{review_img})&ndash;&gt;-->
-<!--        (#{reviewId}, #{productsId}, #{reivewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg})-->
-<!--    </insert>-->
-
-<!--    <update id="modify" parameterType="hashmap">-->
-<!--        update REVIEW set review_title = #{reviewTitle}, review_content = #{reviewContent}-->
-<!--        , review_star = #{reviewStar}, review_img = #{reviewImg}-->
-<!--        where review_id=#{reviewId}-->
-<!--    </update>-->
-
-<!--    <delete id="delete" parameterType="hashmap">-->
-<!--        delete REVIEW where review_id=#{reviewId}-->
-<!--    </delete>-->
-
-<!--    <select id="list" resultType="com.example.project_machimo.review.dto.ReviewDto">-->
-<!--        select * from REVIEW-->
-<!--    </select>-->
-
-<!--    <select id="contentView" parameterType="hashmap" resultType="com.example.project_machimo.review.dto.ReviewDto">-->
-<!--        select * from REVIEW where review_id=#{reviewId}-->
-<!--    </select>-->
 
 <!--    useGeneratedKeys 옵션을 true로 설정하면 생성된 게시글의 PK가 parameterType에 선언된 요청 객체(params)에 저장되며, keyProperty에 선언된 id에 값이 매핑(바인딩)됩니다.-->
 <!--    <insert id="save" parameterType="com.study.domain.post.PostRequest" useGeneratedKeys="true" keyProperty="id">-->

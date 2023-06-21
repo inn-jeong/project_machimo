@@ -27,6 +27,7 @@
             <th scope="col">제목</th>
             <th scope="col">별점</th>
             <th scope="col">작성일</th>
+            <th scope="col">조회수</th>
         </tr>
         </thead>
         <tbody>
@@ -37,9 +38,10 @@
             <td th:text="${list.reviewTitle}"></td>
             <td th:text="${list.reviewStar}"></td>
             <td th:text="${list.reviewDate}"></td>
+            <td th:text="${list.reviewHit}"></td>
         </tr>
         <tr th:unless="${#lists.size(list)} > 0">
-            <td colspan="6">조회된 결과가 없습니다.</td>
+            <td colspan="7">조회된 결과가 없습니다.</td>
         </tr>
         </tbody>
     </table>

@@ -52,11 +52,12 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public void delete(HashMap<String, String> param) {
+//    어차피 맞는 번호의 값을 삭제만 하면 되니까 hashmap필요없고
+//    String 으로 Id값만 받아옴(int가 맞지만.. 글 번호 삭제만 하면 됨)
+    public void delete(String reviewId) {
         log.info("@# ReviewServiceImpl.delete() start");
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
-        dao.delete(param);
+        dao.delete(reviewId);
         log.info("@# ReviewServiceImpl.delete() end");
-
     }
 }
