@@ -1,4 +1,4 @@
-package com.example.project_machimo.review.service;
+package com.example.project_machimo.soldForm.service;
 
 import com.example.project_machimo.review.dao.ReviewDao;
 import com.example.project_machimo.review.dto.ReviewDto;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 @Slf4j
 @Service
-public class ReviewServiceImpl implements ReviewService{
+public class ProductServiceImpl implements ProductService {
     @Autowired
     private SqlSession sqlSession;
 
@@ -24,6 +24,7 @@ public class ReviewServiceImpl implements ReviewService{
         log.info("@# ReviewServiceImpl.list() end");
         return list;
     }
+
     @Override
     public void write(HashMap<String, String> param) {
         log.info("@# ReviewServiceImpl.write() start");
@@ -35,9 +36,12 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public ReviewDto contentView(HashMap<String, String> param) {
         log.info("@# ReviewServiceImpl.contentView() start");
+
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
         ReviewDto dto = dao.contentView(param);
+
         log.info("@# ReviewServiceImpl.contentView() end");
+
         return dto;
     }
 

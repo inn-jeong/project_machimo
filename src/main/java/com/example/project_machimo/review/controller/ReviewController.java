@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,8 +23,7 @@ public class ReviewController {
     @Autowired
     private ReviewService service;
 
-//    @RequestMapping("/list")
-    @GetMapping("/list")
+    @RequestMapping("/list")
     public String list(Model model) {
         log.info("@# list");
         ArrayList<ReviewDto> list = service.list();
@@ -31,42 +31,33 @@ public class ReviewController {
 //        return "list";
         return "review/list";
     }
-//    @RequestMapping("/write")
-    @GetMapping("/write")
+    @RequestMapping("/write_view")
+    public String writeView() {
+        log.info("@# writeView");
+        return "review/write_view";
+    }
 
+    @RequestMapping("/write")
     public String write(@RequestParam HashMap<String, String> param) {
         log.info("@# write");
         service.write(param);
         return "redirect:list";
     }
 
-//    @RequestMapping("/write_view")
-    @GetMapping("/write_view")
-    public String write_view() {
-        log.info("@# write_view");
-
-//        return "write_view";
-        return "review/write_view";
-    }
-
-//    @RequestMapping("/content_view")
-    @GetMapping("/content_view")
-    public String content_view(@RequestParam HashMap<String, String> param, Model model) {
-        log.info("@# content_view");
+    @RequestMapping("/content_view")
+    public String contentView(@RequestParam HashMap<String, String> param, Model model) {
+        log.info("@# contentView");
         ReviewDto dto = service.contentView(param);
-        model.addAttribute("content_view",dto);
-//        return "content_view";
+        model.addAttribute("content_view", dto);
         return "review/content_view";
     }
-//    @RequestMapping("/modify")
-    @GetMapping("/modify")
+    @RequestMapping("/modify")
     public String modify(@RequestParam HashMap<String, String> param) {
         log.info("@# modify");
         service.modify(param);
         return "redirect:list";
     }
-//    @RequestMapping("/delete")
-    @GetMapping("/delete")
+    @RequestMapping("/delete")
     public String delete(@RequestParam HashMap<String, String> param) {
         log.info("@# delete");
 

@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 public class ProductDto {
     private int productId;
     private int cId;
+    private int cId2;
     private int userId;
     private String pName;
     private String pInfo;

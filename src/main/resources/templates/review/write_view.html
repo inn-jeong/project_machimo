@@ -1,10 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>리뷰 작성</title>
+    <script src="/js/jquery.js"></script>
+    <script type="text/javascript">
+        function fn_submit() {
+            // form 요소 자체
+            var formData =$("#frm").serialize();
+
+            $.ajax({
+                type:"post"
+                ,data:formData
+                ,url:"write"
+                ,success: function (data) {
+                    alert("저장완료");
+                    location.href="list";
+                }
+                ,error: function () {
+                    alert("오류발생");
+                    location.href="write_view";
+                }
+            });
+        }
+    </script>
 </head>
 <body>
+<h1>리뷰 작성</h1>
+<form id="frm" action="write" method="post">
+    <table width="500" border="1">
+        <tr>
+            <td><label for="productsId">상품 ID:</label></td>
+            <td><input type="text" id="productsId" name="productsId" required /></td>
+        </tr>
+        <tr>
+            <td><label for="reviewWritter">작성자:</label></td>
+            <td><input type="text" id="reviewWritter" name="reviewWritter" required /></td>
+        </tr>
+        <tr>
+            <td><label for="reviewTitle">제목:</label></td>
+            <td><input type="text" id="reviewTitle" name="reviewTitle" required /></td>
+        </tr>
+        <tr>
+            <td><label for="reviewContent">내용:</label></td>
+            <td><textarea id="reviewContent" name="reviewContent" required></textarea></td>
+        </tr>
+        <tr>
+            <td><label for="reviewStar">별점:</label></td>
+            <td><input type="number" id="reviewStar" name="reviewStar" min="1" max="5" required /></td>
+        </tr>
+        <tr>
+            <td><label for="reviewImg">이미지:</label></td>
+            <td><input type="text" id="reviewImg" name="reviewImg" required /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="button" onclick="fn_submit()" value="글 작성" />
+                &nbsp;&nbsp;&nbsp;
+                <a href="list">목록보기</a>
+            </td>
+        </tr>
 
+    </table>
+</form>
 </body>
+<script>
+    // function showAlert() {
+    //     alert("글 작성을 완료했습니다.");
+    //     window.location.href = "/review/content_view?reviewId="+${ReviewDto.reviewId};
+    // }
+</script>
+
 </html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>리뷰 내용</title>
+  <link rel="stylesheet" th:href="@{/css/board.css}" />
+</head>
+
+<body>
+<h1>리뷰 내용</h1>
+<table>
+  <tr>
+    <td>리뷰 ID:</td>
+    <td><span th:text="${content_view.reviewId}"></span></td>
+  </tr>
+  <tr>
+    <td>상품 ID:</td>
+    <td><span th:text="${content_view.productsId}"></span></td>
+  </tr>
+  <tr>
+    <td>작성일:</td>
+    <td><span th:text="${content_view.reviewDate}"></span></td>
+  </tr>
+  <tr>
+    <td>조회수:</td>
+    <td><span th:text="${content_view.reviewHit}"></span></td>
+  </tr>
+  <tr>
+    <td>작성자:</td>
+    <td><span th:text="${content_view.reviewWritter}"></span></td>
+  </tr>
+  <tr>
+    <td>제목:</td>
+    <td><span th:text="${content_view.reviewTitle}"></span></td>
+  </tr>
+  <tr>
+    <td>별점:</td>
+    <td><span th:text="${content_view.reviewStar}"></span></td>
+  </tr>
+  <tr>
+    <td>이미지:</td>
+    <td><span th:text="${content_view.reviewImg}"></span></td>
+  </tr>
+  <tr>
+    <td>내용:</td>
+    <td><span th:text="${content_view.reviewContent}"></span></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="submit" value="수정">
+      &nbsp;&nbsp;<a href="list">목록보기</a>
+      &nbsp;&nbsp;<a href="delete?reviewId=${content_view.reviewId}">삭제</a>
+    </td>
+  </tr></table>
+</body>
+</html>
