@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public record ProductsDTO(
         Integer productsId
         ,Byte cId
+        ,Byte cId2
         ,Integer userId
         ,String pName
         ,String pInfo

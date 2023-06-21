@@ -78,6 +78,7 @@ public class AuctionController {
 
             } else {
                 bidsService.write(bids, productId,firstPrice);
+                auctionService.highestBidUpdate(bids,productId);
                 return "redirect:/auction/product";
             }
 

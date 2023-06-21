@@ -13,6 +13,6 @@ public interface ProductsDAO {
     List<ProductsDTO> pList();
     List<ProductsDTO> pView(int id);
 
-    void succeedsSale(Timestamp timestamp );
+    void succeedsSale(Timestamp timestamp,int productId );
     void failedSale(Timestamp timestamp,int productId);
 }

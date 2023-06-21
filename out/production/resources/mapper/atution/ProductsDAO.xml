@@ -7,7 +7,7 @@
 
         UPDATE PRODUCTS
         SET p_sales_status =1
-        where P_DUR  <![CDATA[<=]]>  #{param1}
+            where P_DUR  <![CDATA[<=]]>  #{param1} AND PRODUCTS_id = #{param2}
 
     </update>
     <update id="failedSale">

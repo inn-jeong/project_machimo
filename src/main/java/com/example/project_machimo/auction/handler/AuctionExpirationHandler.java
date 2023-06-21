@@ -30,13 +30,13 @@ public class AuctionExpirationHandler {
         AuctionDAO auctionDAO = session.getMapper(AuctionDAO.class);
         List<AuctionDTO> auctionDTOS = auctionDAO.endList(Timestamp.valueOf(now));
 
+        for (AuctionDTO auctionDTO : auctionDTOS) {
+            if(auctionDTO.highestBid()==null){
+                productsDAO.failedSale(Timestamp.valueOf(now),auctionDTO.productsId());
+            }else {
+                productsDAO.succeedsSale(Timestamp.valueOf(now),auctionDTO.productsId());
+            }
 
-
-
-
-
-
-
-
+        }
     }
 }
