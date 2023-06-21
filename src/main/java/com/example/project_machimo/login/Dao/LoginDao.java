@@ -10,6 +10,6 @@ import java.util.HashMap;
 @Mapper
 public interface LoginDao {
 //    public ArrayList<LoginDto> loginYn(HashMap<String, String> param);
-    public ArrayList<MemDto> findMem(HashMap<String, String> param);
+    public MemDto findMem(HashMap<String, String> param);
     public void memberInsert(HashMap<String, String> param);
 }

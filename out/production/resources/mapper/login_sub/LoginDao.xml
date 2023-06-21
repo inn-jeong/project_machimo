@@ -5,10 +5,10 @@
 
 <mapper namespace="com.example.project_machimo.login.Dao.LoginDao">
     <insert id="memberInsert" parameterType="hashmap">
-        insert into users(USERS_ID,U_CREATED_AT,U_EMAIL,U_PASSWORD,U_NAME,U_PHONE_NUMBER,U_ADDRESS,U_ID,U_JUMIN,U_NICKNAME) values
-        ((select max(users_id) from users)+1,
+        insert into users(USER_ID,U_CREATED_AT,U_EMAIL,U_PASSWORD,U_NAME,U_PHONE,U_ADDRESS,U_ID,U_JUMIN,U_NICKNAME) values
+        ((select nvl(max(user_id),0) from users)+1,
                 sysdate,#{u_email},#{u_password},
-                #{u_name},#{u_phone_number},
+                #{u_name},#{u_phone},
                 #{u_address},#{u_id},
                 #{u_jumin},#{u_nickname})
     </insert>

@@ -1,13 +1,23 @@
 package com.example.project_machimo.login.Controller;
 
+import com.example.project_machimo.login.Dto.MemDto;
+import com.example.project_machimo.login.Dto.MemberRequestDto;
 import com.example.project_machimo.login.Service.LoginService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequestMapping("/loginT")
@@ -17,13 +27,13 @@ public class LoginController {
     private LoginService service;
 
     @RequestMapping("/login")
-    public String login() {
+    public String login(Model model) {
         log.info("login");
         return "loginTest";
     }
 
     @RequestMapping("/login-process")
-    public String login_process(@RequestParam HashMap<String, String> param) {
+    public String login_process(@RequestParam HashMap<String, String> param,Model model) {
         log.info("@# login_process start");
         int re = service.loginYn(param);
         String str = "";
@@ -37,26 +47,81 @@ public class LoginController {
     }
 
     @RequestMapping("/login_ok")
-    public String login_ok() {
+    public String login_ok(Model model) {
         log.info("login_ok");
-        return "index";
+        return "login_ok";
     }
 
 
     @RequestMapping("/register_page")
-    public String register_jsp() {
+    public String register_jsp(Model model) {
         return "registerTest";
     }
 
     @RequestMapping("/register")
-    public String register(@RequestParam HashMap<String, String> param) {
+    public String register(@RequestParam HashMap<String, String> param,Model model) {
         log.info("@# id ===>"+param.get("u_id"));
         service.memberInsert(param);
         return "redirect:login";
     }
 
     @RequestMapping("/callback")
-    public String naverCallback(){
+    public String naverCallback(Model model){
         return "callback";
+    }
+
+    @RequestMapping("/naverLogin_ok")
+    public String naverLogin(@SessionAttribute(name = "naverMember",required = false) MemDto memDto, Model model){
+        model.addAttribute("naverMem",memDto);
+        return "login_ok";
+    }
+    @RequestMapping("/naverLogin-process")
+    public String naverLogin_ok(@RequestParam HashMap<String,String> param, HttpServletRequest request, Model model) {
+        log.info("naverLogin_ok");
+        log.info("@# naverLogin_ok name ===> "+param.get("name"));
+        log.info("@# naverLogin_ok birthyear ===> "+param.get("birthyear"));
+        model.addAttribute("name", param.get("name"));
+        model.addAttribute("email", param.get("email"));
+        model.addAttribute("phone", param.get("phone"));
+        model.addAttribute("birthday", param.get("birthday"));
+        model.addAttribute("birthyear", param.get("birthyear"));
+//        return "redirect:/loginT/login_ok";
+        HttpSession session = request.getSession();
+        MemDto dto = new MemDto();
+
+        String birthday = param.get("birthday");
+        String birthyear = param.get("birthyear");
+        birthday = birthday.replace("-","");
+        birthyear = birthyear.substring(2);
+        String u_jumin = birthyear+birthday;
+        log.info("@# naverLogin_ok u_jumin ===> "+u_jumin);
+
+        dto.setU_name(param.get("name"));
+        dto.setU_email(param.get("email"));
+        dto.setU_jumin(u_jumin);
+        dto.setU_phone(param.get("phone"));
+        session.setAttribute("naverMember",dto);
+
+        return "childWin";
+    }
+
+    @PostMapping("/auth/joinProc")
+    public String joinProc(@Valid MemberRequestDto userDto, Errors errors, Model model) {
+
+        if (errors.hasErrors()) {
+            /* 회원가입 실패시 입력 데이터 값을 유지 */
+            model.addAttribute("userDto", userDto);
+
+            /* 유효성 통과 못한 필드와 메시지를 핸들링 */
+            Map<String, String> validatorResult = service.validateHandling(errors);
+            for (String key : validatorResult.keySet()) {
+                model.addAttribute(key, validatorResult.get(key));
+            }
+            /* 회원가입 페이지로 다시 리턴 */
+            return "redirect:/loginT/register_page";
+        }
+
+        service.memberInsert(service.switchMem(userDto));
+        return "redirect:/loginT/login";
     }
 }
