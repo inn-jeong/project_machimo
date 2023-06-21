@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>userList</title>
+</head>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<body>
+    <div class="container">
+    <h1>사용자관리</h1>
+        <div class="d-flex">
+            <div class="me-2" style="width: 150px">
+                <select class="form-select">
+                    <option id="usersId" value="usersId">회원번호</option>
+                    <option id="userLoginId" value="userLoginId">회원ID</option>
+                    <option id="name" value="name">이름</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <div class="form-outline">
+                   <input th:type="text" th:name="keyword"></input>
+                </div>
+                    <button type="button">검색</button>
+            </div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">회원번호</th>
+                <th scope="col">ID</th>
+                <th scope="col">닉네임</th>
+                <th scope="col">이메일</th>
+                <th scope="col">적립금</th>
+                <th scope="col">가입일</th>
+                <th scope="col">회원권한</th>
+                <th scope="col">회원탈퇴</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user: ${adminList}" th:if="${user != null}">
+                <td th:text="${user.userId}"></td>
+                <td th:text="${user.uId}"></td>
+                <td th:text="${user.uNickname}"></td>
+                <td th:text="${user.uEmail}"></td>
+                <td th:text="${user.uPoint}"></td>
+                <td th:text="${user.uCreatedAt}"></td>
+                <td th:text="${user.uRole}"></td>
+                <td>
+                    <form method="post" th:action="@{/delete}">
+                        <input type="hidden" name="userId" th:value="${user.userId}" />
+                        <input type="submit" value="회원탈퇴" />
+                    </form>
+                </td>
+            </tr>
+            </tr>
+
+            </tbody>
+        </table>
+<!--        <div class="div_page">-->
+<!--            <ul>-->
+<!--                <th:block th:if="${pageMaker.prev}">-->
+<!--                    <li class="paginate_button">-->
+<!--                        <a th:href="${pageMaker.startPage - 1}">-->
+<!--                            <span th:text="${Previous}"></span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </th:block>-->
+<!--                <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">-->
+<!--                    <li class="paginate_button" th:classappend="${pageMaker.cri.pageNum == num} ? 'active' : ''">-->
+<!--                        <a th:href="@{${num}}">-->
+<!--                            <span th:text="${num}"></span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </th:block>-->
+<!--                <th:block th:if="${pageMaker.next}">-->
+<!--                    <li class="paginate_button">-->
+<!--                        <a th:href="${pageMaker.endPage + 1}">-->
+<!--                            <span th:text="${Next}"></span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </th:block>-->
+<!--            </ul>-->
+<!--        </div>-->
+
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>
