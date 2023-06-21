@@ -9,6 +9,10 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.project_machimo.admin.dao.AdminDao">
+    <update id="adminDelete">
+            delete users where user_id=#{user_id}
+    </update>
+
     <select id="adminList" resultType="com.example.project_machimo.admin.dto.UsersDto">
         <![CDATA[
             SELECT user_id, u_id, u_nickname, u_email, u_point, u_created_at, u_role
@@ -18,11 +22,14 @@
 			            order by user_id asc
 			)
 			WHERE rn > (#{pageNum}-1) * #{amount}
+			order by user_id asc
 		]]>
     </select>
 
     <select id="getTotalCount" resultType="int">
         select count(*) from users
     </select>
+
+
 
 </mapper>

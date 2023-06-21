@@ -30,4 +30,10 @@ public class AdminServiceImpl implements AdminService  {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         return dao.getTotalCount();
     }
+
+    @Override
+    public void adminDelete(int user_id) {
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        dao.adminDelete(user_id);
+    }
 }
