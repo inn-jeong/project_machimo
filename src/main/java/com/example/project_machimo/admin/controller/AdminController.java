@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 @Controller
 @Slf4j
-@RequestMapping("/admin")
+//@RequestMapping("/admin")
 public class AdminController {
     @Autowired
     private AdminService service;
