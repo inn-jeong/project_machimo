@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
 <table border="1">
-    <tr th:each="p : ${tlqkf}">
+    <tr th:each="p : ${products}">
         <td>
-            <a th:href="'action-list?no=' + ${p.productsId()}" th:text="${p.pName()}"></a>
+
+        <a th:href="@{action-list/{id}(id=${p.productsId()})}"  th:text="${p.pName()}">View User</a>
         </td>
 
 

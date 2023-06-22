@@ -19,7 +19,7 @@ public class AuctionExpirationHandler {
     @Autowired
     private SqlSession session;
 
-    @Scheduled(fixedDelay = 10000)
+//    @Scheduled(fixedDelay = 10000)
     public void executeTask() {
         System.out.println("동작하니??");
 

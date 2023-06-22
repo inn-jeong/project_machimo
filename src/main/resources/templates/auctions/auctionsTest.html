@@ -3,58 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        input::-webkit-inner-spin-button {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+        }
+    </style>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+        	$('#testBtn').click(function(e){
+			e.preventDefault();
+			$('#testModal').ariaModal("show");
+		});
+        function showPopup() {
+            const productIdInput = $('input[name="productId"]').val();
+            window.open("test1Con?pro=" + productIdInput, "a", "width=800, height=600, left=100, top=50");
+        }
+
+        function Go() {
+
+
+        }
+
+
+        $(document).ready(function () {
+            $(".test").click(function (event) {
+                event.preventDefault();  // 폼 제출을 방지합니다.
+
+                var bidsInput = $('input[name="bids"]').val();
+                var productIdInput = $('input[name="productId"]').val();
+                var bidsHistoryInput = $('input[name="bidsHistory"]').prop('checked');
+                var firstPriceInput = $('input[name="firstPrice"]').val();
+
+                $.ajax({
+                    url: "/auction/action-list/amountCheck",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        bids: bidsInput,
+                        productId: productIdInput,
+                        bidsHistory: bidsHistoryInput,
+                        firstPrice: firstPriceInput
+                    }),
+                    success: function (response) {
+                    },
+                    error: function (xhr, status, error) {
+                        // 요청이 실패했을 때의 처리 로직
+                        console.log("tlqkf")
+                        alert("최고 금액보다 높은 금액을 입력해주세요.")
+                    }
+                });
+            });
+        });
+    </script>
 </head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
 <body>
-   <!-- NAV -->
-    <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
-        <header class="py-1 fixed">
-            <div class="container">
-                <div class="d-flex justify-content-end pt-1">
-                    <ul class="top_list nav nav-pills">
-                        <li class="nav-item"><a href="#" class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">고객센터</a></li>
-                        <li class="nav-item"><a href="#" class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">마이페이지</a></li>
-                        <li class="nav-item"><a href="#" class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">관심상품</a></li>
-                        <li class="nav-item"><a href="#" class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">알림</a></li>
-                        <li class="nav-item"><a href="#" class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">로그인</a></li>
-                    </ul>
-                </div>
-            </div>
-        </header>
-        <header>
-            <div class="container">
-                <div class="main_inner d-flex flex-wrap justify-content-center mb-1">
-                    <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto" style="text-decoration: none;">
-                        <svg class="bi me-2" width="5" height="32"></svg>
-                        <span class="text-dark fs-2 fw-bold" th:href="@{localhost:8090/}" >MACHIMMO</span>
-                    </a>
-                    <ul class="gnb_list nav nav-pills">
-                        <li class="nav-item"><a href="#" class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">HOME</a></li>
-                        <li class="nav-item"><a href="#" class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">STYLE</a></li>
-                        <li class="nav-item"><a href="#" class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">SHOP</a></li>
-                        <li class="nav-item">
-                            <form class="d-flex" role="search">
-                                <input class="form-control me-1" type="search" placeholder="search">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                                </svg>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </header>
-        <nav>
-            <div class="container d-flex flex-wrap gab-0">
-                <ul class="nav me-auto">
-                    <li class="nav-item"><a href="#" class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">추천</a></li>
-                    <li class="nav-item"><a href="#" class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">랭킹</a></li>
-                    <li class="nav-item"><a href="#" class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">브랜드</a></li>
-                    <li class="nav-item"><a href="#" class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">판매하기</a></li>
+<!-- NAV -->
+<div class="shadow p-3 mb-5 bg-body-tertiary rounded">
+    <header class="py-1 fixed">
+        <div class="container">
+            <div class="d-flex justify-content-end pt-1">
+                <ul class="top_list nav nav-pills">
+                    <li class="nav-item"><a href="#"
+                                            class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">고객센터</a>
+                    </li>
+                    <li class="nav-item"><a href="#"
+                                            class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">마이페이지</a>
+                    </li>
+                    <li class="nav-item"><a href="#"
+                                            class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">관심상품</a>
+                    </li>
+                    <li class="nav-item"><a href="#"
+                                            class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">알림</a>
+                    </li>
+                    <li class="nav-item"><a href="#"
+                                            class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">로그인</a>
+                    </li>
                 </ul>
             </div>
-        </nav>
-    </div>
+        </div>
+    </header>
+    <header>
+        <div class="container">
+            <div class="main_inner d-flex flex-wrap justify-content-center mb-1">
+                <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto" style="text-decoration: none;">
+                    <svg class="bi me-2" width="5" height="32"></svg>
+                    <span class="text-dark fs-2 fw-bold" th:href="@{localhost:8090/}">MACHIMMO</span>
+                </a>
+                <ul class="gnb_list nav nav-pills">
+                    <li class="nav-item"><a href="#"
+                                            class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">HOME</a>
+                    </li>
+                    <li class="nav-item"><a href="#"
+                                            class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">STYLE</a>
+                    </li>
+                    <li class="nav-item"><a href="#"
+                                            class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">SHOP</a>
+                    </li>
+                    <li class="nav-item">
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-1" type="search" placeholder="search">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                 class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <div class="container d-flex flex-wrap gab-0">
+            <ul class="nav me-auto">
+                <li class="nav-item"><a href="#"
+                                        class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">추천</a>
+                </li>
+                <li class="nav-item"><a href="#"
+                                        class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">랭킹</a>
+                </li>
+                <li class="nav-item"><a href="#"
+                                        class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">브랜드</a>
+                </li>
+                <li class="nav-item"><a href="#"
+                                        class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">판매하기</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
 <div th:each="product :${pView}" align="center">
 
     <form th:if="${product.pSaleType() == 0}" method="post" action="amountCheck">
@@ -62,29 +146,55 @@
         <div>
             <div th:if="${hasBidHistory}">
                 <h1 th:text="${product.pBPrice()}"></h1>
-            <input type="text" name="bids">
+                <div id="message"></div>
+                <input type="number" name="bids">
+
                 <input type="hidden" th:value="true" name="bidsHistory">
                 <input type="hidden" th:value="${product.pBPrice()}" name="firstPrice">
-                <input type="hidden" name="productId" th:value="${product.productsId()}">
-               <input type="submit" value="입찰">
+                <input type="hidden" th:value="${product.productsId()}" name="productId">
+                <button type="button" id="testBtn" class="btn btn-success" >입찰</button>
+                <input type="submit" value="입찰" class="test">
             </div>
-
+<!--&#45;&#45;                모달 -->
+            <div class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Modal body text goes here.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            &#45;&#45;-->
             <span th:unless="${hasBidHistory}">
                 <h1>입찰이력</h1>
                 <span th:each="bList : ${bList}">
-                    <b th:text="${bList.amount()}"></b><br>
+                    <b th:text="${bList.amount()}"></b> <b th:text="${bList.bidsAt()}"></b><br>
 
                 </span>
                 <h1>최고 가격</h1>
+                <h2 th:text="${amount}"> </h2>
 
-                <h1 th:text="${amount}"></h1>
-            <input type="text" name="bids">
+                <label>
+                <input type="number" name="bids" style="">
+                </label>
                 <input type="hidden" th:value="false" name="bidsHistory">
-            <button type="button" class="btn btn-secondary">입찰하기</button>
-            <input type="hidden" name="productId" th:value="${product.productsId()}">
+                <input type="hidden" th:value="${product.pBPrice()}" name="firstPrice">
+                <input type="hidden" th:value="${product.productsId()}" name="productId">
+                <button type="button" class="btn btn-success" onclick="showPopup()">입찰</button>
+                <input type="submit" value="입찰" class="test">
             </span>
 
         </div>
+
     </form>
     <form th:if="${product.pSaleType()  == 1}" method="post" action="나중에 변경">
 
@@ -103,66 +213,78 @@
     </form>
 </div>
 
-    <!-- footer -->
-    <div class="container">
-        <footer class="py-5 my-5 border-top">
+<!-- footer -->
+<div class="container">
+    <footer class="py-5 my-5 border-top">
         <div class="row">
             <div class="col-6 col-md-2 mb-3">
-            <h5>Section</h5>
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
-            </ul>
+                <h5>Section</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+                </ul>
             </div>
 
             <div class="col-6 col-md-2 mb-3">
-            <h5>Section</h5>
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
-            </ul>
+                <h5>Section</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+                </ul>
             </div>
 
             <div class="col-6 col-md-2 mb-3">
-            <h5>Section</h5>
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
-            </ul>
+                <h5>Section</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+                </ul>
             </div>
 
             <div class="col-md-5 offset-md-1 mb-3">
-            <form>
-                <h5>Subscribe to our newsletter</h5>
-                <p>Monthly digest of what's new and exciting from us.</p>
-                <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                <label for="newsletter1" class="visually-hidden">Email address</label>
-                <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-                <button class="btn btn-primary" type="button">Subscribe</button>
-                </div>
-            </form>
+                <form>
+                    <h5>Subscribe to our newsletter</h5>
+                    <p>Monthly digest of what's new and exciting from us.</p>
+                    <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                        <label for="newsletter1" class="visually-hidden">Email address</label>
+                        <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+                        <button class="btn btn-primary" type="button">Subscribe</button>
+                    </div>
+                </form>
             </div>
         </div>
 
         <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
             <p>© 2023 Company, Inc. All rights reserved.</p>
             <ul class="list-unstyled d-flex">
-            <li class="ms-3"><a class="link-body-emphasis" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
-            <li class="ms-3"><a class="link-body-emphasis" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
-            <li class="ms-3"><a class="link-body-emphasis" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+                <li class="ms-3"><a class="link-body-emphasis" href="#">
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#twitter"></use>
+                    </svg>
+                </a></li>
+                <li class="ms-3"><a class="link-body-emphasis" href="#">
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#instagram"></use>
+                    </svg>
+                </a></li>
+                <li class="ms-3"><a class="link-body-emphasis" href="#">
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#facebook"></use>
+                    </svg>
+                </a></li>
             </ul>
         </div>
-        </footer>
-    </div>
+    </footer>
+</div>
 
 
 </body>

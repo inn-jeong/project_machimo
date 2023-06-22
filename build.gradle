@@ -1,53 +1,55 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.1.0'
-	id 'io.spring.dependency-management' version '1.1.0'
+    id 'java'
+    id 'org.springframework.boot' version '3.1.0'
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+    sourceCompatibility = '17'
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	implementation 'org.projectlombok:lombok:1.18.26'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+    implementation 'org.projectlombok:lombok:1.18.26'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 //	# lombok plugin
-	implementation('org.projectlombok:lombok')
-	annotationProcessor('org.projectlombok:lombok')
+    implementation('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
 
 //	# test 환경
-	testImplementation('org.projectlombok:lombok')
-	testAnnotationProcessor('org.projectlombok:lombok')
+    testImplementation('org.projectlombok:lombok')
+    testAnnotationProcessor('org.projectlombok:lombok')
 
-	// https://mvnrepository.com/artifact/org.mybatis/mybatis
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+    // https://mvnrepository.com/artifact/org.mybatis/mybatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
 
- 	/*https://mvnrepository.com/artifact/com.boylesoftware.thyme/thyme
-	implementation group: 'com.boylesoftware.thyme', name: 'thyme', version: '1.0.1'
-	기존에 있던 타임리프 스프링 스타터 버전으로 변경*/
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    /*https://mvnrepository.com/artifact/com.boylesoftware.thyme/thyme
+   implementation group: 'com.boylesoftware.thyme', name: 'thyme', version: '1.0.1'
+   기존에 있던 타임리프 스프링 스타터 버전으로 변경*/
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
 //	sql에서 로그 가져오기 위한 의존성 추가 - 최규하
-	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
-
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
 
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 //implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 
-	//devtools 라이브리로드등 있음
-	implementation 'org.springframework.boot:spring-boot-starter'
+    //devtools 라이브리로드등 있음
+    implementation 'org.springframework.boot:spring-boot-starter'
+    //발리데이션
+      implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 
 }
 
