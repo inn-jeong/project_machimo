@@ -56,6 +56,7 @@ public class LoginController {
 
     @RequestMapping("/register_page")
     public String register_jsp(Model model) {
+        model.addAttribute("userDto",new MemberRequestDto());
         return "registerTest";
     }
 
@@ -106,7 +107,7 @@ public class LoginController {
         return "childWin";
     }
 
-    @PostMapping("/auth/joinProc")
+    @PostMapping("/joinProc")
     public String joinProc(@Valid MemberRequestDto userDto, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
@@ -118,10 +119,11 @@ public class LoginController {
             for (String key : validatorResult.keySet()) {
                 model.addAttribute(key, validatorResult.get(key));
             }
+            log.info("@# message ===>"+model.getAttribute("valid_u_id"));
             /* 회원가입 페이지로 다시 리턴 */
-            return "redirect:/loginT/register_page";
+            return "registerTest";
         }
-
+        log.info("@# register success=============");
         service.memberInsert(service.switchMem(userDto));
         return "redirect:/loginT/login";
     }
