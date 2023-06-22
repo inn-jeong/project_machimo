@@ -69,14 +69,22 @@ public class LoginServiceImpl implements LoginService{
     @Override
     public HashMap<String, String> switchMem(MemberRequestDto requestDto) {
         HashMap<String,String> param = new HashMap<>();
-        param.put("u_id",requestDto.getId());
-        param.put("u_password",requestDto.getPassword());
-        param.put("u_name",requestDto.getName());
-        param.put("u_jumin",requestDto.getJumin());
-        param.put("u_nickname",requestDto.getNickname());
-        param.put("u_phone",requestDto.getPhoneNumber());
-        param.put("u_email",requestDto.getEmail());
-
+        param.put("u_id",requestDto.getU_id());
+        param.put("u_password",requestDto.getU_password());
+        param.put("u_name",requestDto.getU_name());
+        param.put("u_jumin",requestDto.getU_jumin());
+        param.put("u_nickname",requestDto.getU_nickname());
+        param.put("u_phone",requestDto.getU_phone());
+        param.put("u_email",requestDto.getU_email());
+        param.put("u_address",requestDto.getU_address());
+        log.info("@# param u_id===>"+param.get("u_id"));
+        log.info("@# param u_pw===>"+param.get("u_password"));
+        log.info("@# param u_na===>"+param.get("u_name"));
+        log.info("@# param u_ju===>"+param.get("u_jumin"));
+        log.info("@# param u_ni===>"+param.get("u_nickname"));
+        log.info("@# param u_ph===>"+param.get("u_phone"));
+        log.info("@# param u_em===>"+param.get("u_email"));
+        log.info("@# param u_add===>"+param.get("u_address"));
         return param;
     }
 
