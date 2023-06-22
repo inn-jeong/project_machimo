@@ -9,6 +9,17 @@
         FROM review
     </select>
 
+    <select id="listWithPaging" resultType="com.example.project_machimo.review.dto.ReviewDto">
+        <![CDATA[
+            select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit
+        from ( select rownum rn, review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit from review
+                where rownum <= ( #{pageNum} * #{amount})
+                order by review_id desc )
+                where rn > (#{pageNum} -1) * #{amount}
+                ]]>
+    </select>
+
+
     <insert id="write">
         INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img)
         VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg})
@@ -24,24 +35,14 @@
     </select>
 
     <update id="modify" parameterType="HashMap">
-<!--        스프링부트와 타임리프에서는 자체 템플릿엔진으로 특문처리가능.-->
-<!--        <![CDATA[-->
         UPDATE review
         SET review_title = #{reviewTitle},
         review_star = #{reviewStar},
         review_img = #{reviewImg},
-<!--        review_date = #{reviewDate}-->
         review_content = #{reviewContent}
-<!--        review_hit = #{reviewHit}-->
         WHERE review_id = #{reviewId}
-<!--        ]]>-->
     </update>
     <select id="modify_view">
-        <!--        select review_title = #{reviewTitle},-->
-        <!--        review_content = #{reviewContent},-->
-        <!--        review_star = #{reviewStar},-->
-        <!--        review_img = #{reviewImg}-->
-        <!--        WHERE review_id = #{reviewId}-->
         SELECT *
         FROM review
         WHERE review_id = #{reviewId}

@@ -1,12 +1,12 @@
 package com.example.project_machimo.review.service;
 
 import com.example.project_machimo.review.dao.ReviewDao;
+import com.example.project_machimo.review.dto.Criteria;
 import com.example.project_machimo.review.dto.ReviewDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +25,19 @@ public class ReviewServiceImpl implements ReviewService{
         log.info("@# ReviewServiceImpl.list() end");
         return list;
     }
+
+    @Override
+    public ArrayList<ReviewDto> list(Criteria cri) {
+        log.info("@# BServiceImpl.list(Criteria cri) start");
+        log.info("@# cri =========>"+cri);
+
+        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+
+        log.info("@# BServiceImpl.list(Criteria cri) end");
+
+        return dao.listWithPaging(cri);
+    }
+
     @Override
     public void write(HashMap<String, String> param) {
         log.info("@# ReviewServiceImpl.write() start");

@@ -1,5 +1,7 @@
 package com.example.project_machimo.review.controller;
 
+import com.example.project_machimo.review.dto.Criteria;
+import com.example.project_machimo.review.dto.PageDTO;
 import com.example.project_machimo.review.dto.ReviewDto;
 import com.example.project_machimo.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,14 +23,23 @@ public class ReviewController {
     @Autowired
     private ReviewService service;
 
-    @RequestMapping("/list")
+    @RequestMapping("/list_old")
     public String list(Model model) {
         log.info("@# list");
         ArrayList<ReviewDto> list = service.list();
         model.addAttribute("list",list);
-//        return "list";
-        int total = service.getTotalCount();//페이징구현아직안함
+        return "review/list";
+    }
 
+    @RequestMapping("/list")
+    public String list(Criteria cri, Model model) {
+        log.info("@# list");
+        log.info("@#cri =======>"+cri);
+        log.info("@#getPageNum() =======>"+cri.getPageNum());
+//        ArrayList<ReviewDto> list = service.list();
+        model.addAttribute("list",service.list(cri));
+        int total = service.getTotalCount();
+        model.addAttribute("pageMaker", new PageDTO(total, cri));
         return "review/list";
     }
     @RequestMapping("/write_view")
@@ -54,7 +65,7 @@ public class ReviewController {
     @RequestMapping("/modify")
     public String modify(@RequestParam HashMap<String, String> param) {
         log.info("@# modify");
-        System.out.println("param.get(\"reviewContent\") = " + param.get("reviewContent"));
+//        System.out.println("param.get(\"reviewContent\") = " + param.get("reviewContent"));
         service.modify(param);
         return "redirect:list";
     }

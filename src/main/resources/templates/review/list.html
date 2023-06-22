@@ -45,13 +45,38 @@
         </tr>
         </tbody>
     </table>
+    <div class="div_page">
+        <ul>
+            <ul>
+                <li class="paginate_button" th:if="${pageMaker.prev}">
+                    <a th:href="@{${pageMaker.startPage - 1}}">[Previous]</a>
+                </li>
+                <li class="paginate_button" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}"
+                    th:classappend="${(pageMaker.cri.pageNum == num) ? 'active' : ''}">
+                    <a th:href="@{${num}}">[${num}]</a>
+                </li>
+                <li class="paginate_button" th:if="${pageMaker.next}">
+                    <a th:href="@{${pageMaker.endPage + 1}}">[Next]</a>
+                </li>
+            </ul>
+
+        </ul>
+    </div>
     <a href="/review/write_view" class="btn">글 쓰기</a>
 </div>
+<!--<script>-->
+    // function goToDetailView(element) {
+    //     var reviewId = element.getAttribute("data-id");
+    //     window.location.href = "/review/content_view?reviewId=" + reviewId;
+    // } 상세뷰로 가는 함수,.. 인데 안써서 일단 주석!
+<!--</script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    function goToDetailView(element) {
-        var reviewId = element.getAttribute("data-id");
-        window.location.href = "/review/content_view?reviewId=" + reviewId;
-    }
+    $(".paginate_button").on("click", function(e){
+        // 기본 동작 막음: 페이지 링크를 통해서 이동
+        e.preventDefault();
+        console.log("click~!!!!");
+    });
 </script>
 </body>
 </html>
