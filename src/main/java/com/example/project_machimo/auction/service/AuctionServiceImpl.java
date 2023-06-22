@@ -13,9 +13,9 @@ public class AuctionServiceImpl implements AuctionService{
     @Autowired
     private SqlSession session;
     @Override
-    public List<AuctionDTO> aList(int id) {
+    public AuctionDTO aList(int id) {
         AuctionDAO auctionDAO = session.getMapper(AuctionDAO.class);
-        List<AuctionDTO> auctionDTOS = auctionDAO.pList(id);
+        AuctionDTO auctionDTOS = auctionDAO.pList(id);
         return auctionDTOS;
     }
 

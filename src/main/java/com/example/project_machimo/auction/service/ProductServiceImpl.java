@@ -14,7 +14,7 @@ public class ProductServiceImpl implements ProductService {
     private SqlSession session;
 
     @Override
-    public List<ProductsDTO> pView(int id) {
+    public ProductsDTO pView(int id) {
         ProductsDAO productsDAO = session.getMapper(ProductsDAO.class);
         return productsDAO.pView(id);
     }

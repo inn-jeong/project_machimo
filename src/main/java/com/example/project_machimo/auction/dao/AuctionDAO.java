@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface AuctionDAO {
-    public List<AuctionDTO> pList(int id);
+    public AuctionDTO pList(int id);
     public void highestBidUpdate(int amount,int id);
 
     public List<AuctionDTO> endList(Timestamp timestamp);

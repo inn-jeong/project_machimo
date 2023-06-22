@@ -30,9 +30,7 @@ public class AuctionRestController {
       @PostMapping("/action-list/amountCheck")
     public ResponseEntity<Map<String,Integer>> updateAmount(@RequestBody CheckDTO check) {
           Map<String,Integer> response = new HashMap<>();
-
         int bids = 0;
-
         if (check.getBids() != null) bids = check.getBids();
         int productId = check.getProductId();
         boolean bidsHistory = check.getBidsHistory();

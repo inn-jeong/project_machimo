@@ -11,7 +11,7 @@ import java.util.List;
 public interface ProductsDAO {
 
     List<ProductsDTO> pList();
-    List<ProductsDTO> pView(int id);
+    ProductsDTO pView(int id);
 
     void succeedsSale(Timestamp timestamp,int productId );
     void failedSale(Timestamp timestamp,int productId);
