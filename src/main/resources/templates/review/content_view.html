@@ -10,6 +10,7 @@
 <div class="container">
 <h1>리뷰 내용</h1>
 <table class="board_detail">
+  <form action="modify_view">
   <tr>
     <td>리뷰 ID:</td>
     <td><span th:text="${content_view.reviewId}"></span></td>
@@ -48,7 +49,9 @@
   </tr>
   <tr>
     <td colspan="3">
-      <input type="submit" value="수정" class="btn">
+<!--      <input type="submit" value="수정" class="btn">-->
+<!--      &nbsp;&nbsp;<a class="btn" href="modify">수정</a>-->
+      &nbsp;&nbsp;<a class="btn" th:href="'modify_view?reviewId='+${content_view.reviewId}">수정</a>
       &nbsp;&nbsp;<a class="btn" href="list">목록보기</a>
 <!--      jsp에서는 되는데 타임리프에선 안됨-->
 <!--      &nbsp;&nbsp;<a href="delete?reviewId=${content_view.reviewId}">삭제</a>-->
@@ -57,6 +60,7 @@
 <!--      @{/board/view(id = ${board.id})}-->
     </td>
   </tr>
+  </form>
 </table>
 </div>
 </body>

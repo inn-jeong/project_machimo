@@ -11,5 +11,10 @@ public interface ReviewDao {
     void write(HashMap<String,String> param);
     ReviewDto contentView(HashMap<String,String> param);
     void modify(HashMap<String,String> param);
+
+    ReviewDto modify_view(String reviewId);
+
     void delete(String param);
+
+    int getTotalCount();
 }

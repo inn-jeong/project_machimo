@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,13 +43,30 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public void modify(HashMap<String, String> param) {
+    public void modify(HashMap<String, String> param ) {
         log.info("@# ReviewServiceImpl.modify() start");
 
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+
         dao.modify(param);
         log.info("@# ReviewServiceImpl.modify() end");
 
+    }
+
+//    @Override
+//    public String modify_view(HashMap<String, String> param) {
+//        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+//        dao.modify_view(param);
+//    }
+
+
+    @Override
+    public ReviewDto modify_view(String reviewId) {
+        log.info("@# ReviewServiceImpl.modify_view() start");
+        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+        ReviewDto dto = dao.modify_view(reviewId);
+        log.info("@# ReviewServiceImpl.modify_view() end");
+        return dto;
     }
 
     @Override
@@ -59,5 +77,11 @@ public class ReviewServiceImpl implements ReviewService{
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
         dao.delete(reviewId);
         log.info("@# ReviewServiceImpl.delete() end");
+    }
+
+    @Override
+    public int getTotalCount() {
+        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+        return dao.getTotalCount();
     }
 }

@@ -19,20 +19,34 @@
         FROM review
         WHERE review_id = #{reviewId}
     </select>
+    <select id="getTotalCount" resultType="int">
+        select count(*) from review
+    </select>
 
     <update id="modify" parameterType="HashMap">
 <!--        스프링부트와 타임리프에서는 자체 템플릿엔진으로 특문처리가능.-->
 <!--        <![CDATA[-->
         UPDATE review
         SET review_title = #{reviewTitle},
-        review_content = #{reviewContent},
         review_star = #{reviewStar},
         review_img = #{reviewImg},
-        review_date = #{reviewDate},
-        review_hit = #{reviewHit}
+<!--        review_date = #{reviewDate}-->
+        review_content = #{reviewContent}
+<!--        review_hit = #{reviewHit}-->
         WHERE review_id = #{reviewId}
 <!--        ]]>-->
     </update>
+    <select id="modify_view">
+        <!--        select review_title = #{reviewTitle},-->
+        <!--        review_content = #{reviewContent},-->
+        <!--        review_star = #{reviewStar},-->
+        <!--        review_img = #{reviewImg}-->
+        <!--        WHERE review_id = #{reviewId}-->
+        SELECT *
+        FROM review
+        WHERE review_id = #{reviewId}
+    </select>
+
 
     <delete id="delete" parameterType="String">
         DELETE FROM review
