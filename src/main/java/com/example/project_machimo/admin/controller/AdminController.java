@@ -20,10 +20,11 @@ import java.util.HashMap;
 public class AdminController {
     @Autowired
     private AdminService service;
-
     //사용자관리
 //    @RequestMapping("/adminList")
-    @GetMapping("/adminList")
+//    @GetMapping("/admin/adminList")
+    @RequestMapping("/admin/adminList")
+//    @RequestMapping("/adminList")
     public String adminList(Criteria cri, Model model){
         log.info("@# controller adminList start");
         model.addAttribute("adminList",service.adminList(cri));
@@ -32,7 +33,7 @@ public class AdminController {
         return "admin/adminList";
     }
 
-    @GetMapping("/adminDelete/{user_id}")
+    @GetMapping("/admin/adminDelete/{user_id}")
     public String adminDelete(@PathVariable int user_id){
         service.adminDelete(user_id);
         return "redirect:/admin/adminList";

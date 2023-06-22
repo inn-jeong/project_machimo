@@ -68,31 +68,23 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-5">
                             <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
-                                showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getStartPage()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
+                                showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-7">
                             <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                                 <ul class="pagination">
-                                    <li th:if="${pageMaker.prev}" class="paginate_button page-item previous disabled" id="dataTable_previous">
-                                        <a th:href="${pageMaker.startPage - 1}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">
-                                            <font style="vertical-align: inherit;">Previous</font>
+                                    <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
+                                        <a th:href="@{'/page/'+${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
+                                            Previous
                                         </a>
                                     </li>
-<!--                                    <div th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">-->
-<!--                                    <li class="paginate_button">-->
-<!--                                        <a th:href="${num}" th:text="${num}" class="page-link">-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    </div>-->
                                     <li class="paginate_button page-link" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
                                         <a th:href="${num}" th:text="${num}">
                                         </a>
                                     </li>
-                                    <li th:if="${pageMaker.next}" class="paginate_button page-item next" id="dataTable_next">
-                                        <a th:href="${pageMaker.startPage + 1}" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">
-            <!--                                <span th:text="NEXT"></span>-->
-                                            <font style="vertical-align: inherit;">Next</font>
+                                    <li th:if="${pageMaker.next}" class="paginate_button page-item next page-link" id="dataTable_next">
+                                        <a th:href="@{${pageMaker.endPage + 1}}" th:text="'Next'" aria-controls="dataTable" data-dt-idx="7" tabindex="0">
                                         </a>
                                     </li>
                                 </ul>
@@ -103,21 +95,10 @@
             </div>
         </div>
     </div>
-<!--            <li class="paginate_button" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">-->
-<!--                <span th:if="${num == ${pageMaker.getCri().getPageNum()}}" th:text="${num}"></span>-->
-<!--                <span th:unless="${num == ${pageMaker.getCri().getPageNum()}}">-->
-<!--                                <a th:text="${num}"></a>-->
-<!--                </span>-->
-<!--            </li>-->
 
     </div>
 
-<!--        <form method="GET" id="actionForm" th:action="@{/admin/adminList}" th:object="${pageMaker.cri}">-->
-<!--        <form method="GET" id="actionForm" th:action="@{/admin/adminList}" th:object="${pageMaker.getCri()}">-->
-<!--            <input type="hidden" name="pageNum" value="*{pageNum}">-->
-<!--            <input type="hidden" name="amount" value="*{amount}">-->
-<!--        </form>-->
-        <form th:method="get" id="actionForm" th:action="@{/adminList}">
+        <form th:method="get" id="actionForm" th:action="@{/admin/adminList}">
             <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
             <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
         </form>
@@ -132,7 +113,6 @@
     var actionForm = $("#actionForm");
 
     /////////////////페이지번호 처리/////////////////
-    // $(".paginate_button a").on("click", function (e){
     $(".paginate_button a").on('click', function (e){
         // 기본 동작 막음: 페이지 링크를 통해서 이동
         e.preventDefault();
@@ -142,15 +122,15 @@
         actionForm.submit();
     });
     // /////////////////게시글 처리/////////////////
-    // $(".move_link").on("click", function (e){
-    //     e.preventDefault();
-    //     var targetBno = $(this).attr("href")
-    //     // console.log("move click~!");
-    //     console.log("@# href ===>"+$(this).attr("href"))
-    //     // <%--"content_view?bid=${dto.bid}"에 있는 ?bid= 의 bid와 name을 매칭--%>
-    //     actionForm.append("<input type='hidden' name='user_id' value='"+targetBno+"'>");
-    //     // actionForm.attr("action","content_view"); -> x
-    //     // 컨트롤러에 content_view로 찾아감
-    //     // actionForm.attr("action","content_view").submit();
-    // });
+    $(".move_link").on("click", function (e){
+        e.preventDefault();
+        var targetBno = $(this).attr("href")
+        // console.log("move click~!");
+        console.log("@# href ===>"+$(this).attr("href"))
+        // <%--"content_view?bid=${dto.bid}"에 있는 ?bid= 의 bid와 name을 매칭--%>
+        actionForm.append("<input type='hidden' name='user_id' value='"+targetBno+"'>");
+        // actionForm.attr("action","content_view"); -> x
+        // 컨트롤러에 content_view로 찾아감
+        actionForm.attr("action","content_view").submit();
+    });
 </script>
