@@ -10,7 +10,10 @@
 <div class="container">
 <h1>리뷰 내용</h1>
 <table class="board_detail">
-  <form action="modify_view">
+  <form method="post" action="modify_view">
+    <input type="hidden" name="pageNum" th:value="${pageMaker.pageNum}">
+    <input type="hidden" name="amount" th:value="${pageMaker.amount}">
+    <input type="hidden" name="reviewId" th:value="${pageMaker.reviewId}">
   <tr>
     <td>리뷰 ID:</td>
     <td><span th:text="${content_view.reviewId}"></span></td>
@@ -51,11 +54,15 @@
     <td colspan="3">
 <!--      <input type="submit" value="수정" class="btn">-->
 <!--      &nbsp;&nbsp;<a class="btn" href="modify">수정</a>-->
-      &nbsp;&nbsp;<a class="btn" th:href="'modify_view?reviewId='+${content_view.reviewId}">수정</a>
-      &nbsp;&nbsp;<a class="btn" href="list">목록보기</a>
+<!--      &nbsp;&nbsp;<a class="btn" th:href="'modify_view?reviewId='+${content_view.reviewId}">수정</a>-->
+      <input class="btn" type="submit" value="수정" formaction="modify_view" style="width: 100px; height: 30px;">
+<!--      <a class="btn" href="list">목록보기</a>-->
+<!--      formaction="list" : name으로 설정된 값들을 가지고 이동-->
+      <input class="btn" type="submit" value="목록보기" formaction="list" style="width: 100px; height: 30px;">
+<!--      &nbsp;&nbsp;<a href="delete?reviewId=${view.reviewId}">삭제</a>-->
 <!--      jsp에서는 되는데 타임리프에선 안됨-->
-<!--      &nbsp;&nbsp;<a href="delete?reviewId=${content_view.reviewId}">삭제</a>-->
-      &nbsp;&nbsp;<a class="btn" th:href="'delete?reviewId='+${content_view.reviewId}">삭제</a>
+<!--      &nbsp;&nbsp;<a class="btn" th:href="'delete?reviewId='+${content_view.reviewId}">삭제</a>-->
+        <input class="btn" type="submit" value="삭제" formaction="delete" style="width: 100px; height: 30px;">
 <!--      타임리프 문법-->
 <!--      @{/board/view(id = ${board.id})}-->
     </td>

@@ -116,8 +116,6 @@
 <!--    }-->
 <!--</script>-->
 
-
-
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="utf-8">
 <head>
@@ -164,6 +162,7 @@
         </tr>
         </tbody>
     </table>
+    <a href="/review/write_view" class="btn">글 쓰기</a>
     <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
         showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
     </div>
@@ -171,8 +170,7 @@
         <div class="div_page">
             <ul class="pagination">
                 <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
-                    <a th:href="@{'/page/'+${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
-                        Previous
+                    <a th:href="@{'/page/'+${pageMaker.startPage -1}}" th:text="'Prev'" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
                     </a>
                 </li>
                 <li class="paginate_button page-link" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">

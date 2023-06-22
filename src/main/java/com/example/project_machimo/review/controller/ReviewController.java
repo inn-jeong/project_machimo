@@ -8,8 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,40 +62,46 @@ public class ReviewController {
         log.info("@# contentView");
         ReviewDto dto = service.contentView(param);
         model.addAttribute("content_view", dto);
+//        content_view.jsp 에서 pageMaker를 가지고 페이징 처리
+        model.addAttribute("pageMaker", param);
         return "review/content_view";
     }
+
+//    수정완료후 list 로 이동
     @RequestMapping("/modify")
-    public String modify(@RequestParam HashMap<String, String> param) {
+//    public String modify(@RequestParam HashMap<String, String> param) {
+    public String modify(@RequestParam HashMap<String, String> param, @ModelAttribute("cri") Criteria cri,
+                         RedirectAttributes rttr) {
         log.info("@# modify");
 //        System.out.println("param.get(\"reviewContent\") = " + param.get("reviewContent"));
         service.modify(param);
+        rttr.addAttribute("pageNum",cri.getPageNum());
+        rttr.addAttribute("amount",cri.getAmount());
         return "redirect:list";
     }
 
+//    reviewId값으로 전의 값 받아와서 수정폼으로 넘어감
     @RequestMapping("/modify_view")
     public String modify_view(@RequestParam("reviewId") String reviewId ,Model model) {
+//        public String modify_view(@RequestParam("reviewId") String reviewId ,Model model, @ModelAttribute("cri") Criteria cri,
+//                RedirectAttributes rttr) {
         ReviewDto reviewDto = service.modify_view(reviewId);
         model.addAttribute("content_view",reviewDto);
+//        rttr.addAttribute("pageNum",cri.getPageNum());
+//        rttr.addAttribute("amount",cri.getAmount());
         return "review/modify_view";
     }
 
-//    @RequestMapping("/modify")
-//    public String modify(@RequestParam("reviewId") int reviewId, HashMap<String, String> param, Model model) {
-//        log.info("@# modify");
-//        ReviewDto dto = service.contentView(reviewId, param);
-//        model.addAttribute("content_view", dto);
-//        return "review/modify_view";
-//    }
-
-
-
     @RequestMapping("/delete")
 //    public String delete(@RequestParam("reviewId") HashMap<String, String> param) {
-    public String delete(@RequestParam("reviewId") String reviewId) {
+//    public String delete(@RequestParam("reviewId") String reviewId) {
+    public String delete(@RequestParam("reviewId") String reviewId, @ModelAttribute("cri") Criteria cri,
+                         RedirectAttributes rttr) {
         log.info("@# delete");
 
         service.delete(reviewId);
-
+        rttr.addAttribute("pageNum",cri.getPageNum());
+        rttr.addAttribute("amount",cri.getAmount());
         return "redirect:list";
     }
 }

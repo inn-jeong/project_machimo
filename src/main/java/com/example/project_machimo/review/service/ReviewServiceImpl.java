@@ -6,6 +6,7 @@ import com.example.project_machimo.review.dto.ReviewDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -97,4 +98,10 @@ public class ReviewServiceImpl implements ReviewService{
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
         return dao.getTotalCount();
     }
-}
+
+//    public int updateReadCount(String seq)throws DataAccessException {
+//        String sql = " update board02 set hit = nvl(hit,0)+1 where seq = ?";
+//        Object[] obj = {seq};
+//        return jdbaTemplate.update(sql,obj);
+//    }
+    }
