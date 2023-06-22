@@ -16,6 +16,8 @@ public interface LoginService {
     public void memberInsert(HashMap<String, String> param);
     public Map<String, String> validateHandling(Errors errors);
 //    public MemDto switchMem(MemberRequestDto requestDto);
-    public HashMap<String,String> switchMem(MemberRequestDto requestDto);
+    public HashMap<String,String> switchRequestToMem(MemberRequestDto requestDto);
+    public MemberRequestDto switchMemToRequest(MemDto memDto);
+    public MemDto findMemPhone(String u_phone);
 }
 

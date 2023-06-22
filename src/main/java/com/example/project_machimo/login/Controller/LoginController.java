@@ -27,21 +27,36 @@ public class LoginController {
     private LoginService service;
 
     @RequestMapping("/login")
-    public String login(Model model) {
+    public String login(HttpServletRequest request, Model model) {
         log.info("login");
-//        return "loginTest";
-        return "main";
+
+//        HttpSession session = request.getSession();
+        String login_try = request.getParameter("login_try");
+        //로그인 화면 진입 시 실패 후 진입인지 처음 진입인지 알기 위한 처리
+
+        if (login_try != null) {
+            if (login_try.equals("yes")) {
+                model.addAttribute("login_try", "yes");
+            }
+        }
+
+        return "login/loginTest";
+//        return "login/main";
     }
 
-    @RequestMapping("/login-process")
-    public String login_process(@RequestParam HashMap<String, String> param,Model model) {
+    @RequestMapping("/login_process")
+    public String login_process(@RequestParam HashMap<String, String> param,HttpServletRequest request, Model model) {
         log.info("@# login_process start");
+//        HttpSession session = request.getSession();
+
         int re = service.loginYn(param);
-        String str = "";
+        String str;
         if(re == 1) {
-            str = "redirect:login_ok";
+            str = "redirect:/loginT/login_ok";
+//            session.setAttribute("login_ok", "yes");
         }else {
-            str = "redirect:login";
+            str = "redirect:/loginT/login?login_try=yes";
+//            session.setAttribute("login_ok", "no");
         }
         log.info("@# login_process end");
         return str;
@@ -50,61 +65,83 @@ public class LoginController {
     @RequestMapping("/login_ok")
     public String login_ok(Model model) {
         log.info("login_ok");
-        return "login_ok";
+        return "login/login_ok";
     }
 
 
     @RequestMapping("/register_page")
-    public String register_jsp(Model model) {
-        model.addAttribute("userDto",new MemberRequestDto());
-        return "registerTest";
+    public String register_jsp(@SessionAttribute(name = "naverMember",required = false) MemDto memDto, HttpServletRequest request, Model model) {
+        String naverMem = request.getParameter("naverMem");
+        MemberRequestDto requestDto = new MemberRequestDto();
+        if(naverMem != null){
+            if(naverMem.equals("yes")){
+                requestDto = service.switchMemToRequest(memDto);
+                model.addAttribute("naverMem","yes");
+            }
+        }
+        model.addAttribute("userDto",requestDto);
+        return "login/registerTest";
     }
 
     @RequestMapping("/register")
     public String register(@RequestParam HashMap<String, String> param,Model model) {
         log.info("@# id ===>"+param.get("u_id"));
         service.memberInsert(param);
-        return "redirect:login";
+        return "redirect:/loginT/login";
     }
 
     @RequestMapping("/callback")
     public String naverCallback(Model model){
-        return "callback";
+        return "login/callback";
     }
 
     @RequestMapping("/naverLogin_ok")
     public String naverLogin(@SessionAttribute(name = "naverMember",required = false) MemDto memDto, Model model){
         model.addAttribute("naverMem",memDto);
-        return "login_ok";
+        log.info("@# naver_ok phone ===>"+memDto.getU_phone());
+        MemDto dto = service.findMemPhone(memDto.getU_phone());
+        String u_phone = null;
+        if(dto != null){
+            u_phone = dto.getU_phone();
+        }
+        if(u_phone == null){
+            return "redirect:/loginT/register_page?naverMem=yes";
+        }
+
+        return "login/login_ok";
     }
-    @RequestMapping("/naverLogin-process")
-    public String naverLogin_ok(@RequestParam HashMap<String,String> param, HttpServletRequest request, Model model) {
-        log.info("naverLogin_ok");
-        log.info("@# naverLogin_ok name ===> "+param.get("name"));
-        log.info("@# naverLogin_ok birthyear ===> "+param.get("birthyear"));
-        model.addAttribute("name", param.get("name"));
-        model.addAttribute("email", param.get("email"));
-        model.addAttribute("phone", param.get("phone"));
-        model.addAttribute("birthday", param.get("birthday"));
-        model.addAttribute("birthyear", param.get("birthyear"));
-//        return "redirect:/loginT/login_ok";
+    @RequestMapping("/naverLogin_process")
+//    public String naverLogin_ok(@RequestParam HashMap<String,String> param, HttpServletRequest request, Model model) {
+    public String naverLogin_ok(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        log.info("naverLogin_ok");
+        log.info("@# naverLogin_ok name ===> "+request.getParameter("name"));
+        log.info("@# naverLogin_ok birthyear ===> "+request.getParameter("birthyear"));
+//        model.addAttribute("name", request.getParameter("name"));
+//        model.addAttribute("email", request.getParameter("email"));
+//        model.addAttribute("phone", request.getParameter("phone"));
+//        model.addAttribute("birthday", request.getParameter("birthday"));
+//        model.addAttribute("birthyear", request.getParameter("birthyear"));
+//        return "redirect:/loginT/login_ok";
+
         MemDto dto = new MemDto();
 
-        String birthday = param.get("birthday");
-        String birthyear = param.get("birthyear");
+        //생년웛일 조합
+        String birthday = request.getParameter("birthday");
+        String birthyear = request.getParameter("birthyear");
         birthday = birthday.replace("-","");
         birthyear = birthyear.substring(2);
         String u_jumin = birthyear+birthday;
         log.info("@# naverLogin_ok u_jumin ===> "+u_jumin);
 
-        dto.setU_name(param.get("name"));
-        dto.setU_email(param.get("email"));
+        //객체 조립하여 세션에 개인정보 저장
+        dto.setU_name(request.getParameter("name"));
+        dto.setU_email(request.getParameter("email"));
         dto.setU_jumin(u_jumin);
-        dto.setU_phone(param.get("phone"));
+        dto.setU_phone(request.getParameter("phone"));
         session.setAttribute("naverMember",dto);
 
-        return "childWin";
+        return "login/childWin";
     }
 
     @PostMapping("/joinProc")
@@ -121,10 +158,28 @@ public class LoginController {
             }
             log.info("@# message ===>"+model.getAttribute("valid_u_id"));
             /* 회원가입 페이지로 다시 리턴 */
-            return "registerTest";
+            return "login/registerTest";
         }
         log.info("@# register success=============");
-        service.memberInsert(service.switchMem(userDto));
+        service.memberInsert(service.switchRequestToMem(userDto));
         return "redirect:/loginT/login";
+    }
+
+    @RequestMapping("/checkMember")
+    public String checkMamber(@RequestParam("u_id") String u_id, Model model){
+        log.info("@# checkMember start====");
+        HashMap<String,String> param = new HashMap<>();
+        String result;
+        log.info("@# checkMember u_id ====>"+u_id);
+        param.put("u_id",u_id);
+
+        MemDto member = service.findMem(param);
+        if(member != null){
+            result = "login/denined";
+        }else{
+            result = "login/confirm";
+        }
+        log.info("@# checkMember end====");
+        return result;
     }
 }

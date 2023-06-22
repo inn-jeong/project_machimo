@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="/loginJS/jquery.min.js"></script>
+    <script type="text/javascript">
+        function sendRequest(){
+            var u_id = $("#u_id").val();
+            console.log("u_id"+u_id);
+            $.ajax({
+                url:"/loginT/checkMember"
+                ,type:"POST"
+                ,data:{"u_id":u_id}
+// 			dataType: 생략 가능(생략하면 자동으로 데이터타입 처리)
+// 			,dataType: "json"
+                ,dataType: "text"
+                //data: 응답받는 것(ex>json, text 등)
+                ,success: function(data) {
+                    if (data == "confirm") {
+                        console.log(data);
+                        $("#check_result").css("color","blue");
+                        // document.getElementById("check_result").innerHTML = "사용가능";
+                        document.getElementById("check_result").innerHTML = "사용가능";
+                        document.getElementById("check_btn").disabled = true;
+                        document.getElementById("insert_mem").disabled = false;
+                        document.getElementById("insert_mem").enabled = true;
+                    }else{
+                        console.log(data);
+                        $("#check_result").css("color","red");
+                        document.getElementById("check_result").innerHTML = "사용불가";
+                        document.getElementById("insert_mem").disabled = true;
+                    }
+                }
+                ,error:function(data){
+                    document.getElementById("check_result").innerHTML = "<h3>ajax fail</h3>";
+                }
+            });
+        }
+        $(function(){
+            var naver_Mem = $("#naverMem").val();
+        });
+    </script>
 </head>
 <body>
-<form name="reg_frm" method="post" action="/loginT/joinProc" modelAttribut>
+<input type="hidden" id="naverMem" th:value="${naverMem}">
+<form name="reg_frm" method="post" action="/loginT/joinProc">
   <table border="1" align="center">
     <tr height="50">
       <td colspan="2" align="center">
@@ -17,7 +56,9 @@
       <td>
 <!--        <div th:if="${userDto == null}"><input name="u_id" type="text" size="20"></div>-->
 <!--        <div th:unless="${userDto != null}"><input name="u_id" type="text" th:value="${userDto.getU_id()}" size="20"></div>-->
-        <input name="u_id" type="text" th:value="${userDto.getU_id()}" size="20">
+        <input name="u_id" id="u_id" type="text" th:value="${userDto.getU_id()}" size="20">
+          <button type="button" id="check_btn" onclick="sendRequest()">중복 체크</button>
+          <span id="check_result"></span>
           <span th:text="${valid_u_id}"></span>
 
       </td>
@@ -79,7 +120,7 @@
     </tr>
     <tr height="30">
       <td width="80" colspan="2" align="center">
-        <input type="submit" value="등록">
+        <input type="submit" id="insert_mem" value="등록">
         <!-- 					<input type="button" value="등록" onclick="check_OK();"> -->
         <!-- 					<input type="reset" value="다시입력"> -->
         <!-- 					<input type="button" value="가입안함" onclick="javascript:window.location='login.jsp'"> -->

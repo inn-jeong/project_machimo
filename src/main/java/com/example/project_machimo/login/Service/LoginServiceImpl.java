@@ -67,7 +67,7 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public HashMap<String, String> switchMem(MemberRequestDto requestDto) {
+    public HashMap<String, String> switchRequestToMem(MemberRequestDto requestDto) {
         HashMap<String,String> param = new HashMap<>();
         param.put("u_id",requestDto.getU_id());
         param.put("u_password",requestDto.getU_password());
@@ -86,6 +86,23 @@ public class LoginServiceImpl implements LoginService{
         log.info("@# param u_em===>"+param.get("u_email"));
         log.info("@# param u_add===>"+param.get("u_address"));
         return param;
+    }
+
+    @Override
+    public MemberRequestDto switchMemToRequest(MemDto memDto) {
+        MemberRequestDto requestDto = new MemberRequestDto();
+        requestDto.setU_name(memDto.getU_name());
+        requestDto.setU_email(memDto.getU_email());
+        requestDto.setU_phone(memDto.getU_phone());
+        requestDto.setU_jumin(memDto.getU_jumin());
+        return requestDto;
+    }
+
+    @Override
+    public MemDto findMemPhone(String u_phone) {
+        LoginDao dao = sqlSession.getMapper(LoginDao.class);
+        dao.findMemPhone(u_phone);
+        return dao.findMemPhone(u_phone);
     }
 
 //    @Override

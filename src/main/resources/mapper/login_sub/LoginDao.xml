@@ -18,11 +18,14 @@
 <!--    </select>-->
 
     <select id="findMem" resultType="com.example.project_machimo.login.Dto.MemDto">
-        select users_id,u_id,u_password,
+        select user_id,u_id,u_password,
                 u_name,u_jumin,u_email,
-                u_phone_number,u_address,
+                u_phone,u_address,
                 u_nickname,u_point,
                 u_created_at,u_updated_at,
                 u_signout from users where u_id=#{u_id}
+    </select>
+    <select id="findMemPhone" resultType="com.example.project_machimo.login.Dto.MemDto">
+        select * from users where u_phone = #{u_phone}
     </select>
 </mapper>
