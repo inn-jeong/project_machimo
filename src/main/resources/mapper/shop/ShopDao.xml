@@ -7,8 +7,7 @@
 
 
     <select id="allItemView" resultType="com.example.project_machimo.shop.Dto.ProductDto">
-        select products_id,c_id,user_id,p_name,p_direct,p_b_price,p_created_at,p_hit,
-        p_sales_status,p_sale_type from product order by p_created_at desc;
+        select * from products order by p_created_at desc
     </select>
     <select id="findNickName" resultType="com.example.project_machimo.shop.Dto.UsersDto">
         select u_nickName,user_id from users where user_id = #{user_id}

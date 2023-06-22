@@ -16,21 +16,23 @@ import java.util.ArrayList;
 
 @Slf4j
 @Controller
-@RequestMapping("shop")
+@RequestMapping("/shop")
 public class shopController {
     @Autowired
     private ShopService service;
 
+    //모든 상품을 보는 메소드
     @RequestMapping("/allItemView")
     public String allItemView(Model model){
         log.info("@# allItemView");
         ArrayList<ProductDto> products = service.allItemView();
         ArrayList<ItemDto> items = new ArrayList<>();
 
+
         for (ProductDto product : products) {
             ItemDto item = new ItemDto();
             item.setProducts_id(product.getProducts_id());
-            item.setUsers_id(product.getUsers_id());
+            item.setUsers_id(product.getUser_id());
             item.setC_id(product.getC_id());
             item.setP_name(product.getP_name());
             item.setP_info(product.getP_info());
@@ -46,7 +48,7 @@ public class shopController {
             item.setP_address(product.getP_address());
             item.setP_bank(product.getP_bank());
 
-            int userId = product.getUsers_id();
+            int userId = product.getUser_id();
             ArrayList<UsersDto> nicknames = service.findNickName(userId);
             if (!nicknames.isEmpty()) {
                 item.setU_nickname(nicknames.get(0).getU_nickname());
@@ -55,7 +57,7 @@ public class shopController {
             int productId = product.getProducts_id();
             ArrayList<ImgDto> subImages = service.viewImage(productId);
             if (!subImages.isEmpty()) {
-                item.setI_sub_image(subImages.get(0).getI_sub_image());
+                item.setI_sub_image(subImages.get(0).getI_sub_img());
             }
 
             items.add(item);

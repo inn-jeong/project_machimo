@@ -12,8 +12,8 @@ import java.sql.Timestamp;
 
 public class ProductDto {
     private Integer products_id;//제품번호
-    private Integer users_id;//유저 번호
     private Integer c_id;//카테고리 번호
+    private Integer user_id;//유저 번호
     private String p_name;//제품 이름
     private String p_info;//제품 정보
     private Integer p_direct;//즉시 판매가

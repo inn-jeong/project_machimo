@@ -39,6 +39,6 @@ public class ShopServiceImpl implements ShopService{
         log.info("@# viewImage");
         ShopDao dao = sqlSession.getMapper(ShopDao.class);
         ArrayList<ImgDto> img = dao.viewImage(product_id);
-        return null;
+        return img;
     }
 }
