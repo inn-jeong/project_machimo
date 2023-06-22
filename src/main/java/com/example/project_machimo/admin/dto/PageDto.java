@@ -15,10 +15,10 @@ public class PageDto {
 
 //       ex>3페이지=3/10->0.3 -> 1 * 10 = 10(끝페이지)
 //       ex>11페이지=11/10->1.1 -> 2 * 10 = 20(끝페이지)
-        this.endPage = (int) Math.ceil(cri.getPageNum() / 5.0) * 10;
+        this.endPage = (int) Math.ceil(cri.getPageNum() / 10.0) * 10;
 //       ex>10-9=1페이지
 //       ex>20-9=11페이지
-        this.startPage = this.endPage-4;
+        this.startPage = this.endPage-9;
 
 //       ex>total: 70, 현재 페이지: 3 -> endPage: 10 => 70*1.0 / 10 => 7페이지
 //       ex>total: 300, 현재 페이지: 3 -> endPage: 10 => 300*1.0 / 10 => 30페이지

@@ -22,7 +22,8 @@ public class AdminController {
     private AdminService service;
 
     //사용자관리
-    @RequestMapping("/adminList")
+//    @RequestMapping("/adminList")
+    @GetMapping("/adminList")
     public String adminList(Criteria cri, Model model){
         log.info("@# controller adminList start");
         model.addAttribute("adminList",service.adminList(cri));
