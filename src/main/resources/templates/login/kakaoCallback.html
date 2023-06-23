@@ -1,0 +1,99 @@
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--    <script src="/login/jquery.min.js"></script>-->
+<!--    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.2.0/kakao.min.js"-->
+<!--            integrity="sha384-x+WG2i7pOR+oWb6O5GV5f1KN2Ko6N7PTGPS7UlasYWNxZMKQA63Cj/B2lbUmUfuC" crossorigin="anonymous"></script>-->
+<!--    <script>-->
+<!--        Kakao.init('336fe318422138c11d889862658eb427'); // 사용하려는 앱의 JavaScript 키 입력-->
+<!--    </script>-->
+
+<!--    <script>-->
+<!--        function loginWithKakao() {-->
+<!--            Kakao.Auth.authorize({-->
+<!--                // redirectUri: 'https://developers.kakao.com/tool/demo/oauth',-->
+<!--                redirectUri: 'http://localhost:8090/loginT/kakao/callback',-->
+<!--            });-->
+<!--        }-->
+
+<!--        // 아래는 데모를 위한 UI 코드입니다.-->
+<!--        displayToken()-->
+<!--        function displayToken() {-->
+<!--            var token = getCookie('authorize-access-token');-->
+
+<!--            if(token) {-->
+<!--                Kakao.Auth.setAccessToken(token);-->
+<!--                Kakao.Auth.getStatusInfo()-->
+<!--                    .then(function(res) {-->
+<!--                        if (res.status === 'connected') {-->
+<!--                            document.getElementById('token-result').innerText-->
+<!--                                = 'login success, token: ' + Kakao.Auth.getAccessToken();-->
+<!--                        }-->
+<!--                    })-->
+<!--                    .catch(function(err) {-->
+<!--                        Kakao.Auth.setAccessToken(null);-->
+<!--                    });-->
+<!--            }-->
+<!--        }-->
+
+<!--        function getCookie(name) {-->
+<!--            var parts = document.cookie.split(name + '=');-->
+<!--            if (parts.length === 2) { return parts[1].split(';')[0]; }-->
+<!--        }-->
+<!--        function requestUserInfo() {-->
+<!--            Kakao.API.request({-->
+<!--                url: '/v2/user/me',-->
+<!--            })-->
+<!--                .then(function(res) {-->
+<!--                    // alert(JSON.stringify(res));-->
+<!--                    $("#token-result").text(JSON.stringify(res));-->
+<!--                    $("#email").text(res.kakao_account.email);-->
+<!--                    $("#nick").text(res.kakao_account.profile.nickname);-->
+
+<!--                })-->
+<!--                .catch(function(err) {-->
+<!--                    alert(-->
+<!--                        'failed to request user information: ' + JSON.stringify(err)-->
+<!--                    );-->
+<!--                });-->
+<!--        }-->
+<!--    </script>-->
+<!--    <script>-->
+<!--        $(function (){-->
+<!--            var kakaoCode = $("#kakaoCode").val();-->
+<!--            $.ajax({-->
+<!--                type : "POST"-->
+<!--                , url : 'https://kauth.kakao.com/oauth/token'-->
+<!--                , data : {-->
+<!--                    grant_type : 'authorization_code',-->
+<!--                    client_id : 'fb82a16d638c78bc7d08cfc444bcf1aa',-->
+<!--                    redirect_uri : 'http://localhost:8090/loginT/kakao/callback',-->
+<!--                    code : kakaoCode-->
+<!--                }-->
+<!--                , contentType:'application/x-www-form-urlencoded;charset=utf-8'-->
+<!--                , dataType: null-->
+<!--                , success : function(response) {-->
+<!--                    console.log("test success ===>"+response.access_token);-->
+<!--                    Kakao.Auth.setAccessToken(response.access_token);-->
+<!--                    document.querySelector('button.api-btn').style.visibility = 'visible';-->
+<!--                    requestUserInfo();-->
+<!--                }-->
+<!--                ,error : function(jqXHR, error) {-->
+
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<input type="hidden" id="kakaoCode" th:value="${kakaoCode}">-->
+<!--KAkaotest-->
+<!--<button class="api-btn" style="visibility: hidden">test</button>-->
+<!--<p id="token-result"></p>-->
+<!--<p id="email"></p>-->
+<!--<p id="nick"></p>-->
+<!--</body>-->
+<!--</html>-->

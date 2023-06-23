@@ -18,7 +18,8 @@ public interface LoginService {
 //    public MemDto switchMem(MemberRequestDto requestDto);
     public HashMap<String,String> switchRequestToMem(MemberRequestDto requestDto);
     public MemberRequestDto switchMemToRequest(MemDto memDto);
+    public MemberRequestDto switchMemToRequest2(MemDto memDto);
     public MemDto findMemPhone(String u_phone);
-    public String getKakaoAccessToken (String code);
+    public MemDto findMemEmail(String u_email);
 }
 

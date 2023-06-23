@@ -5,17 +5,17 @@
 <!--    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>-->
 </head>
 <body>
-<!--<script type="text/javascript" src="../static/loginJS/naverLogin_implicit-1.0.3.js"></script>-->
+<!--<script type="text/javascript" src="../static/loginJS/naverLogin.js"></script>-->
 <!--<script type="text/javascript" src="../static/loginJS/jquery.min.js"></script>-->
-<script type="text/javascript" src ="/loginJS/naverLogin_implicit-1.0.3.js"></script>
-<script type="text/javascript" src ="/loginJS/jquery.min.js"></script>
+<script type="text/javascript" src ="/login/naverLogin.js"></script>
+<script type="text/javascript" src ="/login/jquery.min.js"></script>
 
 <script type="text/javascript">
     var naver_id_login = new naver_id_login("vfDIOj3YXepI1i3i3Ctw", "http://localhost:8090/loginT/callback");
     // 접근 토큰 값 출력
     // alert(naver_id_login.oauthParams.access_token);
 </script>
-<form id="frm_login" action="/loginT/naverLogin-process" method="post">
+<form id="frm_login" action="/loginT/naverLogin_process" method="post">
     <input type="hidden" name="name" id="name" value="">
     <input type="hidden" name="email" id="email" value="">
     <input type="hidden" name="phone" id="phone" value="">

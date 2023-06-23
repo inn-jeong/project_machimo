@@ -13,4 +13,5 @@ public interface LoginDao {
     public MemDto findMem(HashMap<String, String> param);
     public void memberInsert(HashMap<String, String> param);
     public MemDto findMemPhone(String u_phone);
+    public MemDto findMemEmail(String u_email);
 }

@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<script src="/login/jquery.min.js"></script>
 <script >
-  opener.parent.location="/loginT/naverLogin_ok";
+    $(function(){
+        var loginType = $("#loginType").val();
+        if(loginType == "naver"){
+            opener.parent.location="/loginT/naverLogin_ok";
+        }
+        if(loginType == "kakao"){
+            opener.parent.location="/loginT/kakaoLogin_ok";
+        }
+    });
+  // opener.parent.location="/loginT/naverLogin_ok";
   window.close();
 </script>
+<input type="hidden" id="loginType" th:value="${loginType}">
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="/loginJS/jquery.min.js"></script>
+    <script src="/login/jquery.min.js"></script>
     <script type="text/javascript">
         function sendRequest(){
             var u_id = $("#u_id").val();
@@ -44,6 +44,7 @@
 </head>
 <body>
 <input type="hidden" id="naverMem" th:value="${naverMem}">
+<input type="hidden" id="kakaoMem" th:value="${kakaoMem}">
 <form name="reg_frm" method="post" action="/loginT/joinProc">
   <table border="1" align="center">
     <tr height="50">

@@ -103,77 +103,24 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
+    public MemberRequestDto switchMemToRequest2(MemDto memDto) {
+        MemberRequestDto requestDto = new MemberRequestDto();
+        requestDto.setU_email(memDto.getU_email());
+        requestDto.setU_nickname(memDto.getU_nickname());
+        return requestDto;
+    }
+
+    @Override
     public MemDto findMemPhone(String u_phone) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
-        dao.findMemPhone(u_phone);
         return dao.findMemPhone(u_phone);
     }
 
-//    @Override
-//    public MemDto switchMem(MemberRequestDto requestDto) {
-//        MemDto memDto = new MemDto();
-//
-//        memDto.setU_password(requestDto.getPassword());
-//        memDto.setU_name(requestDto.getName());
-//        memDto.setU_address(requestDto.getEmail());
-//        memDto.setU_jumin(requestDto.getJumin());
-//        memDto.setU_phone(requestDto.getPhoneNumber());
-//        memDto.setU_jumin(requestDto.getJumin());
-//        memDto.setU_address(requestDto.getAddress());
-//
-//        return memDto;
-//    }
-
-    public String getKakaoAccessToken (String code) {
-        String accessToken = "";
-        String refreshToken = "";
-        String requestURL = "https://kauth.kakao.com/oauth/token";
-
-        try {
-            URL url = new URL(requestURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-            conn.setRequestMethod("POST");
-            // setDoOutput()은 OutputStream으로 POST 데이터를 넘겨 주겠다는 옵션이다.
-            // POST 요청을 수행하려면 setDoOutput()을 true로 설정한다.
-            conn.setDoOutput(true);
-
-            // POST 요청에서 필요한 파라미터를 OutputStream을 통해 전송
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-            String sb = "grant_type=authorization_code" +
-                    "&client_id=REST_API_KEY 입력" + // REST_API_KEY
-                    "&redirect_uri=http://localhost:8080/app/login/kakao" + // REDIRECT_URI
-                    "&code=" + code;
-            bufferedWriter.write(sb);
-            bufferedWriter.flush();
-
-            int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
-
-            // 요청을 통해 얻은 데이터를 InputStreamReader을 통해 읽어 오기
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line = "";
-            StringBuilder result = new StringBuilder();
-
-            while ((line = bufferedReader.readLine()) != null) {
-                result.append(line);
-            }
-            System.out.println("response body : " + result);
-
-            JsonElement element = JsonParser.parseString(result.toString());
-
-            accessToken = element.getAsJsonObject().get("access_token").getAsString();
-            refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
-
-            System.out.println("accessToken : " + accessToken);
-            System.out.println("refreshToken : " + refreshToken);
-
-            bufferedReader.close();
-            bufferedWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return accessToken;
+    @Override
+    public MemDto findMemEmail(String u_email) {
+        LoginDao dao = sqlSession.getMapper(LoginDao.class);
+        return dao.findMemEmail(u_email);
     }
+
+
 }

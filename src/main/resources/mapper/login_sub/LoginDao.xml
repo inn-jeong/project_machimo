@@ -28,4 +28,7 @@
     <select id="findMemPhone" resultType="com.example.project_machimo.login.Dto.MemDto">
         select * from users where u_phone = #{u_phone}
     </select>
+    <select id="findMemEmail" resultType="com.example.project_machimo.login.Dto.MemDto">
+        select * from users where u_email = #{u_email}
+    </select>
 </mapper>

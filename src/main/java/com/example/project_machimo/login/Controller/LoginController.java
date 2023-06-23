@@ -5,6 +5,8 @@ import com.example.project_machimo.login.Dto.KakaoDto;
 import com.example.project_machimo.login.Dto.MemDto;
 import com.example.project_machimo.login.Dto.MemberRequestDto;
 import com.example.project_machimo.login.Service.LoginService;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RequestMapping("/loginT")
@@ -31,11 +34,18 @@ public class LoginController {
 
 //        HttpSession session = request.getSession();
         String login_try = request.getParameter("login_try");
+        String register = request.getParameter("register");
         //로그인 화면 진입 시 실패 후 진입인지 처음 진입인지 알기 위한 처리
-
         if (login_try != null) {
             if (login_try.equals("yes")) {
+                log.info("@# login_try===>"+login_try);
                 model.addAttribute("login_try", "yes");
+            }
+        }
+        if (register != null) {
+            if (register.equals("ok")) {
+                log.info("@# register===>"+register);
+                model.addAttribute("register", "ok");
             }
         }
 
@@ -69,13 +79,25 @@ public class LoginController {
 
 
     @RequestMapping("/register_page")
-    public String register_jsp(@SessionAttribute(name = "naverMember",required = false) MemDto memDto, HttpServletRequest request, Model model) {
+    public String register_jsp(@SessionAttribute(value ="naverMember" ,required = false) MemDto naverMember,
+                               @SessionAttribute(value ="kakaoMember" ,required = false) MemDto kakaoMember,
+                               HttpServletRequest request, Model model) {
         String naverMem = request.getParameter("naverMem");
+        String kakaoMem = request.getParameter("kakaoMem");
+        log.info("@# register mem u_email ===>" + kakaoMember.getU_email());
+
         MemberRequestDto requestDto = new MemberRequestDto();
-        if(naverMem != null){
+        if(naverMem != null ){
             if(naverMem.equals("yes")){
-                requestDto = service.switchMemToRequest(memDto);
+                requestDto = service.switchMemToRequest(naverMember);
                 model.addAttribute("naverMem","yes");
+            }
+        }
+        if(kakaoMem != null ){
+            if(kakaoMem.equals("yes")){
+                log.info("@# kakaoMem u_email===>"+kakaoMember.getU_email());
+                requestDto = service.switchMemToRequest2(kakaoMember);
+                model.addAttribute("kakaoMem","yes");
             }
         }
         model.addAttribute("userDto",requestDto);
@@ -86,7 +108,7 @@ public class LoginController {
     public String register(@RequestParam HashMap<String, String> param,Model model) {
         log.info("@# id ===>"+param.get("u_id"));
         service.memberInsert(param);
-        return "redirect:/loginT/login";
+        return "redirect:/loginT/login?register=ok";
     }
 
     @RequestMapping("/callback")
@@ -139,7 +161,7 @@ public class LoginController {
         dto.setU_jumin(u_jumin);
         dto.setU_phone(request.getParameter("phone"));
         session.setAttribute("naverMember",dto);
-
+        model.addAttribute("loginType","naver");
         return "login/childWin";
     }
 
@@ -180,6 +202,46 @@ public class LoginController {
         }
         log.info("@# checkMember end====");
         return result;
+    }
+
+    @RequestMapping("kakao/callback")
+//    public String kakaoLogin(@RequestParam("code")String code,Model model){
+    public String kakaoLogin(@RequestParam(value = "response",required = false)Map<String, Objects> parameters, HttpServletRequest request, Model model){
+        String json = parameters.get("response").toString();
+
+        return "login/kakaoCallback";
+    }
+
+    @RequestMapping("/kakaoLogin_process")
+//    public String naverLogin_ok(@RequestParam HashMap<String,String> param, HttpServletRequest request, Model model) {
+    public String kakaoLogin_ok(@RequestBody MemDto memDto, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        String result;
+        log.info("kakaoLogin_ok");
+        log.info("@# kakaoLogin_ok nickname ===> "+memDto.getU_nickname());
+        log.info("@# kakaoLogin_ok email ===> "+memDto.getU_email());
+
+        session.setAttribute("kakaoMember",memDto);
+//        model.addAttribute("loginType","kakao");
+        MemDto kakaoDto = service.findMemEmail(memDto.getU_email());
+        if(kakaoDto == null){
+            result= "login/denined";
+        }else {
+            result = "login/childWin";
+        }
+        return result;
+    }
+
+    @RequestMapping("/kakaoLogin_ok")
+    public String kakaoLogin(@RequestParam("login_ok") String login_ok, Model model){
+        String page;
+        if (login_ok.equals("yes")){
+            page = "login/login_ok";
+        }else{
+            page = "redirect:/loginT/register_page?kakaoMem=yes";
+        }
+
+        return page;
     }
 
     /**
