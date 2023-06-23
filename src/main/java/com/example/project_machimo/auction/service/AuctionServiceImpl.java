@@ -20,7 +20,7 @@ public class AuctionServiceImpl implements AuctionService{
     }
 
     @Override
-    public void highestBidUpdate(int amount, int id) {
+    public void highestBidUpdate(Long amount, int id) {
         AuctionDAO auctionDAO = session.getMapper(AuctionDAO.class);
         auctionDAO.highestBidUpdate(amount,id);
     }

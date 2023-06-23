@@ -25,36 +25,35 @@ public class BidsServiceImpl implements BidsService {
     @Override
     public boolean hasBidHistory(int id) {
         BidsDAO bidsDAO = session.getMapper(BidsDAO.class);
-        
+        Long lId = (long) id;
 
-        return intIsNull( bidsDAO.hasBidHistory(id));
+        return intIsNull( bidsDAO.hasBidHistory(lId));
 
     }
 
     @Override
-    public Integer maxAmount(int id) {
+    public Long maxAmount(int id) {
         BidsDAO bidsDAO = session.getMapper(BidsDAO.class);
         boolean isNull = intIsNull(bidsDAO.maxAmount(id));
-        
         if(!isNull) return bidsDAO.maxAmount(id);
-        else return 0;
+        else return 0L;
     }
 
     @Override
-    public void write(int amount, int id,int firstPrice) {
+    public void write(Long amount, int id,Long firstPrice) {
         BidsDAO bidsDAO = session.getMapper(BidsDAO.class);
         int write = bidsDAO.write(amount, id,firstPrice);
 
     }
 
     @Override
-    public void amountUpdate(int amount, int id) {
+    public void amountUpdate(Long amount, int id) {
         BidsDAO bidsDAO = session.getMapper(BidsDAO.class);
         bidsDAO.amountUpdate(amount,id);
     }
 
 
-    private boolean intIsNull(Integer num){
+    private boolean intIsNull(Long num){
         System.out.println("@#!$@!#@!#@!$@!# num : "+ num);
         if (num == null) return true;
 

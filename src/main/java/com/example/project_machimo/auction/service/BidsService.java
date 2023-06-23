@@ -8,12 +8,12 @@ public interface BidsService {
     List<BidsDTO> bList(int id);
     boolean hasBidHistory(int id);
 
-    Integer maxAmount(int id);
+    Long maxAmount(int id);
 
-    void write(int amount, int id, int firstPrice);
+    void write(Long amount, int id, Long firstPrice);
 
 
-    void amountUpdate(int amount, int id);
+    void amountUpdate(Long amount, int id);
 
 
 
