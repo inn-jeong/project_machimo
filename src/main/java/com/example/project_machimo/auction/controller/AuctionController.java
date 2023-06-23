@@ -10,6 +10,7 @@ import com.example.project_machimo.auction.service.BidsService;
 import com.example.project_machimo.auction.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.beans.Beans;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,6 +36,8 @@ public class AuctionController {
     @Autowired
     private BidsService bidsService;
 
+
+
     private static String timeStampToString(ProductsDTO pView) {
         Timestamp timestamp = pView.pDur();
         Date date = new Date(timestamp.getTime());
@@ -48,9 +52,11 @@ public class AuctionController {
         System.out.println("@!#!@#$!@#@!#" + id);
         AuctionDTO aList = auctionService.aList(id);
         ProductsDTO pView = productService.pView(id);
+        System.out.println(pView.pBPrice()+"첫 가격");
         List<BidsDTO> bList = bidsService.bList(id);
         boolean hasBidHistory = bidsService.hasBidHistory(id);
-        Integer amount = bidsService.maxAmount(id);
+        Long amount = bidsService.maxAmount(id);
+
 
 
         System.out.println(pView.pDur());

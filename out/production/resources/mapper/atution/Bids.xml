@@ -27,10 +27,10 @@ WHERE ROWNUM <![CDATA[<=]]> 5
 ORDER BY amount
 
     </select>
-    <select id="hasBidHistory" resultType="java.lang.Integer">
+    <select id="hasBidHistory" resultType="java.lang.Long">
         select max(AMOUNT) from BIDS where PRODUCTS_ID = #{0}
     </select>
-    <select id="maxAmount" resultType="java.lang.Integer">
+    <select id="maxAmount" resultType="java.lang.Long">
         select max(amount) from bids where PRODUCTS_ID = #{0}
     </select>
 

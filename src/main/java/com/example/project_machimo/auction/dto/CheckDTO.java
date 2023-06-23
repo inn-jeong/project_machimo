@@ -5,16 +5,27 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-@AllArgsConstructor
+@Component
+
 @NoArgsConstructor
 @Data
 public class CheckDTO {
 
+
     @NotNull(message = "입찰가격을 입력해주세요")
-    Integer bids;
+    Long bids;
     int productId;
     Boolean bidsHistory;
-    Integer firstPrice;
+    Long firstPrice;
+
+    public CheckDTO(Long bids, int productId, Boolean bidsHistory, Long firstPrice) {
+        this.bids = bids;
+        this.productId = productId;
+        this.bidsHistory = bidsHistory;
+        this.firstPrice = firstPrice;
+    }
 }

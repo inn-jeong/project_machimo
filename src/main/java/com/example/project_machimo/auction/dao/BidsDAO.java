@@ -10,11 +10,11 @@ import java.util.Map;
 public interface BidsDAO {
     List<BidsDTO> bList(int id);
 
-    Integer hasBidHistory(int id);
+    Long hasBidHistory(Long id);
 
-    Integer maxAmount(int id);
+    Long maxAmount(int id);
 
-    int write(int amount,int id,int firstPrice);
+    int write(Long amount,int id,Long firstPrice);
 
-     void amountUpdate(int amount,int id);
+     void amountUpdate(Long amount,int id);
 }

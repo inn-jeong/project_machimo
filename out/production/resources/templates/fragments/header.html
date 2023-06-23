@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="headerFragment">
+      <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
+        <header class="py-1 fixed">
+            <div class="container">
+                <div class="d-flex justify-content-end pt-1">
+                    <ul class="top_list nav nav-pills">
+                        <li class="nav-item"><a href="#" class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">고객센터</a></li>
+                        <li class="nav-item"><a href="#" class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">마이페이지</a></li>
+                        <li class="nav-item"><a href="#" class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">관심상품</a></li>
+                        <li class="nav-item"><a href="#" class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">알림</a></li>
+                        <li class="nav-item"><a href="#" class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">로그인</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <header>
+            <div class="container">
+                <div class="main_inner d-flex flex-wrap justify-content-center mb-1">
+                    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto" style="text-decoration: none;">
+                        <svg class="bi me-2" width="5" height="32"></svg>
+                        <span class="text-dark fs-2 fw-bold">MACHIMMO</span>
+                    </a>
+                    <ul class="gnb_list nav nav-pills">
+                        <li class="nav-item"><a href="#" class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">HOME</a></li>
+                        <li class="nav-item"><a href="#" class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">STYLE</a></li>
+                        <li class="nav-item"><a href="#" class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">SHOP</a></li>
+                        <li class="nav-item">
+                            <form action="/search/test3" method="get" class="d-flex" role="search">
+                                <label>
+                                    <select name="choice" style="height: 32.5px">
+                                      <option value="1">작성자</option>
+                                      <option value="2">글 제목</option>
+                                    </select>
+                                </label>
+                                <input   type="search" placeholder="search">
+                                <button type="submit" style="border: none" class="bg-body-tertiary" >
+                                <svg  xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                </svg>
+                                  </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <nav>
+            <div class="container d-flex flex-wrap gab-0">
+                <ul class="nav me-auto">
+                    <li class="nav-item"><a href="#" class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">추천</a></li>
+                    <li class="nav-item"><a href="#" class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">랭킹</a></li>
+                    <li class="nav-item"><a href="#" class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">브랜드</a></li>
+                    <li class="nav-item"><a href="#" class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">판매하기</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+</th:block>
+</body>
+</html>
