@@ -1,18 +1,26 @@
 package com.example.project_machimo.review.controller;
 
+import com.example.project_machimo.review.dao.ReviewDao;
 import com.example.project_machimo.review.dto.Criteria;
 import com.example.project_machimo.review.dto.PageDTO;
 import com.example.project_machimo.review.dto.ReviewDto;
 import com.example.project_machimo.review.service.ReviewService;
+import com.example.project_machimo.utils.UploadFileUtils;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,6 +32,9 @@ import java.util.HashMap;
 public class ReviewController {
     @Autowired
     private ReviewService service;
+
+    @Value("${uploadPath}")
+    private String uploadPath;
 
     @RequestMapping("/list_old")
     public String list(Model model) {
@@ -50,12 +61,39 @@ public class ReviewController {
         return "review/write_view";
     }
 
-    @RequestMapping("/write")
-    public String write(@RequestParam HashMap<String, String> param) {
-        log.info("@# write");
-        service.write(param);
-        return "redirect:list";
+//    @RequestMapping("/write")
+//    public String write(@RequestParam HashMap<String, String> param) {
+//        log.info("@# write");
+//        service.write(param);
+//        return "redirect:list";
+//    }
+
+
+//    파일첨부 구현 write
+@RequestMapping("/write")
+public String write(@RequestParam HashMap<String, String> param,
+                    @RequestParam("file") MultipartFile file) throws Exception {
+//                    @RequestParam MultipartFile file) throws Exception {
+    log.info("@# write");
+
+    // 파일 업로드 로직
+    String imgUploadPath = uploadPath + File.separator + "imgUpload";
+    String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
+    String fileName = null;
+
+    if (file != null && !file.isEmpty()) {
+        fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
+    } else {
+        fileName = uploadPath + File.separator + "images" + File.separator + "none.png";
     }
+
+    // DTO나 엔티티 객체에 파일 경로 설정
+    param.put("reviewImg", File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+    param.put("reviewThum", File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+
+    service.write(param);
+    return "redirect:list";
+}
 
     @RequestMapping("/content_view")
     public String contentView(@RequestParam HashMap<String, String> param, Model model) {
