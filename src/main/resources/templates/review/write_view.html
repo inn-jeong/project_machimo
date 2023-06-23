@@ -8,47 +8,64 @@
         function fn_submit() {
             // form 요소 자체
             var formData =$("#frm").serialize();
+            // document.querySelector("input[type=file]").addEventListener("change", function () {
+            //     let fileInput = document.querySelector("input[name=uploadFile]");
+            //     let fileObj = fileInput.files[0];
+            //
+            //     let formData = new FormData();
+            //
+            //     formData.append("uploadFile", fileObj);
+            //
+            //     console.log("fileList: " + fileList);
+            //     console.log("fileList[0].name" + fileList[0].name);
+            //     console.log("fileList[0].size" + fileList[0].size);
+            //     console.log("fileList[0].type" + fileList[0].type);
 
-            $.ajax({
-                type:"post"
-                ,data:formData
-                ,url:"write"
-                ,success: function (data) {
-                    alert("저장완료");
-                    location.href="list";
-                }
-                ,error: function () {
-                    alert("오류발생");
-                    location.href="write_view";
-                }
-            });
+                $.ajax({
+                    type: "post"
+                    // , processData: false
+                    // , contentType: false
+                    // , dataType: 'json'
+                    , data: formData
+                    , url: "write"
+                    , success: function (data) {
+                        alert("저장완료");
+                        location.href = "list";
+                    }
+                    , error: function () {
+                        alert("오류발생");
+                        location.href = "write_view";
+                    }
+                });
+            // });//querySelector end
         }
+
     </script>
 </head>
 <body>
 <h1>리뷰 작성</h1>
-<!--<form id="frm" action="write" method="post">-->
+<form id="frm" action="write" method="post">
 <!--<form id="frm" action="write" method="post" autocomplete="off" enctype="multipart/form-data">-->
-<form id="frm" action="write" method="post" autocomplete="off" th:enctype="multipart/form-data">
+<!--<form id="frm" action="write" method="post" autocomplete="off" th:enctype="multipart/form-data">-->
     <table width="500" border="1">
-        <div class="inputArea">
-            <label for="reviewImg">이미지</label>
-            <input type="file" id="reviewImg" name="file" />
-            <div class="select_img"><img id="thumbnail" src="" style="margin: 20px 0;" /></div>
+<!--        <div class="inputArea">-->
+<!--            <label for="img">이미지</label>-->
+<!--            <input type="file" id="img" name="file" />-->
+<!--            <div class="select_img"><img id="thumbnail" src="" style="margin: 20px 0;" /></div>-->
 
-<!--            썸네일 보이게하는 자바스크립트-->
-            <script>
-                $("#reviewImg").change(function() {
-                    if (this.files && this.files[0]) {
-                        var reader = new FileReader();
-                        reader.onload = function(data) {
-                            $("#thumbnail").attr("src", data.target.result).width(500);
-                        };
-                        reader.readAsDataURL(this.files[0]);
-                    }
-                });
-            </script>
-        </div>
+<!--&lt;!&ndash;            썸네일 보이게하는 자바스크립트&ndash;&gt;-->
+<!--            <script>-->
+<!--                $("#reviewImg").change(function() {-->
+<!--                    if (this.files && this.files[0]) {-->
+<!--                        var reader = new FileReader();-->
+<!--                        reader.onload = function(data) {-->
+<!--                            $("#thumbnail").attr("src", data.target.result).width(500);-->
+<!--                        };-->
+<!--                        reader.readAsDataURL(this.files[0]);-->
+<!--                    }-->
+<!--                });-->
+<!--            </script>-->
+<!--        </div>-->
 
 <!--                    ${request.getRealPath("/")}-->
 <!--             Thymeleaf 템플릿 -->
@@ -78,10 +95,10 @@
             <td><label for="reviewStar">별점:</label></td>
             <td><input type="number" id="reviewStar" name="reviewStar" min="1" max="5" required /></td>
         </tr>
-<!--        <tr>-->
-<!--            <td><label for="reviewImg">이미지:</label></td>-->
-<!--            <td><input type="text" id="reviewImg" name="reviewImg" required /></td>-->
-<!--        </tr>-->
+        <tr>
+            <td><label for="reviewImg">이미지:</label></td>
+            <td><input type="text" id="reviewImg" name="reviewImg" required /></td>
+        </tr>
         <tr>
             <td colspan="2">
                 <input type="button" onclick="fn_submit()" value="글 작성" />

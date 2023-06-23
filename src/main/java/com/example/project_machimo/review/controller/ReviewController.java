@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,45 +62,47 @@ public class ReviewController {
         return "review/write_view";
     }
 
-//    @RequestMapping("/write")
-//    public String write(@RequestParam HashMap<String, String> param) {
-//        log.info("@# write");
-//        service.write(param);
-//        return "redirect:list";
-//    }
+    @RequestMapping("/write")
+    public String write(@RequestParam HashMap<String, String> param) {
+        log.info("@# write");
+        service.write(param);
+        return "redirect:list";
+    }
 
 
 //    파일첨부 구현 write
-@RequestMapping("/write")
-public String write(@RequestParam HashMap<String, String> param,
-                    @RequestParam("file") MultipartFile file) throws Exception {
-//                    @RequestParam MultipartFile file) throws Exception {
-    log.info("@# write");
-
-    // 파일 업로드 로직
-    String imgUploadPath = uploadPath + File.separator + "imgUpload";
-    String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
-    String fileName = null;
-
-    if (file != null && !file.isEmpty()) {
-        fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
-    } else {
-        fileName = uploadPath + File.separator + "images" + File.separator + "none.png";
-    }
-
-    // DTO나 엔티티 객체에 파일 경로 설정
-    param.put("reviewImg", File.separator + "imgUpload" + ymdPath + File.separator + fileName);
-    param.put("reviewThum", File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
-
-    service.write(param);
-    return "redirect:list";
-}
+//@RequestMapping("/write")
+//public String write(@RequestParam HashMap<String, String> param,
+//                    @RequestParam("file") MultipartFile file) throws Exception {
+////                    @RequestParam MultipartFile file) throws Exception {
+//    log.info("@# write");
+//
+//    // 파일 업로드 로직
+//    String imgUploadPath = uploadPath + File.separator + "imgUpload";
+//    String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
+//    String fileName = null;
+//
+//    if (file != null && !file.isEmpty()) {
+//        fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
+//    } else {
+//        fileName = uploadPath + File.separator + "images" + File.separator + "none.png";
+//    }
+//
+//    // DTO나 엔티티 객체에 파일 경로 설정
+//    param.put("reviewImg", File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+//    param.put("reviewThum", File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+//
+//    service.write(param);
+//    return "redirect:list";
+//}
 
     @RequestMapping("/content_view")
     public String contentView(@RequestParam HashMap<String, String> param, Model model) {
         log.info("@# contentView");
         ReviewDto dto = service.contentView(param);
         model.addAttribute("content_view", dto);
+        int hit = service.updateCount();
+        model.addAttribute("hit", hit);
 //        content_view.jsp 에서 pageMaker를 가지고 페이징 처리
         model.addAttribute("pageMaker", param);
         return "review/content_view";

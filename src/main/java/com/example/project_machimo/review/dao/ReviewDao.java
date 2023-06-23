@@ -22,5 +22,5 @@ public interface ReviewDao {
     int getTotalCount();
 
     // 게시글 조회수 1씩증가
-//   int updateReadCount(String seq)throws DataAccessException;
+   int updateCount();
 }

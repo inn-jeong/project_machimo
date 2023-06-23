@@ -14,20 +14,20 @@
             select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit
         from ( select rownum rn, review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit from review
                 where rownum <= ( #{pageNum} * #{amount})
-                order by review_id asc )
+                order by review_id desc )
                 where rn > (#{pageNum} -1) * #{amount}
-                order by review_id asc
                 ]]>
     </select>
+<!--                order by review_id desc-->
 <!--    order by review_date asc-->
 
 
     <insert id="write">
-<!--        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img)-->
-<!--        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg})-->
+        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img)
+        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg})
 
-        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_thum)
-        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg}, #{reviewThum})
+<!--        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_thum)-->
+<!--        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg}, #{reviewThum})-->
     </insert>
 
     <select id="contentView" resultType="com.example.project_machimo.review.dto.ReviewDto" parameterType="HashMap">
@@ -47,8 +47,10 @@
         review_content = #{reviewContent}
         WHERE review_id = #{reviewId}
     </update>
-    <update id="updateReadCount">
-
+    <update id="updateCount">
+        update review
+        set review_hit = #{reviewHit} + 1
+        WHERE review_id = #{reviewId}
     </update>
     <select id="modify_view" resultType="com.example.project_machimo.review.dto.ReviewDto">
         SELECT *
