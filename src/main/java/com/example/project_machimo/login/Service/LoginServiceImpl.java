@@ -1,10 +1,8 @@
 package com.example.project_machimo.login.Service;
 
 import com.example.project_machimo.login.Dao.LoginDao;
-import com.example.project_machimo.login.Dto.MemDto;
-import com.example.project_machimo.login.Dto.MemberRequestDto;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.example.project_machimo.login.Dto.UsersDto;
+import com.example.project_machimo.login.Dto.UserRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,9 +20,9 @@ public class LoginServiceImpl implements LoginService{
     private SqlSession sqlSession;
 
     @Override
-    public MemDto findMem(HashMap<String, String> param) {
+    public UsersDto findUser(HashMap<String, String> param) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
-        return dao.findMem(param);
+        return dao.findUser(param);
     }
 
     @Override
@@ -36,7 +30,7 @@ public class LoginServiceImpl implements LoginService{
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         int re;
         String mem_pwd = param.get("u_password");
-        MemDto dto = dao.findMem(param);
+        UsersDto dto = dao.findUser(param);
 
         if(dto != null) {//isEmpty() 도 가능
             String db_mem_pwd = dto.getU_password();
@@ -54,9 +48,9 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public void memberInsert(HashMap<String, String> param) {
+    public void userInsert(HashMap<String, String> param) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
-        dao.memberInsert(param);
+        dao.userInsert(param);
     }
 
     @Override
@@ -71,7 +65,7 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public HashMap<String, String> switchRequestToMem(MemberRequestDto requestDto) {
+    public HashMap<String, String> switchRequestToUser(UserRequestDto requestDto) {
         HashMap<String,String> param = new HashMap<>();
         param.put("u_id",requestDto.getU_id());
         param.put("u_password",requestDto.getU_password());
@@ -81,6 +75,7 @@ public class LoginServiceImpl implements LoginService{
         param.put("u_phone",requestDto.getU_phone());
         param.put("u_email",requestDto.getU_email());
         param.put("u_address",requestDto.getU_address());
+        param.put("u_social",requestDto.getU_social());
         log.info("@# param u_id===>"+param.get("u_id"));
         log.info("@# param u_pw===>"+param.get("u_password"));
         log.info("@# param u_na===>"+param.get("u_name"));
@@ -89,38 +84,55 @@ public class LoginServiceImpl implements LoginService{
         log.info("@# param u_ph===>"+param.get("u_phone"));
         log.info("@# param u_em===>"+param.get("u_email"));
         log.info("@# param u_add===>"+param.get("u_address"));
+        log.info("@# param u_social===>"+param.get("u_social"));
         return param;
     }
 
     @Override
-    public MemberRequestDto switchMemToRequest(MemDto memDto) {
-        MemberRequestDto requestDto = new MemberRequestDto();
-        requestDto.setU_name(memDto.getU_name());
-        requestDto.setU_email(memDto.getU_email());
-        requestDto.setU_phone(memDto.getU_phone());
-        requestDto.setU_jumin(memDto.getU_jumin());
+    public UserRequestDto convertNaver(UsersDto usersDto) {
+        UserRequestDto requestDto = new UserRequestDto();
+        requestDto.setU_social(usersDto.getU_social());
+        requestDto.setU_name(usersDto.getU_name());
+        requestDto.setU_email(usersDto.getU_email());
+        requestDto.setU_phone(usersDto.getU_phone());
+        requestDto.setU_jumin(usersDto.getU_jumin());
         return requestDto;
     }
 
     @Override
-    public MemberRequestDto switchMemToRequest2(MemDto memDto) {
-        MemberRequestDto requestDto = new MemberRequestDto();
-        requestDto.setU_email(memDto.getU_email());
-        requestDto.setU_nickname(memDto.getU_nickname());
+    public UserRequestDto convertKakao(UsersDto usersDto) {
+        UserRequestDto requestDto = new UserRequestDto();
+        requestDto.setU_social(usersDto.getU_social());
+        requestDto.setU_email(usersDto.getU_email());
+        requestDto.setU_nickname(usersDto.getU_nickname());
         return requestDto;
     }
 
+        @Override
+    public UsersDto findUserId(String u_social) {
+        LoginDao dao = sqlSession.getMapper(LoginDao.class);
+        log.info("@# dao u_social ===> "+u_social);
+        UsersDto dto = dao.findUserId(u_social);
+        if(dto != null) {
+            log.info("@# dao dto.u_social ===> " + dto.getU_social());
+            log.info("@# dao dto.u_name ===> " + dto.getU_name());
+        }else{
+            log.info("@# dao dto is null ===============");
+        }
+
+//        return dao.findUserId(u_social);
+        return dto;
+    }
+
     @Override
-    public MemDto findMemPhone(String u_phone) {
+    public UsersDto findMemPhone(String u_phone) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         return dao.findMemPhone(u_phone);
     }
 
     @Override
-    public MemDto findMemEmail(String u_email) {
+    public UsersDto findMemEmail(String u_email) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         return dao.findMemEmail(u_email);
     }
-
-
 }

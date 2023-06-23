@@ -1,12 +1,8 @@
 package com.example.project_machimo.login.Controller;
 
-import com.example.project_machimo.login.Dao.LoginDao;
-import com.example.project_machimo.login.Dto.KakaoDto;
-import com.example.project_machimo.login.Dto.MemDto;
-import com.example.project_machimo.login.Dto.MemberRequestDto;
+import com.example.project_machimo.login.Dto.UsersDto;
+import com.example.project_machimo.login.Dto.UserRequestDto;
 import com.example.project_machimo.login.Service.LoginService;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -28,6 +24,9 @@ public class LoginController {
     @Autowired
     private LoginService service;
 
+    //로그인 화면
+    //1. 로그인 시도 후 진입 시 알림
+    //2. 회원가입 성공 후 진입 시 알림
     @RequestMapping("/login")
     public String login(HttpServletRequest request, Model model) {
         log.info("login");
@@ -49,28 +48,31 @@ public class LoginController {
             }
         }
 
-        return "login/loginTest";
+        return "login/loginTest2";
 //        return "login/main";
     }
 
+    //로그인 기능 수행
     @RequestMapping("/login_process")
     public String login_process(@RequestParam HashMap<String, String> param,HttpServletRequest request, Model model) {
         log.info("@# login_process start");
-//        HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
 
         int re = service.loginYn(param);
         String str;
-        if(re == 1) {
+
+        if(re == 1) { //로그인 성공시 메인 페이지로 이동
+            UsersDto dto = service.findUser(param);
+            session.setAttribute("user",dto);
             str = "redirect:/loginT/login_ok";
-//            session.setAttribute("login_ok", "yes");
-        }else {
+        }else { //로그인 실패시 다시 로그인 화면으로 이동, 알림
             str = "redirect:/loginT/login?login_try=yes";
-//            session.setAttribute("login_ok", "no");
         }
         log.info("@# login_process end");
         return str;
     }
 
+    //로그인 성공시 화면(메인화면으로 수정해야 함)
     @RequestMapping("/login_ok")
     public String login_ok(Model model) {
         log.info("login_ok");
@@ -79,24 +81,30 @@ public class LoginController {
 
 
     @RequestMapping("/register_page")
-    public String register_jsp(@SessionAttribute(value ="naverMember" ,required = false) MemDto naverMember,
-                               @SessionAttribute(value ="kakaoMember" ,required = false) MemDto kakaoMember,
+    public String register_jsp(@SessionAttribute(value ="naverUser" ,required = false) UsersDto naverUser,
+                               @SessionAttribute(value ="kakaoUser" ,required = false) UsersDto kakaoUser,
                                HttpServletRequest request, Model model) {
         String naverMem = request.getParameter("naverMem");
         String kakaoMem = request.getParameter("kakaoMem");
-        log.info("@# register mem u_email ===>" + kakaoMember.getU_email());
+//        log.info("@# register mem u_email ===>" + kakaoUser.getU_email());
 
-        MemberRequestDto requestDto = new MemberRequestDto();
+        //유효성 검사를 위한 Dto 생성
+        UserRequestDto requestDto = new UserRequestDto();
+
+        //네이버 로그인으로 회원가입 폼 진입시
         if(naverMem != null ){
             if(naverMem.equals("yes")){
-                requestDto = service.switchMemToRequest(naverMember);
+                requestDto = service.convertNaver(naverUser);
+                //model에 네이버 개인정보 저장 후 회원가입 폼으로 넘어감
                 model.addAttribute("naverMem","yes");
             }
         }
+        //카카오 로그인으로 회원가입 폼 진입시
         if(kakaoMem != null ){
             if(kakaoMem.equals("yes")){
-                log.info("@# kakaoMem u_email===>"+kakaoMember.getU_email());
-                requestDto = service.switchMemToRequest2(kakaoMember);
+                //model에 카카오 개인정보 저장 후 회원가입 폼으로 넘어감(그래봤자 이메일과 닉네임 2개..)
+                log.info("@# kakaoMem u_email===>"+kakaoUser.getU_email());
+                requestDto = service.convertKakao(kakaoUser);
                 model.addAttribute("kakaoMem","yes");
             }
         }
@@ -104,48 +112,48 @@ public class LoginController {
         return "login/registerTest";
     }
 
+    //회원가입 폼에서 유효성 검사를 마치고 넘어온 정보들을 DB에 insert
     @RequestMapping("/register")
     public String register(@RequestParam HashMap<String, String> param,Model model) {
         log.info("@# id ===>"+param.get("u_id"));
-        service.memberInsert(param);
+        service.userInsert(param);
+        //logion 페이지에 register 값을 넘김으로 회원가입 후 넘어감을 알림
         return "redirect:/loginT/login?register=ok";
     }
 
+    //네이버 callback 처리
     @RequestMapping("/callback")
     public String naverCallback(Model model){
         return "login/callback";
     }
 
+
     @RequestMapping("/naverLogin_ok")
-    public String naverLogin(@SessionAttribute(name = "naverMember",required = false) MemDto memDto, Model model){
-        model.addAttribute("naverMem",memDto);
-        log.info("@# naver_ok phone ===>"+memDto.getU_phone());
-        MemDto dto = service.findMemPhone(memDto.getU_phone());
-        String u_phone = null;
-        if(dto != null){
-            u_phone = dto.getU_phone();
-        }
-        if(u_phone == null){
-            return "redirect:/loginT/register_page?naverMem=yes";
+    public String naverLogin(@SessionAttribute(name = "naverUser",required = false) UsersDto usersDto,HttpServletRequest request, Model model){
+        String page;
+        HttpSession session = request.getSession();
+        model.addAttribute("naverMem", usersDto);
+        log.info("@# naver_ok u_social ===>"+ usersDto.getU_social());
+        UsersDto dto = service.findUserId(usersDto.getU_social());
+        if(dto == null){
+            page = "redirect:/loginT/register_page?naverMem=yes";
+        }else{
+            session.setAttribute("user",dto);
+            page = "login/login_ok";
         }
 
-        return "login/login_ok";
+        return page;
     }
     @RequestMapping("/naverLogin_process")
 //    public String naverLogin_ok(@RequestParam HashMap<String,String> param, HttpServletRequest request, Model model) {
     public String naverLogin_ok(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         log.info("naverLogin_ok");
+        log.info("@# naverLogin_ok id ===> "+request.getParameter("id"));
         log.info("@# naverLogin_ok name ===> "+request.getParameter("name"));
         log.info("@# naverLogin_ok birthyear ===> "+request.getParameter("birthyear"));
-//        model.addAttribute("name", request.getParameter("name"));
-//        model.addAttribute("email", request.getParameter("email"));
-//        model.addAttribute("phone", request.getParameter("phone"));
-//        model.addAttribute("birthday", request.getParameter("birthday"));
-//        model.addAttribute("birthyear", request.getParameter("birthyear"));
-//        return "redirect:/loginT/login_ok";
 
-        MemDto dto = new MemDto();
+        UsersDto dto = new UsersDto();
 
         //생년웛일 조합
         String birthday = request.getParameter("birthday");
@@ -156,17 +164,18 @@ public class LoginController {
         log.info("@# naverLogin_ok u_jumin ===> "+u_jumin);
 
         //객체 조립하여 세션에 개인정보 저장
+        dto.setU_social(request.getParameter("id"));
         dto.setU_name(request.getParameter("name"));
         dto.setU_email(request.getParameter("email"));
         dto.setU_jumin(u_jumin);
         dto.setU_phone(request.getParameter("phone"));
-        session.setAttribute("naverMember",dto);
+        session.setAttribute("naverUser",dto);
         model.addAttribute("loginType","naver");
         return "login/childWin";
     }
 
     @PostMapping("/joinProc")
-    public String joinProc(@Valid MemberRequestDto userDto, Errors errors, Model model) {
+    public String joinProc(@Valid UserRequestDto userDto, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             /* 회원가입 실패시 입력 데이터 값을 유지 */
@@ -182,25 +191,26 @@ public class LoginController {
             return "login/registerTest";
         }
         log.info("@# register success=============");
-        service.memberInsert(service.switchRequestToMem(userDto));
-        return "redirect:/loginT/login";
+        service.userInsert(service.switchRequestToUser(userDto));
+//        return "redirect:/loginT/login";
+        return "redirect:/loginT/login?register=ok";
     }
 
-    @RequestMapping("/checkMember")
+    @RequestMapping("/checkUser")
     public String checkMamber(@RequestParam("u_id") String u_id, Model model){
-        log.info("@# checkMember start====");
+        log.info("@# checkUser start====");
         HashMap<String,String> param = new HashMap<>();
         String result;
-        log.info("@# checkMember u_id ====>"+u_id);
+        log.info("@# checkUser u_id ====>"+u_id);
         param.put("u_id",u_id);
 
-        MemDto member = service.findMem(param);
-        if(member != null){
+        UsersDto User = service.findUser(param);
+        if(User != null){
             result = "login/denined";
         }else{
             result = "login/confirm";
         }
-        log.info("@# checkMember end====");
+        log.info("@# checkUser end====");
         return result;
     }
 
@@ -214,68 +224,39 @@ public class LoginController {
 
     @RequestMapping("/kakaoLogin_process")
 //    public String naverLogin_ok(@RequestParam HashMap<String,String> param, HttpServletRequest request, Model model) {
-    public String kakaoLogin_ok(@RequestBody MemDto memDto, HttpServletRequest request, Model model) {
+    public String kakaoLogin_ok(@RequestBody UsersDto usersDto, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         String result;
         log.info("kakaoLogin_ok");
-        log.info("@# kakaoLogin_ok nickname ===> "+memDto.getU_nickname());
-        log.info("@# kakaoLogin_ok email ===> "+memDto.getU_email());
+        log.info("@# kakaoLogin_ok nickname ===> "+ usersDto.getU_nickname());
+        log.info("@# kakaoLogin_ok email ===> "+ usersDto.getU_email());
+        log.info("@# kakaoLogin_ok social ===> "+ usersDto.getU_social());
 
-        session.setAttribute("kakaoMember",memDto);
+        session.setAttribute("kakaoUser", usersDto);
 //        model.addAttribute("loginType","kakao");
-        MemDto kakaoDto = service.findMemEmail(memDto.getU_email());
+        UsersDto kakaoDto = service.findUserId(usersDto.getU_social());
         if(kakaoDto == null){
             result= "login/denined";
         }else {
-            result = "login/childWin";
+            result = "login/confirm";
         }
         return result;
     }
 
     @RequestMapping("/kakaoLogin_ok")
-    public String kakaoLogin(@RequestParam("login_ok") String login_ok, Model model){
+    public String kakaoLogin(@RequestParam("login_ok") String login_ok,
+                             HttpServletRequest request,
+                             Model model){
         String page;
+        HttpSession session = request.getSession();
+        UsersDto kakaoUser = (UsersDto)session.getAttribute("kakaoUser");
         if (login_ok.equals("yes")){
             page = "login/login_ok";
+            session.setAttribute("user",service.findUserId(kakaoUser.getU_social()));
         }else{
             page = "redirect:/loginT/register_page?kakaoMem=yes";
         }
 
         return page;
     }
-
-    /**
-     * 카카오 로그인 API
-     * [GET] /app/login/kakao
-     * @return BaseResponse<String>
-     */
-    ////////////////////////////////////////카카오/////////////////////////////////////////////
-//    @ResponseBody
-//    @RequestMapping("/kakao")
-//    public BaseResponse<KakaoDto> kakaoLogin(@RequestParam(required = false) String code) {
-//        try {
-//            // URL에 포함된 code를 이용하여 액세스 토큰 발급
-//            String accessToken = service.getKakaoAccessToken(code);
-//            System.out.println(accessToken);
-//
-//            // 액세스 토큰을 이용하여 카카오 서버에서 유저 정보(닉네임, 이메일) 받아오기
-//            HashMap<String, Object> userInfo = service.getUserInfo(accessToken);
-//            System.out.println("login Controller : " + userInfo);
-//
-//            PostLoginRes postLoginRes = null;
-//
-//            // 만일, DB에 해당 email을 가지는 유저가 없으면 회원가입 시키고 유저 식별자와 JWT 반환
-//            // 현재 카카오 유저의 전화번호를 받아올 권한이 없어서 테스트를 하지 못함.
-//            if(loginProvider.checkEmail(String.valueOf(userInfo.get("email"))) == 0) {
-//                //PostLoginRes postLoginRes = 해당 서비스;
-//                return new BaseResponse<>(postLoginRes);
-//            } else {
-//                // 아니면 기존 유저의 로그인으로 판단하고 유저 식별자와 JWT 반환
-//                postLoginRes = loginProvider.getUserInfo(String.valueOf(userInfo.get("email")));
-//                return new BaseResponse<>(postLoginRes);
-//            }
-//        } catch (BaseException exception) {
-//            return new BaseResponse<>((exception.getStatus()));
-//        }
-//    }
 }

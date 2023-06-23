@@ -380,3 +380,51 @@ var naver_id_login = function (client_id,redirect_uri)
 	}
 }
 var inner_profileParams = {};
+
+
+
+function getNaverCode(){
+	$.ajax({
+		url:"https://nid.naver.com/oauth2.0/authorize",
+		type:"POST",
+		dataType:"json",
+		// processData:true,
+		contentType:"application/json; charset=UTF-8",
+		data:JSON.stringify({
+			"client_id":"vfDIOj3YXepI1i3i3Ctw",
+			"client_secret":"KcaTFP4Hgd",
+			"state":state,
+			"response_type":"code"
+		}),
+		success: function (res){
+			console.log(res.result);
+			alert(res.result);
+		},
+		error : function(e) {
+			alert("실패");
+		}
+	});
+}
+
+function getNaverAccessToken(){
+	$.ajax({
+		url:"https://nid.naver.com/oauth2.0/token",
+		type:"POST",
+		dataType:"json",
+		// processData:true,
+		contentType:"application/json; charset=UTF-8",
+		data:JSON.stringify({
+			"client_id":"vfDIOj3YXepI1i3i3Ctw",
+			"client_secret":"KcaTFP4Hgd",
+			"state":state,
+			"grant_type":"authorizatoin_code"
+		}),
+		success: function (res){
+			console.log(res.result);
+			alert(res.result);
+		},
+		error : function(e) {
+			alert("실패");
+		}
+	});
+}

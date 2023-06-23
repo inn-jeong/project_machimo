@@ -16,6 +16,7 @@
     // alert(naver_id_login.oauthParams.access_token);
 </script>
 <form id="frm_login" action="/loginT/naverLogin_process" method="post">
+    <input type="hidden" name="id" id="id" value="">
     <input type="hidden" name="name" id="name" value="">
     <input type="hidden" name="email" id="email" value="">
     <input type="hidden" name="phone" id="phone" value="">
@@ -39,7 +40,9 @@
         // alert(naver_id_login.getProfileData('mobile'));
         // alert(naver_id_login.getProfileData('birthday'));
         // alert(naver_id_login.getProfileData('birthyear'));
-
+        console.log("id"+naver_id_login.getProfileData('id'));
+        console.log("id"+naver_id_login.getProfileData('name'));
+        $("#id").attr("value",naver_id_login.getProfileData('id'));
         $("#name").attr("value",naver_id_login.getProfileData('name'));
         $("#email").attr("value",naver_id_login.getProfileData('email'));
         $("#phone").attr("value",naver_id_login.getProfileData('mobile'));

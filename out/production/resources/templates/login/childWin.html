@@ -7,18 +7,19 @@
 <body>
 <script src="/login/jquery.min.js"></script>
 <script >
-    $(function(){
-        var loginType = $("#loginType").val();
-        if(loginType == "naver"){
-            opener.parent.location="/loginT/naverLogin_ok";
-        }
-        if(loginType == "kakao"){
-            opener.parent.location="/loginT/kakaoLogin_ok";
-        }
-    });
-  // opener.parent.location="/loginT/naverLogin_ok";
-  window.close();
+    // $(function(){
+    //     var loginType = $("#loginType").val();
+    //     if(loginType == "naver"){
+    //         opener.parent.location="/loginT/naverLogin_ok";
+    //     }
+    //     if(loginType == "kakao"){
+    //         opener.parent.location="/loginT/kakaoLogin_ok";
+    //     }
+    // });
+    opener.parent.alert("가입된 계정이 없어 회원가입 화면으로 이동합니다.");
+    window.close();
+    opener.parent.location="/loginT/naverLogin_ok";
 </script>
-<input type="hidden" id="loginType" th:value="${loginType}">
+<!--<input type="hidden" id="loginType" th:value="${loginType}">-->
 </body>
 </html>

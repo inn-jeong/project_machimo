@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemDto {
+public class UsersDto {
     private String user_id;
     private String u_id;
     private String u_password;
@@ -17,7 +17,8 @@ public class MemDto {
     private String u_phone;
     private String u_address;
     private String u_nickname;
-    private String u_point;
+    private String u_social;
+    private int u_point;
 }
 
 

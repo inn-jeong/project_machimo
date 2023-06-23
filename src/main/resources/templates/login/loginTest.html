@@ -11,8 +11,6 @@
         $(function() {
             var login_try = $("#login_try").val();
             var register = $("#register").val();
-            console.log("login_try="+login_try);
-            console.log("register="+register);
             //로그인 시도한 전적이 있으면 알림
             if(login_try == "yes"){
                 alert("로그인 실패! \n아이디 또는 비밀번호를 확인해주세요.");
@@ -43,25 +41,28 @@
                             console.log(response);
                             //ajax로 컨트롤러단에 데이터 전달하여 기존 회원인지 조회 후 분기 처리
                             $.ajax({
-                                url:"/loginT/kakaoLogin_process",
-                                type:"POST",
-                                dataType:"text",
+                                url: "/loginT/kakaoLogin_process",
+                                type: "POST",
+                                dataType: "text",
                                 // processData:true,
-                                contentType:"application/json; charset=UTF-8",
-                                data:JSON.stringify(
-                                    {u_email:response.kakao_account.email,
-                                    u_nickname:response.kakao_account.profile.nickname}
+                                contentType: "application/json; charset=UTF-8",
+                                data: JSON.stringify(
+                                    {
+                                        u_social: response.id,
+                                        u_email: response.kakao_account.email,
+                                        u_nickname: response.kakao_account.profile.nickname
+                                    }
                                 ),
-                                success: function (res){
-                                    if(res == "confirm"){
+                                success: function (res) {
+                                    if (res == "confirm") {
                                         alert("(있는 회원)");
-                                        window.location.href="/loginT/kakaoLogin_ok?login_ok=yes";
-                                    }else{
+                                        window.location.href = "/loginT/kakaoLogin_ok?login_ok=yes";
+                                    } else {
                                         alert("가입된 계정이 없어 회원가입 화면으로 이동합니다.");
-                                        window.location.href="/loginT/kakaoLogin_ok?login_ok=no";
+                                        window.location.href = "/loginT/kakaoLogin_ok?login_ok=no";
                                     }
                                 },
-                                error : function(e) {
+                                error: function (e) {
                                     alert("실패");
                                 }
                             });//end error ajax
@@ -76,21 +77,93 @@
                 },
             });//end kakao Auth
         }
+
         //카카오로그아웃
         function kakaoLogout() {
             if (Kakao.Auth.getAccessToken()) {
                 Kakao.API.request({
                     url: '/v1/user/unlink',
                     success: function (response) {
-                        console.log(response)
+                        console.log(response);
+                        alert(response);
                     },
                     fail: function (error) {
-                        console.log(error)
+                        console.log(error);
                     }
                 })
                 Kakao.Auth.setAccessToken(undefined)
             }
+            naver_id_login.init_naver_id_login();
+            console.log("token"+naver_id_login.getAccessToken());
+            if(naver_id_login.getAccessToken() != null){
+                console.log("네이버 로그아웃");
+                $.ajax({
+                    url:"https://nid.naver.com/oauth2.0/token",
+                    type:"GET",
+                    dataType:"json",
+                    // processData:true,
+                    contentType:"application/json; charset=UTF-8",
+                    data:{
+                        "client_id":"vfDIOj3YXepI1i3i3Ctw",
+                        "client_secret":"KcaTFP4Hgd",
+                        "access_token":naver_id_login.getAccessToken(),
+                        "grant_type":"delete"
+                    },
+                    success: function (res){
+                        console.log(res.result);
+                        alert(res.result);
+                    },
+                    error : function(e) {
+                        alert("실패");
+                    }
+                });
+            }
         }
+        // function getNaverCode(){
+        //     $.ajax({
+        //         url:"https://nid.naver.com/oauth2.0/authorize",
+        //         type:"POST",
+        //         dataType:"json",
+        //         // processData:true,
+        //         contentType:"application/json; charset=UTF-8",
+        //         data:JSON.stringify({
+        //             "client_id":"vfDIOj3YXepI1i3i3Ctw",
+        //             "client_secret":"KcaTFP4Hgd",
+        //             "state":state,
+        //             "response_type":"code"
+        //         }),
+        //         success: function (res){
+        //             console.log(res.result);
+        //             alert(res.result);
+        //         },
+        //         error : function(e) {
+        //             alert("실패");
+        //         }
+        //     });
+        // }
+        //
+        // function getNaverAccessToken(){
+        //     $.ajax({
+        //         url:"https://nid.naver.com/oauth2.0/token",
+        //         type:"POST",
+        //         dataType:"json",
+        //         // processData:true,
+        //         contentType:"application/json; charset=UTF-8",
+        //         data:JSON.stringify({
+        //             "client_id":"vfDIOj3YXepI1i3i3Ctw",
+        //             "client_secret":"KcaTFP4Hgd",
+        //             "state":state,
+        //             "grant_type":"authorizatoin_code"
+        //         }),
+        //         success: function (res){
+        //             console.log(res.result);
+        //             alert(res.result);
+        //         },
+        //         error : function(e) {
+        //             alert("실패");
+        //         }
+        //     });
+        // }
     </script>
 </head>
 <body>

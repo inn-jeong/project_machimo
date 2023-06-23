@@ -5,16 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-test
-1234 <br>
-<!--<span th:text="${name}"></span> <br>-->
-<!--<span th:text="${email}"></span> <br>-->
-<!--<span th:text="${phone}"></span> <br>-->
-<!--<span th:text="${birthday}"></span>-->
-name:<span th:text="${naverMem.getU_name()}"></span> <br>
-email:<span th:text="${naverMem.getU_email()}"></span> <br>
-phone:<span th:text="${naverMem.getU_phone()}"></span> <br>
-jumin<span th:text="${naverMem.getU_jumin()}"></span>
-
+로그인 성공 화면 (메인화면으로 수정 예정) <br>
+<!--name:<span th:text="${naverMem.getU_name()}"></span> <br>-->
+<!--email:<span th:text="${naverMem.getU_email()}"></span> <br>-->
+<!--phone:<span th:text="${naverMem.getU_phone()}"></span> <br>-->
+<!--jumin<span th:text="${naverMem.getU_jumin()}"></span>-->
+name:<span th:text="${session.user.getU_name()}"></span> <br>
+email:<span th:text="${session.user.getU_email()}"></span> <br>
+phone:<span th:text="${session.user.getU_phone()}"></span> <br>
+jumin<span th:text="${session.user.getU_jumin()}"></span> <br>
+<button onclick="javascript:location.href='/loginT/login'">초기화면</button>
 </body>
 </html>

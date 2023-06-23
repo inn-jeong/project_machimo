@@ -7,35 +7,37 @@
     <script type="text/javascript">
         function sendRequest(){
             var u_id = $("#u_id").val();
-            console.log("u_id"+u_id);
+            console.log("u_id"+u_id+"test");
+            if(u_id == null || u_id == "") return 0;
             $.ajax({
-                url:"/loginT/checkMember"
-                ,type:"POST"
-                ,data:{"u_id":u_id}
-// 			dataType: 생략 가능(생략하면 자동으로 데이터타입 처리)
-// 			,dataType: "json"
-                ,dataType: "text"
+                url: "/loginT/checkMember"
+                , type: "POST"
+                , data: {"u_id": u_id}
+                // dataType: 생략 가능(생략하면 자동으로 데이터타입 처리)
+                // ,dataType: "json"
+                , dataType: "text"
                 //data: 응답받는 것(ex>json, text 등)
-                ,success: function(data) {
+                , success: function (data) {
                     if (data == "confirm") {
                         console.log(data);
-                        $("#check_result").css("color","blue");
+                        $("#check_result").css("color", "blue");
                         // document.getElementById("check_result").innerHTML = "사용가능";
                         document.getElementById("check_result").innerHTML = "사용가능";
                         document.getElementById("check_btn").disabled = true;
                         document.getElementById("insert_mem").disabled = false;
                         document.getElementById("insert_mem").enabled = true;
-                    }else{
+                    } else {
                         console.log(data);
-                        $("#check_result").css("color","red");
+                        $("#check_result").css("color", "red");
                         document.getElementById("check_result").innerHTML = "사용불가";
                         document.getElementById("insert_mem").disabled = true;
                     }
                 }
-                ,error:function(data){
+                , error: function (data) {
                     document.getElementById("check_result").innerHTML = "<h3>ajax fail</h3>";
                 }
             });
+
         }
         $(function(){
             var naver_Mem = $("#naverMem").val();
@@ -46,6 +48,8 @@
 <input type="hidden" id="naverMem" th:value="${naverMem}">
 <input type="hidden" id="kakaoMem" th:value="${kakaoMem}">
 <form name="reg_frm" method="post" action="/loginT/joinProc">
+<!--    <input type="hidden" name="u_social" th:value="${userDto.getU_social()}">-->
+    <input type="text" name="u_social" th:value="${userDto.getU_social()}">
   <table border="1" align="center">
     <tr height="50">
       <td colspan="2" align="center">
@@ -55,8 +59,6 @@
     <tr height="30">
       <td width="80">User ID</td>
       <td>
-<!--        <div th:if="${userDto == null}"><input name="u_id" type="text" size="20"></div>-->
-<!--        <div th:unless="${userDto != null}"><input name="u_id" type="text" th:value="${userDto.getU_id()}" size="20"></div>-->
         <input name="u_id" id="u_id" type="text" th:value="${userDto.getU_id()}" size="20">
           <button type="button" id="check_btn" onclick="sendRequest()">중복 체크</button>
           <span id="check_result"></span>
@@ -71,12 +73,12 @@
           <span th:text="${valid_u_password}"></span>
       </td>
     </tr>
-    <!-- 			<tr height="30"> -->
-    <!-- 				<td width="80">암호 확인</td> -->
-    <!-- 				<td> -->
-    <!-- 					<input name="pwd_check" type="password" size="20">* -->
-    <!-- 				</td> -->
-    <!-- 			</tr> -->
+<!--     			<tr height="30">-->
+<!--     				<td width="80">암호 확인</td>-->
+<!--     				<td>-->
+<!--     					<input name="pwd_check" type="password" size="20">*-->
+<!--     				</td>-->
+<!--     			</tr>-->
     <tr height="30">
       <td width="80">이   름</td>
       <td>
@@ -121,10 +123,9 @@
     </tr>
     <tr height="30">
       <td width="80" colspan="2" align="center">
-        <input type="submit" id="insert_mem" value="등록">
-        <!-- 					<input type="button" value="등록" onclick="check_OK();"> -->
-        <!-- 					<input type="reset" value="다시입력"> -->
-        <!-- 					<input type="button" value="가입안함" onclick="javascript:window.location='login.jsp'"> -->
+        <input type="submit" id="insert_mem" value="등록" disabled="disabled">
+        <input type="reset" value="다시입력">
+        <input type="button" value="가입안함" onclick="javascript:window.location='/loginT/login'">
       </td>
     </tr>
   </table>
