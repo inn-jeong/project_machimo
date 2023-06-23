@@ -1,9 +1,6 @@
 package com.example.project_machimo.shop.controller;
 
-import com.example.project_machimo.shop.Dto.ImgDto;
-import com.example.project_machimo.shop.Dto.ItemDto;
-import com.example.project_machimo.shop.Dto.ProductDto;
-import com.example.project_machimo.shop.Dto.UsersDto;
+import com.example.project_machimo.shop.Dto.*;
 import com.example.project_machimo.shop.Service.ShopService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 @Slf4j
 @Controller
@@ -23,7 +22,7 @@ public class shopController {
 
     //모든 상품을 보는 메소드
     @RequestMapping("/allItemView")
-    public String allItemView(Model model){
+    public String allItemView(Model model, @RequestParam(name = "sort", required = false) String sort){
         log.info("@# allItemView");
         ArrayList<ProductDto> products = service.allItemView();
         ArrayList<ItemDto> items = new ArrayList<>();
@@ -60,10 +59,66 @@ public class shopController {
                 item.setI_sub_image(subImages.get(0).getI_sub_img());
             }
 
+            ArrayList<WishlistDto> wishLike = service.wishLike(productId);
+            if (!wishLike.isEmpty()){
+                item.setWish_like(wishLike.get(0).getWish_like());
+            }
+
             items.add(item);
         }
 
+        if (sort != null) {
+            switch (sort) {
+                case "popularity":
+                    // 조회수로 정렬
+                    Collections.sort(items, Comparator.comparing(ItemDto::getP_hit).reversed());
+                    break;
+                case "newest":
+                    // 최신순으로 정렬
+                    Collections.sort(items, Comparator.comparing(ItemDto::getP_created_at).reversed());
+                    break;
+                case "interest":
+                    Collections.sort(items, Comparator.comparing(ItemDto::getWish_like).reversed());
+                    break;
+                case "auction_p":
+                    //경매 상품
+                    //경매 상품 필터링 (P_sale_type이 0인 상품만 출력)
+                    items.removeIf(item -> item.getP_sale_type() != 0);
+                    break;
+                case "auction_pp":
+                    //경매 가격 낮은 순
+                    //경매 상품 필터링 후 가격 낮은 순 으로 정렬
+                    items.removeIf(item -> item.getP_sale_type() != 0);
+                    Collections.sort(items, Comparator.comparing(ItemDto::getP_b_price));
+                    break;
+                case "auction_ppd":
+                    //경매 가격 높은 순
+                    items.removeIf(item -> item.getP_sale_type() != 0);
+                    Collections.sort(items, Comparator.comparing(ItemDto::getP_b_price).reversed());
+                    break;
+                case "auction_n":
+                    //일반 상품
+                    //일반 상품 필터링 (P_sale_type이 1인 상품만 출력)
+                    items.removeIf(item -> item.getP_sale_type() != 1);
+                    break;
+                case "auction_np":
+                    //일반 상품 가격 낮은 순
+                    // 반 상품 필터링 후 가격 낮은 순 으로 정렬
+                    items.removeIf(item -> item.getP_sale_type() != 1);
+                    Collections.sort(items, Comparator.comparing(ItemDto::getP_direct));
+                    break;
+                case "auction_npd":
+                    //일반 상품 가격 높은 순
+                    items.removeIf(item -> item.getP_sale_type() != 1);
+                    Collections.sort(items, Comparator.comparing(ItemDto::getP_direct).reversed());
+                    break;
+            }
+        }
+
+//        model에 item의 값을 주고 넘어감
         model.addAttribute("itemList", items);
+//        model에 사용자가 선택한 옵션을 들고 넘어감
+        model.addAttribute("selectedSort", sort);
         return "shop";
     }
 }

@@ -6,7 +6,20 @@
 
 
 
-    <select id="allItemview" resultType="com.example.project_machimo.shop.Dto.ProductDto">
-        select name,price_i,(select name from users),
+    <select id="allItemView" resultType="com.example.project_machimo.shop.Dto.ProductDto">
+        select * from products order by p_created_at desc
+    </select>
+    <select id="findNickName" resultType="com.example.project_machimo.shop.Dto.UsersDto">
+        select u_nickName,user_id from users where user_id = #{user_id}
+<!--        select u_nickName,user_id from users-->
+    </select>
+    <select id="viewImage" resultType="com.example.project_machimo.shop.Dto.ImgDto">
+        select i_sub_img,product_id from product_images where product_id = #{product_id}
+<!--        select i_id,i_sub_img,product_id from product_images-->
+    </select>
+
+    <select id="wishLike" resultType="com.example.project_machimo.shop.Dto.WishlistDto">
+        select wish_like,product_id from wishlists where product_id = #{product_id}
+        <!--        select i_id,i_sub_img,product_id from product_images-->
     </select>
 </mapper>

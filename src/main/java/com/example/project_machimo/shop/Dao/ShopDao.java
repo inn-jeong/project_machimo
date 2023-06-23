@@ -12,4 +12,6 @@ public interface ShopDao {
     public ArrayList<UsersDto> findNickName(int user_id);
     //제품 번호에 맞게 이미지를 매칭시키는 메소드
     public ArrayList<ImgDto> viewImage(int product_id);
+    //제품 번호에 맞는 좋아요 갯수를 가져오는 메소드
+    public ArrayList<WishlistDto> wishLike(int product_id);
 }

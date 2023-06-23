@@ -7,24 +7,62 @@
 </head>
 <body>
     shop 페이집 입니다.
+
+
+<!--    <form action="/shop/allItemView" method="get">-->
+<!--        <select name="sort" id="sort">-->
+<!--            <option value="">선택하세요</option>-->
+<!--            <option value="newest" th:selected="${param.sort == 'newest'}">최신순</option>-->
+<!--            <option value="popularity">인기순</option>-->
+<!--            <option value="interest">관심많은 순</option>-->
+<!--            <option value="auction_p">경매 상품</option>-->
+<!--            <option value="auction_pp">경매 가격 낮은 순</option>-->
+<!--            <option value="auction_ppd">경매 가격 높은 순</option>-->
+<!--            <option value="auction_n">일반 상품</option>-->
+<!--            <option value="auction_np">일반 상품 낮은 순</option>-->
+<!--            <option value="auction_npd">일반 상품 높은 순</option>-->
+<!--        </select>-->
+<!--        <button type="submit">정렬 적용</button>-->
+<!--    </form>-->
+
+    <form action="/shop/allItemView" method="get">
+        <select name="sort" id="sort">
+            <option value="">선택하세요</option>
+
+<!--            th:selct 속성으로 selectedSort 변수에 값을 확인하고 해당하는 옵션을 선택상태로 설정-->
+            <option value="newest" th:selected="${selectedSort == 'newest'}">최신순</option>
+            <option value="popularity" th:selected="${selectedSort == 'popularity'}">인기순</option>
+            <option value="interest" th:selected="${selectedSort == 'interest'}">관심많은 순</option>
+            <option value="auction_p" th:selected="${selectedSort == 'auction_p'}">경매 상품</option>
+            <option value="auction_pp" th:selected="${selectedSort == 'auction_pp'}">경매 가격 낮은 순</option>
+            <option value="auction_ppd" th:selected="${selectedSort == 'auction_ppd'}">경매 가격 높은 순</option>
+            <option value="auction_n" th:selected="${selectedSort == 'auction_n'}">일반 상품</option>
+            <option value="auction_np" th:selected="${selectedSort == 'auction_np'}">일반 상품 낮은 순</option>
+            <option value="auction_npd" th:selected="${selectedSort == 'auction_npd'}">일반 상품 높은 순</option>
+        </select>
+        <button type="submit">정렬 적용</button>
+    </form>
+
     <!-- 이미지와 상품 정보를 반복하여 표시 -->
     <div th:each="item : ${itemList}">
+        <table>
         <!-- 이미지 -->
-        <p><span th:text="${item.i_sub_image}"></span></p>
+            <p><span th:text="${item.i_sub_image}"></span></p>
 
-        <!-- 닉네임 -->
-        <p><h4 th:text="${item.u_nickname}"></h4></p>
+            <!-- 닉네임 -->
+            <p><h4 th:text="${item.u_nickname}"></h4></p>
 
-        <!-- 상품 이름 -->
-        <p th:text="${item.p_name}"></p>
+            <!-- 상품 이름 -->
+            <p th:text="${item.p_name}"></p>
 
-        <!-- 가격 -->
-        <!-- 0일때 경매가 1일때 즉시 가로 구분함-->
-        <p>
-            <span th:if="${item.p_sale_type == 0}" th:text="${item.p_b_price}"></span>
-            <span th:if="${item.p_sale_type == 1}" th:text="${item.p_direct}"></span>
-        </p>
+            <!-- 가격 -->
+            <!-- 0일때 경매가 1일때 즉시 가로 구분함-->
+            <p>
+                <span th:if="${item.p_sale_type == 0}" th:text="${item.p_b_price}"></span>
+                <span th:if="${item.p_sale_type == 1}" th:text="${item.p_direct}"></span>
+            </p>
 
+        </table>
     </div>
 </body>
 </html>
