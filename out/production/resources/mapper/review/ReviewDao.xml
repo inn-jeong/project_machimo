@@ -18,6 +18,7 @@
                 where rn > (#{pageNum} -1) * #{amount}
                 ]]>
     </select>
+<!--    order by review_date asc-->
 
 
     <insert id="write">
@@ -41,6 +42,9 @@
         review_img = #{reviewImg},
         review_content = #{reviewContent}
         WHERE review_id = #{reviewId}
+    </update>
+    <update id="updateReadCount">
+
     </update>
     <select id="modify_view">
         SELECT *

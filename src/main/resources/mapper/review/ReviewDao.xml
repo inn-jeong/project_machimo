@@ -18,6 +18,7 @@
                 where rn > (#{pageNum} -1) * #{amount}
                 ]]>
     </select>
+<!--    order by review_date asc-->
 
 
     <insert id="write">
