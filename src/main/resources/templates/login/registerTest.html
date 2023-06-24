@@ -4,45 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="/login/jquery.min.js"></script>
-    <script type="text/javascript">
-        function sendRequest(){
-            var u_id = $("#u_id").val();
-            console.log("u_id"+u_id+"test");
-            if(u_id == null || u_id == "") return 0;
-            $.ajax({
-                url: "/loginT/checkMember"
-                , type: "POST"
-                , data: {"u_id": u_id}
-                // dataType: 생략 가능(생략하면 자동으로 데이터타입 처리)
-                // ,dataType: "json"
-                , dataType: "text"
-                //data: 응답받는 것(ex>json, text 등)
-                , success: function (data) {
-                    if (data == "confirm") {
-                        console.log(data);
-                        $("#check_result").css("color", "blue");
-                        // document.getElementById("check_result").innerHTML = "사용가능";
-                        document.getElementById("check_result").innerHTML = "사용가능";
-                        document.getElementById("check_btn").disabled = true;
-                        document.getElementById("insert_mem").disabled = false;
-                        document.getElementById("insert_mem").enabled = true;
-                    } else {
-                        console.log(data);
-                        $("#check_result").css("color", "red");
-                        document.getElementById("check_result").innerHTML = "사용불가";
-                        document.getElementById("insert_mem").disabled = true;
-                    }
-                }
-                , error: function (data) {
-                    document.getElementById("check_result").innerHTML = "<h3>ajax fail</h3>";
-                }
-            });
-
-        }
-        $(function(){
-            var naver_Mem = $("#naverMem").val();
-        });
-    </script>
 </head>
 <body>
 <input type="hidden" id="naverMem" th:value="${naverMem}">
@@ -111,7 +72,7 @@
     <tr height="30">
         <td width="80">E-mail</td>
         <td>
-            <input name="u_email" type="text" th:value="${userDto.getU_email()}" size="30">*
+            <input name="u_email" type="text" th:value="${userDto.getU_email()}" size="30">
             <span th:text="${valid_u_email}"></span>
         </td>
     </tr>
@@ -119,6 +80,7 @@
         <td width="80">주    소</td>
         <td>
             <input name="u_address" type="text" th:value="${userDto.getU_address()}" size="40">
+            <span th:text="${valid_u_address}"></span>
         </td>
     </tr>
     <tr height="30">
@@ -131,4 +93,45 @@
   </table>
   </form>
 </body>
-</html>
+<script type="text/javascript">
+    function sendRequest(){
+        var u_id = $("#u_id").val();
+        console.log("u_id"+u_id+"test");
+        if(u_id == null || u_id == "") return 0;
+        $.ajax({
+            url: "/loginT/checkUser"
+            , type: "POST"
+            , data: {"u_id": u_id}
+            // dataType: 생략 가능(생략하면 자동으로 데이터타입 처리)
+            // ,dataType: "json"
+            , dataType: "text"
+            //data: 응답받는 것(ex>json, text 등)
+            , success: function (data) {
+                if (data == "confirm") {
+                    console.log(data);
+                    $("#check_result").css("color", "blue");
+                    // document.getElementById("check_result").innerHTML = "사용가능";
+                    document.getElementById("check_result").innerHTML = "사용가능";
+                    document.getElementById("check_btn").disabled = true;
+                    document.getElementById("insert_mem").disabled = false;
+                    document.getElementById("insert_mem").enabled = true;
+                } else {
+                    console.log(data);
+                    $("#check_result").css("color", "red");
+                    document.getElementById("check_result").innerHTML = "사용불가";
+                    document.getElementById("insert_mem").disabled = true;
+                }
+            }
+            , error: function (data) {
+                document.getElementById("check_result").innerHTML = "<h3>ajax fail</h3>";
+            }
+        });
+
+    }
+    $(function(){
+        var naverMem = $("#naverMem").val();
+        if(naverMem == 'yes'){
+            alert("가입된 계정이 없어 회원가입 절차를 진행합니다.");
+        }
+    });
+</script>

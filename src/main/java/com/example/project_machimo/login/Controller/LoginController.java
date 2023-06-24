@@ -48,7 +48,8 @@ public class LoginController {
             }
         }
 
-        return "login/loginTest2";
+//        return "login/loginTest2";
+        return "login/loginTest";
 //        return "login/main";
     }
 
@@ -63,6 +64,7 @@ public class LoginController {
 
         if(re == 1) { //로그인 성공시 메인 페이지로 이동
             UsersDto dto = service.findUser(param);
+            log.info("@# login_process user set ===>"+dto);
             session.setAttribute("user",dto);
             str = "redirect:/loginT/login_ok";
         }else { //로그인 실패시 다시 로그인 화면으로 이동, 알림
@@ -170,7 +172,7 @@ public class LoginController {
         dto.setU_jumin(u_jumin);
         dto.setU_phone(request.getParameter("phone"));
         session.setAttribute("naverUser",dto);
-        model.addAttribute("loginType","naver");
+//        model.addAttribute("loginType","naver");
         return "login/childWin";
     }
 
@@ -190,6 +192,7 @@ public class LoginController {
             /* 회원가입 페이지로 다시 리턴 */
             return "login/registerTest";
         }
+
         log.info("@# register success=============");
         service.userInsert(service.switchRequestToUser(userDto));
 //        return "redirect:/loginT/login";
@@ -258,5 +261,12 @@ public class LoginController {
         }
 
         return page;
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return "login/loginTest";
     }
 }

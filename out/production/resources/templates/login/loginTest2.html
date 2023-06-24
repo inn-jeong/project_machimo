@@ -3,28 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" type="text/javascript"></script>
+    <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" type="text/javascript" charset="UTF-8"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-
-    <script>
-        //페이지 로딩 후 파라미터 값에 따라 알림창 출력
-        $(function() {
-            var login_try = $("#login_try").val();
-            var register = $("#register").val();
-            //로그인 시도한 전적이 있으면 알림
-            if(login_try == "yes"){
-                alert("로그인 실패! \n아이디 또는 비밀번호를 확인해주세요.");
-                window.location.href="/loginT/login";
-            }
-            //회원가입 성공 후 넘어왔을 때 알림
-            if(register == "ok"){
-                alert("회원가입 성공!");
-                window.location.href="/loginT/login";
-            }
-        });
-    </script>
     <!-- 카카오 스크립트 -->
-    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js" charset="UTF-8"></script>
 
 </head>
 <body>
@@ -63,7 +45,7 @@
                     <img src="/login/loginImg/kakao_login_medium_narrow.png">
                 </a>
             </div>
-            <div onclick="kakaoLogout();">
+            <div onclick="kakaoLogout();" id="logout">
                 <a href="javascript:void(0)">
                     <span>카카오 로그아웃</span>
                 </a>
@@ -75,7 +57,7 @@
 <!-- //네이버 로그인 버튼 노출 영역 -->
 <script type="text/javascript">
     // 네이버 아이디로 로그인 설정
-    var naverLogin = new naver.LoginWithNaverId({
+    const naverLogin = new naver.LoginWithNaverId({
         clientId: "vfDIOj3YXepI1i3i3Ctw", // 클라이언트 ID 입력
         callbackUrl: "http://localhost:8090/loginT/callback", // 콜백 URL 입력
         isPopup: true, // 팝업 모드 여부 (false로 설정하면 리디렉션 방식으로 동작)
@@ -92,23 +74,29 @@
             console.log("test"+accessToken);
             var refreshToken = naverLogin.getRefreshToken(); // 리프레시 토큰 가져오기
             var tokenType = naverLogin.getTokenType(); // 토큰 타입 가져오기
-
+            var id = naverLogin.user.getNickName();
+            var name = naverLogin.user.getName();
+            var mobile = naverLogin.user.getMobile();
+            console.log("id: "+id);
+            console.log("name: "+name);
+            console.log("mobile: "+mobile);
             // 사용자 정보 가져오기
-            naverLogin.getUserProfile(function(profile) {
-                var userId = profile.id; // 사용자 아이디
-                var userName = profile.name; // 사용자 이름
-                var userEmail = profile.email; // 사용자 이메일
+            // naverLogin.getUserProfile(function(profile) {
+            //     var userId = profile.id; // 사용자 아이디
+            //     var userName = profile.name; // 사용자 이름
+            //     var userEmail = profile.email; // 사용자 이메일
+            //
+            //     // 여기에 인증 성공 후 수행할 작업을 추가합니다.
+            //     // 예를 들어, 서버로 인증 정보를 전송하거나 다른 동작을 수행할 수 있습니다.
+            //
+            //     console.log("인증 성공!");
+            //     console.log("사용자 아이디:", userId);
+            //     console.log("사용자 이름:", userName);
+            //     console.log("사용자 이메일:", userEmail);
+            // });
 
-                // 여기에 인증 성공 후 수행할 작업을 추가합니다.
-                // 예를 들어, 서버로 인증 정보를 전송하거나 다른 동작을 수행할 수 있습니다.
-
-                console.log("인증 성공!");
-                console.log("사용자 아이디:", userId);
-                console.log("사용자 이름:", userName);
-                console.log("사용자 이메일:", userEmail);
-            });
         } else {
-            console.log("인증 실패");
+            console.log("get LoginStatus 인증 실패");
         }
     });
 </script>
@@ -180,31 +168,8 @@
             })
             Kakao.Auth.setAccessToken(undefined)
         }
-        naverLogin.getLoginStatus(function(status) {
-            if (status) {
-                var accessToken = naverLogin.getAccessToken(); // 액세스 토큰 가져오기
-                console.log("test"+accessToken);
-                var refreshToken = naverLogin.getRefreshToken(); // 리프레시 토큰 가져오기
-                var tokenType = naverLogin.getTokenType(); // 토큰 타입 가져오기
-
-                // 사용자 정보 가져오기
-                naverLogin.getUserProfile(function(profile) {
-                    var userId = profile.id; // 사용자 아이디
-                    var userName = profile.name; // 사용자 이름
-                    var userEmail = profile.email; // 사용자 이메일
-
-                    // 여기에 인증 성공 후 수행할 작업을 추가합니다.
-                    // 예를 들어, 서버로 인증 정보를 전송하거나 다른 동작을 수행할 수 있습니다.
-
-                    console.log("인증 성공!");
-                    console.log("사용자 아이디:", userId);
-                    console.log("사용자 이름:", userName);
-                    console.log("사용자 이메일:", userEmail);
-                });
-            } else {
-                console.log("인증 실패");
-            }
-        });
+        console.log("naver logout success");
+        naverLogin.logout();
 
         // if(naver_id_login.getAccessToken() != null){
         //     console.log("네이버 로그아웃");
@@ -231,5 +196,22 @@
         // }
     }
 
+</script>
+<script>
+    //페이지 로딩 후 파라미터 값에 따라 알림창 출력
+    $(function() {
+        var login_try = $("#login_try").val();
+        var register = $("#register").val();
+        //로그인 시도한 전적이 있으면 알림
+        if(login_try == "yes"){
+            alert("로그인 실패! \n아이디 또는 비밀번호를 확인해주세요.");
+            window.location.href="/loginT/login";
+        }
+        //회원가입 성공 후 넘어왔을 때 알림\
+        if(register == "ok"){
+            alert("회원가입 성공!");
+            window.location.href="/loginT/login";
+        }
+    });
 </script>
 

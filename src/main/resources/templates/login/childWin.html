@@ -6,20 +6,20 @@
 </head>
 <body>
 <script src="/login/jquery.min.js"></script>
+<!--    <input type="hidden" id="naverUser" th:value="${session.naverUser}">-->
+<!--    <input type="text" id="naverUser" th:value="${session.naverUser}">-->
+</body>
+</html>
 <script >
-    // $(function(){
-    //     var loginType = $("#loginType").val();
-    //     if(loginType == "naver"){
-    //         opener.parent.location="/loginT/naverLogin_ok";
-    //     }
-    //     if(loginType == "kakao"){
-    //         opener.parent.location="/loginT/kakaoLogin_ok";
-    //     }
-    // });
-    opener.parent.alert("가입된 계정이 없어 회원가입 화면으로 이동합니다.");
+    // if($("#naverUser").val() == null || $("#naverUser").val()){
+    // alert("test"+$("#naverUser").val());
+    // if($("#naverUser").val().u_id =='null') {
+    //     opener.parent.alert("가입된 계정이 없어 회원가입 화면으로 이동합니다.");
+    //     // alert("로그인 성공.");
+    // }else{
+    //     opener.parent.alert("로그인 성공.");
+    //     // alert("가입된 계정이 없어 회원가입 화면으로 이동합니다.");
+    // }
     window.close();
     opener.parent.location="/loginT/naverLogin_ok";
 </script>
-<!--<input type="hidden" id="loginType" th:value="${loginType}">-->
-</body>
-</html>
