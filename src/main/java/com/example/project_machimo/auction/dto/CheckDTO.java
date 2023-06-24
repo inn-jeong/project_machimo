@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 public class CheckDTO {
 
 
-    @NotNull(message = "입찰가격을 입력해주세요")
+    @NotEmpty(message = "입찰가격을 입력해주세요")
     Long bids;
     int productId;
     Boolean bidsHistory;

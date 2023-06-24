@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.0'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.0-RC'
 }
 
 group = 'com.example'
@@ -49,7 +50,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     //발리데이션
       implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
 
 }
+
 

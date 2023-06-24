@@ -1,13 +1,9 @@
-package com.example.project_machimo.auction.component;
+package com.example.project_machimo.auction.service;
 
-import com.example.project_machimo.auction.dto.BidsDTO;
+import com.example.project_machimo.auction.dto.BidsVO;
 import com.example.project_machimo.auction.dto.CheckDTO;
-import com.example.project_machimo.auction.service.AuctionService;
-import com.example.project_machimo.auction.service.BidsService;
-import com.example.project_machimo.auction.service.ProductService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -15,24 +11,27 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class CheckResponseEntity {
-    @Autowired
-    private AuctionService auctionService;
-    @Autowired
-    private ProductService productService;
-    @Autowired
-    private BidsService bidsService;
+public class CheckResponseEntityImpl implements CheckResponseEntity{
 
-    @Bean
-    public ResponseEntity<?> getResponseEntity(CheckDTO check) {
+   final private AuctionService auctionService;
+
+
+    final private BidsService bidsService;
+
+    @Autowired
+    public CheckResponseEntityImpl(AuctionService auctionService, BidsService bidsService) {
+        this.auctionService = auctionService;
+        this.bidsService = bidsService;
+    }
+
+    @Override
+    public ResponseEntity<?> getResponseEntityForCheck(CheckDTO check) {
         CustomResponse response = new CustomResponse();
         if (check.getBids() == null) {
 
             response.setMessage("금액을 입력해주세요");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-
-        try {
             Long bids = 0L;
             if (check.getBids() != null) bids = check.getBids();
             int productId = check.getProductId();
@@ -51,15 +50,15 @@ public class CheckResponseEntity {
                     bidsService.write(bids, productId, firstPrice);
                     auctionService.highestBidUpdate(bids, productId);
                     amount = (long) bidsService.maxAmount(productId);
-                    List<BidsDTO> bidsDTOS = bidsService.bList(productId);
+                    List<BidsVO> bidsVOS = bidsService.bList(productId);
 
-                    return ResponseEntity.ok(bidsDTOS);
+                    return ResponseEntity.ok(bidsVOS);
                 } else if (bids > amount) {
                     bidsService.amountUpdate(bids, productId);
                     auctionService.highestBidUpdate(bids, productId);
                     amount = bidsService.maxAmount(productId);
-                    List<BidsDTO> bidsDTOS = bidsService.bList(productId);
-                    return ResponseEntity.ok(bidsDTOS);
+                    List<BidsVO> bidsVOS = bidsService.bList(productId);
+                    return ResponseEntity.ok(bidsVOS);
                 } else {
 
                     response.setMessage("입찰가가 기존 금액보다 낮습니다");
@@ -74,14 +73,9 @@ public class CheckResponseEntity {
 
 
 
-        } catch (StackOverflowError e) {
 
-            response.setMessage("숫자가 너무 높음");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
     }
-
-    @Data
+@Data
     static class CustomResponse {
         private String message;
     }

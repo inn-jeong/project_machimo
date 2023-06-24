@@ -23,7 +23,7 @@
 
         $(document).ready(function () {
             $("#compare").click(function (event) {
-                event.preventDefault();  // 폼 제출을 방지합니다.
+                event.preventDefault();
 
                 var bidsInput = $('input[name="bids"]').val();
                 var productIdInput = $('input[name="productId"]').val();
@@ -121,23 +121,25 @@
                         <div>
                             <br>
                         </div>
-                        <div class="">
+                        <div th:if="${pView.pSaleType() ==0}">
                             <b class="h4" id="test2" th:unless="${hasBidHistory}"
-                               data-th-text="${#numbers.formatInteger(aList.highestBid(), 3, 'COMMA') + '원'}">가격</b>
+                               data-th-text="${#numbers.formatInteger(aList.highestBid(), 3, 'COMMA') + '원'}">최근 가격</b>
 
                             <b class="h4"  th:if="${hasBidHistory}"
-                               data-th-text="${#numbers.formatInteger(pView.pBPrice(), 3, 'COMMA') + '원'}">가격</b>
+                               data-th-text="${#numbers.formatInteger(pView.pBPrice(), 3, 'COMMA') + '원'}">경매 처음 가격</b>
 
-                            <b class="h4" th:if="${pView.pSaleType()}"
-                               data-th-text="${#numbers.formatInteger(pView.pDirect()
-                               , 3, 'COMMA') + '원'}">가격</b>
+                        </div>
+                        <div th:if="${pView.pSaleType() ==1}">
+                            <b class="h4"
+                               data-th-text="${#numbers.formatInteger(pView.pDirect(), 3, 'COMMA') + '원'}">즉시 판매 가격</b>
+
 
                         </div>
                         <div>
                             <br>
                         </div>
                         <div>
-                            상품 설명 어쩌구 저쩌구 블라블라아아앙아ㅏ아아아아아아아앙아아아아아아아아아아아아아아아아아아아아아아아아아아아앙
+                            <span th:text="${pView.pInfo()}">제품 설명</span>
                         </div>
                         <div class="me-auto py-4">
                             <button th:if="${pView.pSaleType()==0}" type="button" class="btn btn-success btn-lg mb w-50"

@@ -1,11 +1,11 @@
 package com.example.project_machimo.auction.service;
 
 
-import com.example.project_machimo.auction.dto.ProductsDTO;
+import com.example.project_machimo.auction.dto.ProductsVO;
 
 import java.util.List;
 
 public interface ProductService {
-    List<ProductsDTO> pList();
-    ProductsDTO pView(int id);
+    List<ProductsVO> pList();
+    ProductsVO pView(int id);
 }

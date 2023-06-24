@@ -3,7 +3,7 @@ package com.example.project_machimo.auction.dto;
 import java.sql.Timestamp;
 
 
-public record ProductsDTO(
+public record ProductsVO(
         Integer productsId
         ,Byte cId
         ,Byte cId2

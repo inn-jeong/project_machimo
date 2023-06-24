@@ -1,11 +1,11 @@
 package com.example.project_machimo.auction.service;
 
-import com.example.project_machimo.auction.dto.BidsDTO;
+import com.example.project_machimo.auction.dto.BidsVO;
 
 import java.util.List;
 
 public interface BidsService {
-    List<BidsDTO> bList(int id);
+    List<BidsVO> bList(int id);
     boolean hasBidHistory(int id);
 
     Long maxAmount(int id);

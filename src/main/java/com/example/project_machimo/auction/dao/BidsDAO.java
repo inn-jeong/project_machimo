@@ -1,14 +1,13 @@
 package com.example.project_machimo.auction.dao;
 
-import com.example.project_machimo.auction.dto.BidsDTO;
+import com.example.project_machimo.auction.dto.BidsVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface BidsDAO {
-    List<BidsDTO> bList(int id);
+    List<BidsVO> bList(int id);
 
     Long hasBidHistory(Long id);
 
