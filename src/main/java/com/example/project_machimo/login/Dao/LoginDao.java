@@ -1,5 +1,6 @@
 package com.example.project_machimo.login.Dao;
 
+import com.example.project_machimo.login.Dto.MailDto;
 import com.example.project_machimo.login.Dto.UsersDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,4 +14,5 @@ public interface LoginDao {
     public UsersDto findUserId(String u_social);
     public UsersDto findMemPhone(String u_phone);
     public UsersDto findMemEmail(String u_email);
+    public void updatePassword(String u_id, String u_password);
 }

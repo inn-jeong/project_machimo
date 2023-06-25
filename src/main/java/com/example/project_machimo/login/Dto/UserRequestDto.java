@@ -34,7 +34,7 @@ public class UserRequestDto {
     private String u_nickname;
 
     @Email(message = "이메일 형식에 맞지 않습니다.ex)abc@naver.com")
-    //@NotBlank(message = "이메일은 필수 입력 값입니다.")
+    @NotBlank(message = "이메일을 입력해주세요.")
     private String u_email;
 
     @Pattern(regexp = "01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$",message = "휴대폰 번호를 잘못 입력하셨습니다.")
@@ -43,5 +43,6 @@ public class UserRequestDto {
     @NotBlank(message = "주소를 입력해주세요.")
     private String u_address;
 
+    private String u_address_sub;
     private String u_social;
 }

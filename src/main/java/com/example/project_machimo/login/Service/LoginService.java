@@ -1,6 +1,7 @@
 package com.example.project_machimo.login.Service;
 
 
+import com.example.project_machimo.login.Dto.MailDto;
 import com.example.project_machimo.login.Dto.UsersDto;
 import com.example.project_machimo.login.Dto.UserRequestDto;
 import org.springframework.validation.Errors;
@@ -18,7 +19,11 @@ public interface LoginService {
     public UserRequestDto convertNaver(UsersDto usersDto);
     public UserRequestDto convertKakao(UsersDto usersDto);
     public UsersDto findUserId(String u_social);
-    public UsersDto findMemPhone(String u_phone);
-    public UsersDto findMemEmail(String u_email);
+    public UsersDto findUserPhone(String u_phone);
+    public UsersDto findUserEmail(String u_email);
+    public MailDto createMailAndChangePassword(String userEmail);
+    public void updatePassword(String password, String userEmail);
+    public String getTempPassword();
+    public void mailSend(MailDto mailDto);
 }
 

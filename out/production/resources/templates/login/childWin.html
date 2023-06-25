@@ -6,7 +6,7 @@
 </head>
 <body>
 <script src="/login/jquery.min.js"></script>
-<!--    <input type="hidden" id="naverUser" th:value="${session.naverUser}">-->
+    <input type="hidden" id="userEmail" th:value="${userEmail}">
 <!--    <input type="text" id="naverUser" th:value="${session.naverUser}">-->
 </body>
 </html>
@@ -20,6 +20,10 @@
     //     opener.parent.alert("로그인 성공.");
     //     // alert("가입된 계정이 없어 회원가입 화면으로 이동합니다.");
     // }
+    if($("#userEmail").val() == null){
+        opener.parent.location="/loginT/naverLogin_ok";
+    }else{
+        opener.parent.location="/loginT/login";
+    }
     window.close();
-    opener.parent.location="/loginT/naverLogin_ok";
 </script>

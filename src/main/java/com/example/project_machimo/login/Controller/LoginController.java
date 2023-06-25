@@ -1,5 +1,6 @@
 package com.example.project_machimo.login.Controller;
 
+import com.example.project_machimo.login.Dto.MailDto;
 import com.example.project_machimo.login.Dto.UsersDto;
 import com.example.project_machimo.login.Dto.UserRequestDto;
 import com.example.project_machimo.login.Service.LoginService;
@@ -8,7 +9,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -49,8 +52,8 @@ public class LoginController {
         }
 
 //        return "login/loginTest2";
-        return "login/loginTest";
-//        return "login/main";
+//        return "login/loginTest";
+        return "login/main";
     }
 
     //로그인 기능 수행
@@ -268,5 +271,76 @@ public class LoginController {
         HttpSession session = request.getSession();
         session.invalidate();
         return "login/loginTest";
+    }
+
+    @RequestMapping("/jusoPopup")
+    public String jusoPopup(HttpServletRequest request, Model model){
+        //request.setCharacterEncoding("UTF-8");  //한글깨지면 주석제거
+        //request.setCharacterEncoding("EUC-KR");  //해당시스템의 인코딩타입이 EUC-KR일경우에
+        log.info("@# =========juso init============");
+        String inputYn = request.getParameter("inputYn");
+        String roadFullAddr = request.getParameter("roadFullAddr");
+        String roadAddrPart1 = request.getParameter("roadAddrPart1");
+
+        String roadAddrPart2 = request.getParameter("roadAddrPart2");
+        String engAddr = request.getParameter("engAddr");
+        String jibunAddr = request.getParameter("jibunAddr");
+        String zipNo = request.getParameter("zipNo");
+        String addrDetail = request.getParameter("addrDetail");
+        String admCd    = request.getParameter("admCd");
+        String rnMgtSn = request.getParameter("rnMgtSn");
+        String bdMgtSn  = request.getParameter("bdMgtSn");
+        /** API 서비스 제공항목 확대 (2017.02) **/
+        String detBdNmList  = request.getParameter("detBdNmList");
+        String bdNm  = request.getParameter("bdNm");
+        String bdKdcd  = request.getParameter("bdKdcd");
+        String siNm  = request.getParameter("siNm");
+        String sggNm  = request.getParameter("sggNm");
+        String emdNm  = request.getParameter("emdNm");
+        String liNm  = request.getParameter("liNm");
+        String rn  = request.getParameter("rn");
+        String udrtYn  = request.getParameter("udrtYn");
+        String buldMnnm  = request.getParameter("buldMnnm");
+        String buldSlno  = request.getParameter("buldSlno");
+        String mtYn  = request.getParameter("mtYn");
+        String lnbrMnnm  = request.getParameter("lnbrMnnm");
+        String lnbrSlno  = request.getParameter("lnbrSlno");
+        String emdNo  = request.getParameter("emdNo");
+
+        log.info("@# juso input ===> "+inputYn);
+        log.info("@# juso part1 ===> "+roadAddrPart1);
+
+        model.addAttribute("inputYn",inputYn);
+        model.addAttribute("roadAddrPart1",roadAddrPart1);
+        model.addAttribute("addrDetail",addrDetail);
+
+
+        return "login/jusoPopup";
+    }
+
+    @RequestMapping("/findPassword")
+    public String findPassword(){
+        return "login/findPassword";
+    }
+
+    @Transactional
+    @RequestMapping("/sendEmail")
+    public String sendEmail(@RequestParam("userEmail") String userEmail,Model model){
+        MailDto dto = service.createMailAndChangePassword(userEmail);
+        service.mailSend(dto);
+        model.addAttribute("userEmail",userEmail);
+        return "login/childWin";
+    }
+
+    @RequestMapping("/emailDuplication")
+    public String emailDuplication(@RequestParam("userEmail") String userEmail){
+        UsersDto dto = service.findUserEmail(userEmail);
+        String result;
+        if(dto != null){
+            result = "login/confirm";
+        }else{
+            result = "login/denined";
+        }
+        return result;
     }
 }
