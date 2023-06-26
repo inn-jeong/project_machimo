@@ -62,39 +62,54 @@ public class ReviewController {
         return "review/write_view";
     }
 
+//    @RequestMapping("/write")
+//    public String write(@RequestParam HashMap<String, String> param) {
+//        log.info("@# write");
+//        service.write(param);
+//        return "redirect:list";
+//    }
+
     @RequestMapping("/write")
-    public String write(@RequestParam HashMap<String, String> param) {
-        log.info("@# write");
+    public String write(@RequestParam HashMap<String, String> param,
+                        MultipartFile file) throws Exception {
+
+        // 파일 업로드 로직
+        String imgUploadPath = uploadPath + File.separator + "imgUpload";
+        String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
+
+
+        String buffer = "";
+        buffer = uploadPath + "/imgUpload/" + ymdPath ;
+        log.info("@@@ uploadPath + ymdPath => " + buffer);
+
+        File uploadPath = new File(buffer);
+        if ( uploadPath.exists() == false ) {
+           uploadPath.mkdirs();
+           log.info("경로 없어서 직접 만듬");
+        }
+
+
+
+
+
+        String fileName = null;
+        log.info("fileName"+file.getOriginalFilename());
+
+        if (file != null && !file.isEmpty()) {
+            fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
+        } else {
+            fileName = uploadPath + File.separator + "images" + File.separator + "none.png";
+        }
+
+        // DTO나 엔티티 객체에 파일 경로 설정
+        param.put("reviewImg", File.separator + "imgUpload" + ymdPath + File.separator + fileName);
+        param.put("reviewThum", File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+
         service.write(param);
         return "redirect:list";
     }
 
 
-//    파일첨부 구현 write
-//@RequestMapping("/write")
-//public String write(@RequestParam HashMap<String, String> param,
-//                    @RequestParam("file") MultipartFile file) throws Exception {
-////                    @RequestParam MultipartFile file) throws Exception {
-//    log.info("@# write");
-//
-//    // 파일 업로드 로직
-//    String imgUploadPath = uploadPath + File.separator + "imgUpload";
-//    String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
-//    String fileName = null;
-//
-//    if (file != null && !file.isEmpty()) {
-//        fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
-//    } else {
-//        fileName = uploadPath + File.separator + "images" + File.separator + "none.png";
-//    }
-//
-//    // DTO나 엔티티 객체에 파일 경로 설정
-//    param.put("reviewImg", File.separator + "imgUpload" + ymdPath + File.separator + fileName);
-//    param.put("reviewThum", File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
-//
-//    service.write(param);
-//    return "redirect:list";
-//}
 
     @RequestMapping("/content_view")
     public String contentView(@RequestParam HashMap<String, String> param, Model model) {

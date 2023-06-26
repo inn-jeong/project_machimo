@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 //@SpringBootApplication
@@ -41,4 +42,10 @@ public class ProjectMachimoApplication {
 //		multipartResolver.setMaxUploadSizePerFile(5 * 1024 * 1024); // 파일당 업로드 크기 제한 (5MB)
 //		return multipartResolver;
 //	}
+
+	// StandardServletMultipartResolver를 새로운 빈으로 등록합니다.
+	@Bean
+	public StandardServletMultipartResolver multipartResolver() {
+		return new StandardServletMultipartResolver();
+	}
 }

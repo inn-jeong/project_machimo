@@ -23,6 +23,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 
+	implementation 'commons-fileupload:commons-fileupload:1.4'
+	implementation 'commons-io:commons-io:2.11.0'
+
 //	# lombok plugin
 	implementation('org.projectlombok:lombok')
 	annotationProcessor('org.projectlombok:lombok')
@@ -51,9 +54,15 @@ dependencies {
 	// thumbnailator
 	implementation 'net.coobird:thumbnailator:0.4.8'
 //	/* Apache commons-io */
-	implementation 'commons-io:commons-io:2.11.0'
+//	implementation 'commons-io:commons-io:2.11.0'
 	/* Apache Commons FileUpload */
-	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+//	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+
+//	dependencies {
+//		implementation 'commons-fileupload:commons-fileupload:1.4'
+//		implementation 'commons-io:commons-io:2.11.0'
+//	}
+
 
 }
 
