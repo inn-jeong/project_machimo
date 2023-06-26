@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,8 +53,8 @@ public class LoginController {
         }
 
 //        return "login/loginTest2";
-//        return "login/loginTest";
-        return "login/main";
+        return "login/loginTest";
+//        return "login/main";
     }
 
     //로그인 기능 수행
@@ -203,6 +204,7 @@ public class LoginController {
     }
 
     @RequestMapping("/checkUser")
+    @ResponseBody
     public String checkMamber(@RequestParam("u_id") String u_id, Model model){
         log.info("@# checkUser start====");
         HashMap<String,String> param = new HashMap<>();
@@ -212,9 +214,9 @@ public class LoginController {
 
         UsersDto User = service.findUser(param);
         if(User != null){
-            result = "login/denined";
+            result = "denined";
         }else{
-            result = "login/confirm";
+            result = "confirm";
         }
         log.info("@# checkUser end====");
         return result;
@@ -229,6 +231,7 @@ public class LoginController {
     }
 
     @RequestMapping("/kakaoLogin_process")
+    @ResponseBody
 //    public String naverLogin_ok(@RequestParam HashMap<String,String> param, HttpServletRequest request, Model model) {
     public String kakaoLogin_ok(@RequestBody UsersDto usersDto, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -242,9 +245,9 @@ public class LoginController {
 //        model.addAttribute("loginType","kakao");
         UsersDto kakaoDto = service.findUserId(usersDto.getU_social());
         if(kakaoDto == null){
-            result= "login/denined";
+            result= "denined";
         }else {
-            result = "login/confirm";
+            result = "confirm";
         }
         return result;
     }
@@ -318,7 +321,7 @@ public class LoginController {
         return "login/jusoPopup";
     }
 
-    @RequestMapping("/findPassword")
+    @RequestMapping("/findPassword_page")
     public String findPassword(){
         return "login/findPassword";
     }
@@ -333,14 +336,33 @@ public class LoginController {
     }
 
     @RequestMapping("/emailDuplication")
+    @ResponseBody
     public String emailDuplication(@RequestParam("userEmail") String userEmail){
         UsersDto dto = service.findUserEmail(userEmail);
         String result;
         if(dto != null){
-            result = "login/confirm";
+            result = "confirm";
         }else{
-            result = "login/denined";
+            result = "=denined";
         }
         return result;
+    }
+
+    @RequestMapping("/findId_page")
+    public String findId_page(HttpServletRequest request, Model model){
+
+        return "login/findId";
+    }
+    @RequestMapping("/findId")
+    @ResponseBody
+    public String findId(HttpServletRequest request, Model model){
+        String u_email = request.getParameter("userEmail");
+        UsersDto dto = service.findUserEmail(u_email);
+        if(dto != null){
+            log.info(dto.getU_id());
+        }else{
+            return "denined";
+        }
+        return dto.getU_id();
     }
 }

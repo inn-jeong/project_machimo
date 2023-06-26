@@ -108,6 +108,9 @@ function naverLogout() {
 }
 
 function findPassword(){
-    window.open("/loginT/findPassword","pop","width=570,height=420, scrollbars=no, resizable=no");
+    window.open("/loginT/findPassword_page","pop","width=570,height=420, scrollbars=no, resizable=no");
 }
 
+function  findId(){
+    window.open("/loginT/findId_page","pop","width=570,height=420, scrollbars=no, resizable=no");
+}

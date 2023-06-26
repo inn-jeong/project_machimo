@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마취모: 아이디 찾기</title>
+  <script type="text/javascript" src="/login/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+<body>
+<div class="row m-3">
+
+  <div class="row m-3">
+    <h4>아이디 찾기</h4>
+  </div>
+  <hr>
+  <div class="row mb3">
+    <div class="row mb-3" id="frm_findId">
+      <label class="col-sm-2">Email</label>
+      <input type="text" id="userEmail" name="userEmail" class="col-sm-5" required>
+    <hr>
+    <div class="mb-3">
+      <button type="button" class="btn btn-primary mx-auto" style="width: 150px"
+              id="checkEmail">아이디 조회</button>
+    </div>
+    </div>
+    <div class="row mb-3" id="frm_resultId" style="display: none">
+      <label class="col-sm-2">조회된 ID</label>
+      <span id="userId"></span>
+        <button class="btn btn-secondary" onclick="window.close()">close</button>
+    </div>
+  </div>
+  <script>
+    $("#checkEmail").click(function () {
+      const userEmail = $("#userEmail").val();
+      const frm_resultId = $("#frm_resultId");
+      const frm_findId = $("#frm_findId");
+      $.ajax({
+        type: 'post',
+        url: '/loginT/findId',
+        data: {
+          'userEmail': userEmail
+        },
+        dataType: 'text',
+        success: function (result) {
+          if(result == 'denined'){
+            // 중복되는 것이 있다면 no == 일치하는 이메일이 있다!
+            alert('가입되지 않은 이메일입니다.');
+          }else {
+            alert('아이디 조회 성공.');
+            console.log('u_id :'+result);
+            $("#userId").text(result);
+            frm_findId.css('display','none');
+            frm_resultId.css('display','inline-block');
+          }
+        },error: function () {
+          console.log('에러 체크!!')
+        }
+      })
+    });
+  </script>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>
