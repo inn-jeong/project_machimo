@@ -30,6 +30,8 @@
 <form id="frm" action="modify" method="post">
 <!--    <a class="btn" th:href="'delete?reviewId='+${content_view.reviewId}">삭제</a>-->
     <input type="hidden" th:name="reviewId" th:value="${content_view.reviewId}" />
+<!--    <input type="hidden" name="pageNum" th:value="${pageMaker.pageNum}">-->
+<!--    <input type="hidden" name="amount" th:value="${pageMaker.amount}">-->
     <table class="board_detail">
         <tr>
             <td>리뷰 ID:</td>
