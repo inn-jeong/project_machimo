@@ -47,15 +47,8 @@
 </head>
 <body>
 <h1>리뷰 작성</h1>
-<!--<form id="frm" action="write" method="post">-->
 <form id="frm" action="write" method="post" enctype="multipart/form-data">
-<!--<form id="frm" action="write" method="post" autocomplete="off" enctype="multipart/form-data">-->
-<!--<form id="frm" action="write" method="post" autocomplete="off" th:enctype="multipart/form-data">-->
     <table width="500" border="1">
-<!--        <div class="inputArea">-->
-<!--            <label for="img">이미지</label>-->
-<!--            <input type="file" id="img" name="file" />-->
-<!--            <div class="select_img"><img id="thumbnail" src="" style="margin: 20px 0;" /></div>-->
 
 <!--&lt;!&ndash;            썸네일 보이게하는 자바스크립트&ndash;&gt;-->
             <script>
@@ -74,10 +67,15 @@
 <!--             Thymeleaf 템플릿 -->
 <!--            <p th:text="${#servletContext.contextPath}"></p>-->
 <!--        </div>-->
-        <tr>
-            <td><label for="reviewImg">이미지:</label></td>
-            <td><input type="file" id="reviewImg" name="file" required /></td>
-        </tr>
+        <div class="inputArea">
+            <label for="reviewImg">이미지</label>
+            <input type="file" id="reviewImg" name="file" />
+            <div class="select_img"><img id="thumbnail" src="" style="margin: 20px 0;" />
+            </div>
+<!--        <tr>-->
+<!--            <td><label for="reviewImg">이미지:</label></td>-->
+<!--            <td><input type="file" id="reviewImg" name="file" required /></td>-->
+<!--        </tr>-->
         <tr>
             <td><label for="productsId">상품 ID:</label></td>
             <td><input type="text" id="productsId" name="productsId" required /></td>

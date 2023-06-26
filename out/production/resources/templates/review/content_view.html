@@ -115,8 +115,8 @@
   </tr>
   <tr>
     <td>조회수:</td>
-<!--    <td><span th:text="${content_view.reviewHit}"></span></td>-->
-    <td><span th:text="${hit}"></span></td>
+    <td><span th:text="${content_view.reviewHit}"></span></td>
+<!--    <td><span th:text="${hit}"></span></td>-->
   </tr>
   <tr>
     <td>작성자:</td>
@@ -130,29 +130,25 @@
     <td>별점:</td>
     <td><span th:text="${content_view.reviewStar}"></span></td>
   </tr>
-  <tr>
-    <td>이미지:</td>
-    <td><span th:text="${content_view.reviewImg}"></span></td>
-  </tr>
-  <tr>
+<!--  <tr>-->
+<!--    <td>이미지:</td>-->
+<!--    <td><span th:text="${content_view.reviewImg}"></span></td>-->
+<!--  </tr>-->
+    <tr>
+      <td>이미지:</td>
+<!--      <td><img th:src="${content_view.reviewImg}" alt="Review Image" /></td>-->
+      <td><img src="./display?fileName="+ fileCallPath></td>
+    </tr>
+
+    <tr>
     <td>내용:</td>
     <td><span th:text="${content_view.reviewContent}"></span></td>
   </tr>
   <tr>
     <td colspan="3">
-<!--      <input type="submit" value="수정" class="btn">-->
-<!--      &nbsp;&nbsp;<a class="btn" href="modify">수정</a>-->
-<!--      &nbsp;&nbsp;<a class="btn" th:href="'modify_view?reviewId='+${content_view.reviewId}">수정</a>-->
       <input class="btn" type="submit" value="수정" formaction="modify_view" style="width: 100px; height: 30px;">
-<!--      <a class="btn" href="list">목록보기</a>-->
-<!--      formaction="list" : name으로 설정된 값들을 가지고 이동-->
       <input class="btn" type="submit" value="목록보기" formaction="list" style="width: 100px; height: 30px;">
-<!--      &nbsp;&nbsp;<a href="delete?reviewId=${view.reviewId}">삭제</a>-->
-<!--      jsp에서는 되는데 타임리프에선 안됨-->
-<!--      &nbsp;&nbsp;<a class="btn" th:href="'delete?reviewId='+${content_view.reviewId}">삭제</a>-->
-        <input class="btn" type="submit" value="삭제" formaction="delete" style="width: 100px; height: 30px;">
-<!--      타임리프 문법-->
-<!--      @{/board/view(id = ${board.id})}-->
+      <input class="btn" type="submit" value="삭제" formaction="delete" style="width: 100px; height: 30px;">
     </td>
   </tr>
   </form>

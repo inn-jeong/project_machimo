@@ -20,7 +20,8 @@ public interface ReviewService {
 
     int getTotalCount();
 
-    int updateCount();
+//    int updateCount();
 
 
+    void updateCount(int reviewId);
 }

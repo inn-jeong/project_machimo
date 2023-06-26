@@ -99,9 +99,9 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public int updateCount() {
+    public void updateCount(int reviewId) {
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
-        return dao.updateCount();
+        dao.updateCount(reviewId);
     }
 
 //    public int updateReadCount(String seq)throws DataAccessException {
