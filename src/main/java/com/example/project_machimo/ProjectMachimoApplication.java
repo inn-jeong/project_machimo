@@ -1,18 +1,17 @@
 package com.example.project_machimo;
 
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
-import javax.sql.DataSource;
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 //@SpringBootApplication
+//@Configuration
 public class ProjectMachimoApplication {
 
 	public static void main(String[] args) {
@@ -33,5 +32,20 @@ public class ProjectMachimoApplication {
 	@ConfigurationProperties(prefix="mybatis.configuration")
 	public org.apache.ibatis.session.Configuration mybatisConfig() {
 		return new org.apache.ibatis.session.Configuration();
+	}
+
+//	파일 업로드 관련
+//	@Bean
+//	public CommonsMultipartResolver  multipartResolver() {
+//		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+//		multipartResolver.setDefaultEncoding("UTF-8"); // 파일 인코딩 설정
+//		multipartResolver.setMaxUploadSizePerFile(5 * 1024 * 1024); // 파일당 업로드 크기 제한 (5MB)
+//		return multipartResolver;
+//	}
+
+	// StandardServletMultipartResolver를 새로운 빈으로 등록합니다.
+	@Bean
+	public StandardServletMultipartResolver multipartResolver() {
+		return new StandardServletMultipartResolver();
 	}
 }

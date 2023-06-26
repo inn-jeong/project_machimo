@@ -49,12 +49,13 @@
 //        return "soldForm/write_view";
 //    }
 //
+//
 ////    @RequestMapping("/content_view")
 //    @GetMapping("/content_view")
 //    public String content_view(@RequestParam HashMap<String, String> param, Model model) {
 //        log.info("@# content_view");
-//        ProductDto dto = service.contentView(param);
-//        model.addAttribute("content_view",dto);
+////        ProductDto dto = service.contentView(param);
+////        model.addAttribute("content_view",dto);
 ////        return "content_view";
 //        return "soldForm/content_view";
 //    }

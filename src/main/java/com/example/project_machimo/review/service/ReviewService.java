@@ -2,7 +2,6 @@ package com.example.project_machimo.review.service;
 
 import com.example.project_machimo.review.dto.Criteria;
 import com.example.project_machimo.review.dto.ReviewDto;
-import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,4 +20,8 @@ public interface ReviewService {
 
     int getTotalCount();
 
+//    int updateCount();
+
+
+    void updateCount(int reviewId);
 }
