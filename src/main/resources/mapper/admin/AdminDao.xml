@@ -9,9 +9,6 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.project_machimo.admin.dao.AdminDao">
-    <update id="adminDelete">
-            delete users where user_id=#{user_id}
-    </update>
 
     <select id="adminList" resultType="com.example.project_machimo.admin.dto.UsersDto">
         <![CDATA[
@@ -30,6 +27,45 @@
         select count(*) from users
     </select>
 
+    <update id="adminDelete">
+            delete users where user_id=#{user_id}
+    </update>
 
+    <update id="adminModify">
+        update users set u_role=1 where user_id=#{user_id}
+    </update>
+
+    <select id="userView" resultType="com.example.project_machimo.admin.dto.UsersDto">
+        select u_id, u_nickname, u_password, u_name, u_jumin, u_phone, u_address from users where user_id = #{user_id}
+    </select>
+
+    <!--문의,공지-->
+    <select id="BoardList" resultType="com.example.project_machimo.admin.dto.BoardDto">
+        <![CDATA[
+            SELECT board_id, b_title, b_writer, b_date, b_hit
+                from (SELECT rownum rn, board_id, b_title, b_writer, b_date, b_hit
+			              FROM board
+			            WHERE rownum <= (#{pageNum} * #{amount})
+			            order by board_id asc
+			)
+			WHERE rn > (#{pageNum}-1) * #{amount}
+			order by board_id asc
+		]]>
+    </select>
+
+    <select id="boardView" parameterType="hashmap" resultType="com.example.project_machimo.admin.dto.BoardDto">
+        <![CDATA[
+        select b_title, b_writer, b_date, b_content, b_hit from board where board_id = ${board_id}
+        ]]>
+    </select>
+
+    <update id="updateHits" parameterType="Integer">
+        update board set b_hit =( select max(b_hit)+1 from board) where board_id = #{board_id}
+    </update>
+
+    <insert id="boardWrite" parameterType="hashmap">
+        insert into board (board_id, b_category, inquiry_category, b_title, b_writer, b_content, b_date, b_pwd, user_id)
+        VALUES ((select max(board_id)+1 from board), #{b_category}, #{inquiry_category}, #{b_title}, #{b_writer}, #{b_content}, #{b_date}, #{b_pwd}, #{user_id} );
+    </insert>
 
 </mapper>

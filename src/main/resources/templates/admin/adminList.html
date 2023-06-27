@@ -48,24 +48,32 @@
                                 <tbody>
                                     <tr th:each="user: ${adminList}" th:if="${user != null}">
                                         <td th:text="${user.user_id}"></td>
-                                        <td th:text="${user.u_id}"></td>
+                                        <td>
+                                            <a class="move_link" th:data-id="${user.user_id}"><span th:text="${user.u_id}"></span></a>
+                                        </td>
                                         <td th:text="${user.u_nickname}"></td>
                                         <td th:text="${user.u_email}"></td>
                                         <td th:text="${user.u_point}"></td>
                                         <td th:text="${user.u_created_at}"></td>
                                         <td>
+<!--                                            <a th:href="@{|/admin/adminModify/${user.user_id}}">회원권한</a>-->
                                            <span th:if="${user.u_role == 0}">USER</span>
                                            <span th:if="${user.u_role == 1}">ADMIN</span>
+                                           <button type="submit">
+                                               <a th:href="@{|/admin/adminModify/${user.user_id}}">권한부여</a>
+                                           </button>
                                         </td>
                                         <td>
-                                            <a th:href="@{|/admin/adminDelete/${user.user_id}}">회원탈퇴</a>
+                                            <button type="submit">
+                                                <a th:href="@{|/admin/adminDelete/${user.user_id}}">회원탈퇴</a>
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row justify-content-center py-5">
                         <div class="col-sm-12 col-md-5">
                             <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
                                 showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
@@ -124,13 +132,21 @@
     // /////////////////게시글 처리/////////////////
     $(".move_link").on("click", function (e){
         e.preventDefault();
-        var targetBno = $(this).attr("href")
+        var user_id = $(this).attr("data-id")
+
+
+
         // console.log("move click~!");
         console.log("@# href ===>"+$(this).attr("href"))
         // <%--"content_view?bid=${dto.bid}"에 있는 ?bid= 의 bid와 name을 매칭--%>
-        actionForm.append("<input type='hidden' name='user_id' value='"+targetBno+"'>");
+        actionForm.append("<input type='hidden' name='user_id' value='"+user_id+"'>");
         // actionForm.attr("action","content_view"); -> x
         // 컨트롤러에 content_view로 찾아감
-        actionForm.attr("action","content_view").submit();
+        actionForm.attr("action","userView").submit();
     });
+    // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+    var bno = actionForm.find("input[name='user_id']").val();
+    if(bno !== ''){
+        actionForm.find("input[name='user_id']").remove();
+    }
 </script>

@@ -37,8 +37,10 @@ dependencies {
 
  	/*https://mvnrepository.com/artifact/com.boylesoftware.thyme/thyme
 	implementation group: 'com.boylesoftware.thyme', name: 'thyme', version: '1.0.1'
+
 	기존에 있던 타임리프 스프링 스타터 버전으로 변경*/
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
 //	sql에서 로그 가져오기 위한 의존성 추가 - 최규하
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
