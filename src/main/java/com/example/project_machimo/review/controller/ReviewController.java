@@ -3,6 +3,7 @@ package com.example.project_machimo.review.controller;
 import com.example.project_machimo.review.dao.ReviewDao;
 import com.example.project_machimo.review.dto.Criteria;
 import com.example.project_machimo.review.dto.PageDTO;
+import com.example.project_machimo.review.dto.ReplyDto;
 import com.example.project_machimo.review.dto.ReviewDto;
 import com.example.project_machimo.review.service.ReviewService;
 import com.example.project_machimo.utils.UploadFileUtils;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -95,7 +97,7 @@ public class ReviewController {
 //
 
         String fileName = null;
-        log.info("fileName"+file.getOriginalFilename());
+//        log.info("fileName"+file.getOriginalFilename());
 
         if (file != null && !file.isEmpty()) {
 //            fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
@@ -106,11 +108,16 @@ public class ReviewController {
 
         // DTO나 엔티티 객체에 파일 경로 설정
 //        param.put("reviewImg", File.separator + "imgUpload" + ymdPath + File.separator + fileName);
-        param.put("reviewImg", ymdPath+ File.separator +fileName);
-        System.out.println("reviewImg = " + uploadPath+ ymdPath+ File.separator +fileName);
+//        param.put("reviewImg", ymdPath+ File.separator +fileName);
+        param.put("reviewImg",uploadPath+ File.separator+ ymdPath+ File.separator +fileName);
+
+
+
 //        param.put("reviewThum", uploadPath + File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
-        param.put("reviewThum", ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
-        System.out.println("reviewThum = " + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+//        param.put("reviewThum", ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+        param.put("reviewThum",uploadPath+ File.separator+ ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
+
+
 
         service.write(param);
         return "redirect:list";
@@ -188,4 +195,33 @@ public class ReviewController {
         rttr.addAttribute("amount",cri.getAmount());
         return "redirect:list";
     }
+
+
+
+
+    /////////////////////////////////////댓글관련//////////////////////////////////
+
+    @RequestMapping(value="/replyList", method=RequestMethod.GET)
+    @ResponseBody
+    public List<ReplyDto> replyList(@RequestParam("reviewId")int reviewId){
+        return service.getReply(reviewId);
+    }
+    @RequestMapping(value="/writeReply", method=RequestMethod.POST)
+//    public String writeReply(
+//            @RequestParam("id")int id,
+//            @RequestParam("replyid")int replyid,
+//            @RequestParam("contents")String contents) {
+
+    public String writeReply(@RequestParam HashMap<String,String> param,
+                             @RequestParam("reviewId")int reviewId) {
+
+        ReviewDto dto = service.addReply(param);
+        model.addAttribute("content_view", dto);
+        service.addReply(new ReplyDto(param));
+        return "redirect:content_view?id=" +
+    }
+
+
+
+
 }

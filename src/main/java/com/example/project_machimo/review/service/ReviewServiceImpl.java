@@ -2,6 +2,7 @@ package com.example.project_machimo.review.service;
 
 import com.example.project_machimo.review.dao.ReviewDao;
 import com.example.project_machimo.review.dto.Criteria;
+import com.example.project_machimo.review.dto.ReplyDto;
 import com.example.project_machimo.review.dto.ReviewDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -103,12 +105,19 @@ public class ReviewServiceImpl implements ReviewService{
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
         dao.updateCount(reviewId);
     }
+/////////////////////////////////////////댓글/////////////////////////////////////////
 
-//    public int updateReadCount(String seq)throws DataAccessException {
-//        String sql = " update board02 set hit = nvl(hit,0)+1 where seq = ?";
-//        Object[] obj = {seq};
-//        return jdbaTemplate.update(sql,obj);
-//    }
+    @Override
+    public boolean addReply(ReplyDto r) {
+        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+        return dao.addReply(r);
+    }
+
+    @Override
+    public List<ReplyDto> getReply(int boardId) {
+        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+        return dao.getReply(boardId);
+    }
 
 
     }

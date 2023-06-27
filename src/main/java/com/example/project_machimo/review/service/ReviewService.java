@@ -1,10 +1,12 @@
 package com.example.project_machimo.review.service;
 
 import com.example.project_machimo.review.dto.Criteria;
+import com.example.project_machimo.review.dto.ReplyDto;
 import com.example.project_machimo.review.dto.ReviewDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public interface ReviewService {
@@ -24,4 +26,12 @@ public interface ReviewService {
 
 
     void updateCount(int reviewId);
+
+
+    /////////////////////////////////댓글/////////////////////////////////
+
+//    boolean addReply(ReplyDto r);
+    boolean addReply(HashMap<String, String> param);
+
+    List<ReplyDto> getReply(int boardId);
 }
