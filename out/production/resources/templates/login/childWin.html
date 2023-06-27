@@ -20,10 +20,13 @@
     //     opener.parent.alert("로그인 성공.");
     //     // alert("가입된 계정이 없어 회원가입 화면으로 이동합니다.");
     // }
-    if($("#userEmail").val() == null){
+    var userEmail = $("#userEmail").val();
+    if(userEmail == null || userEmail==""){
+        console.log("userName :"+$("#userEmail").val());
         opener.parent.location="/loginT/naverLogin_ok";
     }else{
+        console.log("userName :"+$("#userEmail").val());
         opener.parent.location="/loginT/login";
     }
-    window.close();
+    // window.close();
 </script>

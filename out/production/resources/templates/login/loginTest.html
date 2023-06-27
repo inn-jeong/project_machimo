@@ -11,36 +11,6 @@
     <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js" charset="utf-8"></script>
     <script type="text/javascript" src="/login/login.js" ></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-
-    <script type="text/javascript">
-        $(function() {
-            var login_try = $("#login_try").val();
-            var register = $("#register").val();
-
-            //로그인 시도한 전적이 있으면 알림
-            if(login_try == "yes"){
-                alert("로그인 실패! \n아이디 또는 비밀번호를 확인해주세요.");
-                window.location.href="/loginT/login";
-            }
-            //회원가입 성공 후 넘어왔을 때 알림
-            if(register == "ok"){
-                alert("회원가입 성공!");
-                window.location.href="/loginT/login";
-            }
-
-            // 세션에 저장된 유저 정보에 따라 로그인, 로그아웃 출력
-            var user = $("#user").val();
-            var login_btn = $("#login_btn");
-            var logout_btn = $("#logout_btn");
-
-            if(user == null || user == ""){     //로그인 상태가 아니라면
-                // login_btn.show();
-            }else{                              //로그인 상태라면
-                // $("#login_table").hide();
-                logout_btn.show();
-            }
-        });
-    </script>
 </head>
 <body>
 <th:block th:replace="fragments/header"></th:block>
@@ -96,12 +66,40 @@
 <!--        <button id="reset_session" onclick="javascript:location.href='/loginT/logout'">세션 초기화</button>-->
     </div>
     <div align="center">
-        <button onclick="logout()" id="logout_btn" hidden>로그아웃</button>
+        <button onclick="logout()" id="logout_btn" style="display: none">로그아웃</button>
     </div>
 <th:block th:replace="fragments/footer"></th:block>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 <!-- //네이버 로그인 버튼 노출 영역 -->
+<script type="text/javascript">
+    $(function() {
+        var login_try = $("#login_try").val();
+        var register = $("#register").val();
+
+        //로그인 시도한 전적이 있으면 알림
+        if(login_try == "yes"){
+            alert("로그인 실패! \n아이디 또는 비밀번호를 확인해주세요.");
+            window.location.href="/loginT/login";
+        }
+        //회원가입 성공 후 넘어왔을 때 알림
+        if(register == "ok"){
+            alert("회원가입 성공!");
+            window.location.href="/loginT/login";
+        }
+
+        // 세션에 저장된 유저 정보에 따라 로그인, 로그아웃 출력
+        var user = $("#user").val();
+        var login_table = $("#login_table");
+        var logout_btn = $("#logout_btn");
+
+        if(user == null || user == ""){     //로그인 상태가 아니라면
+        }else{
+            login_table.css('display','none');
+            logout_btn.css('display','inline-block');
+        }
+    });
+</script>
 <script type="text/javascript">
     var naver_id_login = new naver_id_login("vfDIOj3YXepI1i3i3Ctw", "http://localhost:8090/loginT/callback");
     var state = naver_id_login.getUniqState();

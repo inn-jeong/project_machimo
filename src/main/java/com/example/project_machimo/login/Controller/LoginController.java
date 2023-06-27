@@ -186,6 +186,7 @@ public class LoginController {
         if (errors.hasErrors()) {
             /* 회원가입 실패시 입력 데이터 값을 유지 */
             model.addAttribute("userDto", userDto);
+            log.info("@# check address ===>"+userDto.getU_address());
 
             /* 유효성 통과 못한 필드와 메시지를 핸들링 */
             Map<String, String> validatorResult = service.validateHandling(errors);

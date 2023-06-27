@@ -82,7 +82,7 @@
     <tr height="60">
         <td>주    소</td>
         <td>
-            <input name="u_address" id="u_address" type="text" th:value="${userDto.getU_address()}" size="40" disabled>
+            <input name="u_address" id="u_address" type="text" th:value="${userDto.getU_address()}" size="40" readonly>
             <input type="button"  value="주소검색" onclick="goPopup();"> <br>
             <input name="u_address_sub" id="u_address_sub" type="text" th:value="${userDto.getU_address_sub()}" size="20" placeholder="상세 주소">
             <div><span class="fs-6 text-danger" th:text="${valid_u_address}"></span> <br></div>
