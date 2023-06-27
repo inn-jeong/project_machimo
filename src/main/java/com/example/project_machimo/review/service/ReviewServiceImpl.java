@@ -105,13 +105,18 @@ public class ReviewServiceImpl implements ReviewService{
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
         dao.updateCount(reviewId);
     }
+
 /////////////////////////////////////////댓글/////////////////////////////////////////
 
     @Override
-    public boolean addReply(ReplyDto r) {
-        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
-        return dao.addReply(r);
+    public boolean addReply(HashMap<String, String> param) {
+        return false;
     }
+//    @Override
+//    public boolean addReply(ReplyDto r) {
+//        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+//        return dao.addReply(r);
+//    }
 
     @Override
     public List<ReplyDto> getReply(int boardId) {
