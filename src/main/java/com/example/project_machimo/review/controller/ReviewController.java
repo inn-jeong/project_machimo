@@ -207,18 +207,18 @@ public class ReviewController {
         return service.getReply(reviewId);
     }
     @RequestMapping(value="/writeReply", method=RequestMethod.POST)
-//    public String writeReply(
-//            @RequestParam("id")int id,
-//            @RequestParam("replyid")int replyid,
-//            @RequestParam("contents")String contents) {
+    public String writeReply(
+            @RequestParam("id")int id,
+            @RequestParam("replyid")int replyid,
+            @RequestParam("contents")String contents) {
+//
+//    public String writeReply(@RequestParam HashMap<String,String> param,
+//                             @RequestParam("reviewId")int reviewId) {
 
-    public String writeReply(@RequestParam HashMap<String,String> param,
-                             @RequestParam("reviewId")int reviewId) {
-
-        ReviewDto dto = service.addReply(param);
-        model.addAttribute("content_view", dto);
-        service.addReply(new ReplyDto(param));
-        return "redirect:content_view?id=" +
+//        ReviewDto dto = service.addReply(param);
+//        model.addAttribute("content_view", dto);
+//        service.addReply(new ReplyDto(param));
+        return "redirect:content_view?id=" +id;
     }
 
 
