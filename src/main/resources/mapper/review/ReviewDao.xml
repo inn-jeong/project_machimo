@@ -33,11 +33,11 @@
 
 
     <insert id="write">
-<!--        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img)-->
-<!--        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg})-->
+        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star)
+        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})
 
-        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_thum)
-        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg}, #{reviewThum})
+<!--        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_thum)-->
+<!--        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg}, #{reviewThum})-->
     </insert>
 
 

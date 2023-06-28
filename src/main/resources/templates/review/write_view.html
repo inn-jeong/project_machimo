@@ -3,79 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <title>리뷰 작성</title>
-    <script src="/js/jquery.js"></script>
-    <script type="text/javascript">
-        function fn_submit() {
-            // form 요소 자체
-            // var formData = $("#frm").serialize();
-
-            $("#frm").submit();
-
-            // document.querySelector("input[type=file]").addEventListener("change", function () {
-            //     let fileInput = document.querySelector("input[name=uploadFile]");
-            //     let fileObj = fileInput.files[0];
-            //
-            //     let formData = new FormData();
-            //
-            //     formData.append("uploadFile", fileObj);
-            //
-            //     console.log("fileList: " + fileList);
-            //     console.log("fileList[0].name" + fileList[0].name);
-            //     console.log("fileList[0].size" + fileList[0].size);
-            //     console.log("fileList[0].type" + fileList[0].type);
-
-                // $.ajax({
-                //     type: "post"
-                //     , processData: false
-                //     , contentType: false
-                //     , dataType: 'json'
-                //     , data: formData
-                //     , url: "write"
-                //     , success: function (data) {
-                //         alert("저장완료");
-                //         location.href = "list";
-                //     }
-                //     , error: function () {
-                //         alert("오류발생");
-                //         location.href = "write_view";
-                //     }
-                // });
-            // });//querySelector end
+<!--    파일 업로드 css-->
+    <style type="text/css">
+        #result_card img{
+            max-width: 100%;
+            height: auto;
+            display: block;
+            padding: 5px;
+            margin-top: 10px;
+            margin: auto;
+        }
+        #result_card {
+            position: relative;
+        }
+        .imgDeleteBtn{
+            position: absolute;
+            top: 0;
+            right: 5%;
+            background-color: #ef7d7d;
+            color: wheat;
+            font-weight: 900;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            line-height: 26px;
+            text-align: center;
+            border: none;
+            display: block;
+            cursor: pointer;
         }
 
-    </script>
+    </style>
 </head>
 <body>
 <h1>리뷰 작성</h1>
 <form id="frm" action="write" method="post" enctype="multipart/form-data">
     <table width="500" border="1">
-
-<!--&lt;!&ndash;            썸네일 보이게하는 자바스크립트&ndash;&gt;-->
-            <script>
-                $("#reviewImg").change(function() {
-                    if (this.files && this.files[0]) {
-                        var reader = new FileReader();
-                        reader.onload = function(data) {
-                            $("#thumbnail").attr("src", data.target.result).width(500);
-                        };
-                        reader.readAsDataURL(this.files[0]);
-                    }
-                });
-            </script>
-<!--        </div>-->
-<!--                    ${request.getRealPath("/")}-->
-<!--             Thymeleaf 템플릿 -->
-<!--            <p th:text="${#servletContext.contextPath}"></p>-->
-<!--        </div>-->
-        <div class="inputArea">
-            <label for="reviewImg">이미지</label>
-            <input type="file" id="reviewImg" name="file" />
-            <div class="select_img"><img id="thumbnail" src="" style="margin: 20px 0;" />
+        <tr>
+            <div class="form_section">
+                <div class="form_section_title">
+                    <label>상품 이미지</label>
+                </div>
+                <div class="form_section_content">
+                    <input type="file" id ="fileItem" name="uploadFile" style="height: 30px;" th:multiple="true">
+                    <div id="uploadResult">
+<!--                        test위해 억지로 파일 우겨넣어보기-->
+<!--                        <div id="result_card">-->
+<!--                            <div class="imgDeleteBtn">x</div>-->
+<!--                            <img src="/display?fileName=test.png" alt="">-->
+<!--                        </div>-->
+                    </div>
+                </div>
             </div>
-<!--        <tr>-->
-<!--            <td><label for="reviewImg">이미지:</label></td>-->
-<!--            <td><input type="file" id="reviewImg" name="file" required /></td>-->
-<!--        </tr>-->
+        </tr>
         <tr>
             <td><label for="productsId">상품 ID:</label></td>
             <td><input type="text" id="productsId" name="productsId" required /></td>
@@ -84,9 +64,6 @@
             <td><label for="reviewWritter">작성자:</label></td>
             <td><input type="text" id="reviewWritter" name="reviewWritter" required /></td>
         </tr>
-<!--        <tr>-->
-<!--            <td colspan="2"><input type="file" class="form-control-file border" name="file"/></td>-->
-<!--        </tr>-->
         <tr>
             <td><label for="reviewTitle">제목:</label></td>
             <td><input type="text" id="reviewTitle" name="reviewTitle" required /></td>
@@ -105,7 +82,8 @@
 <!--        </tr>-->
         <tr>
             <td colspan="2">
-                <input type="button" onclick="fn_submit()" value="글 작성" />
+<!--                <input type="button" onclick="fn_submit()" value="글 작성" />-->
+                <input type="submit" value="글 작성" />
                 &nbsp;&nbsp;&nbsp;
                 <a href="list">목록보기</a>
             </td>
@@ -114,11 +92,109 @@
     </table>
 </form>
 </body>
+<script src="/js/jquery.js"></script>
 <script>
-    // function showAlert() {
-    //     alert("글 작성을 완료했습니다.");
-    //     window.location.href = "/review/content_view?reviewId="+${ReviewDto.reviewId};
-    // }
+    /* 이미지 업로드 */
+    $("input[type='file']").on("change", function(e){
+
+        // formData 객체를 인스턴스화 해서 주소를 변수에 저장
+        let formData = new FormData();
+
+        let fileInput = $("input[name='uploadFile']");
+        let fileList = fileInput[0].files;
+        let fileObj = fileList[0];
+
+        // view단에서 이미지 파일인지 아닌지 체크
+        if(!fileCheck(fileObj.name, fileObj.size)){
+            return false;
+        }
+
+
+        //multiple 속성으로 사용자가 여러 개의 파일을 선택할 수 있으므로 반복문
+        for(let i = 0; i < fileList.length; i++){
+        // 사용자가 선택한 파일을 FormData 에 uploadFile이란 이름으로 추가, (기존 값 집합의 끝에 새로운 값 추가)
+            formData.append("uploadFile", fileList[i]);
+        }
+
+        $.ajax({
+            // 서버로 요청을 보낼 url
+            url: '/review/uploadAjaxAction',
+            // false로 해야 첨부파일이 서버로 전송됨
+            processData : false,
+            contentType : false,
+            data : formData,
+            type : 'POST',
+            dataType : 'json',
+            // 뷰에서 서버에서 전송한 이미지 정보를 전달 받기 위함. 속성값으로 콜백함수를 부여, 전달받은 객체 데이터 = result
+            success : function(result){
+                console.log(result);
+                showUploadImage(result);
+            },
+            error : function(result){
+                alert("이미지 파일이 아닙니다.");
+            }
+        });
+
+        alert("통과");
+
+    });
+
+    // 파일 사이즈, 타입 제한하는 변수
+    let regex = new RegExp("(.*?)\.(jpg|png)$");
+    let maxSize = 10485760; //10MB
+
+    function fileCheck(fileName, fileSize){
+
+        if(fileSize >= maxSize){
+            alert("파일 사이즈 초과");
+            return false;
+        }
+
+        if(!regex.test(fileName)){
+            alert("해당 종류의 파일은 업로드할 수 없습니다.");
+            return false;
+        }
+
+        return true;
+
+    }
+
+    /* 이미지 출력 */
+    function showUploadImage(uploadResultArr){
+
+        /* 전달받은 데이터 검증 */
+        if(!uploadResultArr || uploadResultArr.length == 0){return}
+
+        // id 속성이 uploadResult인 div 태그 요소에 쉽게 접근하기 위해 변수 선언
+        let uploadResult = $("#uploadResult");
+
+        // 이미지 한개만 전달받을때
+        let obj = uploadResultArr[0];
+
+        let str = "";
+
+        // replace(/\\/g, '/') : 대상 String의 모든 '\'를 '/'로 변경해줌
+        // let fileCallPath = obj.uploadPath.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName;
+
+        // 이미지 출력을 요청하는 url 매핑 메서드("/display")에 전달해줄 파일의 경로와 이름을 포함하는 값을 저장하기 위한 변수
+        // 이미지 출력 url은  파라미터 값의 구분자로서 '/' 사용해야함 not \
+        // encodeURIComponent(): '/'와 '\'문자 또한 인코딩을 하기 때문에 replace() 메서드를 사용 안 해도 해당 URI로 동작됨
+        // + utf-8 인코딩 안되는 웹브라우저에서도 자동 인코딩해줌
+        let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+
+        // test에서 했던 태그를 이제 js를 통해 동적으로 추가되도록 해줌
+        str += "<div id='result_card'>";
+        str += "<img src='/display?fileName=" + fileCallPath +"'>";
+        str += "<div class='imgDeleteBtn'>x</div>";
+        str += "</div>";
+
+        uploadResult.append(str);
+
+    }
+
+</script>
+<script type="text/javascript">
+
 </script>
 
 </html>
