@@ -32,7 +32,7 @@
         <tbody>
         <tr th:each="list:${list}" th:if="${list != null}" class="move_link" th:data-id="${list.reviewId}">
             <td th:text="${list.reviewId}"></td>
-            <td th:text="${list.productsId}"></td>
+            <td th:text="${list.productId}"></td>
             <td th:text="${list.reviewWritter}"></td>
             <td th:text="${list.reviewTitle}"></td>
             <td th:text="${list.reviewStar}"></td>

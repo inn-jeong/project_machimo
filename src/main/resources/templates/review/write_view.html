@@ -57,8 +57,8 @@
             </div>
         </tr>
         <tr>
-            <td><label for="productsId">상품 ID:</label></td>
-            <td><input type="text" id="productsId" name="productsId" required /></td>
+            <td><label for="productId">상품 ID:</label></td>
+            <td><input type="text" id="productId" name="productId" required /></td>
         </tr>
         <tr>
             <td><label for="reviewWritter">작성자:</label></td>
@@ -192,6 +192,10 @@
         str += "<img src='/display?fileName=" + fileCallPath +"'>";
         // str += "<div class='imgDeleteBtn'>x</div>";
         str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
+        // 이미지 한개만 출력
+        str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.fileName +"'>";
+        str += "<input type='hidden' name='imageList[0].uuid' value='"+ obj.uuid +"'>";
+        str += "<input type='hidden' name='imageList[0].uploadPath' value='"+ obj.uploadPath +"'>";
         str += "</div>";
 
         uploadResult.append(str);
