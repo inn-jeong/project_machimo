@@ -18,5 +18,7 @@ public class ReviewDto {
     private int reviewStar;
     private String reviewImg;
     private Timestamp reviewDate;
-    private String reviewHit;
+    private int reviewHit;
+
+    private String reviewThum;
 }

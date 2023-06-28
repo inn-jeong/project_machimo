@@ -23,6 +23,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 
+	implementation 'commons-fileupload:commons-fileupload:1.4'
+	implementation 'commons-io:commons-io:2.11.0'
+
 //	# lombok plugin
 	implementation('org.projectlombok:lombok')
 	annotationProcessor('org.projectlombok:lombok')
@@ -44,6 +47,22 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 //	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
+
+
+	// thumbnailator
+	implementation 'net.coobird:thumbnailator:0.4.8'
+
+//	파일업로드
+	implementation 'commons-fileupload:commons-fileupload:1.4'
+	implementation 'commons-io:commons-io:2.11.0'
+
+//	스프링에서 자바의 객체데이터를 json타입으로 변환해 뷰로 전송해야함
+	// Jackson Core // 카테고리 리스트 출력 구현에도 쓴당
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.1'
+
+	// Jackson XML
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.1'
+
 
 }
 

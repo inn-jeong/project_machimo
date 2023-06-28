@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+<head>
+  <meta charset="UTF-8">
+  <title>글쓰기</title>
+  <script>
+    //아래 내용이 일반 key, value로 전송되는 값이다.
+    const sendingData = new FormData();
+    sendingData.append('id',1234);
+    sendingData.append('text','텍스트');
+
+
+    //아래 부분은 input type file에서 파일 데이터를 가져와서 key, value로 전송하는 부분이다.
+    //file1과 file2는 보내는 이름이다.
+    sendingData.append('file1',$('#파일테그1')[0].files[0]);
+    sendingData.append('file2',$('#파일테그2')[0].files[0]);
+
+    //만약 file1에 다른값을 넣으면, 당연하게도 file1로 덮어씌워져 버린다.
+
+    $.ajax({
+      url: '받는주소',
+      processData: false,  // 데이터 객체를 문자열로 바꿀지에 대한 값이다. true면 일반문자...
+      contentType: false,  // 해당 타입을 true로 하면 일반 text로 구분되어 진다.
+      data: sendingData,  //위에서 선언한 fromdata
+      type: 'POST',
+      success: function(result){
+        console.log(result);
+      },
+      error : function(e){
+        console.log(e);
+      }
+    });
+  </script>
+</head>
+<body>
+<div layout:fragment="content">
+  <div>
+    <form name="write-form" action="/board/write" autocomplete="off" method="post">
+      <div>
+        <input class="mt-4" type="text" id="title" maxlength='30' name="title" placeholder="제목을 입력하세요">
+<!--        최대 30자-->
+        <br />
+        <input type="text" id="writer" name="writer"  maxlength='10' value="" placeholder="작성자">
+<!--        최대 10자-->
+        <input type="password" id="password" name="password" maxlength='6'  value="" placeholder="비밀번호">
+<!--        최대 6자-->
+        <br />
+        <div id="content_div">
+          <textarea class="form-control" style="height:100%; width:100%;" maxlength='1000' id="content" name = "content"></textarea>
+        </div>
+        <br />
+        <input type="submit" id="submiBtn"  class="btn btn-outline-primary mr-2" value="작성">
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

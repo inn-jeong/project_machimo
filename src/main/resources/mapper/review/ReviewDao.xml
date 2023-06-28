@@ -3,30 +3,107 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.project_machimo.review.dao.ReviewDao">
-    <insert id="write" parameterType="hashmap">
-        insert into REVIEW(review_id, products_id, users_id, review_title, review_content, review_star, review_img) values
-<!--        (REVIEW_SEQ.NEXTVAL,#{products_id},#{users_id},#{review_title},#{review_content},#{review_star},#{review_img})-->
-        (#{reviewId}, #{productsId}, #{reivewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg})
-    </insert>
-
-    <update id="modify" parameterType="hashmap">
-        update REVIEW set review_title = #{reviewTitle}, review_content = #{reviewContent}
-        , review_star = #{reviewStar}, review_img = #{reviewImg}
-        where review_id=#{reviewId}
-    </update>
-
-    <delete id="delete" parameterType="hashmap">
-        delete REVIEW where review_id=#{reviewId}
-    </delete>
 
     <select id="list" resultType="com.example.project_machimo.review.dto.ReviewDto">
-        select * from REVIEW
+        SELECT *
+        FROM review
+        order by review_id desc
     </select>
 
-    <select id="contentView" parameterType="hashmap" resultType="com.example.project_machimo.review.dto.ReviewDto">
-        select * from REVIEW where review_id=#{reviewId}
+    <select id="listWithPaging" resultType="com.example.project_machimo.review.dto.ReviewDto">
+<!--            select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit-->
+<!--        from ( select rownum rn, review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit-->
+<!--                from review-->
+<!--                where rownum <= ( #{pageNum} * #{amount})-->
+<!--                order by review_id desc )-->
+<!--                where rn > (#{pageNum} -1) * #{amount}-->
+        <![CDATA[
+                select * from (
+                select rownum rn, temp.* from
+                (select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit
+                from review
+                order by review_id desc ) temp
+                where rownum <= ( #{pageNum} * #{amount}))
+                where rn > (#{pageNum} -1) * #{amount}
+
+                ]]>
     </select>
+<!--                order by review_id desc-->
+<!--    order by review_date asc-->
+
+
+    <insert id="write">
+        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star)
+        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})
+
+<!--        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_thum)-->
+<!--        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg}, #{reviewThum})-->
+    </insert>
+
+
+    <select id="contentView" resultType="com.example.project_machimo.review.dto.ReviewDto" parameterType="HashMap">
+        SELECT *
+        FROM review
+        WHERE review_id = #{reviewId}
+    </select>
+    <select id="getTotalCount" resultType="int">
+        select count(*) from review
+    </select>
+
+    <update id="modify" parameterType="HashMap">
+        UPDATE review
+        SET review_title = #{reviewTitle},
+        review_star = #{reviewStar},
+        review_img = #{reviewImg},
+        review_content = #{reviewContent}
+        WHERE review_id = #{reviewId}
+    </update>
+    <update id="updateCount">
+        update review
+<!--        set review_hit = #{reviewHit} + 1-->
+        set review_hit = review_hit + 1
+        WHERE review_id = #{reviewId}
+    </update>
+    <select id="modify_view" resultType="com.example.project_machimo.review.dto.ReviewDto">
+        SELECT *
+        FROM review
+        WHERE review_id = #{reviewId}
+    </select>
+
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM review
+        WHERE review_id = #{reviewId}
+    </delete>
 
 <!--    useGeneratedKeys 옵션을 true로 설정하면 생성된 게시글의 PK가 parameterType에 선언된 요청 객체(params)에 저장되며, keyProperty에 선언된 id에 값이 매핑(바인딩)됩니다.-->
 <!--    <insert id="save" parameterType="com.study.domain.post.PostRequest" useGeneratedKeys="true" keyProperty="id">-->
+    
+    
+<!--                댓글     -->
+    <insert id="addReply">
+        INSERT INTO
+        tb_reply
+        (
+        board_id,
+        reply_id,
+        contents
+        )
+        VALUES
+        (
+        #{boardId},
+        #{replyId},
+        #{contents}
+        )
+    </insert>
+    <select id="getReply" resultType="com.example.project_machimo.review.dto.ReplyDto">
+        SELECT
+        id, board_id, reply_id , contents
+        FROM
+        tb_reply
+        WHERE
+        board_id = #{boardId}
+        order by reply_id asc
+    </select>
+    
 </mapper>

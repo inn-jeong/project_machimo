@@ -1,0 +1,98 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰 작성</title>
+    <script src="/js/jquery.js"></script>
+    <script type="text/javascript">
+        function fn_submit() {
+            // form 요소 자체
+            var formData =$("#frm").serialize();
+
+            $.ajax({
+                type:"post"
+                ,data:formData
+                ,url:"modify"
+                ,success: function (data) {
+                    alert("저장완료");
+                    location.href="list";
+                }
+                ,error: function () {
+                    alert("오류발생");
+                    // location.href="modify_view";
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<h1>리뷰 작성</h1>
+<form id="frm" action="modify" method="post">
+<!--    <a class="btn" th:href="'delete?reviewId='+${content_view.reviewId}">삭제</a>-->
+    <input type="hidden" th:name="reviewId" th:value="${content_view.reviewId}" />
+<!--    <input type="hidden" name="pageNum" th:value="${pageMaker.pageNum}">-->
+<!--    <input type="hidden" name="amount" th:value="${pageMaker.amount}">-->
+    <table class="board_detail">
+        <tr>
+            <td>리뷰 ID:</td>
+            <td><span th:text="${content_view.reviewId}"></span></td>
+        </tr>
+        <tr>
+            <td>상품 ID:</td>
+            <td><span th:text="${content_view.productsId}"></span></td>
+        </tr>
+        <tr>
+            <td>작성일:</td>
+            <td><span th:text="${content_view.reviewDate}"></span></td>
+        </tr>
+        <tr>
+            <td>조회수:</td>
+            <td><span th:text="${content_view.reviewHit}"></span></td>
+        </tr>
+        <tr>
+            <td>작성자:</td>
+            <td><span th:text="${content_view.reviewWritter}"></span></td>
+        </tr>
+        <tr>
+            <td><label for="reviewTitle">제목:</label></td>
+            <td><input type="text" id="reviewTitle" name="reviewTitle" th:value="${content_view.reviewTitle}" required /></td>
+        </tr>
+        <tr>
+            <td><label for="reviewStar">별점:</label></td>
+            <td><input type="number" id="reviewStar" name="reviewStar" th:value="${content_view.reviewStar}" min="1" max="5" required /></td>
+        </tr>
+        <tr>
+            <td><label for="reviewImg">이미지:</label></td>
+            <td><input type="text" id="reviewImg" th:value="${content_view.reviewImg}" name="reviewImg" required /></td>
+        </tr>
+        <tr>
+            <td><label for="reviewContent">내용:</label></td>
+            <td><textarea id="reviewContent" th:value="${content_view.reviewContent}" name="reviewContent" required></textarea></td>
+        </tr>
+        <tr>
+
+<!--        <tr>-->
+<!--            <td colspan="2">-->
+<!--                <input type="button" onclick="fn_submit()" value="글 작성" />-->
+<!--                &nbsp;&nbsp;&nbsp;-->
+<!--                <a href="list">목록보기</a>-->
+<!--            </td>-->
+<!--        </tr>-->
+        <tr>
+            <td colspan="3">
+                <input type="button" onclick="fn_submit()" value="수정" class="btn">
+                &nbsp;&nbsp;<a class="btn" href="list">목록보기</a>
+            </td>
+        </tr>
+
+    </table>
+</form>
+</body>
+<script>
+    // function showAlert() {
+    //     alert("글 작성을 완료했습니다.");
+    //     window.location.href = "/review/content_view?reviewId="+${ReviewDto.reviewId};
+    // }
+</script>
+
+</html>
