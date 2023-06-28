@@ -96,6 +96,11 @@
 <script>
     /* 이미지 업로드 */
     $("input[type='file']").on("change", function(e){
+        /* 이미지 존재시 삭제 */
+        // 미리보기 태그가 존재한다면 이미지가 이미 저장된거임
+        if($(".imgDeleteBtn").length > 0){
+            deleteFile();
+        }
 
         // formData 객체를 인스턴스화 해서 주소를 변수에 저장
         let formData = new FormData();
@@ -185,11 +190,46 @@
         // test에서 했던 태그를 이제 js를 통해 동적으로 추가되도록 해줌
         str += "<div id='result_card'>";
         str += "<img src='/display?fileName=" + fileCallPath +"'>";
-        str += "<div class='imgDeleteBtn'>x</div>";
+        // str += "<div class='imgDeleteBtn'>x</div>";
+        str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
         str += "</div>";
 
         uploadResult.append(str);
+    }
 
+    /* 이미지 삭제 버튼 동작 */
+    // div태그는 웹페이지 렌더링 이후 js코드를 통해 동적으로 출력된 코드이므로 그냥 click으로 작동 x
+    // $(".imgDeletBtn").click(function(){
+    $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
+        deleteFile();
+    });
+
+    /* 파일 삭제 메서드 */
+    function deleteFile(){
+
+        let targetFile = $(".imgDeleteBtn").data("file");
+
+        let targetDiv = $("#result_card");
+
+        $.ajax({
+            // url: '/admin/deleteFile',
+            url: '/deleteFile',
+            data : {fileName : targetFile},
+            dataType : 'text',
+            type : 'POST',
+            success : function(result){
+                console.log(result);
+
+                targetDiv.remove();
+                $("input[type='file']").val("");
+
+            },
+            error : function(result){
+                console.log(result);
+
+                alert("파일을 삭제하지 못하였습니다.")
+            }
+        });
     }
 
 </script>
