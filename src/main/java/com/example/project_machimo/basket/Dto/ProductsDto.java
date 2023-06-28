@@ -22,7 +22,7 @@ public class ProductsDto {
     private Timestamp p_created_at;
     private Timestamp p_updated_at;
     private Integer p_hit;
-    private Integer p_sales_stat;
+    private Integer p_sales_status;
     private Integer p_sale_type;
     private String p_account;
     private String p_address;
