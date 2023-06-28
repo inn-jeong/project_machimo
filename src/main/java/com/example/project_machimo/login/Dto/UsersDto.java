@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsersDto {
-    private String user_id;
+    private Integer user_id;
     private String u_id;
     private String u_password;
     private String u_name;
@@ -19,7 +19,7 @@ public class UsersDto {
     private String u_address_sub;
     private String u_nickname;
     private String u_social;
-    private int u_point;
+    private Integer u_point;
 }
 
 

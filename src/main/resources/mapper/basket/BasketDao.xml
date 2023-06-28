@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.project_machimo.basket.Dao.BasketDao">
+
+
+    <select id="getBasket" resultType="com.example.project_machimo.basket.Dto.BasketDto">
+        select * from basket where user_id=#{param1}
+    </select>
+    <select id="getItemInfo" resultType="com.example.project_machimo.basket.Dto.ProductsDto">
+        select * from products where product_id=#{param1}
+    </select>
+</mapper>
