@@ -24,6 +24,27 @@
 <!--        </select>-->
 <!--        <button type="submit">정렬 적용</button>-->
 <!--    </form>-->
+    <form action="/shop/allItemView" method="get">
+        <select name="category">
+            <option value="0">All Categories</option>
+            <!-- 상위 카테고리 옵션 -->
+            <th:block th:each="category : ${categories}">
+                <option value="${category.c_id}" th:text="${category.c_name}"></option>
+            </th:block>
+        </select>
+        <button type="submit">카테고리 선택</button>
+    </form>
+
+    <!-- 하위 카테고리 표시 -->
+    <div>
+        <ul>
+            <!-- 하위 카테고리 목록 -->
+            <th:block th:each="subCategory : ${subCategories}">
+                <li th:text="${subCategory.c_name}"></li>
+            </th:block>
+        </ul>
+    </div>
+
 
     <form action="/shop/allItemView" method="get">
         <select name="sort" id="sort">

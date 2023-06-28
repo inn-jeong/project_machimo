@@ -15,10 +15,10 @@ public class ShopServiceImpl implements ShopService{
     @Autowired
     private SqlSession sqlSession;
     @Override
-    public ArrayList<ProductDto> allItemView() {
+    public ArrayList<ProductDto> allItemView(int c_id) {
         log.info("@# allItemView start");
         ShopDao dao = sqlSession.getMapper(ShopDao.class);
-        ArrayList<ProductDto> list = dao.allItemView();
+        ArrayList<ProductDto> list = dao.allItemView(c_id);
         log.info("@# allItemView end");
         return list;
     }
@@ -45,5 +45,13 @@ public class ShopServiceImpl implements ShopService{
         ShopDao dao = sqlSession.getMapper(ShopDao.class);
         ArrayList<WishlistDto> wish = dao.wishLike(product_id);
         return wish;
+    }
+
+    @Override
+    public ArrayList<CategoryDto> category(Integer c_id) {
+        log.info("@# category");
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        ArrayList<CategoryDto> category = dao.category(c_id);
+        return category;
     }
 }

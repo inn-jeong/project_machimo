@@ -29,4 +29,6 @@ public class ItemDto {
     private String u_nickname; //사용자의 닉네임
     private String i_sub_image; //제품의 서브 이미지
     private Integer wish_like;//좋아요수
+    private String c_name;//카테고리 이름
+    private Integer c_id2;//카테고리 번호자기참조
 }

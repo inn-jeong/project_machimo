@@ -20,12 +20,29 @@ public class shopController {
     @Autowired
     private ShopService service;
 
+
     //모든 상품을 보는 메소드
     @RequestMapping("/allItemView")
-    public String allItemView(Model model, @RequestParam(name = "sort", required = false) String sort){
+    public String allItemView(Model model, @RequestParam(name = "sort", required = false) String sort
+                                ,@RequestParam(name = "category", required = false) Integer c_id){
         log.info("@# allItemView");
-        ArrayList<ProductDto> products = service.allItemView();
+        ArrayList<ProductDto> products = service.allItemView(c_id);
         ArrayList<ItemDto> items = new ArrayList<>();
+
+        int categoryId;
+        if (c_id != null) {
+            categoryId = c_id;
+        } else {
+            categoryId = -1; // 기본값으로 -1을 사용합니다.
+        }
+
+        if (categoryId != -1) {
+            // categoryId가 제공되었을 경우, 해당 카테고리의 상품을 가져옵니다.
+            products = service.allItemView(categoryId);
+        } else {
+            // categoryId가 제공되지 않았을 경우, 모든 상품을 가져옵니다.
+            products = service.allItemView(categoryId);
+        }
 
 
         for (ProductDto product : products) {
@@ -58,7 +75,6 @@ public class shopController {
             if (!subImages.isEmpty()) {
                 item.setI_sub_image(subImages.get(0).getI_sub_img());
             }
-
             ArrayList<WishlistDto> wishLike = service.wishLike(productId);
             if (!wishLike.isEmpty()){
                 item.setWish_like(wishLike.get(0).getWish_like());
@@ -114,7 +130,6 @@ public class shopController {
                     break;
             }
         }
-
 //        model에 item의 값을 주고 넘어감
         model.addAttribute("itemList", items);
 //        model에 사용자가 선택한 옵션을 들고 넘어감
