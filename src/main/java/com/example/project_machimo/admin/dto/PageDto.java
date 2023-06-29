@@ -1,6 +1,8 @@
 package com.example.project_machimo.admin.dto;
 
 import lombok.Getter;
+import lombok.Setter;
+
 @Getter
 public class PageDto {
     private int startPage; //시작페이지: 1,11      //1,6
@@ -15,6 +17,7 @@ public class PageDto {
 
 //       ex>3페이지=3/10->0.3 -> 1 * 10 = 10(끝페이지)
 //       ex>11페이지=11/10->1.1 -> 2 * 10 = 20(끝페이지)
+//        this.endPage = (int) Math.ceil(cri.getPageNum() / 10.0) * 10;
         this.endPage = (int) Math.ceil(cri.getPageNum() / 10.0) * 10;
 //       ex>10-9=1페이지
 //       ex>20-9=11페이지

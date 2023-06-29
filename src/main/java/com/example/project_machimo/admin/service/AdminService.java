@@ -16,9 +16,16 @@ public interface AdminService {
 
     ArrayList<BoardDto> boardList(Criteria cri);
 
-    public Integer updateHits(Integer board_id);
-    BoardDto boardView(HashMap<String,Object>param);
+    public void boardWrite(BoardDto dto);
+    public BoardDto boardView(int board_id);
+
+    public Integer updateHits(int board_id);
 
     void adminModify(int user_id);
-    public void boardWrite(HashMap<String,Object>param);
+
+    BoardDto boardModify(BoardDto dto);
+
+
+//    void boardModify(HashMap<String, Object> param);
+//    void boardModify(int board_id);
 }

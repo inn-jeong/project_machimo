@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
@@ -17,9 +18,9 @@ public class BoardDto {
     private String b_title;
     private String b_writer;
     private String b_content;
-    private Timestamp b_date;
-    private Integer b_hit;
-    private int b_pwd;
+    private Date b_date;
+    private int b_hit;
+    private Integer b_pwd;
 }
 //	"board_id"	NUMBER		NOT NULL,
 //            "user_id"	NUMBER		NOT NULL,

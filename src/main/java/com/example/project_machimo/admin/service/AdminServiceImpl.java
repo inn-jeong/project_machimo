@@ -46,10 +46,16 @@ public class AdminServiceImpl implements AdminService  {
         dao.adminModify(user_id);
     }
 
+
     @Override
     public UsersDto userView(HashMap<String, String> param) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         return dao.userView(param);
+    }
+    @Override
+    public BoardDto boardModify(BoardDto dto) {
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        return dao.boardModify(dto);
     }
 
     @Override
@@ -59,21 +65,39 @@ public class AdminServiceImpl implements AdminService  {
     }
 
     @Override
-    public Integer updateHits(Integer board_id) {
+    public void boardWrite(BoardDto dto) {
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        dao.boardWrite(dto);
+    }
+
+    @Override
+    public Integer updateHits(int board_id) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         return dao.updateHits(board_id);
     }
 
     @Override
-    public BoardDto boardView(HashMap<String, Object> param) {
+    public BoardDto boardView(int board_id) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        return dao.boardView(param);
+        return dao.boardView(board_id);
     }
-    @Override
-    public void boardWrite(HashMap<String, Object> param) {
-        AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        dao.boardWrite(param);
-    }
+//    @Override
+//    public void boardWrite(HashMap<String, Object> param) {
+//        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+//        System.out.println("@# service boardWrite");
+//        dao.boardWrite(param);
+//    }
+
+//    @Override
+//    public void boardModify(int board_id) {
+//        sqlSession.getMapper(AdminDao.class);
+//    }
+
+//    @Override
+//    public void boardModify(HashMap<String, Object> param) {
+//        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+//        dao.boardModify(param);
+//    }
 
 
 }
