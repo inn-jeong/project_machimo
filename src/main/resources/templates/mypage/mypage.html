@@ -1,23 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>마취모: 마이페이지</title>
-    <script type="text/javascript" src="/login/login.js" ></script>
+    <script type="text/javascript" src="/login/jquery.min.js" ></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
 <th:block th:replace="fragments/header"></th:block>
+    <header>
+        <div class="mb-5 text-center">
+            <h3>마이페이지</h3>
+        </div>
+    </header>
 
-    <div class="mb-5 text-center">
-        <h3>마이페이지</h3>
-    </div>
-    <div class="text-center">
-        test
-    </div>
+    <main>
+        <div class="mb-5 ms-5">
+            <h2>프로필 정보</h2>
+        </div>
+        <div style="width: 500px; text-align: center">
+            <p>이름: <span id="name" th:text="${session.user.u_name}"></span></p>
+            <p>이메일: <span id="email" th:text="${session.user.u_email}"></span></p>
+            <!-- 추가적인 프로필 정보들 -->
+        </div>
+
+        <div class="mt-5 ms-5">
+            <h4>구매 내역</h4>
+        </div>
+        <table class="table table-hover mx-auto text-center" style="width: 1000px">
+            <thead>
+                <tr class="table-active">
+                    <th colspan="2">상품정보</th>
+                    <th >주문일자</th>
+                    <th>주문번호</th>
+                    <th>주문금액</th>
+                    <th colspan="2">주문상태</th>
+                </tr>
+            </thead>
+            <tbody th:each="item, count:${items}">
+                <tr>
+                    <td th:text="${item.i_sub_img}" rowspan="2" style="width: 100px" class="align-middle"></td>
+                    <td th:text="${item.u_name}" style="width: 200px; text-align: left"></td>
+                    <td th:text="${item.created_at}" rowspan="2" style="width: 120px" class="align-middle"></td>
+                    <td th:text="${item.order_id}" rowspan="2" style="width: 80px" class="align-middle"></td>
+                    <td th:text="${item.p_direct}+원" rowspan="2" style="width: 100px" class="align-middle"></td>
+                    <td th:text="${item.order_status}" rowspan="2" style="width: 80px" class="align-middle"></td>
+                    <td rowspan="2" style="width: 80px" class="align-middle"><button>후기작성</button></td>
+                </tr>
+                <tr>
+                    <td th:text="${item.p_name}" style="text-align: left">test</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
 
 
 <th:block th:replace="fragments/footer"></th:block>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>
+<script>
+    // $("th").css("text-align","center");
+    // $("td").css("width","200px");
+    // $("h2").css("text-align","center");
+    $(".col-center").css("text-align","center");
+    $(".row-center").css({"align-items":"center","display":"flex"});
+
+</script>

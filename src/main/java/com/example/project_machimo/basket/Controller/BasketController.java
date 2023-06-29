@@ -27,11 +27,11 @@ public class BasketController {
     @RequestMapping("/page")
     public String cart(HttpServletRequest request,HttpSession session, Model model){
 //        HttpSession session = request.getSession();
-        UsersDto dto = (UsersDto) session.getAttribute("user");
-        if(dto == null){
+        UsersDto user = (UsersDto) session.getAttribute("user");
+        if(user == null){
             return "redirect:/loginT/login?login_try=no";
         }
-        Integer user_id = dto.getUser_id();
+        Integer user_id = user.getUser_id();
         log.info("@# basket user_id===>" +user_id);
         ArrayList<BasketDto> basket = service.getBasket(user_id);
 //        List<ProductsDto> basketItems = service.getBasketItems(basket);
