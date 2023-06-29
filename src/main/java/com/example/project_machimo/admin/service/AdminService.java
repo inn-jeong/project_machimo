@@ -23,7 +23,7 @@ public interface AdminService {
 
     void adminModify(int user_id);
 
-    BoardDto boardModify(BoardDto dto);
+    void boardModify(BoardDto dto);
 
 
 //    void boardModify(HashMap<String, Object> param);

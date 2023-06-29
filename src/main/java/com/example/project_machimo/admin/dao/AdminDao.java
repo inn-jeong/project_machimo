@@ -25,5 +25,5 @@ public interface AdminDao {
 
     void boardWrite(HashMap<String, Object> param);
 
-    BoardDto boardModify(BoardDto dto);
+    void boardModify(BoardDto dto);
 }

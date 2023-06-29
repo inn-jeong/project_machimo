@@ -24,25 +24,25 @@
             <div class="m-3 py-3">
                 <label class="form-label fw-semibold">항목을 선택해주세요.</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="b_category" value="notice" id="flexRadioDefault1" th:checked="${boardView.b_category == '공지'}">
+                        <input class="form-check-input" type="radio" name="b_category" value="공지" id="flexRadioDefault1" th:checked="${boardView.b_category == '공지'}">
                         <label class="form-check-label" for="flexRadioDefault1">
                             공지사항
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="b_category" value="qna" id="flexRadioDefault2" th:checked="${boardView.b_category == '문의'}">
+                        <input class="form-check-input" type="radio" name="b_category" value="문의" id="flexRadioDefault2" th:checked="${boardView.b_category == '문의'}">
                         <label class="form-check-label" for="flexRadioDefault2">
                             문의사항
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="b_category" value="qna" id="flexRadioDefault3" th:checked="${boardView.inquiry_category == '상품문의'}">
+                        <input class="form-check-input" type="radio" name="inquiry_category" value="상품문의" id="flexRadioDefault3" th:checked="${boardView.inquiry_category == '상품문의'}">
                         <label class="form-check-label" for="flexRadioDefault2">
                             상품문의
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="b_category" value="qna" id="flexRadioDefault4" th:checked="${boardView.inquiry_category == '배송문의'}">
+                        <input class="form-check-input" type="radio" name="inquiry_category" value="배송문의" id="flexRadioDefault4" th:checked="${boardView.inquiry_category == '배송문의'}">
                         <label class="form-check-label" for="flexRadioDefault2">
                             배송문의
                         </label>

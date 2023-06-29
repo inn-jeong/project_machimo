@@ -53,9 +53,9 @@ public class AdminServiceImpl implements AdminService  {
         return dao.userView(param);
     }
     @Override
-    public BoardDto boardModify(BoardDto dto) {
+    public void boardModify(BoardDto dto) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        return dao.boardModify(dto);
+        dao.boardModify(dto);
     }
 
     @Override

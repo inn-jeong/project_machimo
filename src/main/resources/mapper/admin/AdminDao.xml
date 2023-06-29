@@ -61,7 +61,7 @@
     </insert>
 
     <select id="boardView"  resultType="com.example.project_machimo.admin.dto.BoardDto">
-        select board_id, b_category, b_title, b_writer, b_date, b_content, b_hit from board where board_id = ${param1}
+        select board_id, inquiry_category, b_category, b_title, b_writer, b_date, b_content, b_hit from board where board_id = ${param1}
     </select>
 
     <update id="updateHits">
@@ -69,7 +69,7 @@
     </update>
 
 
-    <update id="boardModify" parameterType="com.example.project_machimo.admin.dto.BoardDto">
+    <update id="boardModify">
         update board set b_category = #{b_category}, inquiry_category = #{inquiry_category}, b_title = #{b_title}, b_content = #{b_content}, b_date = SYSDATE where board_id = #{board_id}
     </update>
 

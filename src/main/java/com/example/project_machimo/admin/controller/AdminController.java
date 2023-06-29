@@ -85,11 +85,11 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/boardModify", method = RequestMethod.GET)
-    public String boardModifyView(@RequestParam int board_id, Model model){
+    public void boardModifyView(@RequestParam int board_id, Model model){
         System.out.println("@# boardModify start");
         BoardDto dto = service.boardView(board_id);
         model.addAttribute("boardView",dto);
-        return "admin/boardModify";
+//        return "admin/boardModify";
     }
 
     @RequestMapping(value = "/boardModify", method = RequestMethod.POST)
@@ -99,7 +99,7 @@ public class AdminController {
         System.out.println("@# qna ="+dto.getInquiry_category());
 
         service.boardModify(dto);
-        return "redirect:admin/boardModify?board_id="+dto.getBoard_id();
+        return "redirect:admin/boardModify";
     }
 
 //    @RequestMapping(value = "/boardModify/{board_id}", method = RequestMethod.GET)
