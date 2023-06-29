@@ -82,9 +82,13 @@
             alert("로그인 실패! \n아이디 또는 비밀번호를 확인해주세요.");
             window.location.href="/loginT/login";
         }
+        if(login_try == "no"){
+            alert("로그인 후 이용할 수 있는 서비스입니다.");
+            window.location.href="/loginT/login";
+        }
         //회원가입 성공 후 넘어왔을 때 알림
         if(register == "ok"){
-            alert("회원가입 성공!");
+            alert("회원가입 성공! \n로그인 후 서비스를 이용해주세요.");
             window.location.href="/loginT/login";
         }
 

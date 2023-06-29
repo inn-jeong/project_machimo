@@ -8,7 +8,7 @@ function goPopup(){
 /** API 서비스 제공항목 확대 (2017.02) **/
 // function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn
 //     , detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo){
-function jusoCallBack(roadAddrPart1,addrDetail){
+function jusoCallBack(roadAddrPart1,addrDetail,zipNo){
     // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
     // document.form.roadAddrPart1.value = roadAddrPart1;
     // document.form.roadAddrPart2.value = roadAddrPart2;
@@ -17,4 +17,6 @@ function jusoCallBack(roadAddrPart1,addrDetail){
     // console.log("Part1: "+roadAddrPart1);
     document.reg_frm.u_address.value = roadAddrPart1;
     document.reg_frm.u_address_sub.value = addrDetail;
+    document.reg_frm.u_postNum.value = zipNo;
+
 }

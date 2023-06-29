@@ -13,7 +13,7 @@ import javax.lang.model.type.ArrayType;
 import java.util.ArrayList;
 
 @Slf4j
-@Service("CartService")
+@Service("BasketService")
 public class BasketServiceImpl implements BasketService {
     @Autowired
     private SqlSession sqlSession;

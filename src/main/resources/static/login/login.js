@@ -33,7 +33,7 @@ function kakaoLogin() {
                         ),
                         success: function (res) {
                             if (res == "confirm") {
-                                alert("(있는 회원)");
+                                alert("로그인 성공!");
                                 window.location.href = "/loginT/kakaoLogin_ok?login_ok=yes";
                             } else {
                                 alert("가입된 계정이 없어 회원가입 화면으로 이동합니다.");

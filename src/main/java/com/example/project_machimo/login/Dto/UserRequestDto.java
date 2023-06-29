@@ -44,5 +44,6 @@ public class UserRequestDto {
     private String u_address;
 
     private String u_address_sub;
+    private String u_postNum;
     private String u_social;
 }

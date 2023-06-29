@@ -43,6 +43,8 @@ public class LoginController {
             if (login_try.equals("yes")) {
                 log.info("@# login_try===>"+login_try);
                 model.addAttribute("login_try", "yes");
+            }else if (login_try.equals("no")){
+                model.addAttribute("login_try", "no");
             }
         }
         if (register != null) {
@@ -84,7 +86,6 @@ public class LoginController {
         log.info("login_ok");
         return "login/login_ok";
     }
-
 
     @RequestMapping("/register_page")
     public String register_jsp(@SessionAttribute(value ="naverUser" ,required = false) UsersDto naverUser,
@@ -133,7 +134,6 @@ public class LoginController {
         return "login/callback";
     }
 
-
     @RequestMapping("/naverLogin_ok")
     public String naverLogin(@SessionAttribute(name = "naverUser",required = false) UsersDto usersDto,HttpServletRequest request, Model model){
         String page;
@@ -150,6 +150,7 @@ public class LoginController {
 
         return page;
     }
+
     @RequestMapping("/naverLogin_process")
 //    public String naverLogin_ok(@RequestParam HashMap<String,String> param, HttpServletRequest request, Model model) {
     public String naverLogin_ok(HttpServletRequest request, Model model) {
@@ -317,6 +318,7 @@ public class LoginController {
         model.addAttribute("inputYn",inputYn);
         model.addAttribute("roadAddrPart1",roadAddrPart1);
         model.addAttribute("addrDetail",addrDetail);
+        model.addAttribute("zipNo",zipNo);
 
 
         return "login/jusoPopup";

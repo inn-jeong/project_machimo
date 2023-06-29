@@ -11,6 +11,7 @@
   <input type="hidden" id="inputYn" th:value="${inputYn}">
   <input type="text" id="roadAddrPart1" th:value="${roadAddrPart1}">
   <input type="text" id="addrDetail" th:value="${addrDetail}">
+  <input type="text" id="zipNo" th:value="${zipNo}">
   <form id="form" name="form" method="post">
     <input type="hidden" id="confmKey" name="confmKey" value=""/>
     <input type="hidden" id="returnUrl" name="returnUrl" value=""/>
@@ -50,7 +51,7 @@
         //         , "<%=bdNm%>", "<%=bdKdcd%>", "<%=siNm%>", "<%=sggNm%>", "<%=emdNm%>", "<%=liNm%>", "<%=rn%>", "<%=udrtYn%>"
         //         , "<%=buldMnnm%>", "<%=buldSlno%>", "<%=mtYn%>", "<%=lnbrMnnm%>", "<%=lnbrSlno%>", "<%=emdNo%>");
         // console.log("part1"+$("#roadAddrPart1").val());
-        opener.jusoCallBack($("#roadAddrPart1").val(),$("#addrDetail").val());
+        opener.jusoCallBack($("#roadAddrPart1").val(),$("#addrDetail").val(),$("#zipNo").val());
         window.close();
       }
     }
