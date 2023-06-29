@@ -131,4 +131,13 @@ public class AdminController {
         return "redirect:/admin/boardList";
     }
 
+    /////////제품관리/////////
+    @RequestMapping(value = "pList", method = RequestMethod.GET)
+    public String pList(Criteria cri, Model model){
+        model.addAttribute("pList",service.pList(cri));
+        int total = service.getTotalCount();
+        model.addAttribute("pageMaker",new PageDto(total,cri));
+        return "admin/productList";
+    }
+
 }

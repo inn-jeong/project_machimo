@@ -2,6 +2,7 @@ package com.example.project_machimo.admin.service;
 
 import com.example.project_machimo.admin.dto.BoardDto;
 import com.example.project_machimo.admin.dto.Criteria;
+import com.example.project_machimo.admin.dto.ProductDto;
 import com.example.project_machimo.admin.dto.UsersDto;
 
 import java.util.ArrayList;
@@ -26,8 +27,6 @@ public interface AdminService {
     void boardModify(BoardDto dto);
 
     void boardDelete(int board_id);
+    ArrayList<ProductDto> pList(Criteria cri);
 
-
-//    void boardModify(HashMap<String, Object> param);
-//    void boardModify(int board_id);
 }

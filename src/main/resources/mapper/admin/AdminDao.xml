@@ -77,6 +77,13 @@
         delete from board where board_id = #{board_id}
     </delete>
 
+    <!--/////////제품관리/////////-->
+    <select id="pList" resultType="com.example.project_machimo.admin.dto.ProductDto">
+        SELECT p.product_id, ca.c_name, ca.c_name2, pi.i_sub_img, p.p_info, p.p_direct, p.p_b_price, p.p_created_at, p.p_updated_at, p.p_sales_status, p.p_sale_type
+        FROM products p
+        INNER JOIN product_images pi ON p.product_id = pi.product_id
+        INNER JOIN category ca ON p.c_id = ca.c_id AND p.c_id2 = ca.c_id2
+    </select>
 <!--    <sql id="criteria">-->
 <!--        <trim prefix="(" suffix=") AND " prefixOverrides="OR">-->
 <!--        <choose>-->
@@ -92,5 +99,9 @@
 <!--        </choose>-->
 <!--        </trim>-->
 <!--    </sql>-->
+
+
+
+
 
 </mapper>

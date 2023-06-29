@@ -3,6 +3,7 @@ package com.example.project_machimo.admin.service;
 import com.example.project_machimo.admin.dao.AdminDao;
 import com.example.project_machimo.admin.dto.BoardDto;
 import com.example.project_machimo.admin.dto.Criteria;
+import com.example.project_machimo.admin.dto.ProductDto;
 import com.example.project_machimo.admin.dto.UsersDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -64,6 +65,9 @@ public class AdminServiceImpl implements AdminService  {
         dao.boardDelete(board_id);
     }
 
+
+
+
     @Override
     public ArrayList<BoardDto> boardList(Criteria cri) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
@@ -87,23 +91,13 @@ public class AdminServiceImpl implements AdminService  {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         return dao.boardView(board_id);
     }
-//    @Override
-//    public void boardWrite(HashMap<String, Object> param) {
-//        AdminDao dao = sqlSession.getMapper(AdminDao.class);
-//        System.out.println("@# service boardWrite");
-//        dao.boardWrite(param);
-//    }
-
-//    @Override
-//    public void boardModify(int board_id) {
-//        sqlSession.getMapper(AdminDao.class);
-//    }
-
-//    @Override
-//    public void boardModify(HashMap<String, Object> param) {
-//        AdminDao dao = sqlSession.getMapper(AdminDao.class);
-//        dao.boardModify(param);
-//    }
 
 
+    /////////제품관리/////////
+    @Override
+    public ArrayList<ProductDto> pList(Criteria cri) {
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        return dao.pList(cri);
+    }
 }
+
