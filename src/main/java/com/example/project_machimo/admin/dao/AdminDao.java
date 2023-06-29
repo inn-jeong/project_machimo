@@ -16,7 +16,7 @@ public interface AdminDao {
 
     ArrayList<BoardDto> BoardList(Criteria cri);
 
-    BoardDto boardWrite(BoardDto dto);
+    void boardWrite(BoardDto dto);
     public Integer updateHits(Integer board_id);
 
     BoardDto boardView(int board_id);
@@ -26,4 +26,6 @@ public interface AdminDao {
     void boardWrite(HashMap<String, Object> param);
 
     void boardModify(BoardDto dto);
+
+    void boardDelete(int boardId);
 }

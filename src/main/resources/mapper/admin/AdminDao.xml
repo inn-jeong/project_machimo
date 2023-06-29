@@ -55,23 +55,27 @@
 
     </select>
 
-    <insert id="boardWrite" parameterType="com.example.project_machimo.admin.dto.BoardDto">
-        insert into board (board_id, b_category, b_title, b_content, user_id)
-        VALUES ((select max(board_id)+1 from board), #{b_category}, #{b_title}, #{b_content}, #{user_id} )
-    </insert>
 
     <select id="boardView"  resultType="com.example.project_machimo.admin.dto.BoardDto">
         select board_id, inquiry_category, b_category, b_title, b_writer, b_date, b_content, b_hit from board where board_id = ${param1}
     </select>
 
     <update id="updateHits">
-        update board set b_hit =( select max(b_hit)+1 from board) where board_id = #{board_id}
+        update board set b_hit = b_hit+1 where board_id = #{board_id}
     </update>
 
+    <insert id="boardWrite" parameterType="com.example.project_machimo.admin.dto.BoardDto">
+        insert into board (board_id, b_category, inquiry_category, b_writer, b_title, b_content, b_date, user_id)
+        VALUES ((select max(board_id)+1 from board), #{b_category}, #{inquiry_category}, #{b_writer}, #{b_title}, #{b_content}, SYSDATE, #{user_id})
+    </insert>
 
     <update id="boardModify">
         update board set b_category = #{b_category}, inquiry_category = #{inquiry_category}, b_title = #{b_title}, b_content = #{b_content}, b_date = SYSDATE where board_id = #{board_id}
     </update>
+
+    <delete id="boardDelete">
+        delete from board where board_id = #{board_id}
+    </delete>
 
 <!--    <sql id="criteria">-->
 <!--        <trim prefix="(" suffix=") AND " prefixOverrides="OR">-->

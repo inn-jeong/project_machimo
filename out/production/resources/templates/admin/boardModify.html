@@ -23,30 +23,33 @@
 
             <div class="m-3 py-3">
                 <label class="form-label fw-semibold">항목을 선택해주세요.</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="b_category" value="공지" id="notice" checked>
+                    <label class="form-check-label" for="notice">
+                        공지사항
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="b_category" value="문의" id="qna">
+                    <label class="form-check-label" for="qna">
+                        문의사항
+                    </label>
+                </div>
+
+                <div id="addCheckBox" style="display: none;">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="b_category" value="공지" id="flexRadioDefault1" th:checked="${boardView.b_category == '공지'}">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            공지사항
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="b_category" value="문의" id="flexRadioDefault2" th:checked="${boardView.b_category == '문의'}">
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            문의사항
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="inquiry_category" value="상품문의" id="flexRadioDefault3" th:checked="${boardView.inquiry_category == '상품문의'}">
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" name="inquiry_category" value="상품문의" id="productQna" checked>
+                        <label class="form-check-label" for="productQna">
                             상품문의
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="inquiry_category" value="배송문의" id="flexRadioDefault4" th:checked="${boardView.inquiry_category == '배송문의'}">
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" name="inquiry_category" value="배송문의" id="deliveryQna">
+                        <label class="form-check-label" for="deliveryQna">
                             배송문의
                         </label>
                     </div>
+                </div>
             </div>
 
             <div class="m-3">
@@ -67,3 +70,19 @@
     <div th:replace="fragments/footer.html :: fragment-footer"></div>
 </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+    //문의 클릭시 radio 활성화//
+    const notice = document.getElementById('notice');
+    const qna = document.getElementById('qna');
+    const addCheckBox = document.getElementById('addCheckBox');
+
+    notice.addEventListener('change', function (){
+        addCheckBox.style.display='none';
+    });
+    qna.addEventListener('change',function (){
+        addCheckBox.style.display = qna.checked ? 'block':'none';
+    });
+
+</script>

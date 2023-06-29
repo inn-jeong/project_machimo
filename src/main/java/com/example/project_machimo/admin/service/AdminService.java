@@ -25,6 +25,8 @@ public interface AdminService {
 
     void boardModify(BoardDto dto);
 
+    void boardDelete(int board_id);
+
 
 //    void boardModify(HashMap<String, Object> param);
 //    void boardModify(int board_id);

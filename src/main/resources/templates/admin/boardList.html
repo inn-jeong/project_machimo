@@ -58,7 +58,7 @@
                     <td th:text="${board.b_hit}"></td>
                     <td>
                         <a th:href="@{/admin/boardView(board_id=${board.board_id})}">수정</a>
-                        <a th:href="@{|/admin/boardDelete/${board.board_id}}">삭제</a>
+                        <a th:href="@{/admin/boardDelete(board_id=${board.board_id})}">삭제</a>
                     </td>
                 </tr>
                 </tbody>
@@ -94,12 +94,12 @@
             </div>
     </div>
 
-    <form th:method="get" id="actionForm" th:action="@{/admin/boardView}">
+    <form th:method="get" id="actionForm" th:action="@{/admin/boardList}">
         <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
         <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+    </form>
 <!--        <input type="hidden" name="amount" th:value="${pageMaker.cri.type}">-->
 <!--        <input type="hidden" name="amount" th:value="${pageMaker.cri.keyword}">-->
-    </form>
 
 
     <!--footer-->
@@ -128,6 +128,12 @@
         console.log("board_id= "+board_id);
         actionForm.attr("action","boardView").submit();
     });
+
+    window.onpageshow = function (event){
+        if(event.persisted || (window.performance && window.performance.navigation.type==2)){
+            location.reload();
+        }
+    }
 
     // $(".search-form button").on("click", function (e){
     //     e.preventDefault();

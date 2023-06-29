@@ -19,36 +19,56 @@
 <!--        문의게시판일경우 상품문의/배송문의/기타 등 카테고리 고를 수 있도록-->
 
         <form id="frm" action="/admin/boardWrite" method="post">
-            <input type="hidden" name="user_id" th:value="${session.user_id}"/>
+            <input type="hidden" name="user_id" th:value="${session.user.user_id}"/>
 
             <div class="m-3 py-3">
                 <label class="form-label fw-semibold">항목을 선택해주세요.</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="b_category" value="공지" id="flexRadioDefault1" checked>
-                        <label class="form-check-label" for="flexRadioDefault1">
+                        <input class="form-check-input" type="radio" name="b_category" value="공지" id="notice" checked>
+                        <label class="form-check-label" for="notice">
                             공지사항
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="b_category" value="문의" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" name="b_category" value="문의" id="qna">
+                        <label class="form-check-label" for="qna">
                             문의사항
                         </label>
+                    </div>
+
+                    <div id="addCheckBox" style="display: none;">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="inquiry_category" value="상품문의" id="productQna" checked>
+                            <label class="form-check-label" for="productQna">
+                                상품문의
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="inquiry_category" value="배송문의" id="deliveryQna">
+                            <label class="form-check-label" for="deliveryQna">
+                                배송문의
+                            </label>
+                        </div>
                     </div>
             </div>
 
             <div class="m-3">
-                <label for="formGroupExampleInput1" class="form-label fw-semibold">제목</label>
-                <input name="b_title" type="text" class="form-control" id="formGroupExampleInput1" placeholder="간단한 제목을 입력해주세요.">
+                <label for="b_title" class="form-label fw-semibold">제목</label>
+                <input name="b_title" type="text" class="form-control" id="b_title" placeholder="간단한 제목을 입력해주세요.">
+            </div>
+
+            <div class="m-3">
+                <label for="b_writer" class="form-label fw-semibold">작성자</label>
+                <input name="b_writer" th:value="${session.user.u_nickname}" class="form-control" id="b_writer" readonly>
             </div>
 
             <div class="m-3 py-3">
-                <label for="formGroupExampleInput2" class="form-label fw-semibold">설명</label>
-                <input name="b_content" type="text" class="form-control" id="formGroupExampleInput2" style="height: 15rem;">
+                <label for="b_content" class="form-label fw-semibold">설명</label>
+                <input name="b_content" type="text" class="form-control" id="b_content" style="height: 15rem;">
             </div>
 
             <div class="d-flex gap-2 justify-content-center py-5">
-                <input class="btn btn-outline-secondary d-inline-flex align-items-center" type="button" onclick="fn_submit()" value="등록">
+                <input class="btn btn-outline-secondary d-inline-flex align-items-center" type="button" onclick="fn_submit()" value="작성">
             </div>
         </form>
     </div>
@@ -69,11 +89,24 @@
             ,url:"/admin/boardWrite"
             ,success: function (data){
                 alert("게시글 등록이 완료되었습니다.");
-                location.href="admin/boardList";
+                location.href="/admin/boardList";
             }
             ,error: function (){
                 alert("오류발생");
             }
         });
     }
+
+    //문의 클릭시 radio 활성화//
+    const notice = document.getElementById('notice');
+    const qna = document.getElementById('qna');
+    const addCheckBox = document.getElementById('addCheckBox');
+
+    notice.addEventListener('change', function (){
+        addCheckBox.style.display='none';
+    });
+    qna.addEventListener('change',function (){
+        addCheckBox.style.display = qna.checked ? 'block':'none';
+    });
+
 </script>

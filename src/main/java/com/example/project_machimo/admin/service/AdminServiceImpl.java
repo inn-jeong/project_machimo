@@ -59,6 +59,12 @@ public class AdminServiceImpl implements AdminService  {
     }
 
     @Override
+    public void boardDelete(int board_id) {
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        dao.boardDelete(board_id);
+    }
+
+    @Override
     public ArrayList<BoardDto> boardList(Criteria cri) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         return dao.BoardList(cri);

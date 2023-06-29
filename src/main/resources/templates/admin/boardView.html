@@ -9,7 +9,8 @@
 <body>
   <div class="container p-5 mb-4">
     <div class="row py-3 border-bottom m-3">
-      <h2 class="m-0 fw-bold text-secondary" th:text="'['+ ${boardView.b_category} +']'"></h2>
+      <h2 class="m-0 fw-bold text-secondary" th:if="${boardView.b_category == '공지'}" th:text="'['+ ${boardView.b_category} +']'"></h2>
+      <h2 class="m-0 fw-bold text-secondary" th:if="${boardView.b_category == '문의'}" th:text="'['+ ${boardView.inquiry_category} +']'"></h2>
     </div>
     <div class="row pt-4 m-3">
       <div class="col">
@@ -34,6 +35,9 @@
       </button>
       <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">
         <a th:href="@{/admin/boardModify(board_id=${boardView.board_id})}">수정</a>
+      </button>
+      <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">
+        <a th:href="@{/admin/boardDelete(board_id=${boardView.board_id})}">삭제</a>
       </button>
     </div>
   </div>
