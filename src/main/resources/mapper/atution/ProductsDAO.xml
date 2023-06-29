@@ -6,21 +6,21 @@
     <update id="succeedsSale">
 
         UPDATE PRODUCTS
-        SET p_sales_status =1
-            where P_DUR  <![CDATA[<=]]>  #{param1} AND PRODUCTS_id = #{param2}
+        SET p_sales_status =3
+            where P_DUR  <![CDATA[<=]]>  #{param1} AND PRODUCT_id = #{param2}
 
     </update>
     <update id="failedSale">
         UPDATE PRODUCTS
-        SET p_sales_status =2
-        where P_DUR  <![CDATA[<=]]>  #{param1} AND PRODUCTS_id = #{param2}
+        SET p_sales_status =4
+        where P_DUR  <![CDATA[<=]]>  #{param1} AND PRODUCT_id = #{param2}
     </update>
 
     <select id="pList" resultType="com.example.project_machimo.auction.dto.ProductsVO">
         select * from products
     </select>
     <select id="pView" resultType="com.example.project_machimo.auction.dto.ProductsVO">
-        select * from products where products_id = #{0}
+        select * from products where product_id = #{0}
     </select>
 </mapper>
 

@@ -14,7 +14,7 @@ public class AuctionRestController {
 
 
 
-    final private CheckResponseEntity response;
+     private final CheckResponseEntity response;
 
     @Autowired
     public AuctionRestController(CheckResponseEntity response) {

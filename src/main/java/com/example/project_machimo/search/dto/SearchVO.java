@@ -1,7 +1,7 @@
 package com.example.project_machimo.search.dto;
 
 public record SearchVO(
-          Long productsId
+          Long productId
         , Long userId
         , String uNickName
         , Long iId

@@ -20,29 +20,21 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<SearchVO> search(byte searchOption, String keyword, Criteria cri) {
+    public List<SearchVO> search(Criteria cri) {
 
-        switch (searchOption){
-            case 1 -> {
-                return searchDAO.getListWithPaging(keyword, cri);
-            }
-            case 2 ->{
-                return searchDAO.searchProductName(keyword);
-            }
-            case 3 ->{
-                return searchDAO.searchProductInfo(keyword);
-            }
-            case 4 ->{
-                return searchDAO.searchProductNameOrInfo(keyword);
-            }
-        }
+
+
+        if (searchDAO.searchListPage(cri) != null)
+            return searchDAO.searchListPage( cri);
+
+
         return Collections.emptyList();
 
     }
 
     @Override
-    public int searchTotal(String keyword) {
+    public int searchTotal(Criteria cri) {
 
-        return searchDAO.searchUsersTotal(keyword);
+        return searchDAO.searchUsersTotal(cri);
     }
 }

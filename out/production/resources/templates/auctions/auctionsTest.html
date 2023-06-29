@@ -141,6 +141,7 @@
                         <div>
                             <span th:text="${pView.pInfo()}">제품 설명</span>
                         </div>
+                        <th:block th:unless="${isSaleEnded}">
                         <div class="me-auto py-4">
                             <button th:if="${pView.pSaleType()==0}" type="button" class="btn btn-success btn-lg mb w-50"
                                     data-bs-toggle="modal"
@@ -161,6 +162,13 @@
                                 장바구니
                             </button>
                         </div>
+                        </th:block>
+
+                        <th:block th:if="${isSaleEnded}">
+                            <div>
+                            판매가 완료된 제품입니다
+                                </div>
+                        </th:block>
                     </div>
                     <div th:if="${pView.pSaleType()==0}" class="row">
                         <div class="col">

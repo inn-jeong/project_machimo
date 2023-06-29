@@ -55,15 +55,16 @@ public class AuctionController {
         System.out.println("@!#!@#$!@#@!#" + id);
         AuctionVO aList = auctionService.aList(id);
         ProductsVO pView = productService.pView(id);
-        System.out.println(pView.pBPrice() + "첫 가격");
+        log.info("@#첫 가격은  === > {}",pView.pBPrice());
         List<BidsVO> bList = bidsService.bList(id);
         boolean hasBidHistory = bidsService.hasBidHistory(id);
         Long amount = bidsService.maxAmount(id);
 
 
-        System.out.println(pView.pDur());
+
         model.addAttribute("aList", aList);
         model.addAttribute("pView", pView);
+        model.addAttribute("isSaleEnded",isSaleEnded(pView.pDur(),pView.pSalesStatus()));
         model.addAttribute("hasBidHistory", hasBidHistory);
         model.addAttribute("amount", amount);
         model.addAttribute("bList", bList);
@@ -92,4 +93,24 @@ public class AuctionController {
         model.addAttribute("aList", aList);
         return "auctions/test";
     }
+
+    private boolean isSaleEnded(Timestamp period,int productStatus){
+
+
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+
+        switch (productStatus){
+            case 3, 4 -> {
+                if (period.before(timestamp)) return true;
+            }
+
+
+        }
+
+        return false;
+
+    }
+
 }

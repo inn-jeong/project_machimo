@@ -1,8 +1,9 @@
 package com.example.project_machimo.search.dto;
 
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 public class PageDTO {
       private int startPage; //시작페이지: 1,11
     private int endPage; //끝페이지: 10,20

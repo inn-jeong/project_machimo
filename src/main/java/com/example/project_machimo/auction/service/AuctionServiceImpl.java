@@ -18,8 +18,8 @@ public class AuctionServiceImpl implements AuctionService{
 
     @Override
     public AuctionVO aList(int id) {
-        AuctionVO auctionDTOS = auctionDAO.pList(id);
-        return auctionDTOS;
+        AuctionVO auctionVOS = auctionDAO.pList(id);
+        return auctionVOS;
     }
 
     @Override

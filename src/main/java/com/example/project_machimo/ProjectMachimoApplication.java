@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-//@EnableScheduling
+@EnableScheduling
 public class ProjectMachimoApplication {
 
 	public static void main(String[] args) {

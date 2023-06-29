@@ -4,6 +4,7 @@ import com.example.project_machimo.search.dto.Criteria;
 import com.example.project_machimo.search.dto.PageDTO;
 import com.example.project_machimo.search.dto.SearchVO;
 import com.example.project_machimo.search.service.SearchService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,15 +31,22 @@ public class SearchController {
     }
 
     @GetMapping("/list")
-    public String search(@RequestParam byte searchOption
-            , @RequestParam String keyword
-            , Model model
-            , Criteria cri
-    ) {
+    public String search(
+            Model model
+            , @ModelAttribute Criteria cri
+            , HttpSession session
+            ) {
 
-        List<SearchVO> search = searchService.search(searchOption, keyword, cri);
 
-        int total = searchService.searchTotal(keyword);
+        log.info("키워드에용에용"+cri.getKeyword());
+        log.info("서치옵션이에용"+cri.getSearchOption());
+        log.info("페이지넘버에용"+String.valueOf(cri.getPageNum()));
+        log.info("어먼트에용"+String.valueOf(cri.getAmount()));
+
+        List<SearchVO> search = searchService.search(cri);
+
+        int total = searchService.searchTotal(cri);
+        String keyword = cri.getKeyword();
         if (search.isEmpty()) {
             keyword = keyword + "에 대한 검색결과가 없습니다.";
             model.addAttribute("message", keyword);
@@ -46,6 +54,7 @@ public class SearchController {
         } else {
             model.addAttribute("message", keyword);
             model.addAttribute("search", search);
+            model.addAttribute("option",cri.getSearchOption());
             model.addAttribute("pageMaker", new PageDTO(total, cri));
 
             return "search/searchPage";
@@ -55,24 +64,22 @@ public class SearchController {
     }
 
     @RequestMapping("/searchList")
-    public String search(@RequestParam int pageNum
-            , @RequestParam int amount
-            , @RequestParam String searchOption
-            , @RequestParam String keyword
-            , Model model
+    public String searchPage(
+            Model model
             , @ModelAttribute Criteria cri
     ) {
-        System.out.println(searchOption);
 
 
 
-        byte dSearchOption = decodedUrlToByte(searchOption);
-        List<SearchVO> search = searchService.search(dSearchOption, keyword, cri);
-        log.info("dSearchOption ==> {}",dSearchOption);
+
+
+        List<SearchVO> search = searchService.search( cri);
+
         log.info("cri.getPageNum() =====> {}" ,cri.getPageNum() );
         log.info("cri.getAmount() =====> {}" ,cri.getAmount() );
 
-        int total = searchService.searchTotal(keyword);
+        int total = searchService.searchTotal(cri);
+        String keyword = cri.getKeyword();
         if (search.isEmpty()) {
             keyword = keyword + "에 대한 검색결과가 없습니다.";
             model.addAttribute("message", keyword);
@@ -80,7 +87,7 @@ public class SearchController {
         } else {
             model.addAttribute("message", keyword);
             model.addAttribute("search", search);
-            model.addAttribute("option", searchOption);
+            model.addAttribute("option", cri.getSearchOption());
             model.addAttribute("pageMaker", new PageDTO(total, cri));
 
             return "search/searchPage";
@@ -89,18 +96,18 @@ public class SearchController {
 
     }
 
-    private byte decodedUrlToByte(String url) {
-
-        try {
-            url = URLDecoder.decode(url, "UTF-8");
-
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-        url = url.substring(url.length() - 1);
-
-        return Byte.parseByte(url);
-
-    }
+//    private byte decodedUrlToByte(String url) {
+//
+//        try {
+//            url = URLDecoder.decode(url, "UTF-8");
+//
+//        } catch (UnsupportedEncodingException e) {
+//            throw new RuntimeException(e);
+//        }
+//        url = url.substring(url.length() - 1);
+//
+//        return Byte.parseByte(url);
+//
+//    }
 
 }
