@@ -11,14 +11,14 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BoardDto {
-    private int board_id;
-    private int user_id;
-    private String b_category;
-    private String inquiry_category;
-    private String b_title;
-    private String b_writer;
-    private String b_content;
-    private Date b_date;
-    private int b_hit;
-    private Integer b_pwd;
+    private int boardId;
+    private int userId;
+    private String bCategory;
+    private String inquiryCategory;
+    private String bTitle;
+    private String bWriter;
+    private String bContent;
+    private Date bDate;
+    private int bHit;
+    private Integer bPwd;
 }

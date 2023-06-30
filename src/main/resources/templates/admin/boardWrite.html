@@ -19,33 +19,33 @@
 <!--        문의게시판일경우 상품문의/배송문의/기타 등 카테고리 고를 수 있도록-->
 
         <form id="frm" action="/admin/boardWrite" method="post">
-            <input type="hidden" name="user_id" th:value="${session.user.user_id}"/>
+            <input type="hidden" name="userId" th:value="${session.user.userId}"/>
 
             <div class="m-3 py-3">
                 <label class="form-label fw-semibold">항목을 선택해주세요.</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="b_category" value="공지" id="notice" checked>
-                        <label class="form-check-label" for="notice">
+                        <input class="form-check-input" type="radio" name="bCategory" value="공지" id="공지" checked>
+                        <label class="form-check-label" for="공지">
                             공지사항
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="b_category" value="문의" id="qna">
-                        <label class="form-check-label" for="qna">
+                        <input class="form-check-input" type="radio" name="bCategory" value="문의" id="문의">
+                        <label class="form-check-label" for="문의">
                             문의사항
                         </label>
                     </div>
 
                     <div id="addCheckBox" style="display: none;">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="inquiry_category" value="상품문의" id="productQna" checked>
-                            <label class="form-check-label" for="productQna">
+                            <input class="form-check-input" type="radio" name="inquiryCategory" value="상품문의" id="상품문의" checked>
+                            <label class="form-check-label" for="상품문의">
                                 상품문의
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="inquiry_category" value="배송문의" id="deliveryQna">
-                            <label class="form-check-label" for="deliveryQna">
+                            <input class="form-check-input" type="radio" name="inquiryCategory" value="배송문의" id="배송문의">
+                            <label class="form-check-label" for="배송문의">
                                 배송문의
                             </label>
                         </div>
@@ -53,18 +53,18 @@
             </div>
 
             <div class="m-3">
-                <label for="b_title" class="form-label fw-semibold">제목</label>
-                <input name="b_title" type="text" class="form-control" id="b_title" placeholder="간단한 제목을 입력해주세요.">
+                <label for="bTitle" class="form-label fw-semibold">제목</label>
+                <input name="bTitle" type="text" class="form-control" id="bTitle" placeholder="간단한 제목을 입력해주세요.">
             </div>
 
             <div class="m-3">
-                <label for="b_writer" class="form-label fw-semibold">작성자</label>
-                <input name="b_writer" th:value="${session.user.u_nickname}" class="form-control" id="b_writer" readonly>
+                <label for="bWriter" class="form-label fw-semibold">작성자</label>
+                <input name="bWriter" th:value="${session.user.UNickname}" class="form-control" id="bWriter" readonly>
             </div>
 
             <div class="m-3 py-3">
-                <label for="b_content" class="form-label fw-semibold">설명</label>
-                <input name="b_content" type="text" class="form-control" id="b_content" style="height: 15rem;">
+                <label for="bContent" class="form-label fw-semibold">설명</label>
+                <input name="bContent" type="text" class="form-control" id="bContent">
             </div>
 
             <div class="d-flex gap-2 justify-content-center py-5">
@@ -98,8 +98,8 @@
     }
 
     //문의 클릭시 radio 활성화//
-    const notice = document.getElementById('notice');
-    const qna = document.getElementById('qna');
+    const notice = document.getElementById('공지');
+    const qna = document.getElementById('문의');
     const addCheckBox = document.getElementById('addCheckBox');
 
     notice.addEventListener('change', function (){

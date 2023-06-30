@@ -3,6 +3,7 @@ package com.example.project_machimo.admin.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 
@@ -30,15 +31,18 @@ public class ProductDto {
     private String pBank;
 
 //    productImg
-    private int iId;
 //    private int productId;
-    private String iImage;
-    private String IsubImg; //썸네일-> 이거 쓸 예정
+    private int iId;  // 파일 첨부 여부(첨부1, 미첨부0)
+    private String iImage; // 원본 파일 이름
+    private String IsubImg; // 서버 저장용 파일 이름
+    private MultipartFile boardFile; //뷰->컨트롤러 파일을 담는 용도
+//    private int fileStatue; // 파일 첨부 여부(첨부1, 미첨부0)
 
 //    category
 //    private int cId;
 //    private int cId2;
     private String cName;
     private String cName2;
+
 
 }

@@ -9,24 +9,23 @@
 <body>
   <div class="container p-5 mb-4">
     <div class="row py-3 border-bottom m-3">
-      <h2 class="m-0 fw-bold text-secondary" th:if="${boardView.b_category == '공지'}" th:text="'['+ ${boardView.b_category} +']'"></h2>
-      <h2 class="m-0 fw-bold text-secondary" th:if="${boardView.b_category == '문의'}" th:text="'['+ ${boardView.inquiry_category} +']'"></h2>
+      <h2 class="m-0 fw-bold text-secondary" th:if="${boardView.BCategory == '공지'}" th:text="'['+ ${boardView.BCategory} +']'"></h2>
+      <h2 class="m-0 fw-bold text-secondary" th:if="${boardView.BCategory == '문의'}" th:text="'['+ ${boardView.inquiryCategory} +']'"></h2>
     </div>
     <div class="row pt-4 m-3">
       <div class="col">
-        <h3 class="display-7 fw-bold" th:text="'제목: '+ ${boardView.b_title}"></h3>
+        <h3 class="display-7 fw-bold" th:text="'제목: '+ ${boardView.BTitle}"></h3>
       </div>
     </div>
     <div class="row border-bottom pb-3 m-3">
       <div class="col">
-        <h5 class="fw-medium fs-5" th:text="'작성자: '+ ${boardView.b_writer}"></h5>
-        <h5 class="fs-6" th:text="'작성일자: ' + ${boardView.b_date}"></h5>
-<!--        <h5 class="fs-6" th:text="'작성일자: ' + ${#dates.format(boardView.b_date, 'YYYY-MM-DD')}"></h5>-->
+        <h5 class="fw-medium fs-5" th:text="'작성자: '+ ${boardView.BWriter}"></h5>
+        <h5 class="fs-6" th:text="'작성일자: ' + ${#dates.format(boardView.BDate, 'YYYY-MM-DD')}"></h5>
       </div>
     </div>
     <div class="row">
       <div class="col fs-5 m-4">
-        <p th:text="'내용: ' + ${boardView.b_content}"></p>
+        <p th:text="'내용: ' + ${boardView.BContent}"></p>
       </div>
     </div>
     <div class="d-flex gap-2 justify-content-center py-5">
@@ -34,10 +33,10 @@
         <a th:href="@{/admin/boardList}">이전으로</a>
       </button>
       <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">
-        <a th:href="@{/admin/boardModify(board_id=${boardView.board_id})}">수정</a>
+        <a th:href="@{/admin/boardModify(boardId=${boardView.boardId})}">수정</a>
       </button>
       <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">
-        <a th:href="@{/admin/boardDelete(board_id=${boardView.board_id})}">삭제</a>
+        <a th:href="@{/admin/boardDelete(boardId=${boardView.boardId})}">삭제</a>
       </button>
     </div>
   </div>

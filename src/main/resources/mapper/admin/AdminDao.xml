@@ -1,26 +1,21 @@
-<!--<?xml version="1.0" encoding="UTF-8"?>-->
-<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
-<!--       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
-<!--       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">-->
-<!--</beans>-->
-
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.project_machimo.admin.dao.AdminDao">
 
+    <!--/////////유저 관리/////////-->
     <select id="adminList" resultType="com.example.project_machimo.admin.dto.UsersDto">
         <![CDATA[
-            SELECT user_id, u_id, u_nickname, u_email, u_point, u_created_at, u_role
-                from (SELECT rownum rn, user_id, u_id, u_nickname, u_email, u_point, u_created_at, u_role
-			              FROM users
-			            WHERE rownum <= (#{pageNum} * #{amount})
-			            order by user_id asc
-			)
-			WHERE rn > (#{pageNum}-1) * #{amount}
-			order by user_id asc
-		]]>
+                select * from (
+                select rownum rn, temp.* from
+                (select
+                 user_id, u_id, u_nickname, u_email, u_point, u_created_at, u_role
+                from users
+                order by user_id desc ) temp
+                where rownum <= ( #{pageNum} * #{amount}))
+                where rn > (#{pageNum} -1) * #{amount}
+        ]]>
     </select>
 
     <select id="getTotalCount" resultType="int">
@@ -39,29 +34,26 @@
         select u_id, u_nickname, u_password, u_name, u_jumin, u_phone, u_address from users where user_id = #{user_id}
     </select>
 
-    <!--문의,공지-->
+    <!--/////////문의,공지/////////-->
     <select id="BoardList" resultType="com.example.project_machimo.admin.dto.BoardDto">
         <![CDATA[
-            SELECT board_id, b_category, b_title, b_writer, b_date, b_hit
-                from (SELECT rownum rn, board_id, b_category, b_title, b_writer, b_date, b_hit
-			              FROM board
-			            WHERE
-			            rownum <= (#{pageNum} * #{amount})
-			            order by board_id asc
-			)
-			WHERE rn > (#{pageNum}-1) * #{amount}
-			order by board_id asc
-		]]>
-
+                select * from (
+                select rownum rn, temp.* from
+                (select
+                 board_id, b_category, b_title, b_writer, b_date, b_hit
+                from board
+                order by board_id desc ) temp
+                where rownum <= ( #{pageNum} * #{amount}))
+                where rn > (#{pageNum} -1) * #{amount}
+        ]]>
     </select>
-
 
     <select id="boardView"  resultType="com.example.project_machimo.admin.dto.BoardDto">
         select board_id, inquiry_category, b_category, b_title, b_writer, b_date, b_content, b_hit from board where board_id = ${param1}
     </select>
 
     <update id="updateHits">
-        update board set b_hit = b_hit+1 where board_id = #{board_id}
+        update board set b_hit = b_hit+1 where board_id = #{boardId}
     </update>
 
     <insert id="boardWrite" parameterType="com.example.project_machimo.admin.dto.BoardDto">
@@ -74,7 +66,7 @@
     </update>
 
     <delete id="boardDelete">
-        delete from board where board_id = #{board_id}
+        delete from board where board_id = #{boardId}
     </delete>
 
     <!--/////////제품관리/////////-->
@@ -84,24 +76,13 @@
         INNER JOIN product_images pi ON p.product_id = pi.product_id
         INNER JOIN category ca ON p.c_id = ca.c_id AND p.c_id2 = ca.c_id2
     </select>
-<!--    <sql id="criteria">-->
-<!--        <trim prefix="(" suffix=") AND " prefixOverrides="OR">-->
-<!--        <choose>-->
-<!--            <when test="type == 'b_category'.toString()">-->
-<!--                and b_category like concat('%', #{keyword}, '%')-->
-<!--            </when>-->
-<!--            <when test="type == 'b_title'.toString()">-->
-<!--                and b_title like concat('%', #{keyword}, '%')-->
-<!--            </when>-->
-<!--            <when test="type == 'b_writer'.toString()">-->
-<!--                and b_writer like concat('%', #{keyword}, '%')-->
-<!--            </when>-->
-<!--        </choose>-->
-<!--        </trim>-->
-<!--    </sql>-->
 
+    <update id="updateStatus">
+        update products set
+        p_sales_status= #{param2}
+        where product_id=#{param1}
+    </update>
 
-
-
-
+<!-- 컬렉션타입이나 객체를 넘겨줄때 값들은 이름을 적을 수 있음,-->
+<!--    나머지는 param을 순서대로 사용-->
 </mapper>

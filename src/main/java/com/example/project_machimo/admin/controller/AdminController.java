@@ -1,9 +1,6 @@
 package com.example.project_machimo.admin.controller;
 
-import com.example.project_machimo.admin.dto.BoardDto;
-import com.example.project_machimo.admin.dto.Criteria;
-import com.example.project_machimo.admin.dto.PageDto;
-import com.example.project_machimo.admin.dto.UsersDto;
+import com.example.project_machimo.admin.dto.*;
 import com.example.project_machimo.admin.service.AdminService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -14,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,15 +35,15 @@ public class AdminController {
         return "admin/adminList";
     }
 
-    @GetMapping("/adminDelete/{user_id}")
-    public String adminDelete(@PathVariable int user_id){
-        service.adminDelete(user_id);
+    @GetMapping("/adminDelete/{userId}")
+    public String adminDelete(@PathVariable int userId){
+        service.adminDelete(userId);
         return "redirect:/admin/adminList";
     }
-    @RequestMapping("/adminModify/{user_id}")
-    public String adminModify(@PathVariable int user_id){
-        System.out.println("@# controller adminModify user_id = "+ user_id );
-        service.adminModify(user_id);
+    @RequestMapping("/adminModify/{userId}")
+    public String adminModify(@PathVariable int userId){
+        System.out.println("@# controller adminModify userId = "+ userId );
+        service.adminModify(userId);
         return "redirect:/admin/adminList";
     }
 
@@ -76,24 +74,24 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/boardView", method = RequestMethod.GET)
-    public String boardView(@RequestParam int board_id, Model model){
-        session.setAttribute("user_id",1);
+    public String boardView(@RequestParam int boardId, Model model){
+        session.setAttribute("userId",1);
 
 //        Integer boardId = Integer.parseInt(String.valueOf(param.get("board_id")));
-        service.updateHits(board_id);
+        service.updateHits(boardId);
 
-        BoardDto dto = service.boardView(board_id);
+        BoardDto dto = service.boardView(boardId);
         model.addAttribute("boardView",dto);
-        System.out.println("@# board_id ==> "+board_id);
+        System.out.println("@# board_id ==> "+boardId);
 
         return "admin/boardView";
     }
 
     //게시글 수정 뷰
     @RequestMapping(value = "/boardModify", method = RequestMethod.GET)
-    public void boardModifyView(@RequestParam int board_id, Model model){
+    public void boardModifyView(@RequestParam int boardId, Model model){
         System.out.println("@# boardModify start");
-        BoardDto dto = service.boardView(board_id);
+        BoardDto dto = service.boardView(boardId);
         model.addAttribute("boardView",dto);
     }
 
@@ -101,11 +99,9 @@ public class AdminController {
     @RequestMapping(value = "/boardModify", method = RequestMethod.POST)
     public String boardModify(BoardDto dto, Model model){
         System.out.println("@# boardModify");
-        System.out.println("@# b_category ="+dto.getB_category());
-        System.out.println("@# qna ="+dto.getInquiry_category());
 
         service.boardModify(dto);
-        return "redirect:/admin/boardView?board_id="+dto.getBoard_id();
+        return "redirect:/admin/boardView?board_id="+dto.getBoardId();
     }
     //게시글 작성 뷰
     @RequestMapping(value = "/boardWriteView", method = RequestMethod.GET)
@@ -126,18 +122,30 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/boardDelete",method = RequestMethod.GET)
-    public String boardDelete(@RequestParam int board_id){
-        service.boardDelete(board_id);
+    public String boardDelete(@RequestParam int boardId){
+        service.boardDelete(boardId);
         return "redirect:/admin/boardList";
     }
 
     /////////제품관리/////////
-    @RequestMapping(value = "pList", method = RequestMethod.GET)
-    public String pList(Criteria cri, Model model){
-        model.addAttribute("pList",service.pList(cri));
+    @RequestMapping(value = "productList", method = RequestMethod.GET)
+    public String productList(Criteria cri, Model model){
+        System.out.println("@# pL start");
+        ArrayList<ProductDto> dtos = service.pList(cri);
+        model.addAttribute("pList",dtos);
         int total = service.getTotalCount();
         model.addAttribute("pageMaker",new PageDto(total,cri));
+        System.out.println("@# ProductId = "+ dtos.get(0).getProductId() );
         return "admin/productList";
+    }
+
+    @PostMapping("/status")
+    @ResponseBody //반환하는값이 달라짐 보통은 뷰 반환하는데 반환하는 문자열을 그대로 반환한다.
+    public String status(@RequestParam String ProductId, @RequestParam String PSalesStatus ){
+        int i = Integer.parseInt(ProductId);
+        int j = Integer.parseInt(PSalesStatus);
+        service.updateStatus(i, j);
+        return "ok";
     }
 
 }

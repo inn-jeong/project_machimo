@@ -44,21 +44,21 @@
                 </thead>
                 <tbody>
                 <tr th:each="board: ${boardList}" th:if="${board != null}">
-                    <td th:text="${board.board_id}"></td>
-                    <td th:text="${board.b_category}"></td>
+                    <td th:text="${board.boardId}"></td>
+                    <td th:text="${board.BCategory}"></td>
                     <td>
 <!--                        <a class="move_link" th:data-id="${board.board_id}" th:href="/admin/boardView?">-->
-                        <a th:data-id="${board.board_id}" th:href="@{/admin/boardView(board_id=${board.board_id})}">
-                            <span th:text="${board.b_title}"></span>
+                        <a th:data-id="${board.boardId}" th:href="@{/admin/boardView(boardId=${board.boardId})}">
+                            <span th:text="${board.BTitle}"></span>
                         </a>
                     </td>
-                    <td th:text="${board.b_writer}"></td>
-                    <td th:text="${board.b_date}"></td>
+                    <td th:text="${board.BWriter}"></td>
+                    <td th:text="${board.BDate}"></td>
 <!--                    <td th:text="${#dates.format(board.b_date, 'YYYY-MM-DD')}"></td>-->
-                    <td th:text="${board.b_hit}"></td>
+                    <td th:text="${board.BHit}"></td>
                     <td>
-                        <a th:href="@{/admin/boardView(board_id=${board.board_id})}">수정</a>
-                        <a th:href="@{/admin/boardDelete(board_id=${board.board_id})}">삭제</a>
+                        <a th:href="@{/admin/boardView(boardId=${board.boardId})}">수정</a>
+                        <a th:href="@{/admin/boardDelete(boardId=${board.boardId})}">삭제</a>
                     </td>
                 </tr>
                 </tbody>
@@ -123,9 +123,9 @@
     // /////////////////게시글 처리/////////////////
     $(".move_link").on("click", function (e){
         e.preventDefault();
-        var board_id = $(this).attr("data-id")
-        actionForm.append("<input type='hidden' name='board_id' value='"+board_id+"'>");
-        console.log("board_id= "+board_id);
+        var boardId = $(this).attr("data-id")
+        actionForm.append("<input type='hidden' name='boardId' value='"+boardId+"'>");
+        console.log("boardId= "+boardId);
         actionForm.attr("action","boardView").submit();
     });
 
@@ -154,13 +154,13 @@
     //     actionForm.submit();
     // });
 
-    // // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-    // var bno = actionForm.find("input[name='user_id']").val();
-    // if(bno !== ''){
-    //     actionForm.find("input[name='user_id']").remove();
-    // }
-    // $(document).on('click',function (e){
-    //     e.preventDefault();
-    //     var url = "";
-    // });
+    // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+    var bno = actionForm.find("input[name='user_id']").val();
+    if(bno !== ''){
+        actionForm.find("input[name='user_id']").remove();
+    }
+    $(document).on('click',function (e){
+        e.preventDefault();
+        var url = "";
+    });
 </script>

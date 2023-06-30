@@ -5,6 +5,7 @@ import com.example.project_machimo.admin.dto.Criteria;
 import com.example.project_machimo.admin.dto.ProductDto;
 import com.example.project_machimo.admin.dto.UsersDto;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,15 +19,18 @@ public interface AdminService {
     ArrayList<BoardDto> boardList(Criteria cri);
 
     public void boardWrite(BoardDto dto);
-    public BoardDto boardView(int board_id);
+    public BoardDto boardView(int boardId);
 
-    public Integer updateHits(int board_id);
+    public Integer updateHits(int boardId);
 
-    void adminModify(int user_id);
+    void adminModify(int userId);
 
     void boardModify(BoardDto dto);
 
-    void boardDelete(int board_id);
+    void boardDelete(int boardId);
     ArrayList<ProductDto> pList(Criteria cri);
 
+    public void save(ProductDto dto) throws IOException;
+
+    void updateStatus(int productInd, int pSalesStatus);
 }

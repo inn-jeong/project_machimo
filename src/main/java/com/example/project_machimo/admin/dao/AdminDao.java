@@ -11,18 +11,18 @@ import java.util.HashMap;
 public interface AdminDao {
     ArrayList<UsersDto> adminList(Criteria cri);
     public int getTotalCount();
-    public void adminDelete(int user_id);
+    public void adminDelete(int userId);
 
     UsersDto userView(HashMap<String, String> param);
 
     ArrayList<BoardDto> BoardList(Criteria cri);
 
     void boardWrite(BoardDto dto);
-    public Integer updateHits(Integer board_id);
+    public Integer updateHits(Integer boardId);
 
-    BoardDto boardView(int board_id);
+    BoardDto boardView(int boardId);
 
-    void adminModify(int user_id);
+    void adminModify(int userId);
 
     void boardWrite(HashMap<String, Object> param);
 
@@ -31,4 +31,9 @@ public interface AdminDao {
     void boardDelete(int boardId);
 
     ArrayList<ProductDto> pList(Criteria cri);
+
+
+    void updateStatus(int ProductId, int PSalesStatus);
+
+
 }

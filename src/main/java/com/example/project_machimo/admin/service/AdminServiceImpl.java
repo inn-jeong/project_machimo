@@ -10,7 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,16 +38,16 @@ public class AdminServiceImpl implements AdminService  {
     }
 
     @Override
-    public void adminDelete(int user_id) {
+    public void adminDelete(int userId) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        dao.adminDelete(user_id);
+        dao.adminDelete(userId);
     }
 
     @Override
-    public void adminModify(int user_id) {
-        System.out.println("@# service adminModify userid= "+ user_id);
+    public void adminModify(int userId) {
+        System.out.println("@# service adminModify userid= "+ userId);
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        dao.adminModify(user_id);
+        dao.adminModify(userId);
     }
 
 
@@ -60,9 +63,9 @@ public class AdminServiceImpl implements AdminService  {
     }
 
     @Override
-    public void boardDelete(int board_id) {
+    public void boardDelete(int boardId) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        dao.boardDelete(board_id);
+        dao.boardDelete(boardId);
     }
 
 
@@ -81,15 +84,15 @@ public class AdminServiceImpl implements AdminService  {
     }
 
     @Override
-    public Integer updateHits(int board_id) {
+    public Integer updateHits(int boardId) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        return dao.updateHits(board_id);
+        return dao.updateHits(boardId);
     }
 
     @Override
-    public BoardDto boardView(int board_id) {
+    public BoardDto boardView(int boardId) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        return dao.boardView(board_id);
+        return dao.boardView(boardId);
     }
 
 
@@ -99,5 +102,29 @@ public class AdminServiceImpl implements AdminService  {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         return dao.pList(cri);
     }
+
+    public void save(ProductDto dto) throws IOException {
+        int fileStatus = dto.getIId();
+        //파일 첨부 여부에 따라 로직 분리
+        if(dto.getBoardFile().isEmpty()){
+            //첨부 파일 없는 경우
+            fileStatus = 0;
+        } else {
+            //첨부 파일 있는 경우
+            fileStatus = 1;
+            MultipartFile boardFile = dto.getBoardFile();//dto에 실제 파일 가져옴
+            String originalFilename = boardFile.getOriginalFilename(); //실제 파일의 이름 가져옴
+            String iImage = System.currentTimeMillis() + "_" + originalFilename; //23456485_imgname.jpg
+            String savePath = "C:/machimo_img/"+iImage; // 실제파일경로) C:/machimo_img/23456485_imgname.jpg
+            boardFile.transferTo(new File(savePath)); //파일 저장
+        }
+    }
+
+    @Override
+    public void updateStatus(int ProductId, int PSalesStatus) {
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        dao.updateStatus(ProductId, PSalesStatus);
+    }
+
 }
 
