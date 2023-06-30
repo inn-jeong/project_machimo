@@ -10,21 +10,21 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductsDto {
-    private Integer product_id;
-    private Integer c_id;
-    private Integer c_id2;
-    private Integer user_id;
-    private String p_name;
-    private String p_info;
-    private Integer p_direct;
-    private Timestamp p_dur;
-    private Integer p_b_price;
-    private Timestamp p_created_at;
-    private Timestamp p_updated_at;
-    private Integer p_hit;
-    private Integer p_sales_status;
-    private Integer p_sale_type;
-    private String p_account;
-    private String p_address;
-    private String p_bank;
+    private Integer productId;
+    private Integer cId;
+    private Integer cId2;
+    private Integer userId;
+    private String pName;
+    private String pInfo;
+    private Integer pDirect;
+    private Timestamp pDur;
+    private Integer pBPrice;
+    private Timestamp pCreatedAt;
+    private Timestamp pUpdatedAt;
+    private Integer pHit;
+    private Integer pSalesStatus;
+    private Integer pSaleType;
+    private String pAccount;
+    private String pAddress;
+    private String pBank;
 }

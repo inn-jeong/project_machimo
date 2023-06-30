@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BasketItemDto {
-    private Integer product_id;
-    private Integer user_id;
-    private String u_name;
-    private String p_name;
-    private Integer p_direct;
-    private Integer p_sales_status;
-    private String i_sub_img;
+    private Integer productId;
+    private Integer userId;
+    private String uName;
+    private String pName;
+    private Integer pDirect;
+    private Integer pSalesStatus;
+    private String iSubImg;
 }

@@ -39,11 +39,11 @@ public class LoginServiceImpl implements LoginService{
     public int loginYn(HashMap<String, String> param) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         int re;
-        String mem_pwd = param.get("u_password");
+        String mem_pwd = param.get("uPassword");
         UsersDto dto = dao.findUser(param);
 
         if(dto != null) {//isEmpty() 도 가능
-            String db_mem_pwd = dto.getU_password();
+            String db_mem_pwd = dto.getUPassword();
             log.info("@# service db_mem_uid ===>"+db_mem_pwd);
 
             if(mem_pwd.equals(db_mem_pwd)) {
@@ -77,57 +77,57 @@ public class LoginServiceImpl implements LoginService{
     @Override
     public HashMap<String, String> switchRequestToUser(UserRequestDto requestDto) {
         HashMap<String,String> param = new HashMap<>();
-        param.put("u_id",requestDto.getU_id());
-        param.put("u_password",requestDto.getU_password());
-        param.put("u_name",requestDto.getU_name());
-        param.put("u_jumin",requestDto.getU_jumin());
-        param.put("u_nickname",requestDto.getU_nickname());
-        param.put("u_phone",requestDto.getU_phone());
-        param.put("u_email",requestDto.getU_email());
-        param.put("u_address",requestDto.getU_address());
-        param.put("u_address_sub",requestDto.getU_address_sub());
-        param.put("u_social",requestDto.getU_social());
-        log.info("@# param u_id===>"+param.get("u_id"));
-        log.info("@# param u_pw===>"+param.get("u_password"));
-        log.info("@# param u_na===>"+param.get("u_name"));
-        log.info("@# param u_ju===>"+param.get("u_jumin"));
-        log.info("@# param u_ni===>"+param.get("u_nickname"));
-        log.info("@# param u_ph===>"+param.get("u_phone"));
-        log.info("@# param u_em===>"+param.get("u_email"));
-        log.info("@# param u_add===>"+param.get("u_address"));
-        log.info("@# param u_social===>"+param.get("u_social"));
-        log.info("@# param u_add2===>"+param.get("u_address_sub"));
+        param.put("u_id",requestDto.getUId());
+        param.put("u_password",requestDto.getUPassword());
+        param.put("u_name",requestDto.getUName());
+        param.put("u_jumin",requestDto.getUJumin());
+        param.put("u_nickname",requestDto.getUNickname());
+        param.put("u_phone",requestDto.getUPhone());
+        param.put("u_email",requestDto.getUEmail());
+        param.put("u_address",requestDto.getUAddress());
+        param.put("u_address_sub",requestDto.getUAddressSub());
+        param.put("u_social",requestDto.getUSocial());
+        log.info("@# param u_id===>"+param.get("uId"));
+        log.info("@# param u_pw===>"+param.get("uPassword"));
+        log.info("@# param u_na===>"+param.get("uName"));
+        log.info("@# param u_ju===>"+param.get("uJumin"));
+        log.info("@# param u_ni===>"+param.get("uNickname"));
+        log.info("@# param u_ph===>"+param.get("uPhone"));
+        log.info("@# param u_em===>"+param.get("uEmail"));
+        log.info("@# param u_add===>"+param.get("uAddress"));
+        log.info("@# param u_social===>"+param.get("uSocial"));
+        log.info("@# param u_add2===>"+param.get("uAddressSub"));
         return param;
     }
 
     @Override
     public UserRequestDto convertNaver(UsersDto usersDto) {
         UserRequestDto requestDto = new UserRequestDto();
-        requestDto.setU_social(usersDto.getU_social());
-        requestDto.setU_name(usersDto.getU_name());
-        requestDto.setU_email(usersDto.getU_email());
-        requestDto.setU_phone(usersDto.getU_phone());
-        requestDto.setU_jumin(usersDto.getU_jumin());
+        requestDto.setUSocial(usersDto.getUSocial());
+        requestDto.setUName(usersDto.getUName());
+        requestDto.setUEmail(usersDto.getUEmail());
+        requestDto.setUPhone(usersDto.getUPhone());
+        requestDto.setUJumin(usersDto.getUJumin());
         return requestDto;
     }
 
     @Override
     public UserRequestDto convertKakao(UsersDto usersDto) {
         UserRequestDto requestDto = new UserRequestDto();
-        requestDto.setU_social(usersDto.getU_social());
-        requestDto.setU_email(usersDto.getU_email());
-        requestDto.setU_nickname(usersDto.getU_nickname());
+        requestDto.setUSocial(usersDto.getUSocial());
+        requestDto.setUEmail(usersDto.getUEmail());
+        requestDto.setUNickname(usersDto.getUNickname());
         return requestDto;
     }
 
         @Override
-    public UsersDto findUserId(String u_social) {
+    public UsersDto findUserId(String uSocial) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
-        log.info("@# dao u_social ===> "+u_social);
-        UsersDto dto = dao.findUserId(u_social);
+        log.info("@# dao u_social ===> "+uSocial);
+        UsersDto dto = dao.findUserId(uSocial);
         if(dto != null) {
-            log.info("@# dao dto.u_social ===> " + dto.getU_social());
-            log.info("@# dao dto.u_name ===> " + dto.getU_name());
+            log.info("@# dao dto.u_social ===> " + dto.getUSocial());
+            log.info("@# dao dto.u_name ===> " + dto.getUName());
         }else{
             log.info("@# dao dto is null ===============");
         }
@@ -137,15 +137,15 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public UsersDto findUserPhone(String u_phone) {
+    public UsersDto findUserPhone(String uPhone) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
-        return dao.findMemPhone(u_phone);
+        return dao.findMemPhone(uPhone);
     }
 
     @Override
-    public UsersDto findUserEmail(String u_email) {
+    public UsersDto findUserEmail(String uEmail) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
-        return dao.findMemEmail(u_email);
+        return dao.findMemEmail(uEmail);
     }
 
     @Override
@@ -163,7 +163,7 @@ public class LoginServiceImpl implements LoginService{
     @Override
     public void updatePassword(String userEmail, String password) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
-        String userId = findUserEmail(userEmail).getU_id();
+        String userId = findUserEmail(userEmail).getUId();
         dao.updatePassword(userId,password);
     }
 

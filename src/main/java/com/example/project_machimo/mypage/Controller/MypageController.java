@@ -3,7 +3,7 @@ package com.example.project_machimo.mypage.Controller;
 import com.example.project_machimo.basket.Service.BasketService;
 import com.example.project_machimo.login.Dto.UsersDto;
 import com.example.project_machimo.mypage.Service.MypageService;
-import com.example.project_machimo.mypage.dto.PurchaseItem;
+import com.example.project_machimo.mypage.Dto.PurchaseItem;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ public class MypageController {
         if(user == null){
             return "redirect:/loginT/login?login_try=no";
         }
-        Integer user_id = user.getUser_id();
-        log.info("@# basket user_id===>" +user_id);
-        List<PurchaseItem> items = service.getPurchaseItems(user_id);
+        Integer userId = user.getUserId();
+        log.info("@# basket user_id===>" +userId);
+        List<PurchaseItem> items = service.getPurchaseItems(userId);
         model.addAttribute("items",items);
         return "mypage/mypage";
     }

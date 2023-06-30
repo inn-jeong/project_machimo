@@ -7,9 +7,9 @@
     <insert id="userInsert" parameterType="hashmap">
         insert into users(user_id,u_id,u_password,u_email,u_name,u_jumin,u_phone,u_address,u_address_sub,u_nickname,u_social) values
         ((select nvl(max(user_id),0) from users)+1,
-                #{u_id},#{u_password},#{u_email},
-                #{u_name},#{u_jumin},#{u_phone},
-                #{u_address},#{u_address_sub},#{u_nickname},#{u_social}
+                #{uId},#{uPassword},#{uEmail},
+                #{uName},#{uJumin},#{uPhone},
+                #{uAddress},#{uAddressSub},#{uNickname},#{uSocial}
                 )
     </insert>
     <update id="updatePassword">
@@ -17,16 +17,16 @@
     </update>
 
     <select id="findUser" resultType="com.example.project_machimo.login.Dto.UsersDto">
-        select * from users where u_id=#{u_id}
+        select * from users where u_id=#{uId}
     </select>
     <select id="findUserId" resultType="com.example.project_machimo.login.Dto.UsersDto">
-            select * from users where u_social = #{u_social}
+            select * from users where u_social = #{uSocial}
     </select>
 
         <select id="findMemPhone" resultType="com.example.project_machimo.login.Dto.UsersDto">
-        select * from users where u_phone = #{u_phone}
+        select * from users where u_phone = #{uPhone}
     </select>
     <select id="findMemEmail" resultType="com.example.project_machimo.login.Dto.UsersDto">
-        select * from users where u_email = #{u_email}
+        select * from users where u_email = #{uEmail}
     </select>
 </mapper>

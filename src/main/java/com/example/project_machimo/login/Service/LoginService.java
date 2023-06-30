@@ -18,9 +18,9 @@ public interface LoginService {
     public HashMap<String,String> switchRequestToUser(UserRequestDto requestDto);
     public UserRequestDto convertNaver(UsersDto usersDto);
     public UserRequestDto convertKakao(UsersDto usersDto);
-    public UsersDto findUserId(String u_social);
-    public UsersDto findUserPhone(String u_phone);
-    public UsersDto findUserEmail(String u_email);
+    public UsersDto findUserId(String uSocial);
+    public UsersDto findUserPhone(String uPhone);
+    public UsersDto findUserEmail(String uEmail);
     public MailDto createMailAndChangePassword(String userEmail);
     public void updatePassword(String password, String userEmail);
     public String getTempPassword();

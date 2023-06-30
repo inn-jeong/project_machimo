@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BasketDto {
-    private Integer basket_id;
-    private Integer user_id;
-    private Integer product_id;
+    private Integer basketId;
+    private Integer userId;
+    private Integer productId;
 }

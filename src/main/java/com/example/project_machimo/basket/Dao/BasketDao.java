@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 @Mapper
 public interface BasketDao {
-    public ArrayList<BasketDto> getBasket(Integer user_id);
+    public ArrayList<BasketDto> getBasket(Integer userId);
 //    public ProductsDto getItemInfo(Integer product_id);
-    public BasketItemDto getItemInfo(Integer product_id);
-    public int deleteItem(Integer user_id, Integer product_id);
+    public BasketItemDto getItemInfo(Integer productId);
+    public int deleteItem(Integer userId, Integer productId);
 }

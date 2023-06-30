@@ -19,9 +19,9 @@ public class BasketServiceImpl implements BasketService {
     private SqlSession sqlSession;
 
     @Override
-    public ArrayList<BasketDto> getBasket(Integer user_id) {
+    public ArrayList<BasketDto> getBasket(Integer userId) {
         BasketDao dao = sqlSession.getMapper(BasketDao.class);
-        ArrayList<BasketDto> basket = dao.getBasket(user_id);
+        ArrayList<BasketDto> basket = dao.getBasket(userId);
         return basket;
     }
 
@@ -30,10 +30,10 @@ public class BasketServiceImpl implements BasketService {
         BasketDao dao = sqlSession.getMapper(BasketDao.class);
         ArrayList<BasketItemDto> basketItems = new ArrayList<>();
         for(BasketDto dto:basket){
-            Integer product_id = dto.getProduct_id();
-            log.info("@# dao getBasket id ===>"+dto.getProduct_id());
-            BasketItemDto itemDto = dao.getItemInfo(product_id);
-            log.info("@# dao getBasket item_id ===>"+itemDto.getProduct_id());
+            Integer productId = dto.getProductId();
+            log.info("@# dao getBasket id ===>"+dto.getProductId());
+            BasketItemDto itemDto = dao.getItemInfo(productId);
+            log.info("@# dao getBasket item_id ===>"+itemDto.getProductId());
             basketItems.add(itemDto);
         }
         return basketItems;
@@ -52,9 +52,9 @@ public class BasketServiceImpl implements BasketService {
 //    }
 
     @Override
-    public int deleteItem(Integer user_id, Integer product_id) {
+    public int deleteItem(Integer userId, Integer productId) {
         BasketDao dao = sqlSession.getMapper(BasketDao.class);
-        int result = dao.deleteItem(user_id, product_id);
+        int result = dao.deleteItem(userId, productId);
 
         return result;
     }

@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.project_machimo.mypage.Dao.MypageDao">
 
-    <select id="getPurchaseItems" resultType="com.example.project_machimo.mypage.dto.PurchaseItem">
+    <select id="getPurchaseItems" resultType="com.example.project_machimo.mypage.Dto.PurchaseItem">
         select a.order_id,a.user_id, a.product_id,to_char(a.created_at,'YYYY-MM-DD') created_at
                 ,b.p_name,b.p_direct,c.order_status,d.i_sub_img,e.u_name
         from orders a
@@ -14,4 +14,5 @@
         join(select user_id,u_name from users) e on a.user_id = e.user_id
         where a.user_id = #{param1}
     </select>
+
 </mapper>

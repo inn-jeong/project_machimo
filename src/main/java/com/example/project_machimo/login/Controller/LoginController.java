@@ -110,7 +110,7 @@ public class LoginController {
         if(kakaoMem != null ){
             if(kakaoMem.equals("yes")){
                 //model에 카카오 개인정보 저장 후 회원가입 폼으로 넘어감(그래봤자 이메일과 닉네임 2개..)
-                log.info("@# kakaoMem u_email===>"+kakaoUser.getU_email());
+                log.info("@# kakaoMem u_email===>"+kakaoUser.getUEmail());
                 requestDto = service.convertKakao(kakaoUser);
                 model.addAttribute("kakaoMem","yes");
             }
@@ -122,7 +122,7 @@ public class LoginController {
     //회원가입 폼에서 유효성 검사를 마치고 넘어온 정보들을 DB에 insert
     @RequestMapping("/register")
     public String register(@RequestParam HashMap<String, String> param,Model model) {
-        log.info("@# id ===>"+param.get("u_id"));
+        log.info("@# id ===>"+param.get("uId"));
         service.userInsert(param);
         //logion 페이지에 register 값을 넘김으로 회원가입 후 넘어감을 알림
         return "redirect:/loginT/login?register=ok";
@@ -139,8 +139,8 @@ public class LoginController {
         String page;
         HttpSession session = request.getSession();
         model.addAttribute("naverMem", usersDto);
-        log.info("@# naver_ok u_social ===>"+ usersDto.getU_social());
-        UsersDto dto = service.findUserId(usersDto.getU_social());
+        log.info("@# naver_ok u_social ===>"+ usersDto.getUSocial());
+        UsersDto dto = service.findUserId(usersDto.getUSocial());
         if(dto == null){
             page = "redirect:/loginT/register_page?naverMem=yes";
         }else{
@@ -167,15 +167,15 @@ public class LoginController {
         String birthyear = request.getParameter("birthyear");
         birthday = birthday.replace("-","");
         birthyear = birthyear.substring(2);
-        String u_jumin = birthyear+birthday;
-        log.info("@# naverLogin_ok u_jumin ===> "+u_jumin);
+        String uJumin = birthyear+birthday;
+        log.info("@# naverLogin_ok u_jumin ===> "+uJumin);
 
         //객체 조립하여 세션에 개인정보 저장
-        dto.setU_social(request.getParameter("id"));
-        dto.setU_name(request.getParameter("name"));
-        dto.setU_email(request.getParameter("email"));
-        dto.setU_jumin(u_jumin);
-        dto.setU_phone(request.getParameter("phone"));
+        dto.setUSocial(request.getParameter("id"));
+        dto.setUName(request.getParameter("name"));
+        dto.setUEmail(request.getParameter("email"));
+        dto.setUJumin(uJumin);
+        dto.setUPhone(request.getParameter("phone"));
         session.setAttribute("naverUser",dto);
 //        model.addAttribute("loginType","naver");
         return "login/childWin";
@@ -187,7 +187,7 @@ public class LoginController {
         if (errors.hasErrors()) {
             /* 회원가입 실패시 입력 데이터 값을 유지 */
             model.addAttribute("userDto", userDto);
-            log.info("@# check address ===>"+userDto.getU_address());
+            log.info("@# check address ===>"+userDto.getUAddress());
 
             /* 유효성 통과 못한 필드와 메시지를 핸들링 */
             Map<String, String> validatorResult = service.validateHandling(errors);
@@ -207,12 +207,12 @@ public class LoginController {
 
     @RequestMapping("/checkUser")
     @ResponseBody
-    public String checkMamber(@RequestParam("u_id") String u_id, Model model){
+    public String checkMamber(@RequestParam("uId") String uId, Model model){
         log.info("@# checkUser start====");
         HashMap<String,String> param = new HashMap<>();
         String result;
-        log.info("@# checkUser u_id ====>"+u_id);
-        param.put("u_id",u_id);
+        log.info("@# checkUser u_id ====>"+uId);
+        param.put("uId",uId);
 
         UsersDto User = service.findUser(param);
         if(User != null){
@@ -239,13 +239,13 @@ public class LoginController {
         HttpSession session = request.getSession();
         String result;
         log.info("kakaoLogin_ok");
-        log.info("@# kakaoLogin_ok nickname ===> "+ usersDto.getU_nickname());
-        log.info("@# kakaoLogin_ok email ===> "+ usersDto.getU_email());
-        log.info("@# kakaoLogin_ok social ===> "+ usersDto.getU_social());
+        log.info("@# kakaoLogin_ok nickname ===> "+ usersDto.getUNickname());
+        log.info("@# kakaoLogin_ok email ===> "+ usersDto.getUEmail());
+        log.info("@# kakaoLogin_ok social ===> "+ usersDto.getUSocial());
 
         session.setAttribute("kakaoUser", usersDto);
 //        model.addAttribute("loginType","kakao");
-        UsersDto kakaoDto = service.findUserId(usersDto.getU_social());
+        UsersDto kakaoDto = service.findUserId(usersDto.getUSocial());
         if(kakaoDto == null){
             result= "denined";
         }else {
@@ -263,7 +263,7 @@ public class LoginController {
         UsersDto kakaoUser = (UsersDto)session.getAttribute("kakaoUser");
         if (login_ok.equals("yes")){
             page = "login/login_ok";
-            session.setAttribute("user",service.findUserId(kakaoUser.getU_social()));
+            session.setAttribute("user",service.findUserId(kakaoUser.getUSocial()));
         }else{
             page = "redirect:/loginT/register_page?kakaoMem=yes";
         }
@@ -359,13 +359,13 @@ public class LoginController {
     @RequestMapping("/findId")
     @ResponseBody
     public String findId(HttpServletRequest request, Model model){
-        String u_email = request.getParameter("userEmail");
-        UsersDto dto = service.findUserEmail(u_email);
+        String uEmail = request.getParameter("userEmail");
+        UsersDto dto = service.findUserEmail(uEmail);
         if(dto != null){
-            log.info(dto.getU_id());
+            log.info(dto.getUId());
         }else{
             return "denined";
         }
-        return dto.getU_id();
+        return dto.getUId();
     }
 }

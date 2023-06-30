@@ -12,7 +12,7 @@
 <input type="hidden" id="naverMem" th:value="${naverMem}">
 <input type="hidden" id="kakaoMem" th:value="${kakaoMem}">
 <form name="reg_frm" id="reg_frm" class="table-primary" method="post" action="/loginT/joinProc">
-    <input type="hidden" name="u_social" th:value="${userDto.getU_social()}">
+    <input type="hidden" name="u_social" th:value="${userDto.uSocial}">
 <!--    <input type="text" name="u_social" th:value="${userDto.getU_social()}">-->
   <table align="center">
     <tr height="60" width="120">
@@ -23,18 +23,18 @@
     <tr height="60">
       <td style="width: 100px">User ID</td>
       <td>
-        <input name="u_id" id="u_id" type="text" th:value="${userDto.getU_id()}" size="20">
+        <input name="uId" id="uId" type="text" th:value="${userDto.uId}" size="20">
           <button type="button" id="check_btn" onclick="sendRequest()">중복 체크</button>
           <span id="check_result"></span>
-          <span class="fs-6 text-danger" th:text="${valid_u_id}"></span>
+          <span class="fs-6 text-danger" th:text="${valid_uId}"></span>
 
       </td>
     </tr>
     <tr height="60">
       <td>암    호</td>
       <td>
-        <input name="u_password" type="password" size="20">*
-          <div><span class="fs-6 text-danger" th:text="${valid_u_password}"></span></div>
+        <input name="uPassword" type="password" size="20">*
+          <div><span class="fs-6 text-danger" th:text="${valid_uPassword}"></span></div>
       </td>
     </tr>
 <!--     			<tr height="30">-->
@@ -46,47 +46,47 @@
     <tr height="60">
       <td>이   름</td>
       <td>
-        <input name="u_name" type="text" th:value="${userDto.getU_name()}" size="20">*
+        <input name="uName" type="text" th:value="${userDto.uName}" size="20">*
 <!--        <input name="u_name" type="text" size="20">*-->
-          <div><span class="fs-6 text-danger" th:text="${valid_u_name}"></span></div>
+          <div><span class="fs-6 text-danger" th:text="${valid_uName}"></span></div>
       </td>
     </tr>
       <tr height="60">
           <td>생년월일</td>
           <td>
-              <input name="u_jumin" type="text" th:value="${userDto.getU_jumin()}" size="20" placeholder="예) 960429">*
-              <div><span class="fs-6 text-danger" th:text="${valid_u_jumin}"></span></div>
+              <input name="uJumin" type="text" th:value="${userDto.uJumin}" size="20" placeholder="예) 960429">*
+              <div><span class="fs-6 text-danger" th:text="${valid_uJumin}"></span></div>
           </td>
       </tr>
       <tr height="60">
           <td>전화번호</td>
           <td>
-              <input name="u_phone" type="text" th:value="${userDto.getU_phone()}" size="20" placeholder="예) 01x-xxxx-xxxx">*
-              <div><span class="fs-6 text-danger" th:text="${valid_u_phone}"></span></div>
+              <input name="uPhone" type="text" th:value="${userDto.uPhone}" size="20" placeholder="예) 01x-xxxx-xxxx">*
+              <div><span class="fs-6 text-danger" th:text="${valid_uPhone}"></span></div>
           </td>
       </tr>
       <tr height="60">
           <td>닉네임</td>
           <td>
-              <input name="u_nickname" type="text" th:value="${userDto.getU_nickname()}" size="20">*
-              <div><span class="fs-6 text-danger" th:text="${valid_u_nickname}"></span></div>
+              <input name="uNickname" type="text" th:value="${userDto.uNickname}" size="20">*
+              <div><span class="fs-6 text-danger" th:text="${valid_uNickname}"></span></div>
           </td>
       </tr>
     <tr height="60">
         <td>E-mail</td>
         <td>
-            <input name="u_email" type="text" th:value="${userDto.getU_email()}" size="60">
-            <div><span class="fs-6 text-danger" th:text="${valid_u_email}"></span></div>
+            <input name="uEmail" type="text" th:value="${userDto.uEmail}" size="60">
+            <div><span class="fs-6 text-danger" th:text="${valid_uEmail}"></span></div>
         </td>
     </tr>
     <tr height="60">
         <td>주    소</td>
         <td>
-            <input name="u_postNum" id="u_postNum" type="text" th:value="${userDto.getU_postNum()}" size="10" readonly placeholder="우편번호"> <br>
-            <input name="u_address" id="u_address" type="text" th:value="${userDto.getU_address()}" size="40" readonly>
+            <input name="uPostNum" id="uPostNum" type="text" th:value="${userDto.uPostNum}" size="10" readonly placeholder="우편번호"> <br>
+            <input name="uAddress" id="uAddress" type="text" th:value="${userDto.uAddress}" size="40" readonly>
             <input type="button"  value="주소검색" onclick="goPopup();"> <br>
-            <input name="u_address_sub" id="u_address_sub" type="text" th:value="${userDto.getU_address_sub()}" size="20" placeholder="상세 주소">
-            <div><span class="fs-6 text-danger" th:text="${valid_u_address}"></span> <br></div>
+            <input name="uAddressSub" id="uAddressSub" type="text" th:value="${userDto.uAddressSub}" size="20" placeholder="상세 주소">
+            <div><span class="fs-6 text-danger" th:text="${valid_uAddress}"></span> <br></div>
         </td>
     </tr>
     <tr height="60">
@@ -103,13 +103,13 @@
 </body>
 <script type="text/javascript">
     function sendRequest(){
-        var u_id = $("#u_id").val();
-        console.log("u_id"+u_id+"test");
-        if(u_id == null || u_id == "") return 0;
+        var uId = $("#uId").val();
+        console.log("uId"+uId+"test");
+        if(uId == null || uId == "") return 0;
         $.ajax({
             url: "/loginT/checkUser"
             , type: "POST"
-            , data: {"u_id": u_id}
+            , data: {"uId": uId}
             // dataType: 생략 가능(생략하면 자동으로 데이터타입 처리)
             // ,dataType: "json"
             , dataType: "text"

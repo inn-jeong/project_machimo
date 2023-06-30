@@ -1,4 +1,4 @@
-package com.example.project_machimo.mypage.dto;
+package com.example.project_machimo.mypage.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,13 +10,13 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PurchaseItem {
-    private Integer order_id;
-    private Integer product_id;
-    private Integer user_id;
-    private String u_name;
-    private String p_name;
-    private Integer p_direct;
-    private String i_sub_img;
-    private String created_at;
-    private String order_status;
+    private Integer orderId;
+    private Integer productId;
+    private Integer userId;
+    private String uName;
+    private String pName;
+    private Integer pDirect;
+    private String iSubImg;
+    private String createdAt;
+    private String orderStatus;
 }

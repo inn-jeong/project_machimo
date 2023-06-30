@@ -1,7 +1,7 @@
 package com.example.project_machimo.mypage.Service;
 
 import com.example.project_machimo.mypage.Dao.MypageDao;
-import com.example.project_machimo.mypage.dto.PurchaseItem;
+import com.example.project_machimo.mypage.Dto.PurchaseItem;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +15,9 @@ public class MypageServiceImpl implements MypageService{
     private SqlSession sqlSession;
 
     @Override
-    public ArrayList<PurchaseItem> getPurchaseItems(Integer user_id) {
+    public ArrayList<PurchaseItem> getPurchaseItems(Integer userId) {
         MypageDao dao = sqlSession.getMapper(MypageDao.class);
-        ArrayList<PurchaseItem> items = dao.getPurchaseItems(user_id);
+        ArrayList<PurchaseItem> items = dao.getPurchaseItems(userId);
 
         return items;
     }

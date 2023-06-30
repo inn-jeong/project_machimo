@@ -23,23 +23,23 @@
         </thead>
         <tbody class="table-group-divider">
 <!--            <tr th:each="item, count:${basketItems}" th:id="${item.product_id}" >-->
-            <tr th:if="${item.p_sales_status==1}" th:id="${item.product_id}" th:each="item, count:${basketItems}" >
+            <tr th:if="${item.pSalesStatus==1}" th:id="${item.productId}" th:each="item, count:${basketItems}" >
                 <td th:class="count" th:text="${count.count}"></td>
-                <td th:text="${item.i_sub_img}"></td>
-                <td th:text="${item.product_id}"></td>
-                <td th:text="${item.p_name}"></td>
-                <td th:text="${item.u_name}"></td>
-                <td class="price" th:text="${item.p_direct}"></td>
-                <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.product_id}+'\')'">삭제</button></td>
+                <td th:text="${item.iSubImg}"></td>
+                <td th:text="${item.productId}"></td>
+                <td th:text="${item.pName}"></td>
+                <td th:text="${item.uName}"></td>
+                <td class="price" th:text="${item.pDirect}"></td>
+                <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
             </tr>
-            <tr th:if="${item.p_sales_status==2}" th:id="${item.product_id}" th:each="item, count:${basketItems}" class="table-active">
+            <tr th:if="${item.pSalesStatus==2}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="table-active">
                 <td>품절</td>
-                <td th:text="${item.i_sub_img}"></td>
-                <td th:text="${item.product_id}"></td>
-                <td th:text="${item.p_name}"></td>
-                <td th:text="${item.u_name}"></td>
-                <td th:text="${item.p_direct}"></td>
-                <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.product_id}+'\')'">삭제</button></td>
+                <td th:text="${item.iSubImg}"></td>
+                <td th:text="${item.productId}"></td>
+                <td th:text="${item.pName}"></td>
+                <td th:text="${item.uName}"></td>
+                <td th:text="${item.pDirect}"></td>
+                <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
             </tr>
         </tbody>
         <tfoot class="table-group-divider">
@@ -97,7 +97,6 @@
 
     function deleteItem(itemId){
         console.log("delete: "+itemId);
-        var user_id = $('#user_id');
         $.ajax({
             url:'/basket/deleteItem',
             type:'POST',

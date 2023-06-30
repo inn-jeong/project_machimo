@@ -13,10 +13,10 @@
         <!--email:<span th:text="${naverMem.getU_email()}"></span> <br>-->
         <!--phone:<span th:text="${naverMem.getU_phone()}"></span> <br>-->
         <!--jumin<span th:text="${naverMem.getU_jumin()}"></span>-->
-        이름: <span th:text="${session.user.getU_name()}"></span> <br>
-        이메일: <span th:text="${session.user.getU_email()}"></span> <br>
-        휴대폰번호: <span th:text="${session.user.getU_phone()}"></span> <br>
-        생년월일: <span th:text="${session.user.getU_jumin()}"></span> <br><br><br>
+        이름: <span th:text="${session.user.uName}"></span> <br>
+        이메일: <span th:text="${session.user.uEmail}"></span> <br>
+        휴대폰번호: <span th:text="${session.user.uPhone}"></span> <br>
+        생년월일: <span th:text="${session.user.uJumin}"></span> <br><br><br>
         <button onclick="javascript:location.href='/loginT/login'">초기화면</button>
     </div>
 <th:block th:replace="fragments/footer"></th:block>
