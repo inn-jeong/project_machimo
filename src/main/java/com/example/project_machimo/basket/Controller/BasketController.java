@@ -45,7 +45,8 @@ public class BasketController {
                 model.addAttribute("basketItems",basketItems);
             }
         }
-        return "basket/basket";
+        model.addAttribute("type","basket");
+        return "mypage/mypage";
     }
 
     @RequestMapping("/deleteItem")
