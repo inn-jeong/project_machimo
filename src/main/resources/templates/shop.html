@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,43 +8,22 @@
 <body>
     shop 페이집 입니다.
 
-
-<!--    <form action="/shop/allItemView" method="get">-->
-<!--        <select name="sort" id="sort">-->
-<!--            <option value="">선택하세요</option>-->
-<!--            <option value="newest" th:selected="${param.sort == 'newest'}">최신순</option>-->
-<!--            <option value="popularity">인기순</option>-->
-<!--            <option value="interest">관심많은 순</option>-->
-<!--            <option value="auction_p">경매 상품</option>-->
-<!--            <option value="auction_pp">경매 가격 낮은 순</option>-->
-<!--            <option value="auction_ppd">경매 가격 높은 순</option>-->
-<!--            <option value="auction_n">일반 상품</option>-->
-<!--            <option value="auction_np">일반 상품 낮은 순</option>-->
-<!--            <option value="auction_npd">일반 상품 높은 순</option>-->
-<!--        </select>-->
-<!--        <button type="submit">정렬 적용</button>-->
-<!--    </form>-->
-    <form action="/shop/allItemView" method="get">
-        <select name="category">
-            <option value="0">All Categories</option>
-            <!-- 상위 카테고리 옵션 -->
-            <th:block th:each="category : ${categories}">
-                <option value="${category.c_id}" th:text="${category.c_name}"></option>
-            </th:block>
-        </select>
-        <button type="submit">카테고리 선택</button>
-    </form>
-
-    <!-- 하위 카테고리 표시 -->
-    <div>
-        <ul>
-            <!-- 하위 카테고리 목록 -->
-            <th:block th:each="subCategory : ${subCategories}">
-                <li th:text="${subCategory.c_name}"></li>
-            </th:block>
-        </ul>
-    </div>
-
+<!--    상위카테고리-->
+    <ul>
+        <li th:each="category : ${categories}">
+            <a th:href="@{/shop/category/{categoryId}(categoryId=${category.c_id})}">
+                <span th:text="${category.c_name}"></span>
+            </a>
+        </li>
+    </ul>
+<!--    하위 카테고리-->
+    <ul th:if="${subCategories != null}">
+        <li th:each="subCategory : ${subCategories}">
+            <a th:href="@{/shop/category/{categoryId}(categoryId=${subCategory.c_id})}">
+                <span th:text="${subCategory.c_name}"></span>
+            </a>
+        </li>
+    </ul>
 
     <form action="/shop/allItemView" method="get">
         <select name="sort" id="sort">

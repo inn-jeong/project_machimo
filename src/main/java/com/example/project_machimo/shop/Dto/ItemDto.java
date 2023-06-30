@@ -10,9 +10,10 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemDto {
-    private Integer products_id;//제품번호
-    private Integer users_id;//유저 번호
+    private Integer product_id;//제품번호
+    private Integer user_id;//유저 번호
     private Integer c_id;//카테고리 번호
+    private Integer c_id2;//자기참조 카테고리 번호
     private String p_name;//제품 이름
     private String p_info;//제품 정보
     private Integer p_direct;//즉시 판매가
@@ -30,5 +31,4 @@ public class ItemDto {
     private String i_sub_image; //제품의 서브 이미지
     private Integer wish_like;//좋아요수
     private String c_name;//카테고리 이름
-    private Integer c_id2;//카테고리 번호자기참조
 }

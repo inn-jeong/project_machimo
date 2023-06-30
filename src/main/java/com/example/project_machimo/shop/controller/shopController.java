@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,62 +24,19 @@ public class shopController {
 
     //모든 상품을 보는 메소드
     @RequestMapping("/allItemView")
-    public String allItemView(Model model, @RequestParam(name = "sort", required = false) String sort
-                                ,@RequestParam(name = "category", required = false) Integer c_id){
+    public String allItemView(Model model, @RequestParam(name = "sort", required = false) String sort){
         log.info("@# allItemView");
-        ArrayList<ProductDto> products = service.allItemView(c_id);
+        ArrayList<ProductDto> products = service.allItemView();
         ArrayList<ItemDto> items = new ArrayList<>();
-
-        int categoryId;
-        if (c_id != null) {
-            categoryId = c_id;
-        } else {
-            categoryId = -1; // 기본값으로 -1을 사용합니다.
-        }
-
-        if (categoryId != -1) {
-            // categoryId가 제공되었을 경우, 해당 카테고리의 상품을 가져옵니다.
-            products = service.allItemView(categoryId);
-        } else {
-            // categoryId가 제공되지 않았을 경우, 모든 상품을 가져옵니다.
-            products = service.allItemView(categoryId);
-        }
 
 
         for (ProductDto product : products) {
-            ItemDto item = new ItemDto();
-            item.setProducts_id(product.getProducts_id());
-            item.setUsers_id(product.getUser_id());
-            item.setC_id(product.getC_id());
-            item.setP_name(product.getP_name());
-            item.setP_info(product.getP_info());
-            item.setP_direct(product.getP_direct());
-            item.setP_dur(product.getP_dur());
-            item.setP_b_price(product.getP_b_price());
-            item.setP_created_at(product.getP_created_at());
-            item.setP_updated_at(product.getP_updated_at());
-            item.setP_hit(product.getP_hit());
-            item.setP_sales_status(product.getP_sales_status());
-            item.setP_sale_type(product.getP_sale_type());
-            item.setP_account(product.getP_account());
-            item.setP_address(product.getP_address());
-            item.setP_bank(product.getP_bank());
 
-            int userId = product.getUser_id();
-            ArrayList<UsersDto> nicknames = service.findNickName(userId);
-            if (!nicknames.isEmpty()) {
-                item.setU_nickname(nicknames.get(0).getU_nickname());
-            }
+            // 상품 정보 변환 작업 수행
+            ItemDto item = changeItem(product);
 
-            int productId = product.getProducts_id();
-            ArrayList<ImgDto> subImages = service.viewImage(productId);
-            if (!subImages.isEmpty()) {
-                item.setI_sub_image(subImages.get(0).getI_sub_img());
-            }
-            ArrayList<WishlistDto> wishLike = service.wishLike(productId);
-            if (!wishLike.isEmpty()){
-                item.setWish_like(wishLike.get(0).getWish_like());
-            }
+            // 상품 정보에 추가 작업 수행(닉네임,이미지)
+            addInformation(item);
 
             items.add(item);
         }
@@ -136,4 +94,67 @@ public class shopController {
         model.addAttribute("selectedSort", sort);
         return "shop";
     }
+
+    // ProductDto를 ItemDto로 변환하는 메소드
+    private ItemDto changeItem(ProductDto product) {
+        ItemDto item = new ItemDto();
+        // 상품 정보 변환 작업 수행
+        item.setProduct_id(product.getProduct_id());
+        item.setUser_id(product.getUser_id());
+        item.setC_id(product.getC_id());
+        item.setP_name(product.getP_name());
+        item.setP_info(product.getP_info());
+        item.setP_direct(product.getP_direct());
+        item.setP_dur(product.getP_dur());
+        item.setP_b_price(product.getP_b_price());
+        item.setP_created_at(product.getP_created_at());
+        item.setP_updated_at(product.getP_updated_at());
+        item.setP_hit(product.getP_hit());
+        item.setP_sales_status(product.getP_sales_status());
+        item.setP_sale_type(product.getP_sale_type());
+        item.setP_account(product.getP_account());
+        item.setP_address(product.getP_address());
+        item.setP_bank(product.getP_bank());
+        item.setC_id2(product.getC_id2());
+
+        return item;
+    }
+
+    // 상품에 대한 추가 정보를 조회하고 ItemDto에 추가하는 메소드
+    private void addInformation(ItemDto item) {
+        //닉네임 추가하기
+        int userId = item.getUser_id();
+        ArrayList<UsersDto> nicknames = service.findNickName(userId);
+        if (!nicknames.isEmpty()) {
+            item.setU_nickname(nicknames.get(0).getU_nickname());
+        }
+        //이미지 추가하기
+        int productId = item.getProduct_id();
+        ArrayList<ImgDto> subImages = service.viewImage(productId);
+        if (!subImages.isEmpty()) {
+            item.setI_sub_image(subImages.get(0).getI_sub_img());
+        }
+        //좋아요 추가하기
+        ArrayList<WishlistDto> wishLike = service.wishLike(productId);
+        if (!wishLike.isEmpty()) {
+            item.setWish_like(wishLike.get(0).getWish_like());
+        }
+    }
+    @RequestMapping("/allItemView")
+    public String shopPage(Model model) {
+        ArrayList<CategoryDto> categories = service.getCategories();
+        model.addAttribute("categories", categories);
+        return "shop";
+    }
+
+    @RequestMapping("/allItemView")
+    public String categoryPage(@RequestParam("categoryId") int categoryId, Model model) {
+        ArrayList<CategoryDto> categories = service.getCategories();
+        ArrayList<CategoryDto> subCategories = service.getSubCategories(categoryId);
+        model.addAttribute("categories", categories);
+        model.addAttribute("subCategories", subCategories);
+        return "shop";
+    }
+
 }
+

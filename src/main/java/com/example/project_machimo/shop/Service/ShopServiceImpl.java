@@ -15,10 +15,10 @@ public class ShopServiceImpl implements ShopService{
     @Autowired
     private SqlSession sqlSession;
     @Override
-    public ArrayList<ProductDto> allItemView(int c_id) {
+    public ArrayList<ProductDto> allItemView() {
         log.info("@# allItemView start");
         ShopDao dao = sqlSession.getMapper(ShopDao.class);
-        ArrayList<ProductDto> list = dao.allItemView(c_id);
+        ArrayList<ProductDto> list = dao.allItemView();
         log.info("@# allItemView end");
         return list;
     }
@@ -48,10 +48,25 @@ public class ShopServiceImpl implements ShopService{
     }
 
     @Override
-    public ArrayList<CategoryDto> category(Integer c_id) {
+    public ArrayList<CategoryDto> category(int product_id) {
         log.info("@# category");
         ShopDao dao = sqlSession.getMapper(ShopDao.class);
-        ArrayList<CategoryDto> category = dao.category(c_id);
+        ArrayList<CategoryDto> category = dao.category(product_id);
         return category;
+    }
+    @Override
+    public ArrayList<CategoryDto> getCategories() {
+        log.info("@# getCategories");
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        ArrayList<CategoryDto> categories = dao.getCategories();
+        return categories;
+    }
+
+    @Override
+    public ArrayList<CategoryDto> getSubCategories(Integer categoryId) {
+        log.info("@# getSubCategories");
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        ArrayList<CategoryDto> subCategories = dao.getSubCategories(categoryId);
+        return subCategories;
     }
 }
