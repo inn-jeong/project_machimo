@@ -6,28 +6,29 @@
     <title>Title</title>
 </head>
 <body>
-    shop 페이집 입니다.
+    shop 페이지 입니다.
 
-<!--    상위카테고리-->
-    <ul>
-        <li th:each="category : ${categories}">
-            <a th:href="@{/shop/category/{categoryId}(categoryId=${category.c_id})}">
-                <span th:text="${category.c_name}"></span>
-            </a>
-        </li>
-    </ul>
-<!--    하위 카테고리-->
-    <ul th:if="${subCategories != null}">
-        <li th:each="subCategory : ${subCategories}">
-            <a th:href="@{/shop/category/{categoryId}(categoryId=${subCategory.c_id})}">
-                <span th:text="${subCategory.c_name}"></span>
-            </a>
-        </li>
-    </ul>
+    <!-- 카테고리 목록 -->
+    <div>
+        <h3>카테고리</h3>
+        <ul>
+            <li><a href="/shop/allItemView">전체</a></li>
+            <li th:each="category : ${categories}">
+                <a th:href="@{'/shop/allItemView?category=' + ${category.c_id}}"
+                   th:text="${category.c_name}"></a>
+                <ul th:if="${subcategory.containsKey(category.c_id)}">
+                    <li th:each="subCategory : ${subcategory[category.c_id]}">
+                        <a th:href="@{'/shop/allItemView?category=' + ${subCategory.c_id2}}"
+                           th:text="${subCategory.c_name}"></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 
     <form action="/shop/allItemView" method="get">
         <select name="sort" id="sort">
-            <option value="">선택하세요</option>
+            <option value="">전체보기</option>
 
 <!--            th:selct 속성으로 selectedSort 변수에 값을 확인하고 해당하는 옵션을 선택상태로 설정-->
             <option value="newest" th:selected="${selectedSort == 'newest'}">최신순</option>

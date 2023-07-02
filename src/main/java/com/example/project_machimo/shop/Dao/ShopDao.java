@@ -3,6 +3,7 @@ package com.example.project_machimo.shop.Dao;
 import com.example.project_machimo.shop.Dto.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ShopDao {
 //    public ArrayList<ProductDto> categoryContect();
@@ -14,7 +15,7 @@ public interface ShopDao {
     public ArrayList<ImgDto> viewImage(int product_id);
     //제품 번호에 맞는 좋아요 갯수를 가져오는 메소드
     public ArrayList<WishlistDto> wishLike(int product_id);
-    public ArrayList<CategoryDto> category(int product_id);
+    List<ProductDto> getProductsByCategoryId(int c_id);
     public ArrayList<CategoryDto> getCategories();
-    public ArrayList<CategoryDto> getSubCategories(Integer categoryId);
+    public ArrayList<CategoryDto> getSubCategories(Integer c_id2);
 }

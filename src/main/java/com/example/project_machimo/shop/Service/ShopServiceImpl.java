@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service("ShopService")
@@ -48,13 +49,6 @@ public class ShopServiceImpl implements ShopService{
     }
 
     @Override
-    public ArrayList<CategoryDto> category(int product_id) {
-        log.info("@# category");
-        ShopDao dao = sqlSession.getMapper(ShopDao.class);
-        ArrayList<CategoryDto> category = dao.category(product_id);
-        return category;
-    }
-    @Override
     public ArrayList<CategoryDto> getCategories() {
         log.info("@# getCategories");
         ShopDao dao = sqlSession.getMapper(ShopDao.class);
@@ -63,10 +57,17 @@ public class ShopServiceImpl implements ShopService{
     }
 
     @Override
-    public ArrayList<CategoryDto> getSubCategories(Integer categoryId) {
+    public ArrayList<CategoryDto> getSubCategories(Integer c_id) {
         log.info("@# getSubCategories");
         ShopDao dao = sqlSession.getMapper(ShopDao.class);
-        ArrayList<CategoryDto> subCategories = dao.getSubCategories(categoryId);
+        ArrayList<CategoryDto> subCategories = dao.getSubCategories(c_id);
         return subCategories;
+    }
+
+    @Override
+    public List<ProductDto> getProductsByCategoryId(int c_id2) {
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        List<ProductDto> getProductsByCategoryId = dao.getProductsByCategoryId(c_id2);
+        return getProductsByCategoryId;
     }
 }

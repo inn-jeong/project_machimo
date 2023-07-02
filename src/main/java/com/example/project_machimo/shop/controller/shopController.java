@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -24,22 +22,35 @@ public class shopController {
 
     //모든 상품을 보는 메소드
     @RequestMapping("/allItemView")
-    public String allItemView(Model model, @RequestParam(name = "sort", required = false) String sort){
+    public String allItemView(Model model, @RequestParam(name = "sort", required = false) String sort
+                                    , @RequestParam(name = "category", required = false) Integer c_id2){
         log.info("@# allItemView");
-        ArrayList<ProductDto> products = service.allItemView();
-        ArrayList<ItemDto> items = new ArrayList<>();
+
+        // 모든 카테고리와 그에 해당하는 하위 카테고리를 가져옴
+        ArrayList<CategoryDto> categories = service.getCategories();
+        Map<Integer, ArrayList<CategoryDto>> subcategory = new HashMap<>();
+        for (CategoryDto category : categories) {
+            ArrayList<CategoryDto> subCategories = service.getSubCategories(category.getC_id());
+            subcategory.put(category.getC_id(), subCategories);
+        }
 
 
+        // 선택한 카테고리에 해당하는 상품들을 가져옴
+        List<ProductDto> products;
+        if (c_id2 != null) {
+            products = service.getProductsByCategoryId(c_id2);
+        } else {
+            products = service.allItemView();
+        }
+
+        // 상품 정보를 변환하고 추가 정보를 조회하여 ItemDto 리스트로 변환
+        List<ItemDto> items = new ArrayList<>();
         for (ProductDto product : products) {
-
-            // 상품 정보 변환 작업 수행
             ItemDto item = changeItem(product);
-
-            // 상품 정보에 추가 작업 수행(닉네임,이미지)
             addInformation(item);
-
             items.add(item);
         }
+
 
         if (sort != null) {
             switch (sort) {
@@ -88,6 +99,9 @@ public class shopController {
                     break;
             }
         }
+//        카테고리 값을 model에 저장 하고 넘어감
+        model.addAttribute("categories", categories);
+        model.addAttribute("subcategory", subcategory);
 //        model에 item의 값을 주고 넘어감
         model.addAttribute("itemList", items);
 //        model에 사용자가 선택한 옵션을 들고 넘어감
@@ -139,21 +153,6 @@ public class shopController {
         if (!wishLike.isEmpty()) {
             item.setWish_like(wishLike.get(0).getWish_like());
         }
-    }
-    @RequestMapping("/allItemView")
-    public String shopPage(Model model) {
-        ArrayList<CategoryDto> categories = service.getCategories();
-        model.addAttribute("categories", categories);
-        return "shop";
-    }
-
-    @RequestMapping("/allItemView")
-    public String categoryPage(@RequestParam("categoryId") int categoryId, Model model) {
-        ArrayList<CategoryDto> categories = service.getCategories();
-        ArrayList<CategoryDto> subCategories = service.getSubCategories(categoryId);
-        model.addAttribute("categories", categories);
-        model.addAttribute("subCategories", subCategories);
-        return "shop";
     }
 
 }
