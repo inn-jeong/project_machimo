@@ -15,8 +15,8 @@ function jusoCallBack(roadAddrPart1,addrDetail,zipNo){
     // document.form.addrDetail.value = addrDetail;
     // document.form.zipNo.value = zipNo;
     // console.log("Part1: "+roadAddrPart1);
-    document.reg_frm.u_address.value = roadAddrPart1;
-    document.reg_frm.u_address_sub.value = addrDetail;
-    document.reg_frm.u_postNum.value = zipNo;
+    document.reg_frm.uAddress.value = roadAddrPart1;
+    document.reg_frm.uAddressSub.value = addrDetail;
+    document.reg_frm.uAddrPostcode.value = zipNo;
 
 }

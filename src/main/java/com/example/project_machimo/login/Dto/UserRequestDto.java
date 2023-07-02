@@ -24,6 +24,8 @@ public class UserRequestDto {
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
     private String uPassword;
 
+    @NotBlank(message = "비밀번호를 한번 더 입력해주세요.")
+    private String uPwdCheck;
 //    @Pattern(regexp = "(?=.*[0-9]){8}", message = "숫자만 입력 가능합니다.")
     @NotBlank(message = "생년월일을 입력해주세요.")
     @Positive
@@ -44,6 +46,6 @@ public class UserRequestDto {
     private String uAddress;
 
     private String uAddressSub;
-    private String uPostNum;
+    private String uAddrPostcode;
     private String uSocial;
 }

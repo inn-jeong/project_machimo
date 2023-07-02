@@ -64,6 +64,12 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
+    public void socialUserInsert(HashMap<String, String> param) {
+        LoginDao dao = sqlSession.getMapper(LoginDao.class);
+        dao.socialUserInsert(param);
+    }
+
+    @Override
     public Map<String, String> validateHandling(Errors errors) {
         Map<String, String> validatorResult = new HashMap<>();
 
@@ -77,16 +83,17 @@ public class LoginServiceImpl implements LoginService{
     @Override
     public HashMap<String, String> switchRequestToUser(UserRequestDto requestDto) {
         HashMap<String,String> param = new HashMap<>();
-        param.put("u_id",requestDto.getUId());
-        param.put("u_password",requestDto.getUPassword());
-        param.put("u_name",requestDto.getUName());
-        param.put("u_jumin",requestDto.getUJumin());
-        param.put("u_nickname",requestDto.getUNickname());
-        param.put("u_phone",requestDto.getUPhone());
-        param.put("u_email",requestDto.getUEmail());
-        param.put("u_address",requestDto.getUAddress());
-        param.put("u_address_sub",requestDto.getUAddressSub());
-        param.put("u_social",requestDto.getUSocial());
+        param.put("uId",requestDto.getUId());
+        param.put("uPassword",requestDto.getUPassword());
+        param.put("uName",requestDto.getUName());
+        param.put("uJumin",requestDto.getUJumin());
+        param.put("uNickname",requestDto.getUNickname());
+        param.put("uPhone",requestDto.getUPhone());
+        param.put("uEmail",requestDto.getUEmail());
+        param.put("uAddrPostcode",requestDto.getUAddrPostcode());
+        param.put("uAddress",requestDto.getUAddress());
+        param.put("uAddressSub",requestDto.getUAddressSub());
+        param.put("uSocial",requestDto.getUSocial());
         log.info("@# param u_id===>"+param.get("uId"));
         log.info("@# param u_pw===>"+param.get("uPassword"));
         log.info("@# param u_na===>"+param.get("uName"));

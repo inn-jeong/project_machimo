@@ -56,6 +56,6 @@ dependencies {
 //	메일 전송을 위한 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-
+	implementation 'org.springframework.boot:spring-expression:5.3.10'
 }
 

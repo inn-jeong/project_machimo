@@ -121,9 +121,14 @@ public class LoginController {
 
     //회원가입 폼에서 유효성 검사를 마치고 넘어온 정보들을 DB에 insert
     @RequestMapping("/register")
-    public String register(@RequestParam HashMap<String, String> param,Model model) {
+    public String register(@RequestParam HashMap<String, String> param,HttpSession session,Model model) {
         log.info("@# id ===>"+param.get("uId"));
-        service.userInsert(param);
+        log.info("@# register naverUser ====>"+session.getAttribute("naverUser"));
+        if(session.getAttribute("naverUser") == null && session.getAttribute("kakaoUser") == null){
+            service.userInsert(param);
+        }else{
+            service.socialUserInsert(param);
+        }
         //logion 페이지에 register 값을 넘김으로 회원가입 후 넘어감을 알림
         return "redirect:/loginT/login?register=ok";
     }
@@ -182,11 +187,11 @@ public class LoginController {
     }
 
     @PostMapping("/joinProc")
-    public String joinProc(@Valid UserRequestDto userDto, Errors errors, Model model) {
+    public String joinProc(@Valid UserRequestDto userDto, Errors errors, HttpSession session, Model model) {
 
         if (errors.hasErrors()) {
-            /* 회원가입 실패시 입력 데이터 값을 유지 */
             model.addAttribute("userDto", userDto);
+            /* 회원가입 실패시 입력 데이터 값을 유지 */
             log.info("@# check address ===>"+userDto.getUAddress());
 
             /* 유효성 통과 못한 필드와 메시지를 핸들링 */
@@ -198,10 +203,22 @@ public class LoginController {
             /* 회원가입 페이지로 다시 리턴 */
             return "login/registerTest";
         }
+        //비밀번호 확인
+        if(!userDto.getUPassword().equals(userDto.getUPwdCheck())){
+            model.addAttribute("userDto", userDto);
+            model.addAttribute("valid_uPwdCheck", "비밀번호를 확인해주세요.");
+            return "login/registerTest";
+        }
 
-        log.info("@# register success=============");
-        service.userInsert(service.switchRequestToUser(userDto));
+        //naver 유저나 kakao 유저가 아니면 u_social 값이 null이므로 다른 쿼리를 적용하기 위해 분기처리        
+        if(session.getAttribute("naverUser") == null && session.getAttribute("kakaoUser") == null){
+            service.userInsert(service.switchRequestToUser(userDto));
+        }else{
+            service.socialUserInsert(service.switchRequestToUser(userDto));
+        }
+//        service.userInsert(service.switchRequestToUser(userDto));
 //        return "redirect:/loginT/login";
+        log.info("@# register success=============");
         return "redirect:/loginT/login?register=ok";
     }
 

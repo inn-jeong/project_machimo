@@ -78,4 +78,17 @@ public class MypageController {
         }
         return result;
     }
+
+    @RequestMapping("/modify")
+    public String modify(HttpSession session, Model model){
+        UsersDto user = (UsersDto) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/loginT/login?login_try=no";
+        }
+        log.info("@# modify user ===> "+user);
+        model.addAttribute("user",user);
+        model.addAttribute("type","modify");
+
+        return "mypage/mypage";
+    }
 }

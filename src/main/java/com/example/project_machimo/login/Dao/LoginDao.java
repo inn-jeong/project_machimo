@@ -11,6 +11,7 @@ public interface LoginDao {
 //    public ArrayList<LoginDto> loginYn(HashMap<String, String> param);
     public UsersDto findUser(HashMap<String, String> param);
     public void userInsert(HashMap<String, String> param);
+    public void socialUserInsert(HashMap<String, String> param);
     public UsersDto findUserId(String uSocial);
     public UsersDto findMemPhone(String uPhone);
     public UsersDto findMemEmail(String uEmail);

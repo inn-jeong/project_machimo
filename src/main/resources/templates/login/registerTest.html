@@ -33,20 +33,21 @@
     <tr height="60">
       <td>암    호</td>
       <td>
-        <input name="uPassword" type="password" size="20">*
+        <input name="uPassword" type="password" size="20">
           <div><span class="fs-6 text-danger" th:text="${valid_uPassword}"></span></div>
       </td>
     </tr>
-<!--     			<tr height="30">-->
-<!--     				<td width="80">암호 확인</td>-->
-<!--     				<td>-->
-<!--     					<input name="pwd_check" type="password" size="20">*-->
-<!--     				</td>-->
-<!--     			</tr>-->
+    <tr height="60">
+        <td>암호 확인</td>
+        <td>
+            <input name="uPwdCheck" type="password" size="20">
+            <div><span class="fs-6 text-danger" th:text="${valid_uPwdCheck}"></span></div>
+        </td>
+    </tr>
     <tr height="60">
       <td>이   름</td>
       <td>
-        <input name="uName" type="text" th:value="${userDto.uName}" size="20">*
+        <input name="uName" type="text" th:value="${userDto.uName}" size="20">
 <!--        <input name="u_name" type="text" size="20">*-->
           <div><span class="fs-6 text-danger" th:text="${valid_uName}"></span></div>
       </td>
@@ -54,21 +55,21 @@
       <tr height="60">
           <td>생년월일</td>
           <td>
-              <input name="uJumin" type="text" th:value="${userDto.uJumin}" size="20" placeholder="예) 960429">*
+              <input name="uJumin" type="text" th:value="${userDto.uJumin}" size="20" placeholder="예) 960429">
               <div><span class="fs-6 text-danger" th:text="${valid_uJumin}"></span></div>
           </td>
       </tr>
       <tr height="60">
           <td>전화번호</td>
           <td>
-              <input name="uPhone" type="text" th:value="${userDto.uPhone}" size="20" placeholder="예) 01x-xxxx-xxxx">*
+              <input name="uPhone" type="text" th:value="${userDto.uPhone}" size="20" placeholder="예) 01x-xxxx-xxxx">
               <div><span class="fs-6 text-danger" th:text="${valid_uPhone}"></span></div>
           </td>
       </tr>
       <tr height="60">
           <td>닉네임</td>
           <td>
-              <input name="uNickname" type="text" th:value="${userDto.uNickname}" size="20">*
+              <input name="uNickname" type="text" th:value="${userDto.uNickname}" size="20">
               <div><span class="fs-6 text-danger" th:text="${valid_uNickname}"></span></div>
           </td>
       </tr>
@@ -82,7 +83,7 @@
     <tr height="60">
         <td>주    소</td>
         <td>
-            <input name="uPostNum" id="uPostNum" type="text" th:value="${userDto.uPostNum}" size="10" readonly placeholder="우편번호"> <br>
+            <input name="uAddrPostcode" id="uAddrPostcode" type="text" th:value="${userDto.uAddrPostcode}" size="10" readonly placeholder="우편번호"> <br>
             <input name="uAddress" id="uAddress" type="text" th:value="${userDto.uAddress}" size="40" readonly>
             <input type="button"  value="주소검색" onclick="goPopup();"> <br>
             <input name="uAddressSub" id="uAddressSub" type="text" th:value="${userDto.uAddressSub}" size="20" placeholder="상세 주소">
@@ -118,7 +119,6 @@
                 if (data == "confirm") {
                     console.log(data);
                     $("#check_result").css("color", "blue");
-                    // document.getElementById("check_result").innerHTML = "사용가능";
                     document.getElementById("check_result").innerHTML = "사용가능";
                     document.getElementById("check_btn").disabled = true;
                     document.getElementById("insert_mem").disabled = false;

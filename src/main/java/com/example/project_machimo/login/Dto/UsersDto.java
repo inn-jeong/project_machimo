@@ -16,7 +16,8 @@ public class UsersDto {
     private String uEmail;
     private String uPhone;
     private String uAddress;
-    private String uAddress_sub;
+    private String uAddressSub;
+    private Integer uAddrPostcode;
     private String uNickname;
     private String uSocial;
     private Integer uPoint;

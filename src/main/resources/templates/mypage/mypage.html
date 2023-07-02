@@ -80,7 +80,7 @@
 
                     <dl>
                         <dt>정보관리</dt>
-                        <dd>나의 정보수정</dd>
+                        <dd><a href="/mypage/modify">나의 정보수정</a></dd>
                         <dd>회원탈퇴</dd>
                     </dl>
                     <dl>
@@ -278,6 +278,99 @@
                         장바구니가 비어있습니다.
                     </div>
                     </table>
+                </div>
+                <div th:if="${type.equals('modify')}" class="basket_list">
+                    <div class="order_list_subtitle">
+                        <h4>나의 정보수정</h4>
+                    </div>
+                    <form name="reg_frm" id="reg_frm" class="table-primary" method="post" action="/loginT/joinProc">
+                        <input type="hidden" name="uSocial" th:value="${user.uSocial}">
+                        <!--    <input type="text" name="u_social" th:value="${user.getU_social()}">-->
+                        <table align="center">
+                            <tr height="60" width="120">
+                                <td colspan="2" align="center">
+                                    <h1>회원 가입 신청</h1>
+                                </td>
+                            </tr>
+                            <tr height="60">
+                                <td style="width: 100px">User ID</td>
+                                <td>
+                                    <input name="uId" id="uId" type="text" th:value="${user.uId}" size="20" readonly>
+<!--                                    <button type="button" id="check_btn" onclick="sendRequest()">중복 체크</button>-->
+<!--                                    <span id="check_result"></span>-->
+<!--                                    <span class="fs-6 text-danger" th:text="${valid_uId}"></span>-->
+
+                                </td>
+                            </tr>
+                            <tr height="60">
+                                <td>암    호</td>
+                                <td>
+                                    <input name="uPassword" type="password" size="20">
+                                    <div><span class="fs-6 text-danger" th:text="${valid_uPassword}"></span></div>
+                                </td>
+                            </tr>
+                            <tr height="60">
+                                <td>암호 확인</td>
+                                <td>
+                                    <input name="uPwdCheck" type="password" size="20">
+                                    <div><span class="fs-6 text-danger" th:text="${valid_uPwdCheck}"></span></div>
+                                </td>
+                            </tr>
+                            <tr height="60">
+                                <td>이   름</td>
+                                <td>
+                                    <input name="uName" type="text" th:value="${user.uName}" size="20">
+                                    <!--        <input name="u_name" type="text" size="20">*-->
+                                    <div><span class="fs-6 text-danger" th:text="${valid_uName}"></span></div>
+                                </td>
+                            </tr>
+                            <tr height="60">
+                                <td>생년월일</td>
+                                <td>
+                                    <input name="uJumin" type="text" th:value="${user.uJumin}" size="20" placeholder="예) 960429">
+                                    <div><span class="fs-6 text-danger" th:text="${valid_uJumin}"></span></div>
+                                </td>
+                            </tr>
+                            <tr height="60">
+                                <td>전화번호</td>
+                                <td>
+                                    <input name="uPhone" type="text" th:value="${user.uPhone}" size="20" placeholder="예) 01x-xxxx-xxxx">
+                                    <div><span class="fs-6 text-danger" th:text="${valid_uPhone}"></span></div>
+                                </td>
+                            </tr>
+                            <tr height="60">
+                                <td>닉네임</td>
+                                <td>
+                                    <input name="uNickname" type="text" th:value="${user.uNickname}" size="20">
+                                    <div><span class="fs-6 text-danger" th:text="${valid_uNickname}"></span></div>
+                                </td>
+                            </tr>
+                            <tr height="60">
+                                <td>E-mail</td>
+                                <td>
+                                    <input name="uEmail" type="text" th:value="${user.uEmail}" size="60">
+                                    <div><span class="fs-6 text-danger" th:text="${valid_uEmail}"></span></div>
+                                </td>
+                            </tr>
+                            <tr height="60">
+                                <td>주    소</td>
+                                <td>
+                                    <input name="uAddrPostcode" id="uAddrPostcode" type="text" th:value="${user.uAddrPostcode}" size="10" readonly placeholder="우편번호"> <br>
+                                    <input name="uAddress" id="uAddress" type="text" th:value="${user.uAddress}" size="40" readonly>
+                                    <input type="button"  value="주소검색" onclick="goPopup();"> <br>
+                                    <input name="uAddressSub" id="uAddressSub" type="text" th:value="${user.uAddressSub}" size="20" placeholder="상세 주소">
+                                    <div><span class="fs-6 text-danger" th:text="${valid_uAddress}"></span> <br></div>
+                                </td>
+                            </tr>
+                            <tr height="60">
+                                <td colspan="2" align="center">
+                                    <input type="submit" id="insert_mem" value="수정">
+                                    <input type="reset" value="다시입력">
+                                    <input type="button" value="취소" onclick="javascript:window.location='/mypage/mypage_page'">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
                 </div>
             </div>
         </main>
