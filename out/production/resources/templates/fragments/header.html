@@ -6,39 +6,41 @@
     <title>Title</title>
 </head>
 <style>
-    .test1{
-        background-color: orange;
-  width: 20px;     /* 원의 너비를 50px로 고정합니다. */
-  height: 20px;    /* 원의 높이를 50px로 고정합니다. */
-  border-radius: 50%;  /* 원 모양을 만들기 위해 너비/높이의 50%로 설정합니다. */
-  display: flex;   /* Flexbox 레이아웃을 사용하여 요소 내부의 아이템을 조정합니다. */
-  justify-content: center; /* 가로 방향으로 아이템을 중앙에 배치합니다. */
-  align-items: center; /* 세로 방향으로 아이템을 중앙에 배치합니다. */
-  font-size: 12px; /* 원 안의 글자 크기를 설정합니다. */
-  display: inline-flex;
-    }
-    .modal-body{
-height: 250px;
-overflow-y: auto;
-}
+    /*.test1{*/
+    /*        background-color: orange;*/
+    /*  width: 20px;     !* 원의 너비를 50px로 고정합니다. *!*/
+    /*  height: 20px;    !* 원의 높이를 50px로 고정합니다. *!*/
+    /*  border-radius: 50%;  !* 원 모양을 만들기 위해 너비/높이의 50%로 설정합니다. *!*/
+    /*  justify-content: center; !* 가로 방향으로 아이템을 중앙에 배치합니다. *!*/
+    /*  align-items: center; !* 세로 방향으로 아이템을 중앙에 배치합니다. *!*/
+    /*  font-size: 12px; !* 원 안의 글자 크기를 설정합니다. *!*/
+    /*  display: inline-flex;*/
+    /*    }*/
+    /*    .modal-body {*/
+    /*        height: 250px;*/
+    /*        overflow-y: auto;*/
+    /*    }*/
 </style>
 <script>
 
 </script>
+<link rel="stylesheet" href="/headerCss/header.css">
+
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-
 </script>
+
 <body>
 
 
 <th:block th:fragment="headerFragment">
-     <!-- Dropdown - Alerts -->
+    <!-- Dropdown - Alerts -->
 
-</li>
+    </li>
 
     <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
         <header class="py-1 fixed">
@@ -57,9 +59,14 @@ overflow-y: auto;
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">관심상품</a>
                         </li>
 
-                        <li class="nav-item"><a href="#"  data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                                                class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">알림 <span  class="test1" >1</span></a>
+                        <li class="nav-item"><a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal"
+                                                class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">알림
+                            <th:block th:if="${alertResult != null && alertResult != 0}">
+                                <span class="test1" th:text="${alertResult}"></span>
+                                <!--                                <span>erroer</span>-->
+                            </th:block>
+                        </a>
                         </li>
                         <li class="nav-item"><a href="#"
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">로그인
@@ -77,7 +84,7 @@ overflow-y: auto;
                        style="text-decoration: none;">
                         <svg class="bi me-2" width="5" height="32"></svg>
                         <span class="text-dark fs-2 fw-bold">MACHIMMO</span>
-                        <span th:text="${test2}"></span>
+
                     </a>
                     <ul class="gnb_list nav nav-pills">
                         <li class="nav-item"><a href="#"
@@ -90,7 +97,7 @@ overflow-y: auto;
                                                 class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">SHOP</a>
                         </li>
                         <li class="nav-item">
-                            <form action="/search/list" method="get" class="d-flex" role="search">
+                            <form action="/search/searchList" method="get" class="d-flex" role="search">
                                 <label>
                                     <select name="searchOption" style="height: 32px">
                                         <option value="userNickName">작성자</option>
@@ -133,40 +140,24 @@ overflow-y: auto;
             </div>
         </nav>
     </div>
-    <div class="modal fade  modal-dialog-scrollable" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade  modal-dialog-scrollable" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
-              <span class="fs-5">Lorem ipsum dolor sit amet </span><br>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">알림</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div th:each="alert : ${alList}">
+                        <a class="move_alert" th:href="@{/test23(alId=${alert.alId})}" th:text="${alert.alMessage} +'  '+${#dates.format(alert.alCreateAt, 'yyyy-MM-dd HH:mm')}"  th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''" ></a>
+                    </div>
+                </div>
 
             </div>
-
-          </div>
         </div>
-      </div>
+    </div>
 </th:block>
->>>>>>> origin/auction
+
 </body>
 </html>

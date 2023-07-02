@@ -12,10 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 @Controller
@@ -35,13 +32,13 @@ public class SearchController {
             Model model
             , @ModelAttribute Criteria cri
             , HttpSession session
-            ) {
+    ) {
 
 
-        log.info("키워드에용에용"+cri.getKeyword());
-        log.info("서치옵션이에용"+cri.getSearchOption());
-        log.info("페이지넘버에용"+String.valueOf(cri.getPageNum()));
-        log.info("어먼트에용"+String.valueOf(cri.getAmount()));
+        log.info("키워드에용에용" + cri.getKeyword());
+        log.info("서치옵션이에용" + cri.getSearchOption());
+        log.info("페이지넘버에용" + String.valueOf(cri.getPageNum()));
+        log.info("어먼트에용에용" + String.valueOf(cri.getAmount()));
 
         List<SearchVO> search = searchService.search(cri);
 
@@ -54,8 +51,11 @@ public class SearchController {
         } else {
             model.addAttribute("message", keyword);
             model.addAttribute("search", search);
-            model.addAttribute("option",cri.getSearchOption());
-            model.addAttribute("pageMaker", new PageDTO(total, cri));
+            model.addAttribute("option", cri.getSearchOption());
+            PageDTO pageDTO = new PageDTO(total, cri);
+            log.info("isNext === >{}", pageDTO.isNext());
+            log.info("isPrev === >{}", pageDTO.isPrev());
+            model.addAttribute("pageMaker", pageDTO);
 
             return "search/searchPage";
         }
@@ -70,13 +70,10 @@ public class SearchController {
     ) {
 
 
+        List<SearchVO> search = searchService.search(cri);
 
-
-
-        List<SearchVO> search = searchService.search( cri);
-
-        log.info("cri.getPageNum() =====> {}" ,cri.getPageNum() );
-        log.info("cri.getAmount() =====> {}" ,cri.getAmount() );
+        log.info("cri.getPageNum() =====> {}", cri.getPageNum());
+        log.info("cri.getAmount() =====> {}", cri.getAmount());
 
         int total = searchService.searchTotal(cri);
         String keyword = cri.getKeyword();
@@ -88,7 +85,10 @@ public class SearchController {
             model.addAttribute("message", keyword);
             model.addAttribute("search", search);
             model.addAttribute("option", cri.getSearchOption());
-            model.addAttribute("pageMaker", new PageDTO(total, cri));
+            PageDTO pageDTO = new PageDTO(total, cri);
+            log.info("isNext === >{}", pageDTO.isNext());
+            log.info("isPrev === >{}", pageDTO.isPrev());
+            model.addAttribute("pageMaker", pageDTO);
 
             return "search/searchPage";
         }

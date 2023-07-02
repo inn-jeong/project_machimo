@@ -23,7 +23,7 @@ public class AuctionServiceImpl implements AuctionService{
     }
 
     @Override
-    public void highestBidUpdate(Long amount, int id) {
+    public void highestBidUpdate(Long amount, int id,Integer userId) {
 
         auctionDAO.highestBidUpdate(amount,id);
     }

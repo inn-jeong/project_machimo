@@ -28,7 +28,7 @@ public class CheckResponseEntityImpl implements CheckResponseEntity {
     }
 
 @Override
-public ResponseEntity<?> getResponseEntityForCheck(CheckDTO check) {
+public ResponseEntity<?> getResponseEntityForCheck(CheckDTO check,Integer userSession) {
     CustomResponse response = new CustomResponse();
     Long bids = check.getBids();
     if (bids == null) {
@@ -38,13 +38,13 @@ public ResponseEntity<?> getResponseEntityForCheck(CheckDTO check) {
 
     int productId = check.getProductId();
     Long firstPrice = check.getFirstPrice();
-
+    Integer userId =  userSession;
     if (!isNonZeroAndNotNull(firstPrice)) {
         response.setMessage("입찰금액을 입력해주세요");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    return processBid(bids, productId, firstPrice);
+    return processBid(bids, productId, firstPrice,userId);
 }
 
 
@@ -56,38 +56,56 @@ private boolean isNonZeroAndNotNull(Long num){
     return false;
 }
 
-private ResponseEntity<?> processBid(Long bids, int productId, Long firstPrice) {
+private ResponseEntity<?> processBid(Long bids, int productId, Long firstPrice,Integer userId) {
     Long amount = bidsService.maxAmount(productId);
     log.info("firstPrice = " + firstPrice);
     log.info("bids = " + bids);
 
-    if (firstPrice < bids) {
-        return processNewBid(bids, productId, firstPrice);
-    } else if (bids > amount && bids > firstPrice) {
-        return updateExistingBid(bids, productId);
-    } else {
+    if (bids<amount||bids<firstPrice){
         CustomResponse response = new CustomResponse();
-        response.setMessage("입찰가가 기존 금액보다 낮습니다");
+        response.setMessage("입찰가가 기존 금액보다 낮습니다.");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+     if (bids > amount && bids > firstPrice) {
+         return updateExistingBid(bids, productId, userId);
+     }else if(bids.equals(amount)){
+        CustomResponse response = new CustomResponse();
+        response.setMessage("입찰가가 기존 금액과 동일합니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+     }else if(bids.equals(firstPrice)){
+        CustomResponse response = new CustomResponse();
+        response.setMessage("입찰가가 기존 금액과 동일합니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+     return null;
 }
 
-private ResponseEntity<?> processNewBid(Long bids, int productId, Long firstPrice) {
-    bidsService.write(bids, productId, firstPrice);
-    auctionService.highestBidUpdate(bids, productId);
+private ResponseEntity<?> processNewBid(Long bids, int productId, Long firstPrice,Integer userId) {
+    bidsService.write(bids, productId, firstPrice,userId);
+    auctionService.highestBidUpdate(bids, productId,userId);
     log.info("새로운 입찰자 나왔슴");
     List<BidsVO> bidsVOS = bidsService.bList(productId);
     return ResponseEntity.ok(bidsVOS);
 }
 
-private ResponseEntity<?> updateExistingBid(Long bids, int productId) {
-    bidsService.amountUpdate(bids, productId);
-    auctionService.highestBidUpdate(bids, productId);
+private ResponseEntity<?> updateExistingBid(Long bids, int productId,Integer userId) {
+    bidsService.amountUpdate(bids, productId,userId);
+    auctionService.highestBidUpdate(bids, productId,userId);
     log.info("입찰가 업데이트됨");
     List<BidsVO> bidsVOS = bidsService.bList(productId);
     return ResponseEntity.ok(bidsVOS);
 }
-@Data
+
+    @Override
+    public ResponseEntity<?> sessionEntityForCheck() {
+        CustomResponse response = new CustomResponse();
+        response.setMessage("로그인이 필요한 서비스입니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @Data
     static class CustomResponse {
         private String message;
     }

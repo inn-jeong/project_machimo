@@ -15,4 +15,6 @@ public interface ProductsDAO {
 
     void succeedsSale(Timestamp timestamp,int productId );
     void failedSale(Timestamp timestamp,int productId);
+
+    void updatePrice();
 }

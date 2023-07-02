@@ -24,7 +24,8 @@ public class AuctionExpirationHandler {
         this.session = session;
     }
 
-    @Scheduled(fixedDelay = 10000)
+//    @Scheduled(fixedDelay = 10000)
+//    @Scheduled(cron = "0 0 * * * *")
     public void executeTask() {
         System.out.println("동작하니??");
 
@@ -42,9 +43,13 @@ public class AuctionExpirationHandler {
 
             }else {
                 productsDAO.succeedsSale(Timestamp.valueOf(now), auctionVO.productsId());
-                alertDAO.executeWinningBid();
             }
 
         }
+
+                productsDAO.updatePrice();
+                alertDAO.failedAuctionNoBids();
+                alertDAO.executeWinningBid();
     }
+
 }

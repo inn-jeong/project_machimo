@@ -17,15 +17,16 @@ public class CheckDTO {
 
 
     @NotEmpty(message = "입찰가격을 입력해주세요")
-    Long bids;
-    int productId;
-    Boolean bidsHistory;
-    Long firstPrice;
-
-    public CheckDTO(Long bids, int productId, Boolean bidsHistory, Long firstPrice) {
+    private Long bids;
+    private int productId;
+    private Boolean bidsHistory;
+    private Long firstPrice;
+    private Integer userId;
+    public CheckDTO(Long bids, int productId, Boolean bidsHistory, Long firstPrice ,Integer userId) {
         this.bids = bids;
         this.productId = productId;
         this.bidsHistory = bidsHistory;
         this.firstPrice = firstPrice;
+        this.userId = userId;
     }
 }

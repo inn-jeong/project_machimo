@@ -44,7 +44,7 @@ public class AuctionController {
     private static String timeStampToString(ProductsVO pView) {
         Timestamp timestamp = pView.pDur();
         Date date = new Date(timestamp.getTime());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년MM월dd일HH시mm분");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년MM월dd일");
         String endDate = sdf.format(date);
         return endDate;
     }

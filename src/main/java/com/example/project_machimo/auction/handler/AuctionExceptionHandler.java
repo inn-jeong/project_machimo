@@ -1,23 +1,23 @@
 package com.example.project_machimo.auction.handler;
 
-import lombok.Data;
+import com.example.project_machimo.auction.controller.AuctionController;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 
+
+@ControllerAdvice(basePackageClasses = {AuctionController.class})
 public class AuctionExceptionHandler {
 
-    @ExceptionHandler(NullPointerException.class)
-    private String test(){
+    @ExceptionHandler(value = {NullPointerException.class})
+    public String error(){
         return "auctions/error";
     }
 
 
 
 
-    @Data
-    static class CustomResponse {
-        private String message;
-    }
+
 }
 
 

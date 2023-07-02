@@ -10,10 +10,10 @@ public interface BidsService {
 
     Long maxAmount(int id);
 
-    void write(Long amount, int id, Long firstPrice);
+    void write(Long amount, int id, Long firstPrice,Integer userId);
 
 
-    void amountUpdate(Long amount, int id);
+    void amountUpdate(Long amount, int id,Integer userId);
 
 
 

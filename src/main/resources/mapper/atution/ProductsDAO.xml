@@ -7,13 +7,26 @@
 
         UPDATE PRODUCTS
         SET p_sales_status =3
-            where P_DUR  <![CDATA[<=]]>  #{param1} AND PRODUCT_id = #{param2}
+        where P_DUR  <![CDATA[<=]]>  #{param1} AND PRODUCT_id = #{param2}
 
     </update>
     <update id="failedSale">
         UPDATE PRODUCTS
-        SET p_sales_status =4
+        SET p_sales_status =5
         where P_DUR  <![CDATA[<=]]>  #{param1} AND PRODUCT_id = #{param2}
+    </update>
+    <update id="updatePrice">
+        UPDATE PRODUCTS p
+        SET P_DIRECT = (
+        SELECT a.HIGHEST_BID
+        FROM AUCTIONS a
+        WHERE p.PRODUCT_ID = a.PRODUCTS_ID and p.P_SALES_STATUS = 3
+        )
+        WHERE EXISTS (
+        SELECT 1
+        FROM AUCTIONS a
+        WHERE p.PRODUCT_ID = a.PRODUCTS_ID and p.P_SALES_STATUS = 3
+        )
     </update>
 
     <select id="pList" resultType="com.example.project_machimo.auction.dto.ProductsVO">

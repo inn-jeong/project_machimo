@@ -9,11 +9,12 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+    sourceCompatibility = "17.PREVIEW"
 }
 
 repositories {
     mavenCentral()
+     maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -53,6 +54,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
 
+//    아임포트
+    implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
 }
 
 
+targetCompatibility = JavaVersion.VERSION_17_PREVIEW

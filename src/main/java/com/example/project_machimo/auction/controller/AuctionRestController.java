@@ -3,6 +3,7 @@ package com.example.project_machimo.auction.controller;
 import com.example.project_machimo.auction.service.CheckResponseEntity;
 import com.example.project_machimo.auction.service.CheckResponseEntityImpl;
 import com.example.project_machimo.auction.dto.CheckDTO;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +23,23 @@ public class AuctionRestController {
     }
 
     @PostMapping("/action-list/amountCheck")
-    public ResponseEntity<? extends Object> updateAmount(@RequestBody CheckDTO check) {
+    public ResponseEntity<? extends Object> updateAmount(@RequestBody CheckDTO check, HttpSession session) {
 
-        return response.getResponseEntityForCheck(check);
+        Integer userId = (Integer)session.getAttribute("user");
+        if (userId == null ){
+            return response.sessionEntityForCheck();
+        }
+
+        return response.getResponseEntityForCheck(check,userId);
 
     }
+
+    private boolean
+    haSession(Integer session) {
+
+        return true;
+    }
+
+
 
 }

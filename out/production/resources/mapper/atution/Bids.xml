@@ -6,7 +6,7 @@
     <!--    입찰 이력 있을때-->
     <insert id="amountUpdate">
         INSERT INTO bids (PRODUCTs_id, AUCTION_ID, USER_ID, AMOUNT, bids_code,START_PRICE,bids_at)
-        SELECT #{param2}, A.AUCTION_ID, 2, #{param1}, (SELECT COALESCE(MAX(bids_code), 0) + 1 FROM bids
+        SELECT #{param2}, A.AUCTION_ID, #{param3}, #{param1}, (SELECT COALESCE(MAX(bids_code), 0) + 1 FROM bids
         where P.PRODUCT_id = #{param2} ),P.p_b_price, TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI'), 'YYYY-MM-DD HH24:MI')
         FROM PRODUCTS P
         JOIN AUCTIONS A ON P.PRODUCT_id = A.PRODUCTS_id
@@ -14,7 +14,7 @@
     </insert>
     <update id="write">
         insert into bids (PRODUCTs_id, AUCTION_ID, USER_ID, AMOUNT, START_PRICE, bids_code,bids_at)
-        select P.PRODUCT_id, A.AUCTION_ID, 1, #{param1}, #{param3},1, TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI'), 'YYYY-MM-DD HH24:MI')
+        select P.PRODUCT_id, A.AUCTION_ID, #{param4}, #{param1}, #{param3},1, TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI'), 'YYYY-MM-DD HH24:MI')
         from PRODUCTS P
         join AUCTIONS A on P.PRODUCT_id = A.PRODUCTS_id
         where p.PRODUCT_id = #{param2}

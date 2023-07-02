@@ -13,7 +13,7 @@ public interface BidsDAO {
 
     Long maxAmount(int id);
 
-    int write(Long amount,int id,Long firstPrice);
+    int write(Long amount,int id,Long firstPrice,Integer userID);
 
-     void amountUpdate(Long amount,int id);
+     void amountUpdate(Long amount,int id,Integer userId);
 }

@@ -2,7 +2,6 @@ package com.example.project_machimo.auction.service;
 
 import com.example.project_machimo.auction.dao.BidsDAO;
 import com.example.project_machimo.auction.dto.BidsVO;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,16 +43,16 @@ public class BidsServiceImpl implements BidsService {
     }
 
     @Override
-    public void write(Long amount, int id,Long firstPrice) {
+    public void write(Long amount, int id,Long firstPrice,Integer userId) {
 
-        int write = bidsDAO.write(amount, id,firstPrice);
+        int write = bidsDAO.write(amount, id,firstPrice, userId);
 
     }
 
     @Override
-    public void amountUpdate(Long amount, int id) {
+    public void amountUpdate(Long amount, int id,Integer userId) {
 
-        bidsDAO.amountUpdate(amount,id);
+        bidsDAO.amountUpdate(amount,id,userId);
     }
 
 

@@ -2,7 +2,7 @@ package com.example.project_machimo.alert.dto;
 
 import java.sql.Timestamp;
 
-public record AlretVO(
+public record AlertVO(
         Integer alId
         , Integer userId
         , Integer productId

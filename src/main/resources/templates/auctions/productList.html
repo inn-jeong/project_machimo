@@ -11,7 +11,7 @@
     <tr th:each="p : ${products}">
         <td>
 
-        <a th:href="@{action-list/{id}(id=${p.productsId()})}"  th:text="${p.pName()}">View User</a>
+        <a th:href="@{http://localhost:8090/auction/action-list/{id}(id=${p.productsId()})}"  th:text="${p.pName()}">View User</a>
         </td>
 
 
