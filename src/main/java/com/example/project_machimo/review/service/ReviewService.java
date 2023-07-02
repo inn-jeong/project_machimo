@@ -30,8 +30,5 @@ public interface ReviewService {
 
     /////////////////////////////////댓글/////////////////////////////////
 
-//    boolean addReply(ReplyDto r);
-    boolean addReply(HashMap<String, String> param);
-
-    List<ReplyDto> getReply(int boardId);
+    ReviewDto getReviewById(int reviewId);
 }

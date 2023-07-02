@@ -14,8 +14,8 @@ import java.util.HashMap;
 public class ReplyDto {
     private int cId;
     private int reviewId;
-    private String cWriter;
+    private String userId;
     private Timestamp cDate;
-    private String contents;
+    private String cContents;
 
 }

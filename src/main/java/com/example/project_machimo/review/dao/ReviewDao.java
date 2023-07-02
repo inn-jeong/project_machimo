@@ -14,8 +14,10 @@ import java.util.List;
 public interface ReviewDao {
     ArrayList<ReviewDto> list();
     ArrayList<ReviewDto> listWithPaging(Criteria cri);
-//    void write(HashMap<String,String> param);
-    ReviewDto write(HashMap<String,String> param);
+    void write(HashMap<String,String> param);
+//    ReviewDto write(HashMap<String,String> param);
+
+    ReviewDto getReviewById(int reviewId);
     ReviewDto contentView(HashMap<String,String> param);
     void modify(HashMap<String,String> param);
 

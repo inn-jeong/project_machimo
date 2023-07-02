@@ -78,11 +78,13 @@ public class ReviewController {
     }
 
     @RequestMapping("/write")
-    public String write(@RequestParam HashMap<String, String> param) {
+    public String write(@RequestParam HashMap<String, String> param, Model model) {
         log.info("@# write");
         service.write(param);
         return "redirect:list";
     }
+
+
 
     @RequestMapping("/content_view")
     public String contentView(@RequestParam HashMap<String, String> param, Model model) {
@@ -96,7 +98,11 @@ public class ReviewController {
         return "review/content_view";
     }
 
-//    수정완료후 list 로 이동
+
+
+
+
+    //    수정완료후 list 로 이동
     @RequestMapping("/modify")
 //    public String modify(@RequestParam HashMap<String, String> param) {
     public String modify(@RequestParam HashMap<String, String> param, @ModelAttribute("cri") Criteria cri,
@@ -235,26 +241,15 @@ public class ReviewController {
 
     /////////////////////////////////////댓글관련//////////////////////////////////
 
-    @RequestMapping(value="/replyList", method=RequestMethod.GET)
-    @ResponseBody
-    public List<ReplyDto> replyList(@RequestParam("reviewId")int reviewId){
-        return service.getReply(reviewId);
-    }
-    @RequestMapping(value="/writeReply", method=RequestMethod.POST)
-    public String writeReply(
-            @RequestParam("id")int id,
-            @RequestParam("replyid")int replyid,
-            @RequestParam("contents")String contents) {
-//
-//    public String writeReply(@RequestParam HashMap<String,String> param,
-//                             @RequestParam("reviewId")int reviewId) {
+    /* 댓글 쓰기 */
+    @GetMapping("/replyEnroll/{userId}")
+    public String replyEnrollWindowGET(@PathVariable("userId")String userId, int reviewId, Model model) {
+        ReviewDto dto = service.getReviewById(reviewId);
+        model.addAttribute("reviewInfo", dto);
+        model.addAttribute("userId", userId);
 
-//        ReviewDto dto = service.addReply(param);
-//        model.addAttribute("content_view", dto);
-//        service.addReply(new ReplyDto(param));
-        return "redirect:content_view?id=" +id;
+        return "/replyEnroll";
     }
-
 
 
 
