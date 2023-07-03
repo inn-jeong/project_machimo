@@ -1,0 +1,129 @@
+* 8b0fb5b = assistant , 21 hours ago : 230630
+* b2bed2c = assistant , 3 days ago : 230629 업로드이미지처리
+* 66a3660 = assistant , 3 days ago : 230629 리뷰테이블 수정 전 백업
+*   b4c785c = assistant , 3 days ago : Merge branch 'review' of https://github.com/inn-jeong/project_machimo into review
+[32m|[m[33m\[m  
+[32m|[m * 84e72c0 = jjjooosss , 3 days ago : 230628 이미지 업로드 기능 갈아엎음+이미지 삭제 구현중
+[32m|[m *   a5b0869 = jjjooosss , 3 days ago : Merge branch 'soldFormPaging' of https://github.com/inn-jeong/project_machimo into soldFormPaging
+[32m|[m [34m|[m[35m\[m  
+[32m|[m [34m|[m * 1127cf2 = assistant , 4 days ago : 230627
+[32m|[m [34m|[m * 84a4253 = assistant , 4 days ago : 사진일경우만썸네일, contentview 컬럼갯수확인, 절대경로말고상대경로로저장, 이미지썸네일로딩display
+[32m|[m * [35m|[m 1b60ac7 = jjjooosss , 3 days ago : 230628
+[32m|[m [35m|[m[35m/[m  
+[32m|[m * 705028b = jjjooosss , 4 days ago : 페이징오류수정, 파일경로아직못고침, 비동기식댓글메소드구현중
+[32m|[m * c77be53 = jjjooosss , 4 days ago : 페이징오류수정, 파일경로아직못고침, 비동기식댓글메소드구현중
+[32m|[m * d77e257 = assistant , 5 days ago : 사진일경우만썸네일, contentview 컬럼갯수확인, 절대경로말고상대경로로저장, 이미지썸네일로딩display
+[32m|[m *   fbc2f60 = assistant , 5 days ago : Merge branch 'soldFormPaging' of https://github.com/inn-jeong/project_machimo into soldFormPaging
+[32m|[m [36m|[m[1;31m\[m  
+[32m|[m [36m|[m * 9e4844b = jjjooosss , 5 days ago : 파일 업로드 완료, 해결 못한거 : 썸네일 본문에 보이게하기, 페이징순서
+[32m|[m [36m|[m * 1f901cc = jjjooosss , 5 days ago : 파일 업로드 완료, 해결 못한거 : 썸네일 본문에 보이게하기, 페이징순서
+[32m|[m [36m|[m * 1dfce33 = jjjooosss , 5 days ago : 파일 업로드 완료, 해결 못한거 : 썸네일 본문에 보이게하기, 페이징순서
+[32m|[m [36m|[m * a1f7948 = jjjooosss , 5 days ago : write_view 에서 업로드 기능 수정
+[32m|[m [36m|[m * 30ee3f1 = jjjooosss , 5 days ago : soldForm
+[32m|[m [36m|[m * d5aa2bd = jjjooosss , 8 days ago : soldForm
+[32m|[m [36m|[m * 46a0af3 = jjjooosss , 8 days ago : MultipartResolver 파일 업로드 적용전
+[32m|[m [36m|[m * 52c58c5 = jjjooosss , 8 days ago : MultipartResolver 파일 업로드 적용전
+[32m|[m [36m|[m * baa9476 = jjjooosss , 8 days ago : fix:paging
+[32m|[m [36m|[m * 7b07065 = jjjooosss , 8 days ago : fix:paging
+[32m|[m * [1;31m|[m 700c8c6 = assistant , 5 days ago : 조회수구현중
+[32m|[m [1;31m|[m[1;31m/[m  
+[32m|[m * 002df41 = assistant , 9 days ago : 조회수구현중
+[32m|[m * 519d4d6 = assistant , 9 days ago : fix(paging)
+[32m|[m * 884babe = assistant , 9 days ago : paging
+[32m|[m * f3c9447 = jjjooosss , 9 days ago : fix: modify, delete refact: modify_view
+[32m|[m * 4710ba2 = jjjooosss , 9 days ago : fix: modify, delete refact: modify_view
+[32m|[m * 1c82065 = assistant , 10 days ago : fix(delete) design: content_view.html remove : productController
+[32m|[m *   f37052c = assistant , 10 days ago : Merge remote-tracking branch 'origin/soldForm' into soldForm
+[32m|[m [1;32m|[m[1;33m\[m  
+[32m|[m [1;32m|[m * 69968c8 = jjjooosss , 10 days ago : feat(review)
+[32m|[m * [1;33m|[m ec1ff71 = jjjooosss , 10 days ago : fix(delete) design: content_view.html remove : productController
+[32m|[m [1;33m|[m[1;33m/[m  
+[32m|[m * e0d9a8e = jjjooosss , 10 days ago : feat(review)
+[32m|[m * 2c91af3 = jjjooosss , 10 days ago : feat(soldForm)
+* [1;33m|[m 7d0536b = assistant , 10 days ago : 버릴거
+[1;33m|[m[1;33m/[m  
+* 609e3ed = jjjooosss , 10 days ago : 테스트전
+* 32013ad = jjjooosss , 10 days ago : reviewList_css
+* baab0e1 = jjjooosss , 11 days ago : reviewList
+* 7e59cce = inn-jeong , 11 days ago : 230620 login delete
+*   8ca49bb = inn-jeong , 11 days ago : Merge remote-tracking branch 'origin/main'
+[1;34m|[m[1;35m\[m  
+[1;34m|[m *   e7106a3 = assitant , 11 days ago : Merge pull request #1 from inn-jeong/review
+[1;34m|[m [1;36m|[m[31m\[m  
+[1;34m|[m [1;36m|[m *   6099df3 = jjjooosss , 11 days ago : Merge branch 'main' into review
+[1;34m|[m [1;36m|[m [32m|[m[1;36m\[m  
+[1;34m|[m [1;36m|[m [32m|[m[1;36m/[m  
+[1;34m|[m [1;36m|[m[1;36m/[m[32m|[m   
+[1;34m|[m * [32m|[m   9062ce4 = jjjooosss , 11 days ago : Merge remote-tracking branch 'origin/main'
+[1;34m|[m [34m|[m[35m\[m [32m\[m  
+[1;34m|[m [34m|[m [35m|[m * 353a555 = jjjooosss , 11 days ago : Changes
+[1;34m|[m [34m|[m [35m|[m * 9aa296e = jjjooosss , 11 days ago : Changes
+[1;34m|[m [34m|[m [35m|[m * 2724efc = jjjooosss , 11 days ago : Merge branch 'main' of https://github.com/inn-jeong/project_machimo into review
+[1;34m|[m [34m|[m [35m|[m[34m/[m[35m|[m 
+[1;34m|[m [34m|[m[34m/[m[35m|[m[35m/[m  
+[1;34m|[m * [35m|[m   cfe7591 = jjjooosss , 11 days ago : Merge remote-tracking branch 'origin/main'
+[1;34m|[m [1;32m|[m[1;33m\[m [35m\[m  
+[1;34m|[m * [1;33m|[m [35m|[m 7b3870b = jjjooosss , 11 days ago : Changes
+[1;34m|[m * [1;33m|[m [35m|[m d6ec826 = jjjooosss , 11 days ago : Changes
+* [1;33m|[m [1;33m|[m [35m|[m e151eeb = inn-jeong , 11 days ago : 230620 login delete
+[35m|[m [1;33m|[m[35m_[m[1;33m|[m[35m/[m  
+[35m|[m[35m/[m[1;33m|[m [1;33m|[m   
+* [1;33m|[m [1;33m|[m 2dd2a19 = inn-jeong , 11 days ago : 230620 login
+* [1;33m|[m [1;33m|[m 4079f8f = inn-jeong , 11 days ago : 230620 login
+[1;33m|[m [1;33m|[m[1;33m/[m  
+[1;33m|[m[1;33m/[m[1;33m|[m   
+* [1;33m|[m 89c142a = inn-jeong , 11 days ago : 230620 login
+* [1;33m|[m 543855e = inn-jeong , 11 days ago : Merge remote-tracking branch 'origin/main'
+[1;34m|[m[1;33m\[m[1;33m|[m 
+[1;34m|[m *   a7430ed = jjjooosss , 11 days ago : Merge remote-tracking branch 'origin/main'
+[1;34m|[m [1;36m|[m[31m\[m  
+[1;34m|[m [1;36m|[m * b73a46a = gyuha , 11 days ago : sql logBack 추가 테스트 코드 작성했음 궁금하면 물어보셈 종속성 타임리프 버전을 1.0.1에서 implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'로 변경 sql에서 로그를 가져오기위한 종속성 추가 implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+[1;34m|[m [1;36m|[m * d12a45f = gyuha , 11 days ago : sql logBack 추가 테스트 코드 작성했음 궁금하면 물어보셈
+[1;34m|[m * [31m|[m bbdfc49 = jjjooosss , 11 days ago : Changes
+[1;34m|[m * [31m|[m 18958dd = jjjooosss , 11 days ago : Changes
+[1;34m|[m [31m|[m[31m/[m  
+* [31m/[m f141101 = inn-jeong , 11 days ago : 230620 login
+[31m|[m[31m/[m  
+* 90b78d6 = inn-jeong , 12 days ago : 230619 login add
+*   fae3d89 = inn-jeong , 12 days ago : Merge remote-tracking branch 'origin/main'
+[32m|[m[33m\[m  
+[32m|[m *   2fab78b = local , 12 days ago : Merge remote-tracking branch 'origin/main'
+[32m|[m [34m|[m[35m\[m  
+[32m|[m [34m|[m *   d71dbc9 = assistant , 12 days ago : Merge remote-tracking branch 'origin/main'
+[32m|[m [34m|[m [36m|[m[1;31m\[m  
+[32m|[m [34m|[m * [1;31m|[m 7c33893 = assistant , 12 days ago : Changes
+[32m|[m * [1;31m|[m [1;31m|[m 82a5356 = local , 12 days ago : admin 패키지 추가
+[32m|[m * [1;31m|[m [1;31m|[m 9852d80 = local , 12 days ago : admin 패키지 추가
+[32m|[m [1;31m|[m [1;31m|[m[1;31m/[m  
+[32m|[m [1;31m|[m[1;31m/[m[1;31m|[m   
+[32m|[m * [1;31m|[m b794eac = local , 12 days ago : admin 패키지 추가
+[32m|[m [1;31m|[m[1;31m/[m  
+* [1;31m/[m 93453dc = inn-jeong , 12 days ago : 230619 login add
+[1;31m|[m[1;31m/[m  
+*   13e6f05 = local , 12 days ago : Merge remote-tracking branch 'origin/main'
+[1;32m|[m[1;33m\[m  
+[1;32m|[m *   8e64004 = inn-jeong , 12 days ago : Merge remote-tracking branch 'origin/main'
+[1;32m|[m [1;34m|[m[1;35m\[m  
+[1;32m|[m * [1;35m|[m 3310b90 = inn-jeong , 12 days ago : 230619 Changes
+* [1;35m|[m [1;35m|[m d54b230 = local , 12 days ago : admin 패키지 추가
+[1;35m|[m [1;35m|[m[1;35m/[m  
+[1;35m|[m[1;35m/[m[1;35m|[m   
+* [1;35m|[m   6f63e96 = local , 12 days ago : Merge remote-tracking branch 'origin/main'
+[1;36m|[m[31m\[m [1;35m\[m  
+[1;36m|[m * [1;35m|[m 3acd6c8 = assistant , 12 days ago : Merge remote-tracking branch 'origin/main'
+[1;36m|[m [32m|[m[1;35m\[m[1;35m|[m 
+[1;36m|[m * [1;35m|[m a9343c9 = assistant , 12 days ago : Changes
+* [33m|[m [1;35m|[m e6dc962 = local , 12 days ago : admin 패키지 추가
+[1;35m|[m [33m|[m[1;35m/[m  
+[1;35m|[m[1;35m/[m[33m|[m   
+* [33m|[m 332589c = gyuha , 12 days ago : index
+* [33m|[m 0a7c27a = gyuha , 12 days ago : index추가
+[33m|[m[33m/[m  
+* 1ed5663 = inn-jeong , 12 days ago : 230619 Changes
+* 382d656 = inn-jeong , 12 days ago : 230619 Changes
+* 99ff24f = inn-jeong , 12 days ago : 230619 Changes
+* e548132 = inn-jeong , 12 days ago : 230619 Changes
+* 88f699e = inn-jeong , 12 days ago : 230619 Changes
+* 591866e = inn-jeong , 12 days ago : 230619 Changes
+* 19f53af = inn-jeong , 12 days ago : 230619 Changes
+* ac6bb04 = inn-jeong , 12 days ago : Initial commit

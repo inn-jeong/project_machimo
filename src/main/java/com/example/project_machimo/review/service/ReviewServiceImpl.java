@@ -1,5 +1,6 @@
 package com.example.project_machimo.review.service;
 
+import com.example.project_machimo.AttachImageVO;
 import com.example.project_machimo.review.dao.ReviewDao;
 import com.example.project_machimo.review.dto.Criteria;
 import com.example.project_machimo.review.dto.ReplyDto;
@@ -40,13 +41,70 @@ public class ReviewServiceImpl implements ReviewService{
         return dao.listWithPaging(cri);
     }
 
+
     @Override
     public void write(HashMap<String, String> param) {
         log.info("@# ReviewServiceImpl.write() start");
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
-        dao.write(param);
+
         log.info("@# ReviewServiceImpl.write() end");
     }
+
+
+
+//    @Override
+//    public void write(HashMap<String, String> param) {
+//        log.info("@# ReviewServiceImpl.write() start");
+//        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+//        dao.write(param);
+//
+//        if (dto == null) {
+//            // ReviewDto가 null인 경우 처리할 내용
+//            return dto;
+//        }
+//
+//        List<AttachImageVO> imageList = dto.getImageList();
+//        if (imageList == null || imageList.size() <= 0) {
+//            return dto;
+//        }
+//
+//        imageList.forEach(attach -> {
+//            attach.setReviewId(dto.getReviewId());
+//            dao.imageEnroll(attach);
+//        });
+//
+//        log.info("@# ReviewServiceImpl.write() end");
+//        return dto;
+//    }
+
+//    @Override
+//    public void write(HashMap<String, String> param) {
+//        log.info("@# ReviewServiceImpl.write() start");
+//        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+//        dao.write(param);
+//
+//        // 상품 등록 후 리뷰 정보를 가져옵니다.
+//        ReviewDto dto = dao.getReviewById(Integer.parseInt(param.get("reviewId")));
+//
+//        if (dto == null) {
+//            // ReviewDto가 null인 경우 처리할 내용
+//            return;
+//        }
+//
+//        List<AttachImageVO> imageList = dto.getImageList();
+//        if (imageList == null || imageList.size() <= 0) {
+//            return;
+//        }
+//
+//        imageList.forEach(attach -> {
+//            attach.setReviewId(dto.getReviewId());
+//            dao.imageEnroll(attach);
+//        });
+//
+//        log.info("@# ReviewServiceImpl.write() end");
+//    }
+
+
 
     @Override
     public ReviewDto contentView(HashMap<String, String> param) {
@@ -106,23 +164,14 @@ public class ReviewServiceImpl implements ReviewService{
         dao.updateCount(reviewId);
     }
 
+
 /////////////////////////////////////////댓글/////////////////////////////////////////
 
     @Override
-    public boolean addReply(HashMap<String, String> param) {
-        return false;
-    }
-//    @Override
-//    public boolean addReply(ReplyDto r) {
-//        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
-//        return dao.addReply(r);
-//    }
-
-    @Override
-    public List<ReplyDto> getReply(int boardId) {
+    public ReviewDto getReviewById(int reviewId) {
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
-        return dao.getReply(boardId);
-    }
 
+        return dao.getReviewById(reviewId);
+    }
 
     }

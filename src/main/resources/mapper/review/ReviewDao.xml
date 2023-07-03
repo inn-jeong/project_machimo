@@ -11,34 +11,34 @@
     </select>
 
     <select id="listWithPaging" resultType="com.example.project_machimo.review.dto.ReviewDto">
-<!--            select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit-->
-<!--        from ( select rownum rn, review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit-->
-<!--                from review-->
-<!--                where rownum <= ( #{pageNum} * #{amount})-->
-<!--                order by review_id desc )-->
-<!--                where rn > (#{pageNum} -1) * #{amount}-->
+<!--        (select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit-->
+
         <![CDATA[
                 select * from (
                 select rownum rn, temp.* from
-                (select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit
+                (select *
                 from review
                 order by review_id desc ) temp
                 where rownum <= ( #{pageNum} * #{amount}))
                 where rn > (#{pageNum} -1) * #{amount}
-
                 ]]>
     </select>
-<!--                order by review_id desc-->
-<!--    order by review_date asc-->
+
 
 
     <insert id="write">
-        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star)
-        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})
+
+        <selectKey resultType="int" keyProperty="review_id" order="AFTER">
+            SELECT MAX(review_id) FROM review
+        </selectKey>
+        INSERT INTO review (review_id, product_id, review_writter, review_title, review_content, review_star)
+        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})
 
 <!--        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_thum)-->
-<!--        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productsId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg}, #{reviewThum})-->
+<!--        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg}, #{reviewThum})-->
     </insert>
+
+
 
 
     <select id="contentView" resultType="com.example.project_machimo.review.dto.ReviewDto" parameterType="HashMap">
@@ -54,7 +54,7 @@
         UPDATE review
         SET review_title = #{reviewTitle},
         review_star = #{reviewStar},
-        review_img = #{reviewImg},
+<!--        review_img = #{reviewImg},-->
         review_content = #{reviewContent}
         WHERE review_id = #{reviewId}
     </update>
@@ -76,6 +76,14 @@
         WHERE review_id = #{reviewId}
     </delete>
 
+    <insert id="imageEnroll">
+        insert into review_image(review_id, file_name, upload_path, uuid)
+        values (#{reviewId}, #{fileName}, #{uploadPath}, #{uuid});
+    </insert>
+
+    <select id="getReviewById" resultType="com.example.project_machimo.review.dto.ReviewDto">
+        SELECT * FROM review WHERE review_id = #{reviewId}
+    </select>
 <!--    useGeneratedKeys 옵션을 true로 설정하면 생성된 게시글의 PK가 parameterType에 선언된 요청 객체(params)에 저장되며, keyProperty에 선언된 id에 값이 매핑(바인딩)됩니다.-->
 <!--    <insert id="save" parameterType="com.study.domain.post.PostRequest" useGeneratedKeys="true" keyProperty="id">-->
     
@@ -96,6 +104,7 @@
         #{contents}
         )
     </insert>
+
     <select id="getReply" resultType="com.example.project_machimo.review.dto.ReplyDto">
         SELECT
         id, board_id, reply_id , contents
@@ -105,5 +114,6 @@
         board_id = #{boardId}
         order by reply_id asc
     </select>
-    
+
+
 </mapper>

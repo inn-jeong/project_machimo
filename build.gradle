@@ -21,7 +21,11 @@ dependencies {
 	implementation 'org.projectlombok:lombok:1.18.26'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.1'
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 
 	implementation 'commons-fileupload:commons-fileupload:1.4'
 	implementation 'commons-io:commons-io:2.11.0'
@@ -63,6 +67,7 @@ dependencies {
 	// Jackson XML
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.1'
 
-
+//	댓글 구현 gson라이브러리
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
 }
 

@@ -1,5 +1,6 @@
 package com.example.project_machimo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 
+@Slf4j
 @org.springframework.stereotype.Controller
 public class Controller {
 
@@ -43,8 +46,29 @@ public class Controller {
     @PostMapping("/deleteFile")
     public ResponseEntity<String> deleteFile(String fileName){
 
-        logger.info("deleteFile........" + fileName);
+        log.info("deleteFile........" + fileName);
+        File file = null;
+        try {
+//            인코딩된 파일 이름을 다시 디코드해야 파일 이름 지정 가능
+//            썸네일 파일 삭제(미리보기 파일이 썸네일 파일이므로)
+            file = new File("c:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+//            File 클래스의 기본 메서드, 서버에 있는 파일 삭제
+            file.delete();
 
+            /* 원본 파일 삭제 */
+            String originFileName = file.getAbsolutePath().replace("s_", "");
+
+            log.info("originFileName : " + originFileName);
+
+            file = new File(originFileName);
+
+            file.delete();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
+        }
+        return new ResponseEntity<String>("success", HttpStatus.OK);
     }
 
 }
