@@ -46,7 +46,7 @@
     <update id="update" parameterType="com.example.project_machimo.review.dto.CommentRequest">
         UPDATE c_review
         SET
-        modified_date = NOW()
+        modified_date = SYSDATE
         , content = #{content}
         , writer = #{writer}
         WHERE
