@@ -72,8 +72,8 @@
             <div class="cnt_body">
                 <div class="my_menu border">
                     <div class="mb-4 bg-dark py-5 text-center">
-                        <h2 class="usertitle mb-3">프로필 정보</h2>
-                        <p class="username"><strong><span id="name" th:text="${session.user.uName}"></span></strong>님</p>
+                        <p class="usertitle mb-3">프로필 정보</p>
+                        <p class="username"><strong><span id="name" th:text="${session.user.uNickname}"></span></strong>님</p>
                         <!--                <p class="username">이름: <strong><span id="name" th:text="${session.user.uName}"></span></strong>님</p>-->
                         <!--                <p class="username">이메일: <strong><span id="email" th:text="${session.user.uEmail}"></span></strong></p>-->
                     </div>
@@ -101,6 +101,7 @@
                     </dl>
                 </div>
                 <div th:if="${type.equals('main')}" class="order_list">
+                    <input type="hidden" id="result_modify" th:value="${modify}">
                     <div class="order_list_subtitle">
                         <h4>최근 구매 내역</h4>
                     </div>
@@ -218,7 +219,7 @@
                     <div class="order_list_subtitle">
                         <h4>장바구니</h4>
                     </div>
-                    <table th:if="${basketItems != null}" class="table table-hover mx-auto text-center">
+                    <table th:if="${basketItems != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
                         <thead>
                         <tr class="table-active">
                             <th>번호</th>
@@ -277,21 +278,79 @@
                     <div th:if="${basketItems == null}" style="align-content: center">
                         장바구니가 비어있습니다.
                     </div>
+                </div>
+                <div th:if="${type.equals('wish')}" class="basket_list">
+                    <div class="order_list_subtitle">
+                        <h4>관심상품</h4>
+                    </div>
+                    <table th:if="${basketItems != null}" class="table table-hover mx-auto text-center">
+                        <thead>
+                        <tr class="table-active">
+                            <th>번호</th>
+                            <th>image</th>
+                            <th>상품ID</th>
+                            <th>상품명</th>
+                            <th>판매자</th>
+                            <th>가격</th>
+                            <th>삭제</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-center">
+                        <!--            <tr th:each="item, count:${basketItems}" th:id="${item.product_id}" >-->
+                        <tr th:if="${item.pSalesStatus==1}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="item-show">
+                            <td th:class="count" th:text="${count.count}"></td>
+                            <td th:text="${item.iSubImg}"></td>
+                            <td th:text="${item.productId}"></td>
+                            <td th:text="${item.pName}"></td>
+                            <td th:text="${item.uName}"></td>
+                            <td class="price" th:text="${item.pDirect}"></td>
+                            <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
+                        </tr>
+                        <tr th:if="${item.pSalesStatus==2}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="table-active">
+                            <td>품절</td>
+                            <td th:text="${item.iSubImg}"></td>
+                            <td th:text="${item.productId}"></td>
+                            <td th:text="${item.pName}"></td>
+                            <td th:text="${item.uName}"></td>
+                            <td th:text="${item.pDirect}"></td>
+                            <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
+                        </tr>
+                        </tbody>
+                        <tfoot class="table-group-divider">
+                        <!--                        <tr class="table-light">-->
+                        <tr>
+                            <td colspan="2" style="text-align: center">총 수량</td>
+                            <td colspan="3" style="text-align: right">
+                                <span id="total_amount"></span> 개
+                            </td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr class="table-active">
+                            <td colspan="2" style="text-align: center">총 금액</td>
+                            <td colspan="3" style="text-align: right">
+                                <span id="total_price"></span> 원
+                            </td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center" colspan="7">
+                                <button>결제하기</button>
+                            </td>
+                        </tr>
+                        </tfoot>
                     </table>
+                    <div th:if="${basketItems == null}" style="align-content: center">
+                        장바구니가 비어있습니다.
+                    </div>
                 </div>
                 <div th:if="${type.equals('modify')}" class="basket_list">
                     <div class="order_list_subtitle">
                         <h4>나의 정보수정</h4>
                     </div>
-                    <form name="reg_frm" id="reg_frm" class="table-primary" method="post" action="/loginT/joinProc">
+                    <form name="frm_update" id="frm_update" class="table-primary" method="post" action="/mypage/joinProc">
                         <input type="hidden" name="uSocial" th:value="${user.uSocial}">
                         <!--    <input type="text" name="u_social" th:value="${user.getU_social()}">-->
                         <table align="center">
-                            <tr height="60" width="120">
-                                <td colspan="2" align="center">
-                                    <h1>회원 가입 신청</h1>
-                                </td>
-                            </tr>
                             <tr height="60">
                                 <td style="width: 100px">User ID</td>
                                 <td>
@@ -319,7 +378,7 @@
                             <tr height="60">
                                 <td>이   름</td>
                                 <td>
-                                    <input name="uName" type="text" th:value="${user.uName}" size="20">
+                                    <input name="uName" type="text" th:value="${user.uName}" size="20" readonly>
                                     <!--        <input name="u_name" type="text" size="20">*-->
                                     <div><span class="fs-6 text-danger" th:text="${valid_uName}"></span></div>
                                 </td>
@@ -327,7 +386,7 @@
                             <tr height="60">
                                 <td>생년월일</td>
                                 <td>
-                                    <input name="uJumin" type="text" th:value="${user.uJumin}" size="20" placeholder="예) 960429">
+                                    <input name="uJumin" type="text" th:value="${user.uJumin}" size="20" placeholder="예) 960429" readonly>
                                     <div><span class="fs-6 text-danger" th:text="${valid_uJumin}"></span></div>
                                 </td>
                             </tr>
@@ -364,6 +423,7 @@
                             </tr>
                             <tr height="60">
                                 <td colspan="2" align="center">
+<!--                                    <button onclick="updateUser()">수정</button>-->
                                     <input type="submit" id="insert_mem" value="수정">
                                     <input type="reset" value="다시입력">
                                     <input type="button" value="취소" onclick="javascript:window.location='/mypage/mypage_page'">
@@ -413,6 +473,11 @@
         $("#productId").val(productId);
         $("#frm_show_item").submit();
     })
+    var result_modify = $("#result_modify").val();
+    if(result_modify == 'success'){
+        alert("수정 완료.");
+        location.href="/mypage/mypage_page";
+    }
     $(function (){
         var totalPrice = 0;
         $('.price').each(function (){
@@ -449,6 +514,26 @@
             },
             error: function (result){
                 alert('삭제실패');
+            }
+        });
+    }
+
+    function updateUser(){
+        var update_frm = $('#frm_update').serialize();
+        $.ajax({
+            url: '/mypage/joinProc',
+            type: 'POST',
+            data:update_frm,
+            success:function (response){
+                if(response=='success'){
+                    alert("수정 완료.");
+                    location.href='/mypage/mypage_page';
+                }else{
+                    alert("수정 실패. \n잠시 후 다시 시도해주세요.");
+                }
+            },
+            error:function (response){
+                alert(response);
             }
         });
     }
