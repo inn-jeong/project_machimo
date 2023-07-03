@@ -90,6 +90,7 @@ public class ReviewController {
     public String contentView(@RequestParam HashMap<String, String> param, Model model) {
         log.info("@# contentView");
         ReviewDto dto = service.contentView(param);
+
         model.addAttribute("content_view", dto);
         service.updateCount(dto.getReviewId());
 //        model.addAttribute("hit", hit);

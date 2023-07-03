@@ -23,7 +23,7 @@ public class ReviewDto {
     private int reviewStar;
     private Timestamp reviewDate;
     private int reviewHit;
-
+    private int id;
     /* 이미지 정보 */
     private List<AttachImageVO> imageList;
 

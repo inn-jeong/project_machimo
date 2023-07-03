@@ -1,6 +1,7 @@
 package com.example.project_machimo.review.dao;
 
 import com.example.project_machimo.AttachImageVO;
+import com.example.project_machimo.review.dto.CommentDto;
 import com.example.project_machimo.review.dto.Criteria;
 import com.example.project_machimo.review.dto.ReplyDto;
 import com.example.project_machimo.review.dto.ReviewDto;
@@ -39,4 +40,8 @@ public interface ReviewDao {
     boolean addReply(ReplyDto r);
 
     List<ReplyDto> getReply(int boardIdx);
+
+    void insertComment(CommentDto dto);
+
+    List<CommentDto> selectCommentList(CommentDto dto);
 }

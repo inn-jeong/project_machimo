@@ -21,7 +21,7 @@ public interface CommentMapper {
      * @param id - PK
      * @return 댓글 상세정보
      */
-    public CommentResponse findById(int id);
+    public CommentResponse findById(long id);
 
     /**
      * 댓글 수정
@@ -33,19 +33,19 @@ public interface CommentMapper {
      * 댓글 삭제
      * @param id - PK
      */
-    void deleteById(Long id);
+    void deleteById(long id);
 
     /**
      * 댓글 리스트 조회
-     * @param postId - 게시글 번호 (FK)
+     * @param reviewId - 게시글 번호 (FK)
      * @return 댓글 리스트
      */
-    List<CommentResponse> findAll(Long postId);
+    List<CommentResponse> findAll(long reviewId);
 
     /**
      * 댓글 수 카운팅
-     * @param postId - 게시글 번호 (FK)
+     * @param reviewId - 게시글 번호 (FK)
      * @return 댓글 수
      */
-//    int count(Long postId);
+//    long count(int reviewId);
 }

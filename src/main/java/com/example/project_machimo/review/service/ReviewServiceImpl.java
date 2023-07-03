@@ -2,6 +2,7 @@ package com.example.project_machimo.review.service;
 
 import com.example.project_machimo.AttachImageVO;
 import com.example.project_machimo.review.dao.ReviewDao;
+import com.example.project_machimo.review.dto.CommentDto;
 import com.example.project_machimo.review.dto.Criteria;
 import com.example.project_machimo.review.dto.ReplyDto;
 import com.example.project_machimo.review.dto.ReviewDto;
@@ -174,4 +175,16 @@ public class ReviewServiceImpl implements ReviewService{
         return dao.getReviewById(reviewId);
     }
 
+    @Override
+    public void insertComment(CommentDto dto) {
+        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+        dao.insertComment(dto);
     }
+
+    @Override
+    public List<CommentDto> getCommentList(CommentDto dto) {
+        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+        return  dao.selectCommentList(dto);
+    }
+
+}

@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentRequest {
 
-    private int id;           // 댓글 번호 (PK)
-    private int reviewId;       // 게시글 번호 (FK)
+    private Long id;           // 댓글 번호 (PK)
+    private Long reviewId;       // 게시글 번호 (FK)
     private String content;    // 내용
     private String writer;     // 작성자
 
