@@ -1,47 +1,104 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="utf-8">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/board.css}"/>
     <title>Document</title>
 </head>
 <body>
-        <div class="container">
-            <h2>게시판 목록</h2>
-            <table class="board_list">
+<div class="container">
+    <h2>게시판 목록</h2>
+    <table class="board_list">
                 <colgroup>
                     <col width="15%"/>
                     <col width="*"/>
                     <col width="15%"/>
                     <col width="20%"/>
                 </colgroup>
-        <thead>
-<!--        <tr>-->
-<!--            <th scope="col">글번호</th>-->
-<!--            <th scope="col">제목</th>-->
-<!--            <th scope="col">조회수</th>-->
-<!--            <th scope="col">작성일</th>-->
-<!--        </tr>-->
-        </thead>
-        <tbody id="list">
-        <tr th:if="${#lists.size(list)}>0" th:each="dto:${list}">
-            <td class=review_id" th:text="${dto.review_id}"></td>
-            <td class=products_id" th:text="${dto.products_id}"></td>
-            <td class=users_id" th:text="${dto.users_id}"></td>
-            <td class=review_title" th:text="${dto.review_title}"></td>
-            <td class=review_content" th:text="${dto.review_content}"></td>
-            <td class=review_star" th:text="${dto.review_star}"></td>
-            <td class=review_img" th:text="${dto.review_img}"></td>
+                <thead>
+                <tr>
+                    <th scope="col">글번호</th>
+                    <th scope="col">제품번호</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">별점</th>
+                    <th scope="col">작성일</th>
+                    <th scope="col">조회수</th>
+                </tr>
+                </thead>
+        <tbody>
+        <tr th:each="list:${list}" th:if="${list != null}" class="move_link" th:data-id="${list.reviewId}">
+            <td th:text="${list.reviewId}"></td>
+            <td th:text="${list.productId}"></td>
+            <td th:text="${list.reviewWritter}"></td>
+            <td th:text="${list.reviewTitle}"></td>
+            <td th:text="${list.reviewStar}"></td>
+            <td th:text="${list.reviewDate}"></td>
+            <td th:text="${list.reviewHit}"></td>
         </tr>
         <tr th:unless="${#lists.size(list)} > 0">
-            <td colspan="4">조회된 결과가 없습니다.</td>
+            <td colspan="7">조회된 결과가 없습니다.</td>
         </tr>
         </tbody>
     </table>
-<a href="openBoardWrite" class="btn">글 쓰기</a>
-</div>
+    <a href="/review/write_view" class="btn">글 쓰기</a>
+    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+        showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
+    </div>
+
+<!--    <h3><span th:text="${pageMaker}"></span></h3>-->
+        <div class="div_page">
+            <ul class="pagination">
+
+                <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
+<!--                    <a th:href="@{'/page/'+${pageMaker.startPage -1}}" th:text="'Prev'" aria-controls="dataTable" data-dt-idx="0" tabindex="0">-->
+                    <a th:href="@{${pageMaker.startPage -1}}" th:text="'Prev'" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
+                    </a>
+                </li>
+                <li class="paginate_button page-link" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                    <a th:href="${num}" th:text="${num}">
+                    </a>
+                </li>
+                <li th:if="${pageMaker.next}" class="paginate_button page-item next page-link" id="dataTable_next">
+                    <a th:href="@{${pageMaker.endPage + 1}}" th:text="'Next'" aria-controls="dataTable" data-dt-idx="7" tabindex="0">
+                    </a>
+                </li>
+            </ul>
+        </div>
+<!--        <form method="get" id="actionForm" th:action="@{/list}">-->
+        <form method="get" id="actionForm" th:action="@{/review/list}">
+            <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+            <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+        </form>
+        </div>
 </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    var actionForm = $("#actionForm");
+
+    ////////////////////페이지 번호 처리////////////////
+    $(".paginate_button a").on("click", function (e) {
+        e.preventDefault();
+        actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+        actionForm.submit();
+    });
+    ///////////////////게시글 처리////////////////////
+    $(".move_link").on("click", function (e) {
+        e.preventDefault();
+        var reviewId = $(this).attr("data-id");
+        actionForm.append("<input type='hidden' name='reviewId' value='" + reviewId + "'>");
+        actionForm.attr("action", "/review/content_view").submit();
+    });
+
+    // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+    var bno = actionForm.find("input[name='reviewId']").val();
+    // if(bno != ''){
+    if(bno !== ''){
+        actionForm.find("input[name='reviewId']").remove();
+    }
+
+</script>

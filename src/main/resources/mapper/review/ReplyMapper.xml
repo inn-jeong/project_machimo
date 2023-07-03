@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_machimo.review.dao.ReplyMapper">
+    <insert id="enrollReply">
+        insert into c_review(c_id, review_id, user_id, c_date, c_contents)
+        values(#{cId}, #{reviewId}, #{userId}, #{cDate}, #{cContents})
+    </insert>
+</mapper>

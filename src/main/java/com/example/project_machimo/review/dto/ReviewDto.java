@@ -1,18 +1,30 @@
 package com.example.project_machimo.review.dto;
 
+import com.example.project_machimo.AttachImageVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+//이미지 정보 전달받기위해
+@ToString
 public class ReviewDto {
     private int reviewId;
-    private int productsId;
-    private int usersId; // 이 필드가 추가되어야 할 수 있습니다.
+    private int productId;
+    private String reviewWritter;
     private String reviewTitle;
     private String reviewContent;
     private int reviewStar;
-    private String reviewImg;
+    private Timestamp reviewDate;
+    private int reviewHit;
+
+    /* 이미지 정보 */
+    private List<AttachImageVO> imageList;
+
 }

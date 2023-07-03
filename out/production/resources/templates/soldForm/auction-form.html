@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>제품 정보 입력</title>
+</head>
+<body>
+<h1>제품 정보 입력</h1>
+<!-- 경매 폼 -->
+<h2>경매</h2>
+<form action="/submit-auction-product" method="post">
+    <input type="hidden" name="c_id" th:value="${c_id}" />
+    <input type="hidden" name="user_id" th:value="${user_id}" />
+
+    <table>
+        <tr>
+            <td><label for="category_auction">카테고리:</label></td>
+            <td>
+                <select id="category_auction" name="category_auction" required>
+                    <option value="">카테고리 선택</option>
+                    <!-- 카테고리 옵션 값들을 동적으로 생성 -->
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="p_name_auction">제품명:</label></td>
+            <td><input type="text" id="p_name_auction" name="p_name_auction" required /></td>
+        </tr>
+        <tr>
+            <td><label for="p_info_auction">제품 정보:</label></td>
+            <td><textarea id="p_info_auction" name="p_info_auction" required></textarea></td>
+        </tr>
+        <tr>
+            <td><label for="p_dur_auction">경매 종료일:</label></td>
+            <td><input type="datetime-local" id="p_dur_auction" name="p_dur_auction" required /></td>
+        </tr>
+        <tr>
+            <td><label for="p_b_price_auction">경매 시작 가격:</label></td>
+            <td><input type="number" id="p_b_price_auction" name="p_b_price_auction" min="0" required /></td>
+        </tr>
+        <tr>
+            <td><label for="p_account_auction">정산 계좌번호:</label></td>
+            <td><input type="text" id="p_account_auction" name="p_account_auction" required /></td>
+        </tr>
+    </table>
+
+    <input type="submit" value="경매 제품 등록" />
+</form>
+</body>
+</html>
