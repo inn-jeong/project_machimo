@@ -38,6 +38,12 @@ public class AdminServiceImpl implements AdminService  {
     }
 
     @Override
+    public UsersDto userView(HashMap<String, String> param) {
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        return dao.userView(param);
+    }
+
+    @Override
     public void adminDelete(int userId) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         dao.adminDelete(userId);
@@ -51,11 +57,6 @@ public class AdminServiceImpl implements AdminService  {
     }
 
 
-    @Override
-    public UsersDto userView(HashMap<String, String> param) {
-        AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        return dao.userView(param);
-    }
     @Override
     public void boardModify(BoardDto dto) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
@@ -124,6 +125,12 @@ public class AdminServiceImpl implements AdminService  {
     public void updateStatus(int ProductId, int PSalesStatus) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         dao.updateStatus(ProductId, PSalesStatus);
+    }
+
+    @Override
+    public void productDelete(int productId) {
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        dao.productDelete(productId);
     }
 
 }

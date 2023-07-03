@@ -35,5 +35,7 @@ public interface AdminDao {
 
     void updateStatus(int ProductId, int PSalesStatus);
 
+    void productDelete(int productId);
+
 
 }

@@ -48,16 +48,16 @@
                                     <tr th:each="user: ${adminList}" th:if="${user != null}">
                                         <td th:text="${user.userId}"></td>
                                         <td>
-                                            <a class="move_link" th:data-id="${user.userId}"><span th:text="${user.UId}"></span></a>
+                                            <a class="move_link" th:data-id="${user.userId}"><span th:text="${user.uId}"></span></a>
                                         </td>
-                                        <td th:text="${user.UNickname}"></td>
-                                        <td th:text="${user.UEmail}"></td>
-                                        <td th:text="${user.UPoint}"></td>
-                                        <td th:text="${user.UCreatedAt}"></td>
+                                        <td th:text="${user.uNickname}"></td>
+                                        <td th:text="${user.uEmail}"></td>
+                                        <td th:text="${user.uPoint}"></td>
+                                        <td th:text="${user.uCreatedAt}"></td>
                                         <td>
 <!--                                            <a th:href="@{|/admin/adminModify/${user.user_id}}">회원권한</a>-->
-                                           <span th:if="${user.URole == 0}">USER</span>
-                                           <span th:if="${user.URole == 1}">ADMIN</span>
+                                           <span th:if="${user.uRole == 0}">USER</span>
+                                           <span th:if="${user.uRole == 1}">ADMIN</span>
                                            <button type="submit">
                                                <a th:href="@{|/admin/adminModify/${user.userId}}">권한부여</a>
                                            </button>

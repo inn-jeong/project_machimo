@@ -33,4 +33,5 @@ public interface AdminService {
     public void save(ProductDto dto) throws IOException;
 
     void updateStatus(int productInd, int pSalesStatus);
+    public void productDelete(int productId);
 }
