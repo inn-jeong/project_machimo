@@ -7,10 +7,10 @@
 
     <insert id="insertOrder">
         INSERT INTO ORDERS
-        (order_id, user_id, product_id, order_status_id, created_at, updated_at, order_address, order_address_sub,
+        (order_id, user_id, product_id, order_status_id, created_at, updated_at, order_address,
+        order_address_sub,used_point,
         order_price)
-        SELECT #{orderId}, #{userId}, 1, max(ORDER_STATUS_ID), #{createdAt}, null, #{orderAddress}, #{orderAddressSub},
-        #{orderPrice}
+        SELECT #{orderId}, #{userId}, 1, max(ORDER_STATUS_ID), #{createdAt}, null, #{orderAddress}, #{orderAddressSub},#{usedPointResult}, #{orderPrice}
         FROM ORDER_STATUS
     </insert>
     <insert id="insertOrderStatus">
@@ -23,6 +23,10 @@
         where PRODUCT_ID = #{productId}
 
     </insert>
+    <update id="updateUserPoint">
+        update USERS set U_POINT = U_POINT -#{point}
+        where USER_ID = #{userId}
+    </update>
     <select id="getProduct" resultType="com.example.project_machimo.order.dto.BuyProductVO">
         select PRODUCT_ID,P_NAME,USER_ID,P_DIRECT from PRODUCTS
         where PRODUCT_ID = #{0}

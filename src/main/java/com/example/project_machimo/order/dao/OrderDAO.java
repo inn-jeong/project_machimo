@@ -21,6 +21,7 @@ public interface OrderDAO {
     int insertOrderProducts(@Param("orderId")int orderId, @Param("productId") int productId);
     int getOrderProductTotal(@Param("orderId")int orderId);
 
+    int updateUserPoint(@Param("userId")int userId,@Param("point")int point);
 
 
 }

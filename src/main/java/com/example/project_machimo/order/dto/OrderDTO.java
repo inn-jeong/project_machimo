@@ -13,7 +13,6 @@ import java.util.List;
 
 @Data
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-
 public class OrderDTO {
 
     private Integer orderId;
@@ -26,6 +25,7 @@ public class OrderDTO {
     private String orderAddress;
     private String orderAddressSub;
     private Integer userId;
+    private Integer usedPointResult;
 
 
 

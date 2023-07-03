@@ -1,3 +1,19 @@
+
+function all_use_point() {
+    var use_point = document.getElementById("user_point").innerText
+
+    document.getElementById('used_point').innerText= document.getElementById("u_point").value
+    console.log(use_point)
+     const result = Number(document.getElementById('result').innerText);
+    console.log(result)
+    document.getElementById('result').innerText = Number(result-use_point);
+
+    document.getElementById('user_point').innerText = 0
+
+
+    
+}
+
 function onClickCheckboxValue() {
 
     const query = 'input[name="amount"]:checked';
@@ -32,6 +48,32 @@ window.onload = function () {
 
 
 };
+    var used_point = 0;
+function points(){
+    const user_point = document.getElementById("user_point").innerText;
+    const point = document.getElementById("point").value
+    console.log("사용할려는 포인트"+point)
+    console.log("가지고 있는 포인트"+user_point)
+
+    if (point>user_point){
+        alert("적용가능한 포인트보다 큽니다")
+        return;
+    }
+
+
+
+    const result = Number(document.getElementById('result').innerText);
+    document.getElementById('result').innerText = Number(result - point);
+
+    document.getElementById("user_point").innerText = Number(user_point-point)
+
+    used_point = (used_point+ Number(point))
+    console.log("사용한 포인트"+used_point)
+    
+document.getElementById("used_point").innerText = used_point
+
+}
+
 
 var IMP = window.IMP;
 IMP.init("imp67282556");
@@ -42,6 +84,8 @@ function requestPay() {
     console.log(amount)
     console.log(radioVal + "콘솔의 값")
 
+    let  used_point_result = document.getElementById("used_point").innerText
+    console.log("총 사용한 포인트는 =  = = "+used_point_result)
     var p_name = null;
 
     let p_names = document.getElementsByClassName("p_name");
@@ -72,10 +116,19 @@ function requestPay() {
     let today = new Date();
     let isoDate = today.toISOString();
     let user_id= document.getElementById("u_id").value;
+
+
     if (order_req.length<=0){
         order_req = "조심히 안전하게 와주세요";
     }
     console.log(order_req)
+
+    var json = {
+        order : order_id,
+        order_req:order_req,
+        amount: amount
+    }
+    console.log("제이슨 데이터"+JSON.stringify(json))
 
     if (radioVal === '무통장 입금') {
 
@@ -85,7 +138,7 @@ function requestPay() {
 
                 pg: radioVal,		//pg파라미터 값
                 pay_method: "card",		//결제 방법
-                merchant_uid: "machimmo_order_"+order_id,//주문번호
+                merchant_uid: "machimm"+9,//주문번호
                 name: p_name,		//상품 명
                 amount: amount,			//금액
                 buyer_email: email,
@@ -122,7 +175,9 @@ function requestPay() {
                                       updated_at:null,
                                       order_address:address,
                                       order_address_sub:address_sub,
-                                      user_id:user_id
+                                      user_id:user_id,
+                                      used_point_result:used_point_result
+
                                   })
                                 ,success:function (){
                                     alert("결제 성공")

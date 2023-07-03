@@ -1,5 +1,6 @@
 package com.example.project_machimo.order.service;
 
+import com.example.project_machimo.auction.dao.ProductsDAO;
 import com.example.project_machimo.order.dao.OrderDAO;
 import com.example.project_machimo.order.dto.BuyProductVO;
 import com.example.project_machimo.order.dto.BuyerVO;
@@ -18,10 +19,15 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderDAO orderDAO;
 
+    private final ProductsDAO productsDAO;
+
     @Autowired
-    public OrderServiceImpl(OrderDAO orderDAO) {
+    public OrderServiceImpl(OrderDAO orderDAO, ProductsDAO productsDAO) {
         this.orderDAO = orderDAO;
+        this.productsDAO = productsDAO;
     }
+
+
 
     @Override
     public List<BuyProductVO> getBuyList(List<Integer> sellerIds) {
@@ -49,13 +55,16 @@ public class OrderServiceImpl implements OrderService {
 
         int orderStatus = orderDAO.insertOrderStatus();
         int insertOrder = orderDAO.insertOrder(orderDTO);
-        int result = orderStatus + insertOrder;
+        int updateUserPoint = orderDAO.updateUserPoint(orderDTO.getUserId(),orderDTO.getUsedPointResult());
+
+        int result = orderStatus + insertOrder+updateUserPoint;
 
         List<Integer> productIdList = orderDTO.getProductIdList();
 
-        if (result == 2) {
+        if (result == 3) {
             for (Integer productIds : productIdList) {
                 orderDAO.insertOrderProducts(orderDTO.getOrderId(), productIds);
+                productsDAO.updateProductStatusCompletedCase(productIds);
             }
             return ResponseEntity.ok().build();
 
