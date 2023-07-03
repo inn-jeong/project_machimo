@@ -1,26 +1,26 @@
 package com.example.project_machimo.admin.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsersDto {
-    private int usersId;
-    private Timestamp createdAt;
-    private String email;
-    private String password;
-    private String name;
-    private String phoneNumber;
-    private int point;
-    private String address;
-    private Timestamp updatedAt;
-    private String userLoginId;
-    private String nickName;
-    private String registNumber;
-    private String signout;
+    private int userId;
+    private String uId;
+    private String uPassword;
+    private String uEmail;
+    private String uName;
+    private String uJumin;
+    private String uPhone;
+    private String uAddress;
+    private String uNickname;
+    private int uPoint;
+    private Timestamp uCreatedAt;
+    private Timestamp uUpdatedAt;
+    private int uRole;
+    private String uSignout;
 }

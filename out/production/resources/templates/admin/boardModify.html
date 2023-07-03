@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>boardWrite</title>
+    <!--header-->
+    <div th:replace="fragments/header.html :: fragment-header"></div>
+</head>
+<body>
+
+    <div class="container p-5 mb-4">
+
+        <div class="row py-3 mb-5 border-bottom m-3">
+            <h2 class="m-0 fw-bold text-secondary">게시글 수정</h2>
+        </div>
+
+<!--        게시판 카테고리로 문의와 공지를 구분-->
+<!--        공지에는 별도 카테고리 필요없고-->
+<!--        문의게시판일경우 상품문의/배송문의/기타 등 카테고리 고를 수 있도록-->
+
+        <form method="post">
+            <input type="hidden" name="userId" th:value="${session.userId}"/>
+
+            <div class="m-3 py-3">
+                <label class="form-label fw-semibold">항목을 선택해주세요.</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="bCategory" value="공지" id="공지" checked>
+                    <label class="form-check-label" for="공지">
+                        공지사항
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="bCategory" value="문의" id="문의">
+                    <label class="form-check-label" for="문의">
+                        문의사항
+                    </label>
+                </div>
+
+                <div id="addCheckBox" style="display: none;">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inquiryCategory" value="상품문의" id="상품문의" checked>
+                        <label class="form-check-label" for="상품문의">
+                            상품문의
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inquiryCategory" value="배송문의" id="배송문의">
+                        <label class="form-check-label" for="배송문의">
+                            배송문의
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="m-3">
+                <label for="formGroupExampleInput1" class="form-label fw-semibold">제목</label>
+                <input name="bTitle" type="text" th:value="${boardView.bTitle}" class="form-control" id="formGroupExampleInput1" placeholder="간단한 제목을 입력해주세요.">
+            </div>
+
+            <div class="m-3 py-3">
+                <label for="formGroupExampleInput2" class="form-label fw-semibold">설명</label>
+                <input name="bContent" th:value="${boardView.bContent}" type="text" class="form-control" id="formGroupExampleInput2">
+            </div>
+
+            <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="submit">수정 완료</button>
+        </form>
+    </div>
+
+    <!--footer-->
+    <div th:replace="fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+    //문의 클릭시 radio 활성화//
+    const notice = document.getElementById('공지');
+    const qna = document.getElementById('문의');
+    const addCheckBox = document.getElementById('addCheckBox');
+
+    notice.addEventListener('change', function (){
+        addCheckBox.style.display='none';
+    });
+    qna.addEventListener('change',function (){
+        addCheckBox.style.display = qna.checked ? 'block':'none';
+    });
+
+</script>

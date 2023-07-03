@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>userView</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td>로그인ID</td>
+            <td>닉네임</td>
+            <td>비밀번호</td>
+        </tr>
+        <tr>
+
+            <td th:text="${userView.UId}"></td>
+            <td th:text="${userView.UNickname}"></td>
+            <td th:text="${userView.UPassword}"></td>
+        </tr>
+        <tr>
+            <td>이름</td>
+            <td>주민번호</td>
+            <td>전화번호</td>
+            <td>주소</td>
+        </tr>
+        <tr>
+            <td th:text="${userView.UName}"></td>
+            <td th:text="${userView.UJumin}"></td>
+            <td th:text="${userView.UPhone}"></td>
+            <td th:text="${userView.UAddress}"></td>
+        </tr>
+    </table>
+</body>
+</html>
