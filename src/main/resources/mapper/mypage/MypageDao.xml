@@ -36,5 +36,23 @@
     <select id="findUser" resultType="com.example.project_machimo.login.Dto.UsersDto">
         select * from users where u_id=#{param1}
     </select>
+    <select id="getWishItem" resultType="com.example.project_machimo.mypage.Dto.WishItem">
+        select a.wishlist_id,a.product_id,a.user_id,p.p_name,
+                p.p_direct,p.p_b_price,p.p_sale_type,p.p_sales_status,
+                i.i_sub_img,u.u_nickname
+        from wishlists a
+
+        join (select product_id,p_name,p_direct,p_b_price,
+            p_sale_type,p_sales_status from products) p
+        on p.product_id = a.product_id
+
+        join (select product_id, i_sub_img from product_images) i
+        on a.product_id = i.product_id
+
+        join (select user_id, u_nickname from users) u
+        on u.user_id = a.user_id
+
+        where a.user_id = #{param1}
+    </select>
 
 </mapper>

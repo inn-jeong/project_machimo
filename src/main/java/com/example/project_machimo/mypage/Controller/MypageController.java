@@ -5,6 +5,7 @@ import com.example.project_machimo.login.Dto.UserRequestDto;
 import com.example.project_machimo.login.Dto.UsersDto;
 import com.example.project_machimo.mypage.Dto.SalesItem;
 import com.example.project_machimo.mypage.Dto.UserUpdateRequestDto;
+import com.example.project_machimo.mypage.Dto.WishItem;
 import com.example.project_machimo.mypage.Service.MypageService;
 import com.example.project_machimo.mypage.Dto.PurchaseItem;
 import com.example.project_machimo.sqlLogTest.UserDao;
@@ -144,5 +145,16 @@ public class MypageController {
 //        return "mypage/mypage";
     }
 
+    @RequestMapping("/wish")
+    public String wishList(HttpSession session,Model model){
+        UsersDto user = (UsersDto) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/loginT/login?login_try=no";
+        }
 
+        List<WishItem> items= service.getWishItem(user.getUserId());
+        model.addAttribute("type","wish");
+        model.addAttribute("items",items);
+        return "mypage/mypage";
+    }
 }

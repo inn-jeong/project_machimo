@@ -6,6 +6,7 @@ import com.example.project_machimo.mypage.Dao.MypageDao;
 import com.example.project_machimo.mypage.Dto.PurchaseItem;
 import com.example.project_machimo.mypage.Dto.SalesItem;
 import com.example.project_machimo.mypage.Dto.UserUpdateRequestDto;
+import com.example.project_machimo.mypage.Dto.WishItem;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,5 +83,11 @@ public class MypageServiceImpl implements MypageService{
     public UsersDto findUser(String uId) {
         MypageDao dao = sqlSession.getMapper(MypageDao.class);
         return dao.findUser(uId);
+    }
+
+    @Override
+    public ArrayList<WishItem> getWishItem(Integer userId) {
+        MypageDao dao = sqlSession.getMapper(MypageDao.class);
+        return dao.getWishItem(userId);
     }
 }
