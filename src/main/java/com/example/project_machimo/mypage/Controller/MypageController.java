@@ -7,7 +7,6 @@ import com.example.project_machimo.mypage.Dto.SalesItem;
 import com.example.project_machimo.mypage.Dto.UserUpdateRequestDto;
 import com.example.project_machimo.mypage.Service.MypageService;
 import com.example.project_machimo.mypage.Dto.PurchaseItem;
-import com.example.project_machimo.sqlLogTest.UserDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
