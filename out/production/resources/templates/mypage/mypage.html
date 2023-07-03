@@ -142,7 +142,7 @@
                         <tr class="table-active">
                             <td>번호</td>
                             <th colspan="2">상품정보</th>
-                            <th >주문일자</th>
+                            <th>주문일자</th>
                             <th>주문번호</th>
                             <th>주문금액</th>
                             <th colspan="2">주문상태</th>
@@ -155,7 +155,8 @@
                             <td th:text="${item.uName}" style="width: 200px; text-align: left"></td>
                             <td th:text="${item.createdAt}" rowspan="2" style="width: 120px" class="align-middle"></td>
                             <td th:text="${item.orderId}" rowspan="2" style="width: 80px" class="align-middle"></td>
-                            <td th:text="${item.pDirect}+원" rowspan="2" style="width: 100px" class="align-middle"></td>
+                            <td th:if="${item.pDirect != null}" th:text="${item.pDirect}+원" rowspan="2" style="width: 100px" class="align-middle"></td>
+                            <td th:if="${ != null}" th:text="${item.pDirect}+원" rowspan="2" style="width: 100px" class="align-middle"></td>
                             <td th:text="${item.orderStatus}" rowspan="2" style="width: 80px" class="align-middle"></td>
                             <td rowspan="2" style="width: 80px" class="align-middle"><button>후기작성</button></td>
                         </tr>
@@ -228,7 +229,7 @@
                             <th>상품명</th>
                             <th>판매자</th>
                             <th>가격</th>
-                            <th>삭제</th>
+                            <th>관리</th>
                         </tr>
                         </thead>
                         <tbody class="text-center">
@@ -348,7 +349,7 @@
                         <h4>나의 정보수정</h4>
                     </div>
                     <form name="frm_update" id="frm_update" class="table-primary" method="post" action="/mypage/joinProc">
-                        <input type="hidden" name="uSocial" th:value="${user.uSocial}">
+                        <input th:if="${user}" type="hidden" name="uSocial" th:value="${user.uSocial}">
                         <!--    <input type="text" name="u_social" th:value="${user.getU_social()}">-->
                         <table align="center">
                             <tr height="60">

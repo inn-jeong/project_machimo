@@ -109,7 +109,7 @@ public class MypageController {
         String result;
         if (errors.hasErrors()) {
             model.addAttribute("type","modify");
-            model.addAttribute("userDto", userDto);
+            model.addAttribute("user", userDto);
             /* 회원가입 실패시 입력 데이터 값을 유지 */
             log.info("@# check address ===>"+userDto.getUAddress());
 
