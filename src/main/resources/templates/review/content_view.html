@@ -153,13 +153,14 @@
       <div class="card my-4">
         <h5 class="card-header">Leave a Comment:</h5>
         <div class="card-body">
-          <form name="comment-form" action="/board/comment/write" method="post" autocomplete="off">
+          <form name="comment-form" action="insertComment" method="post" autocomplete="off">
             <div class="form-group">
               <input type="hidden" name="c_reviewId" th:value="*{content_view.reviewId}" />
+              <input type="hidden" name="id" th:value="1" />
               <textarea name="content" class="form-control" rows="3"></textarea>
             </div>
 <!--            <button type="submit" class="btn btn-primary">Submit</button>-->
-            <input type="submit" class="btn btn-primary" formaction="board/comment/write">Submit</input>
+            <input type="submit" class="btn btn-primary" formaction="insertComment">Submit</input>
           </form>
         </div>
       </div>

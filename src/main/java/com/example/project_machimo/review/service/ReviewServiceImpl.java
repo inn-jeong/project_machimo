@@ -178,7 +178,13 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public void insertComment(CommentDto dto) {
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+        log.info("@# ReviewServiceImpl.insertComment() start");
+
         dao.insertComment(dto);
+
+        log.info("@# ReviewServiceImpl.insertComment() end");
+
+
     }
 
     @Override

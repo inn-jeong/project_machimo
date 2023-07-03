@@ -116,16 +116,25 @@
 <!--        , delete_yn-->
 <!--        , created_date-->
 <!--        , modified_date-->
-        INSERT INTO c_review
-        VALUES
-        (
-        #{reviewId}
-        ,1
-        ,1
-        ,'N'
+
+        INSERT INTO c_review (
+        id
+        , review_id
+        , content
+        , writer
+        , delete_yn
+        , created_date
+        , modified_date
+        ) VALUES (
+        (SELECT MAX(id)+1 FROM c_review)
+        , #{reviewId}
+        , 'DSD'
+        , 'SDSD'
+        , 0
         , SYSDATE
         , NULL
-        )
+        );
+
     </insert>
 
     <select id="getReply" resultType="com.example.project_machimo.review.dto.ReplyDto">
