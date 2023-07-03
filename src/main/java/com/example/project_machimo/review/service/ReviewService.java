@@ -1,5 +1,6 @@
 package com.example.project_machimo.review.service;
 
+import com.example.project_machimo.review.dto.CommentDto;
 import com.example.project_machimo.review.dto.Criteria;
 import com.example.project_machimo.review.dto.ReplyDto;
 import com.example.project_machimo.review.dto.ReviewDto;
@@ -31,4 +32,8 @@ public interface ReviewService {
     /////////////////////////////////댓글/////////////////////////////////
 
     ReviewDto getReviewById(int reviewId);
+
+    void insertComment(CommentDto dto);
+
+    List<CommentDto> getCommentList(CommentDto dto);
 }

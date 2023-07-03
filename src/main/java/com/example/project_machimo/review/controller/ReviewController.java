@@ -2,10 +2,7 @@ package com.example.project_machimo.review.controller;
 
 import com.example.project_machimo.AttachImageVO;
 import com.example.project_machimo.review.dao.ReviewDao;
-import com.example.project_machimo.review.dto.Criteria;
-import com.example.project_machimo.review.dto.PageDTO;
-import com.example.project_machimo.review.dto.ReplyDto;
-import com.example.project_machimo.review.dto.ReviewDto;
+import com.example.project_machimo.review.dto.*;
 import com.example.project_machimo.review.service.ReviewService;
 import com.example.project_machimo.utils.UploadFileUtils;
 import jakarta.annotation.Resource;
@@ -90,6 +87,7 @@ public class ReviewController {
     public String contentView(@RequestParam HashMap<String, String> param, Model model) {
         log.info("@# contentView");
         ReviewDto dto = service.contentView(param);
+
         model.addAttribute("content_view", dto);
         service.updateCount(dto.getReviewId());
 //        model.addAttribute("hit", hit);
@@ -251,6 +249,30 @@ public class ReviewController {
         return "/replyEnroll";
     }
 
+
+
+
+    @PostMapping("/insertComment")
+//    private String insertComment(@RequestParam("reviewId") int reviewId, @RequestParam("content") String content) throws Exception{
+    private String insertComment(@RequestParam("c_reviewId") int reviewId, @RequestParam("content") String content) throws Exception{
+        CommentDto dto = new CommentDto();
+
+        log.info("content@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+content);
+        log.info("reviewId@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+reviewId);
+        dto.setContent(content);
+        dto.setReviewId(reviewId);
+        service.insertComment(dto);
+        String redirect_url = "redirect:/review/content_view?reviewId="+Integer.toString(reviewId);
+        return redirect_url;
+    }
+
+    @GetMapping("/getCommentList")
+    @ResponseBody
+    private List<CommentDto> getCommentList(@RequestParam("reviewId") int reviewId)throws Exception{
+        CommentDto dto = new CommentDto();
+        dto.setReviewId(reviewId);
+        return service.getCommentList(dto);
+    }
 
 
 }

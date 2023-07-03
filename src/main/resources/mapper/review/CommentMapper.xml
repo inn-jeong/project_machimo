@@ -16,11 +16,13 @@
 
 
     <!-- 댓글 저장 -->
-    <insert id="save" parameterType="com.example.project_machimo.review.dto.CommentRequest" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO c_review (
+<!--    <insert id="save" parameterType="com.example.project_machimo.review.dto.CommentRequest" useGeneratedKeys="true" keyProperty="id">-->
+    <insert id="save" parameterType="com.example.project_machimo.review.dto.CommentRequest" >
+        INSERT into c_review (
         <include refid="commentColumns" />
         ) VALUES (
-        #{id}
+        (SELECT MAX(id)+1 FROM c_review)
+<!--        #{id}-->
         , #{reviewId}
         , #{content}
         , #{writer}
@@ -39,6 +41,7 @@
         c_review
         WHERE
         id = #{value}
+<!--        id = #{id}-->
     </select>
 
 
