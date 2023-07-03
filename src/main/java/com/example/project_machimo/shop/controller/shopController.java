@@ -23,7 +23,8 @@ public class shopController {
     //모든 상품을 보는 메소드
     @RequestMapping("/allItemView")
     public String allItemView(Model model, @RequestParam(name = "sort", required = false) String sort
-                                    , @RequestParam(name = "category", required = false) Integer c_id2){
+                                    , @RequestParam(name = "category2", required = false) Integer c_id
+                                    ,@RequestParam(name = "category1", required = false) Integer c_id2){
         log.info("@# allItemView");
 
         // 모든 카테고리와 그에 해당하는 하위 카테고리를 가져옴
@@ -37,9 +38,13 @@ public class shopController {
 
         // 선택한 카테고리에 해당하는 상품들을 가져옴
         List<ProductDto> products;
-        if (c_id2 != null) {
-            products = service.getProductsByCategoryId(c_id2);
+        //하위카테고리를 가져옴
+        if (c_id != null) {
+            products = service.getProductsBySubcategoryId(c_id);
+        } else if (c_id2 != null) {
+            products = service.getProductsBycategoryId(c_id2);
         } else {
+//            전체를 눌렀을시 allItemView()
             products = service.allItemView();
         }
 
@@ -106,6 +111,7 @@ public class shopController {
         model.addAttribute("itemList", items);
 //        model에 사용자가 선택한 옵션을 들고 넘어감
         model.addAttribute("selectedSort", sort);
+        model.addAttribute("selectedCategory", c_id);//카테고리 선택 정렬
         return "shop";
     }
 

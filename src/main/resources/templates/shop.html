@@ -4,6 +4,81 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .category-list {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .category-item {
+            margin-right: 10px;
+        }
+
+        .category-link {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .category-link:hover {
+            color: #ff0000;
+        }
+
+        .subcategory {
+            display: none;
+            margin-top: 5px;
+            padding: 0;
+        }
+
+        .category-item:hover .subcategory {
+            display: block;
+        }
+
+        .subcategory-item {
+            margin-bottom: 5px;
+        }
+
+        .subcategory-link {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .subcategory-link:hover {
+            color: #0000ff;
+        }
+        .mainCate{
+            color: #333;
+            text-decoration: none;
+            border-bottom: none;
+        }
+        .mainCate:hover {
+            color: #ff0000;
+        }
+        .itemContainer {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .itemImage {
+            flex: 0 0 100px;
+            margin-right: 10px;
+        }
+        .item-image img {
+            width: 100%;
+            height: auto;
+        }
+        .item-info h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .item-info p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
     shop 페이지 입니다.
@@ -11,15 +86,18 @@
     <!-- 카테고리 목록 -->
     <div>
         <h3>카테고리</h3>
-        <ul>
-            <li><a href="/shop/allItemView">전체</a></li>
-            <li th:each="category : ${categories}">
-                <a th:href="@{'/shop/allItemView?category=' + ${category.c_id}}"
-                   th:text="${category.c_name}"></a>
-                <ul th:if="${subcategory.containsKey(category.c_id)}">
-                    <li th:each="subCategory : ${subcategory[category.c_id]}">
-                        <a th:href="@{'/shop/allItemView?category=' + ${subCategory.c_id2}}"
-                           th:text="${subCategory.c_name}"></a>
+        <ul class="category-list">
+            <li class="category-item"><a href="/shop/allItemView" class="mainCate">전체</a></li>
+            <!-- 상위카테고리 -->
+            <li th:each="category : ${categories}" id="category-[[${category.c_id}]]" class="category-item">
+                <a th:href="@{'/shop/allItemView?category1=' + ${category.c_id}}"
+                   th:text="${category.c_name}" class="category-link"></a>
+                <!-- 하위카테고리 -->
+                <!-- 상위카테고리가 있다면 -->
+                <ul th:if="${subcategory.containsKey(category.c_id)}" id="subcategory-[[${category.c_id}]]" class="subcategory">
+                    <li th:each="subCategory : ${subcategory[category.c_id]}" class="subcategory-item">
+                        <a th:href="@{'/shop/allItemView?category2=' + ${subCategory.c_id}}"
+                           th:text="${subCategory.c_name}" class="subcategory-link"></a>
                     </li>
                 </ul>
             </li>
@@ -45,25 +123,23 @@
     </form>
 
     <!-- 이미지와 상품 정보를 반복하여 표시 -->
-    <div th:each="item : ${itemList}">
-        <table>
+    <div th:each="item : ${itemList}" class="itemContainer">
         <!-- 이미지 -->
-            <p><span th:text="${item.i_sub_image}"></span></p>
-
-            <!-- 닉네임 -->
-            <p><h4 th:text="${item.u_nickname}"></h4></p>
-
-            <!-- 상품 이름 -->
-            <p th:text="${item.p_name}"></p>
-
-            <!-- 가격 -->
-            <!-- 0일때 경매가 1일때 즉시 가로 구분함-->
-            <p>
-                <span th:if="${item.p_sale_type == 0}" th:text="${item.p_b_price}"></span>
-                <span th:if="${item.p_sale_type == 1}" th:text="${item.p_direct}"></span>
-            </p>
-
-        </table>
+            <div class="itemImage">
+                <p><span th:text="${item.i_sub_image}"></span></p>
+            </div>
+            <div itemInfo>
+                <!-- 닉네임 -->
+                <p><h4 th:text="${item.u_nickname}"></h4></p>
+                <!-- 상품 이름 -->
+                <p th:text="${item.p_name}"></p>
+                <!-- 가격 -->
+                <!-- 0일때 경매가 1일때 즉시 가로 구분함-->
+                <p>
+                    <span th:if="${item.p_sale_type == 0}" th:text="${item.p_b_price}"></span>
+                    <span th:if="${item.p_sale_type == 1}" th:text="${item.p_direct}"></span>
+                </p>
+        </div>
     </div>
 </body>
 </html>

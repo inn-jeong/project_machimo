@@ -11,8 +11,10 @@ public interface ShopService {
     public ArrayList<ImgDto> viewImage(int product_id);
     public ArrayList<WishlistDto> wishLike(int product_id);
     public ArrayList<CategoryDto> getCategories();
-    public ArrayList<CategoryDto> getSubCategories(Integer c_id);
+    public ArrayList<CategoryDto> getSubCategories(Integer c_id2);
 //    카테고리 메소드인데 List타입을 사용한 이유는 해당 ID가 상품들을 여러개 조회 할 수 있기 때문에
 //    해당 상품이 없을땐 빈 리스트기 때문에 LIST를 사용함
-    List<ProductDto> getProductsByCategoryId(int c_id2);
+    List<ProductDto> getProductsBySubcategoryId(int c_id);
+    List<ProductDto> getProductsBycategoryId(int c_id2);
+    ArrayList<CategoryDto> getCategoryById(Integer c_id);
 }

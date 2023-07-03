@@ -57,17 +57,31 @@ public class ShopServiceImpl implements ShopService{
     }
 
     @Override
-    public ArrayList<CategoryDto> getSubCategories(Integer c_id) {
+    public ArrayList<CategoryDto> getSubCategories(Integer c_id2) {
         log.info("@# getSubCategories");
         ShopDao dao = sqlSession.getMapper(ShopDao.class);
-        ArrayList<CategoryDto> subCategories = dao.getSubCategories(c_id);
+        ArrayList<CategoryDto> subCategories = dao.getSubCategories(c_id2);
         return subCategories;
     }
 
     @Override
-    public List<ProductDto> getProductsByCategoryId(int c_id2) {
+    public List<ProductDto> getProductsBySubcategoryId(int c_id) {
         ShopDao dao = sqlSession.getMapper(ShopDao.class);
-        List<ProductDto> getProductsByCategoryId = dao.getProductsByCategoryId(c_id2);
-        return getProductsByCategoryId;
+        List<ProductDto> getProductsBySubcategoryId = dao.getProductsBySubcategoryId(c_id);
+        return getProductsBySubcategoryId;
+    }
+
+    @Override
+    public List<ProductDto> getProductsBycategoryId(int c_id2) {
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        List<ProductDto> getProductsBycategoryId = dao.getProductsBycategoryId(c_id2);
+        return getProductsBycategoryId;
+    }
+
+    @Override
+    public ArrayList<CategoryDto> getCategoryById(Integer c_id) {
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        ArrayList<CategoryDto> getCategoryById = dao.getCategoryById(c_id);
+        return getCategoryById;
     }
 }
