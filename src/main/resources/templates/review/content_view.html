@@ -117,6 +117,7 @@
 <!--      <input hidden="hidden" th:value="${content_view.getId()}" id="id">-->
     </td>
   </tr>
+  </form>
 
     <tr>
 
@@ -157,7 +158,8 @@
               <input type="hidden" name="c_reviewId" th:value="*{content_view.reviewId}" />
               <textarea name="content" class="form-control" rows="3"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+<!--            <button type="submit" class="btn btn-primary">Submit</button>-->
+            <input type="submit" class="btn btn-primary" formaction="board/comment/write">Submit</input>
           </form>
         </div>
       </div>
@@ -165,7 +167,6 @@
     </tr>
 
 
-  </form>
 </table>
 </div>
 <script>
