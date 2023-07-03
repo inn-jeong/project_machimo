@@ -105,39 +105,7 @@
                     <div class="order_list_subtitle">
                         <h4>최근 구매 내역</h4>
                     </div>
-                    <table class="table table-hover mx-auto text-center" style="width: 1000px">
-                        <thead>
-                        <tr class="table-active">
-                            <td>번호</td>
-                            <th colspan="2">상품정보</th>
-                            <th >주문일자</th>
-                            <th>주문번호</th>
-                            <th>주문금액</th>
-                            <th colspan="2">주문상태</th>
-                        </tr>
-                        </thead>
-                        <tbody th:each="item, count:${items}" th:id="${item.productId}" class="item-show">
-                        <tr>
-                            <td th:text="${count.count}" rowspan="2" style="width: 40px" class="align-middle"></td>
-                            <td th:text="${item.iSubImg}" rowspan="2" style="width: 100px" class="align-middle"></td>
-                            <td th:text="${item.uName}" style="width: 200px; text-align: left"></td>
-                            <td th:text="${item.createdAt}" rowspan="2" style="width: 120px" class="align-middle"></td>
-                            <td th:text="${item.orderId}" rowspan="2" style="width: 80px" class="align-middle"></td>
-                            <td th:text="${item.pDirect}+원" rowspan="2" style="width: 100px" class="align-middle"></td>
-                            <td th:text="${item.orderStatus}" rowspan="2" style="width: 80px" class="align-middle"></td>
-                            <td rowspan="2" style="width: 80px" class="align-middle"><button>후기작성</button></td>
-                        </tr>
-                        <tr>
-                            <td th:text="${item.pName}" style="text-align: left"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div th:if="${type.equals('order')}" class="order_list">
-                    <div class="order_list_subtitle">
-                        <h4>구매 내역</h4>
-                    </div>
-                    <table class="table table-hover mx-auto text-center" style="width: 1000px">
+                    <table th:if="${items != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
                         <thead>
                         <tr class="table-active">
                             <td>번호</td>
@@ -150,27 +118,85 @@
                         </thead>
                         <tbody th:each="item, count:${items}" th:id="${item.productId}" class="item-show">
                         <tr>
-                            <td th:text="${count.count}" rowspan="2" style="width: 40px" class="align-middle"></td>
-                            <td th:text="${item.iSubImg}" rowspan="2" style="width: 100px" class="align-middle"></td>
-                            <td th:text="${item.uName}" style="width: 200px; text-align: left"></td>
-                            <td th:text="${item.createdAt}" rowspan="2" style="width: 120px" class="align-middle"></td>
-                            <td th:text="${item.orderId}" rowspan="2" style="width: 80px" class="align-middle"></td>
-                            <td th:if="${item.pDirect != null}" th:text="${item.pDirect}+원" rowspan="2" style="width: 100px" class="align-middle"></td>
-                            <td th:if="${ != null}" th:text="${item.pDirect}+원" rowspan="2" style="width: 100px" class="align-middle"></td>
-                            <td th:text="${item.orderStatus}" rowspan="2" style="width: 80px" class="align-middle"></td>
-                            <td rowspan="2" style="width: 80px" class="align-middle"><button>후기작성</button></td>
+                            <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
+                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>
+                            <td style="width: 200px; text-align: left">
+                                <div th:switch="${item.pSaleType}">
+                                    판매유형:
+                                    <span th:case="0">경매</span>
+                                    <span th:case="1">즉시판매</span>
+                                </div>
+                            </td>
+                            <td th:text="${item.createdAt}" rowspan="3" style="width: 120px" class="align-middle"></td>
+                            <td th:text="${item.orderId}" rowspan="3" style="width: 80px" class="align-middle"></td>
+                            <td th:if="${item.pSaleType == 1}" rowspan="3" style="width: 100px" class="align-middle">즉시구매가<br><span th:text="${item.pDirect}"></span>원</td>
+                            <td th:if="${item.pSaleType == 0}" rowspan="3" style="width: 100px" class="align-middle">낙찰가<br><span th:text="${item.pBPrice}"></span>원</td>
+                            <td th:text="${item.orderStatus}" rowspan="3" style="width: 80px" class="align-middle"></td>
+                            <td rowspan="3" style="width: 80px" class="align-middle"><button>후기작성</button></td>
+                        </tr>
+                        <tr>
+                            <td th:text="${item.uName}" style="text-align: left"></td>
                         </tr>
                         <tr>
                             <td th:text="${item.pName}" style="text-align: left"></td>
                         </tr>
                         </tbody>
                     </table>
+                    <div th:if="${items == null}" style="align-content: center">
+                        최근 구매내역이 없습니다.
+                    </div>
+                </div>
+                <div th:if="${type.equals('order')}" class="order_list">
+                    <div class="order_list_subtitle">
+                        <h4>구매 내역</h4>
+                    </div>
+                    <table th:if="${items != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
+                        <thead>
+                        <tr class="table-active">
+                            <td>번호</td>
+                            <th colspan="2">상품정보</th>
+                            <th>주문일자</th>
+                            <th>주문번호</th>
+                            <th>주문금액</th>
+                            <th colspan="2">주문상태</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="item, count:${items}" th:id="${item.productId}" class="item-show">
+                        <tr>
+                            <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
+                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>
+                            <td style="width: 200px; text-align: left">
+                                <div th:switch="${item.pSaleType}">
+                                    판매유형:
+                                    <span th:case="0">경매</span>
+                                    <span th:case="1">즉시판매</span>
+                                </div>
+                            </td>
+                            <td th:text="${item.createdAt}" rowspan="3" style="width: 120px" class="align-middle"></td>
+                            <td th:text="${item.orderId}" rowspan="3" style="width: 80px" class="align-middle"></td>
+<!--                            판매유형에 따른 가격 출력-->
+                            <td th:if="${item.pSaleType == 1}" rowspan="3" style="width: 100px" class="align-middle">즉시구매가<br><span th:text="${item.pDirect}"></span>원</td>
+                            <td th:if="${item.pSaleType == 0}" rowspan="3" style="width: 100px" class="align-middle">낙찰가<br><span th:text="${item.pBPrice}"></span>원</td>
+                            <td th:text="${item.orderStatus}" rowspan="3" style="width: 80px" class="align-middle"></td>
+                            <td rowspan="3" style="width: 80px" class="align-middle"><button>후기작성</button></td>
+                        </tr>
+                        <tr>
+                            <td th:text="'판매자:'+${item.uName}" style="text-align: left"></td>
+                        </tr>
+                        <tr>
+                            <td th:text="${item.pName}" style="text-align: left"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div th:if="${items == null}" style="align-content: center">
+                        구매내역이 없습니다.
+                    </div>
                 </div>
                 <div th:if="${type.equals('sales')}" class="order_list">
                     <div class="order_list_subtitle">
                         <h4>판매 내역</h4>
                     </div>
-                    <table class="table table-hover mx-auto text-center" style="width: 1000px">
+                    <table th:if="${salesItems != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
                         <thead>
                         <tr class="table-active">
                             <td>번호</td>
@@ -215,6 +241,9 @@
                         </tr>
                         </tbody>
                     </table>
+                    <div th:if="${salesItems == null}" style="align-content: center">
+                        판매내역이 없습니다.
+                    </div>
                 </div>
                 <div th:if="${type.equals('basket')}" class="basket_list">
                     <div class="order_list_subtitle">
@@ -284,61 +313,50 @@
                     <div class="order_list_subtitle">
                         <h4>관심상품</h4>
                     </div>
-                    <table th:if="${basketItems != null}" class="table table-hover mx-auto text-center">
+                    <table class="table table-hover mx-auto text-center" style="width: 1000px">
                         <thead>
                         <tr class="table-active">
-                            <th>번호</th>
-                            <th>image</th>
-                            <th>상품ID</th>
-                            <th>상품명</th>
-                            <th>판매자</th>
-                            <th>가격</th>
-                            <th>삭제</th>
+                            <td>번호</td>
+                            <th colspan="2">상품정보</th>
+                            <th>제품코드</th>
+                            <th>금액</th>
+                            <th>판매시작일</th>
+                            <th>주문상태</th>
                         </tr>
                         </thead>
-                        <tbody class="text-center">
-                        <!--            <tr th:each="item, count:${basketItems}" th:id="${item.product_id}" >-->
-                        <tr th:if="${item.pSalesStatus==1}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="item-show">
-                            <td th:class="count" th:text="${count.count}"></td>
-                            <td th:text="${item.iSubImg}"></td>
-                            <td th:text="${item.productId}"></td>
-                            <td th:text="${item.pName}"></td>
-                            <td th:text="${item.uName}"></td>
-                            <td class="price" th:text="${item.pDirect}"></td>
-                            <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
+                        <tbody th:each="item, count:${salesItems}" th:id="${item.productId}" class="item-show">
+                        <tr>
+                            <td th:text="${count.count}" rowspan="2" style="width: 40px" class="align-middle"></td>
+                            <td th:text="${item.iSubImg}" rowspan="2" style="width: 100px" class="align-middle"></td>
+                            <td style="width: 200px; text-align: left">
+                                <div th:switch="${item.pSaleType}">
+                                    판매유형:
+                                    <span th:case="0">경매</span>
+                                    <span th:case="1">즉시판매</span>
+                                </div>
+                            </td>
+                            <td th:text="${item.productId}" rowspan="2" style="width: 80px" class="align-middle"></td>
+                            <td th:if="${item.pSaleType == 0}" rowspan="2" style="width: 100px" class="align-middle">경매가 <br><span th:text="${item.pBPrice}"></span>원</td>
+                            <td th:if="${item.pSaleType == 1}" rowspan="2" style="width: 100px" class="align-middle">즉시판매가 <br><span th:text="${item.pDirect}"></span>원</td>
+                            <td th:text="${item.pCreatedAt}" rowspan="2" style="width: 100px" class="align-middle"></td>
+                            <td rowspan="2" style="width: 80px" class="align-middle">
+                                <div th:switch="${item.pSalesStatus}">
+                                    <span th:case="0">판매승인전</span>
+                                    <span th:case="1">판매중</span>
+                                    <span th:case="2">판매완료</span>
+                                    <span th:case="3">걍매낙찰</span>
+                                    <span th:case="4">경매실패</span>
+                                    <span th:case="5">판매보류</span>
+                                </div>
+                            </td>
+                            <!--                            <td rowspan="2" style="width: 80px" class="align-middle">-->
+                            <!--                                <button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button>-->
+                            <!--                            </td>-->
                         </tr>
-                        <tr th:if="${item.pSalesStatus==2}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="table-active">
-                            <td>품절</td>
-                            <td th:text="${item.iSubImg}"></td>
-                            <td th:text="${item.productId}"></td>
-                            <td th:text="${item.pName}"></td>
-                            <td th:text="${item.uName}"></td>
-                            <td th:text="${item.pDirect}"></td>
-                            <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
+                        <tr>
+                            <td th:text="${item.pName}" style="text-align: left"></td>
                         </tr>
                         </tbody>
-                        <tfoot class="table-group-divider">
-                        <!--                        <tr class="table-light">-->
-                        <tr>
-                            <td colspan="2" style="text-align: center">총 수량</td>
-                            <td colspan="3" style="text-align: right">
-                                <span id="total_amount"></span> 개
-                            </td>
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr class="table-active">
-                            <td colspan="2" style="text-align: center">총 금액</td>
-                            <td colspan="3" style="text-align: right">
-                                <span id="total_price"></span> 원
-                            </td>
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center" colspan="7">
-                                <button>결제하기</button>
-                            </td>
-                        </tr>
-                        </tfoot>
                     </table>
                     <div th:if="${basketItems == null}" style="align-content: center">
                         장바구니가 비어있습니다.

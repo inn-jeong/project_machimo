@@ -143,4 +143,6 @@ public class MypageController {
         return result;
 //        return "mypage/mypage";
     }
+
+
 }

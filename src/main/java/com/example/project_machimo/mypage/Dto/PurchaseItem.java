@@ -16,6 +16,8 @@ public class PurchaseItem {
     private String uName;
     private String pName;
     private Integer pDirect;
+    private Integer pBPrice;
+    private Integer pSaleType;
     private String iSubImg;
     private String createdAt;
     private String orderStatus;

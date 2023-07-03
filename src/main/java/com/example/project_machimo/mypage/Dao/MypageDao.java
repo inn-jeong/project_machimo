@@ -15,4 +15,5 @@ public interface MypageDao {
     public int deleteItem(Integer productId);
     public int updateUser(HashMap<String, String> param);
     public UsersDto findUser(String uId);
+
 }

@@ -17,9 +17,9 @@
 
     <select id="getPurchaseItems" resultType="com.example.project_machimo.mypage.Dto.PurchaseItem">
         select a.order_id,a.user_id, a.product_id,to_char(a.created_at,'YYYY-MM-DD') created_at
-                ,b.p_name,b.p_direct,c.order_status,d.i_sub_img,e.u_name
+                ,b.p_name,b.p_direct,b.p_b_price,b.p_sale_type,c.order_status,d.i_sub_img,e.u_name
         from orders a
-        join(select product_id,p_name,p_direct from products) b on a.product_id = b.product_id
+        join(select product_id,p_name,p_direct,p_b_price,p_sale_type from products) b on a.product_id = b.product_id
         join(select order_status_id,order_status from order_status) c on a.order_status_id = c.order_status_id
         join(select product_id,i_sub_img from product_images) d on a.product_id = d.product_id
         join(select user_id,u_name from users) e on a.user_id = e.user_id
