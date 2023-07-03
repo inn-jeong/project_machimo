@@ -1,16 +1,14 @@
 package com.example.project_machimo.shop.Service;
 
 import com.example.project_machimo.shop.Dao.ShopDao;
-import com.example.project_machimo.shop.Dto.ImgDto;
-import com.example.project_machimo.shop.Dto.ItemDto;
-import com.example.project_machimo.shop.Dto.ProductDto;
-import com.example.project_machimo.shop.Dto.UsersDto;
+import com.example.project_machimo.shop.Dto.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service("ShopService")
@@ -39,6 +37,37 @@ public class ShopServiceImpl implements ShopService{
         log.info("@# viewImage");
         ShopDao dao = sqlSession.getMapper(ShopDao.class);
         ArrayList<ImgDto> img = dao.viewImage(product_id);
-        return null;
+        return img;
+    }
+
+    @Override
+    public ArrayList<WishlistDto> wishLike(int product_id) {
+        log.info("@# viewImage");
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        ArrayList<WishlistDto> wish = dao.wishLike(product_id);
+        return wish;
+    }
+
+    @Override
+    public ArrayList<CategoryDto> getCategories() {
+        log.info("@# getCategories");
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        ArrayList<CategoryDto> categories = dao.getCategories();
+        return categories;
+    }
+
+    @Override
+    public ArrayList<CategoryDto> getSubCategories(Integer c_id) {
+        log.info("@# getSubCategories");
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        ArrayList<CategoryDto> subCategories = dao.getSubCategories(c_id);
+        return subCategories;
+    }
+
+    @Override
+    public List<ProductDto> getProductsByCategoryId(int c_id2) {
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        List<ProductDto> getProductsByCategoryId = dao.getProductsByCategoryId(c_id2);
+        return getProductsByCategoryId;
     }
 }
