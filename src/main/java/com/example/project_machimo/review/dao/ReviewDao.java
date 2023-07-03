@@ -2,10 +2,11 @@ package com.example.project_machimo.review.dao;
 
 import com.example.project_machimo.review.dto.ReviewDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-@Mapper
+@MapperScan
 public interface ReviewDao {
     ArrayList<ReviewDto> list();
     void write(HashMap<String,String> param);

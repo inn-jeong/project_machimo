@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input::-webkit-inner-spin-button {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+        }
+    </style>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+
+        $(".btn-link").click(function () {
+            const url = encodeURI(window.location.href);
+
+
+        })
+
+        $(document).ready(function () {
+            $("#buyDirect").click(function (event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: "/order/checkSession",
+                    type: "get",
+
+                    success: function (response) {
+                        $("form[action='/order/buyDirect']").submit();
+                    },
+                    error: function () {
+                        alert("로그인이 필요한 서비스입니다.")
+                    }
+                })
+
+            })
+
+
+        })
+
+        $(document).ready(function () {
+            $("#compare").click(function (event) {
+                event.preventDefault();
+
+                var bidsInput = $('input[name="bids"]').val();
+                var productIdInput = $('input[name="productId"]').val();
+                var bidsHistoryInput = $('input[name="bidsHistory"]').prop('checked');
+                var firstPriceInput = $('input[name="firstPrice"]').val();
+
+                $.ajax({
+                    url: "/auction/action-list/amountCheck",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        bids: bidsInput,
+                        productId: productIdInput,
+                        bidsHistory: bidsHistoryInput,
+                        firstPrice: firstPriceInput
+                    }),
+                    success: function (response) {
+                        alert("입찰성공")
+                        document.getElementById("test1").click()
+                        location.reload()
+
+                    },
+                    error: function (xhr, status, error) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.message == "로그인이 필요한 서비스입니다") {
+                            alert(response.message);
+                            document.getElementById("test1").click();
+                            return window.location.href = 'http://localhost:8090/login';
+
+                        }
+                        alert(response.message);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<link rel="stylesheet" href="/headerCss/header.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+
+</script>
+<body>
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<!-- NAV -->
+
+
+<!-- <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop">
+
+        </button> -->
+<main>
+
+
+    <div class="container">
+        <div class="row justify-content-center ">
+            <div class="col-lg-8 mb-4">
+                <div id="carouselExampleFade" class="carousel slide carousel-fade">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="/img/1.jpg" class="d-block w-100" alt="">
+                        </div>
+                        <div class="carousel-item active-table-tab">
+                            <img src="/img/2.jpg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item active-table-tab">
+                            <img src="/img/3.jpg" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-lg-4 border p-4">
+                <h2 class="mb-3">제품 제목</h2>
+                <p><strong>경매 종료일:</strong> <span th:text="${endDate}"></span></p>
+                <div>
+                    <br>
+                </div>
+                <div th:if="${pView.pSaleType() ==0}">
+                    <p><strong id="test2" th:unless="${hasBidHistory}"
+                               data-th-text="${#numbers.formatInteger(aList.highestBid(), 3, 'COMMA') + '원'}">>최근 가격</b>
+                    </strong></p>
+                    <p><strong th:if="${hasBidHistory}"
+                               data-th-text="${#numbers.formatInteger(pView.pBPrice(), 3, 'COMMA') + '원'}">>최근 가격</b>
+                    </strong></p>
+                </div>
+                <div th:if="${pView.pSaleType() ==1}">
+                    <b class="h4"
+                       data-th-text="${#numbers.formatInteger(pView.pDirect(), 3, 'COMMA') + '원'}">즉시 판매 가격</b>
+                </div>
+
+                <div>
+                    <span th:text="${pView.pInfo()}">제품 설명</span>
+                </div>
+
+                <div th:unless="${isSaleEnded}">
+                    <button th:if="${pView.pSaleType()==0}" type="button" class="btn btn-success btn-lg mb-3 w-100"
+                            data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                        입찰하기
+                    </button>
+
+                    <form action="/order/buyDirect" method="post">
+                        <input th:if="${pView.pSaleType()==1}" type="submit"
+                               class="btn btn-success btn-lg mb-3 w-100" value="즉시구매" id="buyDirect">
+                        <input hidden th:value="${pView.productsId()}" name=productId>
+                    </form>
+
+                    <button type="button" class="btn btn-secondary btn-lg mb-3 w-100" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                        장바구니
+                    </button>
+                    <button type="button" class="btn btn-outline-danger"
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                        신고
+                    </button>
+                    <button type="button" class="btn btn-outline-danger"
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                        신고
+                    </button>
+
+                    <button type="button" class="btn btn-link">공유</button>
+                </div>
+
+                <div th:if="${isSaleEnded}">
+                    <p>판매가 완료된 제품입니다.</p>
+                </div>
+            </div>
+        </div>
+        <div th:if="${pView.pSaleType()==0}" class="row mt-4">
+            <div class="col">
+                <h2 class="mb-3">입찰 내역</h2>
+                <div id="test3" th:each="bShow:${bList}">
+                    <span th:unless="${hasBidHistory}"
+                          th:text="${#numbers.formatInteger(bShow.amount(), 3, 'COMMA') + '원'}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+</div>
+<!--&#45;&#45;                모달 -->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <form action="amountCheck" method="post">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h1 class=" modal-title fs-5 " id="staticBackdropLabel">입찰가 입력</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body ">
+                    <div class="input-group mb-3">
+                        <input type="number" name="bids" class="form-control"
+                               aria-label="Won amount (with dot and two decimal places)">
+                        <span class="input-group-text">₩</span>
+                        <input name="productId" type="hidden" th:value="${pView.productsId()}">
+                        <input name="bidsHistory" type="hidden" th:value="${pView.productsId()}">
+                        <input name="firstPrice" type="hidden" th:value="${pView.pBPrice()}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="test1" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button id="compare" type="button" class="btn btn-primary">입찰</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:replace="fragments/footer:: footerFragment"></th:block>
+</body>
+</html>

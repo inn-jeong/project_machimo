@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- jQuery -->
+    <script
+            type="text/javascript"
+            src="https://code.jquery.com/jquery-1.12.4.min.js"
+    ></script>
+    <!-- iamport.payment.js -->
+    <script
+            type="text/javascript"
+            src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"
+    ></script>
+
+    <script src="/gyuha/import.js"></script>
+
+
+    </script>
+</head>
+
+
+<link rel="stylesheet" href="/headerCss/header.css">
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+</script>
+
+<body>
+
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<div style="overflow:scroll; width:600px; height:100px;" th:each="buyList:${getBuyList}">
+
+    <span th:text="${buyList.p_name()}"></span>
+
+    <input class="p_name" type="hidden" th:value="${buyList.p_name()}">
+    <input type='checkbox'
+           checked='checked'
+           name='amount'
+           onclick='onClickCheckboxValue()'
+           th:value="${buyList.p_direct()}"
+           th:text="${buyList.p_direct()}"/>
+    <input type="hidden" th:value="${orderId}" id="orderId">
+    <input class="product_Id" type="hidden" th:value="${buyList.productId()}">
+</div>
+<h3>총 결제금액</h3>
+<div id='result'></div>
+
+<div>
+
+    <table border="1">
+        <tr>
+            <td><img src="/img/payment_icon_yellow_small.png" style="width:60px; height:40px;"></td>
+        </tr>
+        <tr>
+            <td><input type="text" id="order_req"></td>
+
+            <td><input type="radio" value="kakaopay" name="payWith">카카오페이</td>
+            <td><input type="radio" value="tosspay" name="payWith">토스페이</td>
+            <td><input type="radio" value="html5_inicis" name="payWith">신용카드 결제</td>
+            <td><input type="radio" value="무통장입금" name="payWith">무통장 입금</td>
+
+        </tr>
+        <tr>
+            <td>
+                <button onclick="requestPay()" id="buy">버튼</button>
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+<div hidden="hidden" class="u">
+    <input type="hidden" id="u_phone" th:value="${user.uPhone()}">
+    <input type="hidden" id="u_full_address" th:value="${user.uAddress()}+' '+${user.uAddress_sub()}">
+    <input type="hidden" id="u_address" th:value="${user.uAddress()}">
+    <input type="hidden" id="u_address_sub" th:value="${user.uAddress()}">
+    <input type="hidden" id="u_email" th:value="${user.uEmail()}">
+    <input type="hidden" id="u_addr_postcode" th:value="${user.uAddrPostCode()}">
+    <input type="hidden" id="u_name" th:value="${user.uName()}">
+    <input type="hidden" id="u_id" th:value="${user.userId()}">
+</div>
+</body>
+</html>

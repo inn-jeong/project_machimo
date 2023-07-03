@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<style>
+    .div_page ul {
+        display: flex;
+        list-style: none;
+    }
+</style>
+<body>
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+
+<div class="row">
+    <th:block th:each="result:${search}">
+        <div class="col-md-3 text-center">
+            <a th:href="@{http://localhost:8090/auction/action-list/{id}(id=${result.productId()})}">
+                <span th:text="${result.pName()}"></span>
+            </a><br>
+                <span th:text="${result.uNickName()}"></span>
+        </div>
+
+
+
+    </th:block>
+</div>
+<div class="div_page d-flex justify-content-center" align="center">
+    <ul>
+        <!-- 이전 페이지가 있으면 [Previous] 링크를 생성 -->
+        <th:block th:if="${pageMaker.prev}">
+            <li class="paginate_button">
+                <!-- 시작페이지 -1 하면 이전의 10개 페이지 표시 ex>11->10(1~10), 21->20(11~20) -->
+                <a th:href="@{${pageMaker.startPage - 1}}">
+                    [Previous]
+                </a>
+            </li>
+        </th:block>
+
+        <!-- startPage부터 endPage까지 각 페이지 번호에 대해 반복 -->
+        <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+            <li th:if="${num!=0}" class="paginate_button"
+                th:style="${pageMaker.cri.pageNum == num ? 'background-color: yellow' : ''}">
+                <!-- 현재 페이지는 배경색 노란색으로 표시 -->
+                <a th:href="@{${num}}">
+                    <span th:text="${num}">[num]</span>
+                </a>
+            </li>
+        </th:block>
+
+        <!-- 다음 페이지가 있으면 [Next] 링크를 생성 -->
+        <th:block th:if="${pageMaker.next}">
+            <li class="paginate_button">
+                <!-- 시작페이지 +1 하면 이후의 10개 페이지 표시 ex>10->11(11~20), 20->21(21~30) -->
+                <a th:href="@{${pageMaker.endPage + 1}}">
+                    [Next]
+                </a>
+            </li>
+        </th:block>
+    </ul>
+</div>
+
+</div>
+<span id="option" hidden="hidden" th:text="${option}"></span>
+<form method="get" id="actionForm" action="searchList">
+    <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+    <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+    <input type="hidden" name="keyword" th:value="${message}">
+    <input type="hidden" name="searchOption" th:value="${option}">
+</form>
+
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</body>
+</html>
+<script>
+    var actionForm = $("#actionForm");
+    var option = $("#option").val();
+    /////////////////페이지번호 처리/////////////////
+    $(".paginate_button a").on("click", function (e) {
+
+        // 기본 동작 막음: 페이지 링크를 통해서 이동
+        e.preventDefault();
+        console.log("click~!");
+        console.log("@# href ===>" + $(this).attr("href"));
+        actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+
+        actionForm.submit();
+    });
+    /////////////////게시글 처리/////////////////
+
+</script>

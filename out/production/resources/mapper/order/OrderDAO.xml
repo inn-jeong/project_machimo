@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_machimo.order.dao.OrderDAO">
+
+
+    <insert id="insertOrder">
+        INSERT INTO ORDERS
+        (order_id, user_id, product_id, order_status_id, created_at, updated_at, order_address, order_address_sub,
+        order_price)
+        SELECT #{orderId}, #{userId}, 1, max(ORDER_STATUS_ID), #{createdAt}, null, #{orderAddress}, #{orderAddressSub},
+        #{orderPrice}
+        FROM ORDER_STATUS
+    </insert>
+    <insert id="insertOrderStatus">
+        insert into ORDER_STATUS values (order_status_id_seq.nextval,'0')
+    </insert>
+    <insert id="insertOrderProducts">
+        insert into ORDER_PRODUCTS (order_id, product_id, p_price)
+        select #{orderId}, #{productId}, p_direct
+        from PRODUCTS
+        where PRODUCT_ID = #{productId}
+
+    </insert>
+    <select id="getProduct" resultType="com.example.project_machimo.order.dto.BuyProductVO">
+        select PRODUCT_ID,P_NAME,USER_ID,P_DIRECT from PRODUCTS
+        where PRODUCT_ID = #{0}
+    </select>
+    <select id="getUser" resultType="com.example.project_machimo.order.dto.BuyerVO">
+        select USER_ID,U_NAME,U_POINT,U_ADDRESS,U_ADDRESS_SUB,u_phone,u_email,u_addr_postcode from USERS
+        where USER_ID = #{0}
+    </select>
+    <select id="getOrderId" resultType="java.lang.Integer">
+        select nvl(max(ORDER_ID),0)+1 from ORDERS
+    </select>
+    <select id="getTotalAmount" resultType="java.lang.Integer">
+        select P_DIRECT from products where product_id =#{0}
+    </select>
+    <select id="getOrderProductTotal" resultType="java.lang.Integer">
+        select sum(p_price) from order_products
+        where order_id=#{orderId}
+    </select>
+</mapper>

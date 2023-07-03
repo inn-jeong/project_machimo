@@ -24,6 +24,6 @@ public class ReviewController {
         log.info("@# list");
         ArrayList<ReviewDto> list = service.list();
         model.addAttribute("list",list);
-        return "/review/list";
+        return "list";
     }
 }
