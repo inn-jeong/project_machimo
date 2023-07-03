@@ -3,80 +3,33 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.project_machimo.review.dao.CommentMapper">
-    <!-- tb_comment 테이블 전체 컬럼 -->
-    <sql id="commentColumns">
-        id
-        , review_id
-        , content
-        , writer
-        , delete_yn
-        , created_date
-        , modified_date
-    </sql>
+    <select id="commentCount" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM COMMENTS
+    </select>
+
+    <select id="commentList" resultType="com.example.project_machimo.review.dto.CommentVO">
+        SELECT
+        *
+        FROM COMMENTS
+    </select>
 
 
-    <!-- 댓글 저장 -->
-<!--    <insert id="save" parameterType="com.example.project_machimo.review.dto.CommentRequest" useGeneratedKeys="true" keyProperty="id">-->
-    <insert id="save" parameterType="com.example.project_machimo.review.dto.CommentRequest" >
-        INSERT into c_review (
-        <include refid="commentColumns" />
-        ) VALUES (
-        (SELECT MAX(id)+1 FROM c_review)
-<!--        #{id}-->
-        , #{reviewId}
-        , #{content}
-        , #{writer}
-        , 0
-        , SYSDATE
-        , NULL
-        )
+    <insert id="commentInsert" parameterType="com.example.project_machimo.review.dto.CommentVO">
+        INSERT INTO
+        COMMENTS (CNO, BNO, CONTENT, WRITER, REG_DATE)
+        VALUES(#{cno},#{bno},#{content},#{writer},SYSDATE)
     </insert>
 
-
-    <!-- 댓글 상세정보 조회 -->
-    <select id="findById" parameterType="long" resultType="com.example.project_machimo.review.dto.CommentResponse">
-        SELECT
-        <include refid="commentColumns" />
-        FROM
-        c_review
-        WHERE
-        id = #{value}
-<!--        id = #{id}-->
-    </select>
-
-
-    <!-- 댓글 수정 -->
-    <update id="update" parameterType="com.example.project_machimo.review.dto.CommentRequest">
-        UPDATE c_review
+    <update id="commentUpdate" parameterType="com.example.project_machimo.review.dto.CommentVO">
+        UPDATE COMMENTS
         SET
-        modified_date = SYSDATE
-        , content = #{content}
-        , writer = #{writer}
-        WHERE
-        id = #{id}
+        CONTENT = #{content}
+        WHERE CNO = #{cno}
     </update>
 
-
-    <!-- 댓글 삭제 -->
-    <delete id="deleteById" parameterType="long">
-        UPDATE c_review
-        SET
-        delete_yn = 1
-        WHERE
-        id = #{id}
+    <delete id="commentDelete" parameterType="int">
+        DELETE FROM COMMENTS WHERE CNO = #{cno}
     </delete>
-
-
-    <!-- 댓글 리스트 조회 -->
-    <select id="findAll" parameterType="long" resultType="com.example.project_machimo.review.dto.CommentResponse">
-        SELECT
-        <include refid="commentColumns" />
-        FROM
-        c_review
-        WHERE
-        delete_yn = 0
-        AND review_id = #{value}
-        ORDER BY
-        id DESC
-    </select>
 </mapper>

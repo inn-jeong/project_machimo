@@ -1,15 +1,12 @@
 package com.example.project_machimo.review.dao;
 
 import com.example.project_machimo.AttachImageVO;
-import com.example.project_machimo.review.dto.CommentDto;
 import com.example.project_machimo.review.dto.Criteria;
-import com.example.project_machimo.review.dto.ReplyDto;
 import com.example.project_machimo.review.dto.ReviewDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Mapper
 public interface ReviewDao {
@@ -37,11 +34,8 @@ public interface ReviewDao {
 
     /////////////////////////////////댓글/////////////////////////////////
 
-    boolean addReply(ReplyDto r);
-
-    List<ReplyDto> getReply(int boardIdx);
-
-    void insertComment(CommentDto dto);
-
-    List<CommentDto> selectCommentList(CommentDto dto);
+//
+//    void insertComment(CommentVO dto);
+//
+//    List<CommentVO> selectCommentList(CommentVO dto);
 }

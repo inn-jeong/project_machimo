@@ -1,10 +1,7 @@
 package com.example.project_machimo.review.service;
 
-import com.example.project_machimo.AttachImageVO;
 import com.example.project_machimo.review.dao.ReviewDao;
-import com.example.project_machimo.review.dto.CommentDto;
 import com.example.project_machimo.review.dto.Criteria;
-import com.example.project_machimo.review.dto.ReplyDto;
 import com.example.project_machimo.review.dto.ReviewDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -168,29 +164,5 @@ public class ReviewServiceImpl implements ReviewService{
 
 /////////////////////////////////////////댓글/////////////////////////////////////////
 
-    @Override
-    public ReviewDto getReviewById(int reviewId) {
-        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
-
-        return dao.getReviewById(reviewId);
-    }
-
-    @Override
-    public void insertComment(CommentDto dto) {
-        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
-        log.info("@# ReviewServiceImpl.insertComment() start");
-
-        dao.insertComment(dto);
-
-        log.info("@# ReviewServiceImpl.insertComment() end");
-
-
-    }
-
-    @Override
-    public List<CommentDto> getCommentList(CommentDto dto) {
-        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
-        return  dao.selectCommentList(dto);
-    }
 
 }

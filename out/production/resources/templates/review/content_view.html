@@ -34,23 +34,6 @@
       }
       return b;
     }
-    // /* 댓글쓰기 */
-    // $(".reply_button_wrap").on("click", function(e){
-    //
-    //   e.preventDefault();
-    //
-    //   const userId = '${user.userId}';
-    //   // 로그인 정보 들고와서 연결하기
-    //   const reviewId = '${content_view.reviewId}';
-    //   // 현재 게시글 번호
-    //
-    //   let popUrl = "/review/replyEnroll/" + userId + "?reviewId=" + reviewId;
-    //   console.log(popUrl);
-    //   let popOption = "width = 490px, height=490px, top=300px, left=300px, scrollbars=yes";
-    //
-    //   window.open(popUrl,"댓글 쓰기",popOption);
-    //
-    // });
   </script>
 
   <title>리뷰 내용</title>
@@ -120,143 +103,145 @@
   </form>
 
     <tr>
-
-<!--        <div class="content_bottom">-->
-<!--            <div class="reply_subject">-->
-<!--              <h2>댓글</h2>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--&lt;!&ndash;        로그인 해야 볼 수 있도록&ndash;&gt;-->
-<!--&lt;!&ndash;        <div th:if="${member != null}">&ndash;&gt;-->
-<!--          <div class="reply_button_wrap">-->
-<!--            <button>댓글 쓰기</button>-->
+      <!-- 댓글 -->
+<!--      <div class="container">-->
+<!--        <label for="content">comment</label>-->
+<!--        <form th:action="@{/comment/insert}" th:object="${comment}" method="post" name="commentInsertForm">-->
+<!--          <div class="input-group">-->
+<!--            <input type="hidden" id="bno" th:value="${content_view.reviewId}" />-->
+<!--            <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요." />-->
+<!--            <span class="input-group-btn">-->
+<!--                <button class="btn btn-default" type="submit" name="commentInsertBtn">등록</button>-->
+<!--            </span>-->
 <!--          </div>-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-
-      <!--/* 댓글 작성 */-->
-<!--      <th:block layout:fragment="content">-->
-<!--      <td colspan="3">-->
-<!--      <div class="cm_write">-->
-<!--        <fieldset>-->
-<!--          <legend class="skipinfo">댓글 입력</legend>-->
-<!--          <div class="cm_input">-->
-<!--            <p><textarea id="content" name="content" onkeyup="countingLength(this);" cols="90" rows="4" placeholder="댓글을 입력해 주세요."></textarea></p>-->
-<!--            <span><button type="button" class="btns" onclick="saveComment();">등 록</button> <i id="counter">0/300자</i></span>-->
-<!--          </div>0-->
-<!--        </fieldset>-->
+<!--        </form>-->
 <!--      </div>-->
-<!--      </th:block>-->
 
-
-
-      <!-- Comments Form -->
-      <div class="card my-4">
-        <h5 class="card-header">Leave a Comment:</h5>
-        <div class="card-body">
-          <form name="comment-form" action="insertComment" method="post" autocomplete="off">
-            <div class="form-group">
-              <input type="hidden" name="c_reviewId" th:value="*{content_view.reviewId}" />
-              <input type="hidden" name="id" th:value="1" />
-              <textarea name="content" class="form-control" rows="3"></textarea>
-            </div>
-<!--            <button type="submit" class="btn btn-primary">Submit</button>-->
-            <input type="submit" class="btn btn-primary" formaction="insertComment">Submit</input>
-          </form>
-        </div>
+      <!--  댓글  -->
+      <div class="container">
+        <label for="content">comment</label>
+        <form name="commentInsertForm">
+          <div class="input-group">
+            <input type="hidden" name="bno" value="${content_view.reviewId}"/>
+            <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요.">
+            <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" name="commentInsertBtn">등록</button>
+               </span>
+          </div>
+        </form>
       </div>
 
+<!--      <div class="container">-->
+<!--        <div class="commentList"></div>-->
+<!--      </div>-->
+<!--</div>-->
+
+<!--      <div class="container">-->
+<!--        <div class="commentList">-->
+<!--          &lt;!&ndash; 댓글 목록 출력 &ndash;&gt;-->
+<!--          <div th:each="comment : ${comment}">-->
+<!--            <p th:text="${comment.content}"></p>-->
+<!--            &lt;!&ndash; 댓글 수정 버튼 &ndash;&gt;-->
+<!--            <button class="btn btn-primary" th:data-cno="${comment.cno}" onclick="showUpdateForm(this)">수정</button>-->
+<!--            &lt;!&ndash; 댓글 삭제 버튼 &ndash;&gt;-->
+<!--            <button class="btn btn-danger" th:data-cno="${comment.cno}" onclick="deleteComment(this)">삭제</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
     </tr>
-
-
 </table>
 </div>
 <script>
-  $(document).ready(function () {
-    getCommentList();
-  })
+  var bno = '${content_view.reviewId}'; //게시글 번호
 
-  function getCommentList() {
-    var reviewId = $('input[name=c_reviewId]').val();
+
+  $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시
+    var insertData = $('[name=commentInsertForm]').serialize(); //commentInsertForm의 내용을 가져옴
+    commentInsert(insertData); //Insert 함수호출(아래)
+  });
+
+
+
+  //댓글 목록
+  function commentList(){
     $.ajax({
-      type: 'GET',
-      url : 'getCommentList',
-      data: {reviewId},
-      success: function (result) {
-        console.log(result);
-        for (var i=0; i<result.length; i++){
-          var str = "<div class=\"comment\">"
-          str += result[i].content+"</div></hr>"
-          $("#comment").append(str);
-        }
-      },
-      error: function (result) {
-      },
-      complete: function () {
+      url : '/comment/list',
+      type : 'get',
+      data : {'bno':bno},
+      success : function(data){
+        var a ='';
+        $.each(data, function(key, value){
+          a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+          a += '<div class="commentInfo'+value.cno+'">'+'댓글번호 : '+value.cno+' / 작성자 : '+value.writer;
+          a += '<a onclick="commentUpdate('+value.cno+',\''+value.content+'\');"> 수정 </a>';
+          a += '<a onclick="commentDelete('+value.cno+');"> 삭제 </a> </div>';
+          a += '<div class="commentContent'+value.cno+'"> <p> 내용 : '+value.content +'</p>';
+          a += '</div></div>';
+        });
+
+        $(".commentList").html(a);
       }
-    })
+    });
+  }
+
+  //댓글 등록
+  function commentInsert(insertData){
+    $.ajax({
+      url : '/comment/insert',
+      type : 'post',
+      data : insertData,
+      success : function(data){
+        if(data == 1) {
+          commentList(); //댓글 작성 후 댓글 목록 reload
+          $('[name=content]').val('');
+        }
+      }
+    });
+  }
+
+  //댓글 수정 - 댓글 내용 출력을 input 폼으로 변경
+  function commentUpdate(cno, content){
+    var a ='';
+
+    a += '<div class="input-group">';
+    a += '<input type="text" class="form-control" name="content_'+cno+'" value="'+content+'"/>';
+    a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
+    a += '</div>';
+
+    $('.commentContent'+cno).html(a);
 
   }
 
+  //댓글 수정
+  function commentUpdateProc(cno){
+    var updateContent = $('[name=content_'+cno+']').val();
+
+    $.ajax({
+      url : '/comment/update',
+      type : 'post',
+      data : {'content' : updateContent, 'cno' : cno},
+      success : function(data){
+        if(data == 1) commentList(bno); //댓글 수정후 목록 출력
+      }
+    });
+  }
+
+  //댓글 삭제
+  function commentDelete(cno){
+    $.ajax({
+      url : '/comment/delete/'+cno,
+      type : 'post',
+      success : function(data){
+        if(data == 1) commentList(bno); //댓글 삭제후 목록 출력
+      }
+    });
+  }
+
+  $(document).ready(function(){
+    commentList(); //페이지 로딩시 댓글 목록 출력
+  });
 
 
-
-
-
-
-
-
-
-
-  //
-  // // 댓글 길이 카운팅
-  // function countingLength(content) {
-  //   if (content.value.length > 300) {
-  //     alert('댓글을 300자 이하로 입력해 주세요.');
-  //     content.value = content.value.substring(0, 300);
-  //     content.focus();
-  //   }
-  //   document.getElementById('counter').innerText = content.value.length + '/300자';
-  // }
-  //
-  //
-  // // 댓글 저장
-  // function saveComment() {
-  //
-  //   const content = document.getElementById('content').value;
-  //   // isValid(content, '댓글');
-  //
-  //   const reviewId = document.getElementById("reviewId").innerText
-  //   // const reviewId = "${content_view.reviewId}";
-  //   const id = document.getElementById("id").value;
-  //   const params = {
-  //     id : id,
-  //     reviewId : reviewId,
-  //     content : content,
-  //     writer : '홍길동'
-  //   }
-  //   var eee = JSON.stringify(params);
-  //   console.log("params@@@@@@@@@"+params);
-  //   console.log("reviewId@@@@@"+reviewId);
-  //   console.log("content@@@@@@@"+content);
-  //   console.log("eee@@@@@@@"+eee);
-  //
-  //   $.ajax({
-  //     // url : "/review/"+reviewId+"/comments",
-  //     url : `/review/${reviewId}/comments`,
-  //     type : 'post',
-  //     contentType : 'application/json; charset=utf-8',
-  //     dataType : 'json',
-  //     data : JSON.stringify(params),
-  //     // data : params,
-  //     async : false,
-  //     success : function (response) {
-  //       console.log(response);
-  //     },
-  //     error : function (request, status, error) {
-  //       console.log(error)
-  //     }
-  //   })
-  // }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>

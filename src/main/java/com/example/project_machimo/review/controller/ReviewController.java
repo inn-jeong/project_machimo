@@ -1,35 +1,25 @@
 package com.example.project_machimo.review.controller;
 
 import com.example.project_machimo.AttachImageVO;
-import com.example.project_machimo.review.dao.ReviewDao;
 import com.example.project_machimo.review.dto.*;
 import com.example.project_machimo.review.service.ReviewService;
-import com.example.project_machimo.utils.UploadFileUtils;
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -239,40 +229,6 @@ public class ReviewController {
 
     /////////////////////////////////////댓글관련//////////////////////////////////
 
-    /* 댓글 쓰기 */
-    @GetMapping("/replyEnroll/{userId}")
-    public String replyEnrollWindowGET(@PathVariable("userId")String userId, int reviewId, Model model) {
-        ReviewDto dto = service.getReviewById(reviewId);
-        model.addAttribute("reviewInfo", dto);
-        model.addAttribute("userId", userId);
-
-        return "/replyEnroll";
-    }
-
-
-
-
-    @PostMapping("/insertComment")
-//    private String insertComment(@RequestParam("reviewId") int reviewId, @RequestParam("content") String content) throws Exception{
-    private String insertComment(@RequestParam("c_reviewId") int reviewId, @RequestParam("content") String content) throws Exception{
-        CommentDto dto = new CommentDto();
-
-        log.info("content@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+content);
-        log.info("reviewId@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+reviewId);
-        dto.setContent(content);
-        dto.setReviewId(reviewId);
-        service.insertComment(dto);
-        String redirect_url = "redirect:/review/content_view?reviewId="+Integer.toString(reviewId);
-        return redirect_url;
-    }
-
-    @GetMapping("/getCommentList")
-    @ResponseBody
-    private List<CommentDto> getCommentList(@RequestParam("reviewId") int reviewId)throws Exception{
-        CommentDto dto = new CommentDto();
-        dto.setReviewId(reviewId);
-        return service.getCommentList(dto);
-    }
 
 
 }
