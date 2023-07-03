@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_machimo.mypage.Dao.MypageDao">
+    <update id="updateUser">
+        update users
+        set u_password=#{uPassword},u_email=#{uEmail},u_phone=#{uPhone},
+            u_addr_postcode=#{uAddrPostcode},u_address=#{uAddress},
+            u_address_sub=#{uAddressSub},u_nickname=#{uNickname},
+            u_updated_at=sysdate
+        where u_id=#{uId}
+    </update>
+    <delete id="deleteItem">
+        delete from products where product_id = #{param1}
+    </delete>
+
+    <select id="getPurchaseItems" resultType="com.example.project_machimo.mypage.Dto.PurchaseItem">
+        select a.order_id,a.user_id, a.product_id,to_char(a.created_at,'YYYY-MM-DD') created_at
+                ,b.p_name,b.p_direct,c.order_status,d.i_sub_img,e.u_name
+        from orders a
+        join(select product_id,p_name,p_direct from products) b on a.product_id = b.product_id
+        join(select order_status_id,order_status from order_status) c on a.order_status_id = c.order_status_id
+        join(select product_id,i_sub_img from product_images) d on a.product_id = d.product_id
+        join(select user_id,u_name from users) e on a.user_id = e.user_id
+        where a.user_id = #{param1}
+    </select>
+    <select id="getSalesItems" resultType="com.example.project_machimo.mypage.Dto.SalesItem">
+        select p.product_id, p.p_name, p.p_direct,p.p_b_price
+                , to_char(p.p_created_at,'YYYY-MM-DD HH24:MI') p_created_at
+                ,p.p_sales_status,p.p_sale_type,a.i_sub_img
+        from products p
+        join (select product_id, i_sub_img from product_images) a on a.product_id=p.product_id
+        where p.user_id = #{param1}
+    </select>
+    <select id="findUser" resultType="com.example.project_machimo.login.Dto.UsersDto">
+        select * from users where u_id=#{param1}
+    </select>
+
+</mapper>

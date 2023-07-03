@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/login/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+<body>
+<th:block th:replace="fragments/header"></th:block>
+    <h1>장바구니</h1>
+    <table th:if="${basketItems != null}" class="table">
+        <thead>
+            <tr class="table-active">
+                <th>번호</th>
+                <th>image</th>
+                <th>상품ID</th>
+                <th>상품명</th>
+                <th>판매자</th>
+                <th>가격</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+<!--            <tr th:each="item, count:${basketItems}" th:id="${item.product_id}" >-->
+            <tr th:if="${item.pSalesStatus==1}" th:id="${item.productId}" th:each="item, count:${basketItems}" >
+                <td th:class="count" th:text="${count.count}"></td>
+                <td th:text="${item.iSubImg}"></td>
+                <td th:text="${item.productId}"></td>
+                <td th:text="${item.pName}"></td>
+                <td th:text="${item.uName}"></td>
+                <td class="price" th:text="${item.pDirect}"></td>
+                <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
+            </tr>
+            <tr th:if="${item.pSalesStatus==2}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="table-active">
+                <td>품절</td>
+                <td th:text="${item.iSubImg}"></td>
+                <td th:text="${item.productId}"></td>
+                <td th:text="${item.pName}"></td>
+                <td th:text="${item.uName}"></td>
+                <td th:text="${item.pDirect}"></td>
+                <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
+            </tr>
+        </tbody>
+        <tfoot class="table-group-divider">
+            <tr class="table-light">
+                <td colspan="2" style="text-align: center">총 수량</td>
+                <td colspan="3" style="text-align: right">
+                    <span id="total_amount"></span> 개
+                </td>
+                <td colspan="2"></td>
+            </tr>
+            <tr class="table-active">
+                <td colspan="2" style="text-align: center">총 금액</td>
+                <td colspan="3" style="text-align: right">
+                    <span id="total_price"></span> 원
+                </td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td style="text-align: center" colspan="7">
+                    <button>결제하기</button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div th:if="${basketItems == null}" style="align-content: center">
+        장바구니가 비어있습니다.
+    </div>
+    <div><button onclick="location.href='/loginT/login'">메인화면</button></div>
+
+    <th:block th:replace="fragments/footer"></th:block>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>
+<script>
+    // window.addEventListener('beforeunload', function(event) {
+    //     event.preventDefault();
+    //     event.returnValue = '';
+    // });
+    $(function (){
+        var totalPrice = 0;
+        $('.price').each(function (){
+            var priceVal = parseInt($(this).text());
+            totalPrice += priceVal;
+        });
+        $('#total_price').text(totalPrice);
+        console.log("totalPrice : "+totalPrice);
+
+        var count = 0;
+        $('.count').each(function (){
+            count += 1;
+        });
+        $('#total_amount').text(count);
+
+    });
+
+    function deleteItem(itemId){
+        console.log("delete: "+itemId);
+        $.ajax({
+            url:'/basket/deleteItem',
+            type:'POST',
+            data:{
+                'product_id':itemId
+            },
+            success:function(result){
+                console.log("success");
+                if(result == 'success'){
+                    alert('삭제성공');
+                    $('#'+itemId).remove();
+                }else{
+                    alert('오류');
+                }
+            },
+            error: function (result){
+                alert('삭제실패');
+            }
+        });
+    }
+</script>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>마취모: 로그인</title>
+
+<!--    기본 세팅-->
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/login/login.js" ></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+        h2.subtitle {
+            padding: 30px 0 20px;
+            font-size: 35px;
+            font-weight: normal;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="fragments/header"></th:block>
+<!--    자바스크립트에서 타임리프로 바로 값을 불러오지 못해 input 태그에 값을 담아 id 값을 통해 session이나 model에 담긴 값을 가져옴-->
+    <input type="hidden" id="login_try" th:value="${login_try}">
+    <input type="hidden" id="register" th:value="${register}">
+    <input type="hidden" id="user" th:value="${session.user}">
+    <input type="hidden" id="naverUser" th:value="${session.naverUser}">
+    <input type="hidden" id="kakaoUser" th:value="${session.kakaoUser}">
+    <div align="center" id="login_table">
+        <h2 class="subtitle">로그인</h2>
+
+        <form method="post" id="frm_login" action="/loginT/login_process">
+            <table class="table" style="width: 300px">
+                <tr>
+                    <td align="center">사용자 ID</td>
+                    <td align="center">
+                        <input type="text" name="uId">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">비밀번호</td>
+                    <td align="center">
+                        <input type="password" name="uPassword">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+<!--                        <div id="btn_container"><input type="submit" value="로 그 인" id="login_btn"></div>-->
+                        <input type="submit" value="로 그 인" id="login_btn">
+<!--                        <button onclick="naverLogout()" id="logout_btn" hidden>로그아웃</button>-->
+                        <input type="button" value="회원가입" onclick="javascript:location.href='./register_page'"> <br>
+                        <a href="" onclick="findId()">아이디 찾기</a>/
+                        <a href="" onclick="findPassword()">비밀번호 찾기</a>
+                    </td>
+                </tr>
+            </table>
+            <!-- 네이버 로그인 버튼 노출 영역 -->
+            <div class="row mb-3">
+            <div id="naver_id_login"></div>
+            </div>
+<!--            <a id="kakao-login-btn" href="javascript:loginWithKakao()" onclick="window.open(this.href, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550'); return false">-->
+<!--                <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"-->
+<!--                     alt="카카오 로그인 버튼" />-->
+<!--            </a>-->
+
+            <div class="row mb-3">
+            <div id="kakao_btn">
+                <a href="javascript:kakaoLogin();">
+                    <img src="/login/loginImg/kakao_login_medium_narrow.png">
+                </a>
+            </div>
+            </div>
+        </form>
+<!--        <button id="reset_session" onclick="javascript:location.href='/loginT/logout'">세션 초기화</button>-->
+    </div>
+    <div align="center">
+        <button onclick="logout()" id="logout_btn" style="display: none">로그아웃</button>
+    </div>
+<th:block th:replace="fragments/footer"></th:block>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+<!-- //네이버 로그인 버튼 노출 영역 -->
+<script type="text/javascript">
+    $(function() {
+        var login_try = $("#login_try").val();
+        var register = $("#register").val();
+
+        //로그인 시도한 전적이 있으면 알림
+        if(login_try == "yes"){
+            alert("로그인 실패! \n아이디 또는 비밀번호를 확인해주세요.");
+            window.location.href="/loginT/login";
+        }
+        if(login_try == "no"){
+            alert("로그인 후 이용할 수 있는 서비스입니다.");
+            window.location.href="/loginT/login";
+        }
+        //회원가입 성공 후 넘어왔을 때 알림
+        if(register == "ok"){
+            alert("회원가입 성공! \n로그인 후 서비스를 이용해주세요.");
+            window.location.href="/loginT/login";
+        }
+
+        // 세션에 저장된 유저 정보에 따라 로그인, 로그아웃 출력
+        var user = $("#user").val();
+        var login_table = $("#login_table");
+        var logout_btn = $("#logout_btn");
+
+        if(user == null || user == ""){     //로그인 상태가 아니라면
+        }else{
+            login_table.css('display','none');
+            logout_btn.css('display','inline-block');
+        }
+    });
+</script>
+<script type="text/javascript">
+    var naver_id_login = new naver_id_login("vfDIOj3YXepI1i3i3Ctw", "http://localhost:8090/loginT/callback");
+    var state = naver_id_login.getUniqState();
+    naver_id_login.setButton("green", 3,40);
+    naver_id_login.setDomain("http://localhost:8090/loginT/login");
+    naver_id_login.setState(state);
+    naver_id_login.setPopup();
+    naver_id_login.init_naver_id_login();
+</script>
+
+

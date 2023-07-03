@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" type="text/javascript" charset="UTF-8"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- 카카오 스크립트 -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js" charset="UTF-8"></script>
+
+</head>
+<body>
+    <input type="hidden" id="login_try" th:value="${login_try}">
+    <input type="hidden" id="register" th:value="${register}">
+    <div align="center">
+        <form method="post" id="frm_login" action="/loginT/login_process">
+            <table width="300" border="1">
+                <tr>
+                    <td align="center">사용자 ID</td>
+                    <td align="center">
+                        <input type="text" name="u_id">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">비밀번호</td>
+                    <td align="center">
+                        <input type="password" name="u_password">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="로 그 인">
+                        <input type="button" value="회원가입" onclick="javascript:location.href='./register_page'">
+                    </td>
+                </tr>
+            </table>
+            <!-- 네이버 로그인 버튼 노출 영역 -->
+            <div id="naverIdLogin"></div>
+<!--            <a id="kakao-login-btn" href="javascript:loginWithKakao()" onclick="window.open(this.href, 'naverloginpop', 'titlebar=1, resizable=1, scrollbars=yes, width=600, height=550'); return false">-->
+<!--                <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"-->
+<!--                     alt="카카오 로그인 버튼" />-->
+<!--            </a>-->
+            <div onclick="kakaoLogin();">
+                <a href="javascript:void(0)">
+                    <img src="/login/loginImg/kakao_login_medium_narrow.png">
+                </a>
+            </div>
+            <div onclick="kakaoLogout();" id="logout">
+                <a href="javascript:void(0)">
+                    <span>카카오 로그아웃</span>
+                </a>
+            </div>
+        </form>
+        <p id="token-result"></p>
+    </div>
+</body>
+<!-- //네이버 로그인 버튼 노출 영역 -->
+<script type="text/javascript">
+    // 네이버 아이디로 로그인 설정
+    const naverLogin = new naver.LoginWithNaverId({
+        clientId: "vfDIOj3YXepI1i3i3Ctw", // 클라이언트 ID 입력
+        callbackUrl: "http://localhost:8090/loginT/callback", // 콜백 URL 입력
+        isPopup: true, // 팝업 모드 여부 (false로 설정하면 리디렉션 방식으로 동작)
+        loginButton: { color: "green", type: 3, height: 40 } // 로그인 버튼 스타일 설정
+    });
+
+    // 네이버 로그인 버튼 생성
+    naverLogin.init();
+
+    // 로그인 상태 변화 이벤트 처리
+    naverLogin.getLoginStatus(function(status) {
+        if (status) {
+            var accessToken = naverLogin.getAccessToken(); // 액세스 토큰 가져오기
+            console.log("test"+accessToken);
+            var refreshToken = naverLogin.getRefreshToken(); // 리프레시 토큰 가져오기
+            var tokenType = naverLogin.getTokenType(); // 토큰 타입 가져오기
+            var id = naverLogin.user.getNickName();
+            var name = naverLogin.user.getName();
+            var mobile = naverLogin.user.getMobile();
+            console.log("id: "+id);
+            console.log("name: "+name);
+            console.log("mobile: "+mobile);
+            // 사용자 정보 가져오기
+            // naverLogin.getUserProfile(function(profile) {
+            //     var userId = profile.id; // 사용자 아이디
+            //     var userName = profile.name; // 사용자 이름
+            //     var userEmail = profile.email; // 사용자 이메일
+            //
+            //     // 여기에 인증 성공 후 수행할 작업을 추가합니다.
+            //     // 예를 들어, 서버로 인증 정보를 전송하거나 다른 동작을 수행할 수 있습니다.
+            //
+            //     console.log("인증 성공!");
+            //     console.log("사용자 아이디:", userId);
+            //     console.log("사용자 이름:", userName);
+            //     console.log("사용자 이메일:", userEmail);
+            // });
+
+        } else {
+            console.log("get LoginStatus 인증 실패");
+        }
+    });
+</script>
+<script>
+    Kakao.init('336fe318422138c11d889862658eb427'); //발급받은 키 중 javascript키를 사용해준다.
+    console.log(Kakao.isInitialized()); // sdk초기화여부판단
+    //카카오로그인
+    function kakaoLogin() {
+        Kakao.Auth.login({
+            //카카오 로그인 성공 시
+            success: function (response) {
+                //카카오 개인정보 조회
+                Kakao.API.request({
+                    url: '/v2/user/me',
+                    //개인정보 조회 성공 시
+                    success: function (response) {
+                        console.log(response);
+                        //ajax로 컨트롤러단에 데이터 전달하여 기존 회원인지 조회 후 분기 처리
+                        $.ajax({
+                            url: "/loginT/kakaoLogin_process",
+                            type: "POST",
+                            dataType: "text",
+                            // processData:true,
+                            contentType: "application/json; charset=UTF-8",
+                            data: JSON.stringify(
+                                {
+                                    u_social: response.id,
+                                    u_email: response.kakao_account.email,
+                                    u_nickname: response.kakao_account.profile.nickname
+                                }
+                            ),
+                            success: function (res) {
+                                if (res == "confirm") {
+                                    alert("(있는 회원)");
+                                    window.location.href = "/loginT/kakaoLogin_ok?login_ok=yes";
+                                } else {
+                                    alert("가입된 계정이 없어 회원가입 화면으로 이동합니다.");
+                                    window.location.href = "/loginT/kakaoLogin_ok?login_ok=no";
+                                }
+                            },
+                            error: function (e) {
+                                alert("실패");
+                            }
+                        });//end error ajax
+                    },
+                    fail: function (error) {
+                        console.log(error)
+                    },
+                });//end kakao.API
+            },
+            fail: function (error) {
+                console.log(error)
+            },
+        });//end kakao Auth
+    }
+
+    //카카오로그아웃
+    function kakaoLogout() {
+        if (Kakao.Auth.getAccessToken()) {
+            Kakao.API.request({
+                url: '/v1/user/unlink',
+                success: function (response) {
+                    console.log(response);
+                    alert(response);
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            })
+            Kakao.Auth.setAccessToken(undefined)
+        }
+        console.log("naver logout success");
+        naverLogin.logout();
+
+        // if(naver_id_login.getAccessToken() != null){
+        //     console.log("네이버 로그아웃");
+        //     $.ajax({
+        //         url:"https://nid.naver.com/oauth2.0/token",
+        //         type:"GET",
+        //         dataType:"json",
+        //         // processData:true,
+        //         contentType:"application/json; charset=UTF-8",
+        //         data:{
+        //             "client_id":"vfDIOj3YXepI1i3i3Ctw",
+        //             "client_secret":"KcaTFP4Hgd",
+        //             "access_token":naver_id_login.getAccessToken(),
+        //             "grant_type":"delete"
+        //         },
+        //         success: function (res){
+        //             console.log(res.result);
+        //             alert(res.result);
+        //         },
+        //         error : function(e) {
+        //             alert("실패");
+        //         }
+        //     });
+        // }
+    }
+
+</script>
+<script>
+    //페이지 로딩 후 파라미터 값에 따라 알림창 출력
+    $(function() {
+        var login_try = $("#login_try").val();
+        var register = $("#register").val();
+        //로그인 시도한 전적이 있으면 알림
+        if(login_try == "yes"){
+            alert("로그인 실패! \n아이디 또는 비밀번호를 확인해주세요.");
+            window.location.href="/loginT/login";
+        }
+        //회원가입 성공 후 넘어왔을 때 알림\
+        if(register == "ok"){
+            alert("회원가입 성공!");
+            window.location.href="/loginT/login";
+        }
+    });
+</script>
+
