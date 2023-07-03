@@ -3,8 +3,6 @@ package com.example.project_machimo.admin.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
@@ -18,7 +16,7 @@ public class BoardDto {
     private String bTitle;
     private String bWriter;
     private String bContent;
-    private Date bDate;
+    private Timestamp bDate;
     private int bHit;
     private Integer bPwd;
 }

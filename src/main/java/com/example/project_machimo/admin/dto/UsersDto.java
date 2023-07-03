@@ -23,4 +23,13 @@ public class UsersDto {
     private Timestamp uUpdatedAt;
     private int uRole;
     private String uSignout;
+
+    //신고
+    private int reportId;
+//    private int userId;
+    private int productsId;
+    private String reportContent;
+    private Timestamp reportDate;
+    private int reportCount;
+
 }

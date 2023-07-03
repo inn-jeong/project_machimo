@@ -7,23 +7,42 @@
     <!--/////////유저 관리/////////-->
     <select id="adminList" resultType="com.example.project_machimo.admin.dto.UsersDto">
         <![CDATA[
-                select * from (
-                select rownum rn, temp.* from
-                (select
-                 user_id, u_id, u_nickname, u_email, u_point, u_created_at, u_role
-                from users
-                order by user_id desc ) temp
-                where rownum <= ( #{pageNum} * #{amount}))
-                where rn > (#{pageNum} -1) * #{amount}
+            SELECT *
+            FROM (
+            SELECT ROWNUM AS rn, temp.*
+            FROM (
+            SELECT u.user_id, u.u_id, u.u_nickname, u.u_email, u.u_point, u.u_created_at, u.u_role,
+            r.report_id, r.products_id, r.report_content, r.report_date, r.report_count
+            FROM users u
+            JOIN report r ON u.user_id = r.user_id
+            ORDER BY u.user_id DESC
+            ) temp
+            )
+            WHERE rn <= (#{pageNum} * #{amount})
+            AND rn > (#{pageNum} - 1) * #{amount}
         ]]>
+<!--        <![CDATA[-->
+<!--                select * from (-->
+<!--                select rownum rn, temp.* from-->
+<!--                (select-->
+<!--                 user_id, u_id, u_nickname, u_email, u_point, u_created_at, u_role-->
+<!--                from users-->
+<!--                order by user_id desc ) temp-->
+<!--                where rownum <= ( #{pageNum} * #{amount}))-->
+<!--                where rn > (#{pageNum} -1) * #{amount}-->
+<!--        ]]>-->
     </select>
+
+    <delete id="removeReport">
+        delete
+    </delete>
 
     <select id="getTotalCount" resultType="int">
         select count(*) from users
     </select>
 
     <update id="adminDelete">
-            delete users where user_id=#{userId}
+        delete users where user_id=#{userId}
     </update>
 
     <update id="adminModify">
@@ -48,8 +67,8 @@
         ]]>
     </select>
 
-    <select id="boardView"  resultType="com.example.project_machimo.admin.dto.BoardDto">
-        select board_id, inquiry_category, b_category, b_title, b_writer, b_date, b_content, b_hit from board where board_id = ${param1}
+    <select id="boardView" resultType="com.example.project_machimo.admin.dto.BoardDto">
+        select board_id, inquiry_category, b_category, b_title, b_writer, b_date, b_content, b_hit from board where board_id = ${boardId}
     </select>
 
     <update id="updateHits">
@@ -61,13 +80,19 @@
         VALUES ((select max(board_id)+1 from board), #{bCategory}, #{inquiryCategory}, #{bWriter}, #{bTitle}, #{bContent}, SYSDATE, #{userId})
     </insert>
 
-    <update id="boardModify">
-        update board set b_category = #{bCategory}, inquiry_category = #{inquiryCategory}, b_title = #{bTitle}, b_content = #{bContent}, b_date = SYSDATE where board_id = #{boardId}
+    <select id="boardModifyView" resultType="com.example.project_machimo.admin.dto.BoardDto">
+        select * from board_id = #{boardId}
+    </select>
+
+    <update id="boardModify" parameterType="com.example.project_machimo.admin.dto.BoardDto">
+        update board set b_category = #{bCategory}, inquiry_category = #{inquiryCategory}, b_writer=#{bWriter}, b_title = #{bTitle}, b_content = #{bContent}, b_date = SYSDATE where board_id = #{boardId}
     </update>
 
     <delete id="boardDelete">
-        delete from board where board_id = #{boardId}
+        delete from board where board_id = #{param1}
     </delete>
+
+
 
     <!--/////////제품관리/////////-->
     <select id="pList" resultType="com.example.project_machimo.admin.dto.ProductDto">

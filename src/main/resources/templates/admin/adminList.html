@@ -41,6 +41,8 @@
                                         <th scope="col">적립금</th>
                                         <th scope="col">가입일</th>
                                         <th scope="col">회원권한</th>
+                                        <th scope="col">신고횟수</th>
+                                        <th scope="col">신고관리</th>
                                         <th scope="col">회원탈퇴</th>
                                     </tr>
                                 </thead>
@@ -61,6 +63,22 @@
                                            <button type="submit">
                                                <a th:href="@{|/admin/adminModify/${user.userId}}">권한부여</a>
                                            </button>
+                                        </td>
+                                        <td th:text="${user.reportCount}"></td>
+                                        <td>
+                                            <!-- 신고 삭제 버튼 -->
+                                            <form action="/admin/removeReport" method="post">
+                                                <input type="hidden" name="reportCode" value="{reportCode}">
+                                                <input type="hidden" name="userId" value="${userId}">
+                                                <input type="hidden" name="productId" value="${productId}">
+                                                <button type="submit">신고 삭제</button>
+                                            </form>
+                                            <!-- 회원 차단 버튼 -->
+                                            <form action="/admin/blockUser" method="post">
+                                                <input type="hidden" name="userId" value="${userId}">
+                                                <input type="hidden" name="productId" value="${productId}">
+                                                <button type="submit">회원 차단</button>
+                                            </form>
                                         </td>
                                         <td>
                                             <button type="submit">

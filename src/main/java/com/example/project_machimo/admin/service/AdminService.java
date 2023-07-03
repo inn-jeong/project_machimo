@@ -12,26 +12,30 @@ import java.util.HashMap;
 public interface AdminService {
     ArrayList<UsersDto> adminList(Criteria cri);
     public int getTotalCount();
-    void adminDelete(int param );
+    public void adminDelete(int param );
 
     UsersDto userView(HashMap<String, String> param);
+
+    public void removeReport(int reportId, int userId, int productId);
+
 
     ArrayList<BoardDto> boardList(Criteria cri);
 
     public void boardWrite(BoardDto dto);
     public BoardDto boardView(int boardId);
 
-    public Integer updateHits(int boardId);
+    public void updateHits(int boardId);
 
-    void adminModify(int userId);
+    public void adminModify(int userId);
 
-    void boardModify(BoardDto dto);
 
-    void boardDelete(int boardId);
+    public void boardDelete(int boardId);
+
+    public BoardDto boardModifyView(int boardId);
+    public void boardModify(BoardDto dto);
+
     ArrayList<ProductDto> pList(Criteria cri);
 
-    public void save(ProductDto dto) throws IOException;
-
-    void updateStatus(int productInd, int pSalesStatus);
+    public void updateStatus(int productInd, int pSalesStatus);
     public void productDelete(int productId);
 }

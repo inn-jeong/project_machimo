@@ -15,6 +15,9 @@
                     <a th:href="@{/admin/boardWriteView}">글쓰기</a>
                 </button>
             </div>
+            <div>
+                <span th:text="'총 '+${pageMaker.getTotal()}+'개 게시글'"></span>
+            </div>
 
 
         <div class="row">
@@ -45,8 +48,10 @@
 <!--                    <td th:text="${#dates.format(board.b_date, 'YYYY-MM-DD')}"></td>-->
                     <td th:text="${board.BHit}"></td>
                     <td>
-                        <a th:href="@{/admin/boardView(boardId=${board.boardId})}">수정</a>
-                        <a th:href="@{/admin/boardDelete(boardId=${board.boardId})}">삭제</a>
+<!--                        <a th:href="@{/admin/boardView(boardId=${board.boardId})}">수정</a>-->
+                        <button class="btn btn-danger rounded-pill px-3" type="button" th:onclick="'boardDelete(\''+${board.boardId}+'\')'">
+                            삭제
+                        </button>
                     </td>
                 </tr>
                 </tbody>
@@ -86,8 +91,6 @@
         <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
         <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
     </form>
-<!--        <input type="hidden" name="amount" th:value="${pageMaker.cri.type}">-->
-<!--        <input type="hidden" name="amount" th:value="${pageMaker.cri.keyword}">-->
 
 
     <!--footer-->
@@ -122,33 +125,37 @@
             location.reload();
         }
     }
-
-    // $(".search-form button").on("click", function (e){
-    //     e.preventDefault();
-    //     let type = $(".search-form select").val();
-    //     let keyword = $(".search-form input[name='keyword']").val();
-    //
-    //     if (!type){
-    //         alert("검색 유형을 선택하세요.");
-    //         return false;
-    //     }
-    //     if (!keyword){
-    //         alert("키워드를 입력하세요.");
-    //         return false;
-    //     }
-    //     actionForm.find("input[name='type']").val(type);
-    //     actionForm.find("input[name='keyword']").val(keyword);
-    //     actionForm.find("input[name='pageNum']").val(1);
-    //     actionForm.submit();
-    // });
-
     // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-    var bno = actionForm.find("input[name='user_id']").val();
-    if(bno !== ''){
-        actionForm.find("input[name='user_id']").remove();
+    // var bno = actionForm.find("input[name='user_id']").val();
+    // if(bno !== ''){
+    //     actionForm.find("input[name='user_id']").remove();
+    // }
+
+    function boardDelete(boardId){
+        console.log("@# boardDelete")
+
+        var chk = confirm("정말 삭제하시겠습니까?");
+        if(chk){
+            $.ajax({
+                url:'/admin/boardDelete',
+                method: 'POST',
+                data: {
+                    'boardId':boardId
+                },
+                success: function (response){
+                    if(response === "deleteOk"){
+                        alert("게시물이 삭제되었습니다.")
+                        location.href="/admin/boardList";
+                    }
+                    else{
+                        alert("게시물 삭제에 실패했습니다.")
+                    }
+                },
+                error: function (xhr, status, error){
+                    alert("에러 발생: "+error);
+                }
+            });
+        }
     }
-    $(document).on('click',function (e){
-        e.preventDefault();
-        var url = "";
-    });
+
 </script>

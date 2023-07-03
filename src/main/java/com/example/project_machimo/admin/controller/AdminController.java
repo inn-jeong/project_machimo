@@ -60,21 +60,38 @@ public class AdminController {
         return "admin/userView";
     }
 
+    //신고삭제
+    @PostMapping("/removeReport")
+    public String removeReport(@RequestParam int reportId,
+                               @RequestParam int userId,
+                               @RequestParam int productId){
+        System.out.println("@# ==> removeReport");
+        service.removeReport(reportId, userId, productId);
+        return "";
+    }
+
+    //회원차단
+    @PostMapping("/blockUser/{userId}")
+    public String blockUser(@RequestParam int userId, @RequestParam int productId){
+        return "";
+    }
 
 
 
     //공지.문의//
     @RequestMapping("/boardList")
-    public String boardList(@RequestParam HashMap<String,Object>param, Criteria cri, Model model){
+    public String boardList(@RequestParam HashMap<String,Object>param, Criteria cri, Model model, HttpSession session){
         System.out.println("@# controller boardList");
-        System.out.println("@# cri" + cri);
 
-        //admin 계정활성화
-        session.setAttribute("admin",1);
+        UsersDto user = new UsersDto();
+        user.setUserId(1); //admin
+        user.setUNickname("admin");
+        session.setAttribute("user",user);
 
         model.addAttribute("boardList",service.boardList(cri));
         int total = service.getTotalCount();
         model.addAttribute("pageMaker",new PageDto(total,cri));
+
         return "admin/boardList";
     }
 
@@ -82,9 +99,6 @@ public class AdminController {
     public String boardView(@RequestParam int boardId, Model model){
         System.out.println("@# boardView start");
 
-//        session.setAttribute("userId",1);
-
-//        Integer boardId = Integer.parseInt(String.valueOf(param.get("board_id")));
         service.updateHits(boardId);
 
         BoardDto dto = service.boardView(boardId);
@@ -94,45 +108,54 @@ public class AdminController {
         return "admin/boardView";
     }
 
-    //게시글 수정 뷰
-    @RequestMapping(value = "/boardModify", method = RequestMethod.GET)
-    public void boardModifyView(@RequestParam int boardId, Model model){
-        System.out.println("@# boardModify start");
-        BoardDto dto = service.boardView(boardId);
-        model.addAttribute("boardView",dto);
-    }
-
-    //게시글 수정
-    @RequestMapping(value = "/boardModify", method = RequestMethod.POST)
-    public String boardModify(BoardDto dto, Model model){
-        System.out.println("@# boardModify");
-
-        service.boardModify(dto);
-        return "redirect:/admin/boardView?board_id="+dto.getBoardId();
-    }
     //게시글 작성 뷰
     @RequestMapping(value = "/boardWriteView", method = RequestMethod.GET)
     public String boardWriteView(){
-//        session.setAttribute("user_id",1);
-//        service.boardWrite(dto);
+        System.out.println("@# boaradWriteView start");
         UsersDto dto = new UsersDto();
         session.setAttribute("user",dto);
 
         return "/admin/boardWrite";
     }
 
-    @RequestMapping(value = "/boardWrite", method = RequestMethod.POST)
+    //게시글 작성
+    @PostMapping("/boardWrite")
+    @ResponseBody
     public String boardWrite(BoardDto dto, Model model){
+        System.out.println("@# controller boardWrite"+ dto.getBCategory());
         System.out.println("@# boardWrite start");
         service.boardWrite(dto);
+        return "writeOk";
+    }
+    @GetMapping("/boardModifyView/{boardId}")
+    public String boardModifyView(@PathVariable int boardId, Model model){
+        model.addAttribute("boardView",service.boardView(boardId));
+        return "admin/boardModify";
+    }
+
+    @PostMapping("/boardModify/{boardId}")
+    public String boardModify(@PathVariable int boardId, @ModelAttribute BoardDto dto){
+        System.out.println("@# Controller boardModify");
+        UsersDto user = new UsersDto();
+        user.setUserId(1); //admin
+        user.setUNickname("admin");
+        session.setAttribute("user",user);
+
+        dto.setBoardId(boardId);
+
+        service.boardModify(dto);
         return "redirect:/admin/boardList";
     }
 
-    @RequestMapping(value = "/boardDelete",method = RequestMethod.GET)
-    public String boardDelete(@RequestParam int boardId){
-        service.boardDelete(boardId);
-        return "redirect:/admin/boardList";
+    @PostMapping("/boardDelete")
+    @ResponseBody
+    public String boardDelete(@RequestParam String boardId){
+        System.out.println("@# controller boardDelete start");
+        int bId = Integer.parseInt(boardId);
+        service.boardDelete(bId);
+        return "deleteOk";
     }
+
 
     /////////제품관리/////////
     @RequestMapping(value = "productList", method = RequestMethod.GET)
@@ -161,11 +184,6 @@ public class AdminController {
         System.out.println("@# productDelte start");
         int pId = Integer.parseInt(ProductId);
         service.productDelete(pId);
-//        String으로 넘어온 게시판 시퀀스들을 for문을 돌려서 업데이트 해주는 식
-//        for (int i=0; i<productId.size(); i++){
-//            int id = Integer.valueOf(productId.get(i));
-//            service.productDelete(id);
-//        }
         return "ok";
     }
 

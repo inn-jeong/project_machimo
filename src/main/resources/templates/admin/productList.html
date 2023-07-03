@@ -12,7 +12,8 @@
             <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">제품 관리</h5>
             <div class="d-flex gap-2 justify-content-end py-3">
                 <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">
-                    <a th:href="@{/admin/boardWriteView}">제품 등록</a>
+<!--                    <a th:href="@{/admin/boardWriteView}">제품 등록</a>-->
+<!--                    <a th:href="#">제품 등록</a>-->
                 </button>
             </div>
 
@@ -96,6 +97,7 @@
 <!--                            <a th:href="@{/admin/boardView(board_id=${list.ProductId})}">수정</a>-->
 <!--                        </button>-->
                         <button class="btn btn-danger rounded-pill px-3" type="button" th:onclick="'productDelete(\''+${list.ProductId}+'\')'">
+<!--                        <button class="btn btn-danger rounded-pill px-3" type="button" th:onclick="|productDelete/${list.ProductId}|">-->
                             삭제
                         </button>
                     </td>
@@ -170,15 +172,15 @@
         }
     }
 
-    // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-    var bno = actionForm.find("input[name='user_id']").val();
-    if(bno !== ''){
-        actionForm.find("input[name='user_id']").remove();
-    }
-    $(document).on('click',function (e){
-        e.preventDefault();
-        var url = "";
-    });
+    // // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+    // var bno = actionForm.find("input[name='user_id']").val();
+    // if(bno !== ''){
+    //     actionForm.find("input[name='user_id']").remove();
+    // }
+    // $(document).on('click',function (e){
+    //     e.preventDefault();
+    //     var url = "";
+    // });
     function updateStatus(ProductId, PSalesStatus) {
         console.log("1");
         $.ajax({
@@ -198,23 +200,23 @@
             }
         });
     }
-        function productDelete(ProductId) {
-            console.log("productDelete start")
-                $.ajax({
-                    url: '/admin/productDelete',
-                    method: 'POST',
-                    data: {
-                        'ProductId': ProductId
-                    },
-                    success: function(response) {
-                        if (response == "ok")
-                            alert("해당 글이 정상적으로 삭제되었습니다.");
-                            location.href='/admin/productList';
-                    },
-                    error: function(error) {
-                        alert('게시글 삭제에 실패했습니다.');
-                    }
-                });
+    function productDelete(ProductId) {
+        console.log("productDelete start")
+            $.ajax({
+                url: '/admin/productDelete',
+                method: 'POST',
+                data: {
+                    'ProductId': ProductId
+                },
+                success: function(response) {
+                    if (response == "ok")
+                        alert("해당 글이 정상적으로 삭제되었습니다.");
+                        location.href='/admin/productList';
+                },
+                error: function(error) {
+                    alert('게시글 삭제에 실패했습니다.');
+                }
+            });
         }
 
     // 체크박스 전체 선택 클릭 이벤트
@@ -255,7 +257,7 @@
         const selectedElementsCnt = selectedElements.length;
 
         //체크박스 전체갯수와 체크된 체크박스 전체갯수가 같으면 전체 체크박스 체크
-        if(allCount == selectedElementsCnt){
+        if(allCount === selectedElementsCnt){
             document.getElementById('allCheckBox').checked = true;
         } else {
             //같지않으면 전체 체크박스 해제

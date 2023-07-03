@@ -9,33 +9,44 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface AdminDao {
-    ArrayList<UsersDto> adminList(Criteria cri);
+
     public int getTotalCount();
-    public void adminDelete(int userId);
+
+    public Integer updateHits(Integer boardId);
+
+
+    //user//
+    ArrayList<UsersDto> adminList(Criteria cri);
 
     UsersDto userView(HashMap<String, String> param);
 
-    ArrayList<BoardDto> BoardList(Criteria cri);
-
-    void boardWrite(BoardDto dto);
-    public Integer updateHits(Integer boardId);
-
-    BoardDto boardView(int boardId);
+    public void adminDelete(int userId);
 
     void adminModify(int userId);
 
-    void boardWrite(HashMap<String, Object> param);
+    void removeReport(int reportId, int userId, int productId);
 
-    void boardModify(BoardDto dto);
+    //공지,문의//
+    ArrayList<BoardDto> BoardList(Criteria cri);
+
+    BoardDto boardView(int boardId);
+
+    void boardWrite(BoardDto dto);
+
+    void boardWrite(HashMap<String, Object> param);
 
     void boardDelete(int boardId);
 
-    ArrayList<ProductDto> pList(Criteria cri);
+    void boardModify(BoardDto dto);
 
+    BoardDto boardModifyView(int boardId);
+
+
+    //제품관리//
+    ArrayList<ProductDto> pList(Criteria cri);
 
     void updateStatus(int ProductId, int PSalesStatus);
 
     void productDelete(int productId);
-
 
 }

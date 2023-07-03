@@ -5,7 +5,6 @@ import com.example.project_machimo.admin.dto.BoardDto;
 import com.example.project_machimo.admin.dto.Criteria;
 import com.example.project_machimo.admin.dto.ProductDto;
 import com.example.project_machimo.admin.dto.UsersDto;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +43,12 @@ public class AdminServiceImpl implements AdminService  {
     }
 
     @Override
+    public void removeReport(int reportId, int userId, int productId) {
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        dao.removeReport(reportId, userId, productId);
+    }
+
+    @Override
     public void adminDelete(int userId) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         dao.adminDelete(userId);
@@ -57,11 +62,6 @@ public class AdminServiceImpl implements AdminService  {
     }
 
 
-    @Override
-    public void boardModify(BoardDto dto) {
-        AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        dao.boardModify(dto);
-    }
 
     @Override
     public void boardDelete(int boardId) {
@@ -69,13 +69,29 @@ public class AdminServiceImpl implements AdminService  {
         dao.boardDelete(boardId);
     }
 
+    @Override
+    public BoardDto boardModifyView(int boardId) {
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        return dao.boardModifyView(boardId);
+    }
 
+    @Override
+    public void boardModify(BoardDto dto) {
+        System.out.println("@# service boardModify");
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        dao.boardModify(dto);
+    }
 
 
     @Override
     public ArrayList<BoardDto> boardList(Criteria cri) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         return dao.BoardList(cri);
+    }
+    @Override
+    public BoardDto boardView(int boardId) {
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        return dao.boardView(boardId);
     }
 
     @Override
@@ -85,16 +101,11 @@ public class AdminServiceImpl implements AdminService  {
     }
 
     @Override
-    public Integer updateHits(int boardId) {
+    public void updateHits(int boardId) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        return dao.updateHits(boardId);
+        dao.updateHits(boardId);
     }
 
-    @Override
-    public BoardDto boardView(int boardId) {
-        AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        return dao.boardView(boardId);
-    }
 
 
     /////////제품관리/////////
