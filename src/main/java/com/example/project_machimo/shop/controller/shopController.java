@@ -89,6 +89,7 @@ public class shopController {
                 case "auction_n":
                     //일반 상품
                     //일반 상품 필터링 (P_sale_type이 1인 상품만 출력)
+
                     items.removeIf(item -> item.getP_sale_type() != 1);
                     break;
                 case "auction_np":
