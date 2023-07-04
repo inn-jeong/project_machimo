@@ -1,8 +1,13 @@
 package com.example.project_machimo;
 
+import com.example.project_machimo.review.dao.ReviewDao;
+import com.example.project_machimo.review.dto.AttachImageVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +17,35 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.File;
 import java.net.URLDecoder;
 import java.nio.file.Files;
+import java.util.List;
 
 @Slf4j
 @org.springframework.stereotype.Controller
 public class Controller {
 
+    @Autowired
+    private SqlSession sqlSession;
+
     //    로그인을 하든 안하든 어디서든 접근할 수 있어야하기때문에 공통 컨트롤러에 작성하는 게 좋음
+
+
+    /* 이미지 정보 반환 */
+    @GetMapping(value="/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<AttachImageVO>> getAttachList(int reviewId){
+//        AttachMapper attachMapper = sqlSession.getMapper(AttachMapper.class);
+        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+        log.info("getAttachList.........." + reviewId);
+
+//        return new ResponseEntity<List<AttachImageVO>>(attachMapper.getAttachList(reviewId), HttpStatus.OK);
+        return new ResponseEntity<List<AttachImageVO>>(dao.getAttachList(reviewId), HttpStatus.OK);
+
+    }
+
+
+//    이미지 출력
     @GetMapping("/display")
-    @ResponseBody
-    public ResponseEntity<byte[]> getFile(String fileName) {
+//    @ResponseBody
+    public ResponseEntity<byte[]> getImage(String fileName) {
 
         File file = new File("c:\\upload\\" + fileName);
 

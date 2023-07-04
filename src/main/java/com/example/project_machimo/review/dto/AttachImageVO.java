@@ -1,4 +1,4 @@
-package com.example.project_machimo;
+package com.example.project_machimo.review.dto;
 
 import lombok.Data;
 
@@ -16,7 +16,9 @@ public class AttachImageVO {
     /* 경로 */
     private String uploadPath;
 
-    /* 상품 id */
-//    private int productId;
-
+//    private int fno;
+//    private int bno;
+//    private String fileName;     //저장할 파일
+//    private String fileOriName;  //실제 파일
+//    private String fileUrl;
 }

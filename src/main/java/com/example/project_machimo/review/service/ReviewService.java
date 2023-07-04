@@ -1,10 +1,12 @@
 package com.example.project_machimo.review.service;
 
+import com.example.project_machimo.review.dto.AttachImageVO;
 import com.example.project_machimo.review.dto.Criteria;
 import com.example.project_machimo.review.dto.ReviewDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public interface ReviewService {
@@ -23,7 +25,12 @@ public interface ReviewService {
 //    int updateCount();
 
 
+
     void updateCount(int reviewId);
 
+//    이미지 등록
+    void imageEnroll(AttachImageVO vo);
 
+//    이미지 반환
+    List<AttachImageVO> getAttachList(int reviewId);
 }

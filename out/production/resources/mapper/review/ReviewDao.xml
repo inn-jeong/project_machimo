@@ -80,15 +80,21 @@
         WHERE review_id = #{reviewId}
     </delete>
 
+    <select id="getReviewById" resultType="com.example.project_machimo.review.dto.ReviewDto">
+        SELECT * FROM review WHERE review_id = #{reviewId}
+    </select>
+
+<!--    이미지-->
+
+    <select id="getAttachList" parameterType="int" resultType="com.example.project_machimo.review.dto.AttachImageVO">
+        select * from review_image where review_id = #{reviewId}
+    </select>
+
     <insert id="imageEnroll">
         insert into review_image(review_id, file_name, upload_path, uuid)
         values (#{reviewId}, #{fileName}, #{uploadPath}, #{uuid});
     </insert>
-
-    <select id="getReviewById" resultType="com.example.project_machimo.review.dto.ReviewDto">
-        SELECT * FROM review WHERE review_id = #{reviewId}
-    </select>
-<!--    useGeneratedKeys 옵션을 true로 설정하면 생성된 게시글의 PK가 parameterType에 선언된 요청 객체(params)에 저장되며, keyProperty에 선언된 id에 값이 매핑(바인딩)됩니다.-->
+    <!--    useGeneratedKeys 옵션을 true로 설정하면 생성된 게시글의 PK가 parameterType에 선언된 요청 객체(params)에 저장되며, keyProperty에 선언된 id에 값이 매핑(바인딩)됩니다.-->
 <!--    <insert id="save" parameterType="com.study.domain.post.PostRequest" useGeneratedKeys="true" keyProperty="id">-->
     
 

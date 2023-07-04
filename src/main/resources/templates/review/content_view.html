@@ -10,13 +10,14 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
-  <style>
-    .fakeimg {
-      height: 200px;
-      background: #aaa;
-    }
-    .subReply {
-      padding-left: 50px;
+  <style type="text/css">
+    #result_card img{
+      max-width: 100%;
+      height: auto;
+      display: block;
+      padding: 5px;
+      margin-top: 10px;
+      margin: auto;
     }
   </style>
   <script>
@@ -82,6 +83,19 @@
     <td>내용:</td>
     <td><span th:text="${content_view.reviewContent}"></span></td>
   </tr>
+
+<!--    이미지 출력-->
+    <div class="form_section">
+      <div class="form_section_title">
+        <label>상품 이미지</label>
+      </div>
+      <div class="form_section_content">
+
+        <div id="uploadResult">
+
+        </div>
+      </div>
+    </div>
 
   <tr>
     <td colspan="3">
@@ -219,6 +233,44 @@
   $(document).ready(function(){
     // commentList(); //페이지 로딩시 댓글 목록 출력
     commentList(bno); //페이지 로딩시 댓글 목록 출력
+
+    /* 이미지 정보 호출 */
+    // let bookId = '<c:out value="${goodsInfo.bookId}"/>';
+    // let uploadReslut = $("#uploadReslut");
+
+
+    // 페이지 로딩 시 이미지 출력
+    var reviewId = '${content_view.reviewId}';
+    var uploadReslut = $("#uploadResult");
+
+    $.getJSON("/getAttachList", {reviewId : reviewId}, function(arr){
+
+      // 이미지 없는 경우 noImage출력 후 콜백 함수 바로 빠져나감
+      if(arr.length === 0){
+        let str = "";
+        str += "<div id='result_card'>";
+        str += "<img src='/resources/img/noImage.png'>";
+        str += "</div>";
+
+        uploadReslut.html(str);
+        return;
+      }
+
+      let str = "";
+      let obj = arr[0];
+
+      // uploadPath왜인식못하지
+      let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+      str += "<div id='result_card'";
+      str += "data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'";
+      str += ">";
+      str += "<img src='/display?fileName=" + fileCallPath +"'>";
+      str += "</div>";
+
+      uploadReslut.html(str);
+
+    });
+
   });
 
 

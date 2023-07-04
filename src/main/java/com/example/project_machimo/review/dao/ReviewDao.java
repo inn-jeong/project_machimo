@@ -1,12 +1,13 @@
 package com.example.project_machimo.review.dao;
 
-import com.example.project_machimo.AttachImageVO;
+import com.example.project_machimo.review.dto.AttachImageVO;
 import com.example.project_machimo.review.dto.Criteria;
 import com.example.project_machimo.review.dto.ReviewDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Mapper
 public interface ReviewDao {
@@ -31,6 +32,8 @@ public interface ReviewDao {
     /* 이미지 등록 */
     void imageEnroll(AttachImageVO vo);
 
+    /* 이미지 데이터 반환 */
+    public List<AttachImageVO> getAttachList(int reviewId);
 
     /////////////////////////////////댓글/////////////////////////////////
 

@@ -1,6 +1,7 @@
 package com.example.project_machimo.review.service;
 
 import com.example.project_machimo.review.dao.ReviewDao;
+import com.example.project_machimo.review.dto.AttachImageVO;
 import com.example.project_machimo.review.dto.Criteria;
 import com.example.project_machimo.review.dto.ReviewDto;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -155,14 +157,25 @@ public class ReviewServiceImpl implements ReviewService{
         return dao.getTotalCount();
     }
 
+
     @Override
     public void updateCount(int reviewId) {
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
         dao.updateCount(reviewId);
     }
 
+    @Override
+    public void imageEnroll(AttachImageVO vo) {
+        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+        dao.imageEnroll(vo);
+    }
 
-/////////////////////////////////////////댓글/////////////////////////////////////////
+    @Override
+    public List<AttachImageVO> getAttachList(int reviewId){
+        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
+        log.info("getAttachList.........");
+        return dao.getAttachList(reviewId);
+    };
 
 
 }

@@ -1,6 +1,5 @@
 package com.example.project_machimo.review.dto;
 
-import com.example.project_machimo.AttachImageVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

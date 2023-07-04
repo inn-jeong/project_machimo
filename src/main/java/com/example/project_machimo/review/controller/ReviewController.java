@@ -1,7 +1,8 @@
 package com.example.project_machimo.review.controller;
 
-import com.example.project_machimo.AttachImageVO;
+import com.example.project_machimo.review.dto.AttachImageVO;
 import com.example.project_machimo.review.dto.*;
+//import com.example.project_machimo.review.service.AttachImageService;
 import com.example.project_machimo.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -36,6 +37,9 @@ public class ReviewController {
     @Autowired
     private ReviewService service;
 
+//    @Autowired
+//    private AttachImageService imageService;
+
 //    @Value("${uploadPath}")
 //    private String uploadPath;
 
@@ -64,13 +68,19 @@ public class ReviewController {
         return "review/write_view";
     }
 
+//    @RequestMapping("/write")
+//    public String write(@RequestParam HashMap<String, String> param, Model model) {
+//        log.info("@# write");
+//        service.write(param);
+//        return "redirect:list";
+//    }
+
     @RequestMapping("/write")
     public String write(@RequestParam HashMap<String, String> param, Model model) {
         log.info("@# write");
         service.write(param);
         return "redirect:list";
     }
-
 
 
     @RequestMapping("/content_view")
@@ -83,6 +93,8 @@ public class ReviewController {
 //        model.addAttribute("hit", hit);
 //        content_view.jsp 에서 pageMaker를 가지고 페이징 처리
         model.addAttribute("pageMaker", param);
+//        model.addAttribute("images", imageService.getAttachList(dto.getReviewId()));
+
         return "review/content_view";
     }
 
