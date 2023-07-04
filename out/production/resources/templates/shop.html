@@ -90,15 +90,15 @@
         <ul class="category-list">
             <li class="category-item"><a href="/shop/allItemView" class="mainCate">전체</a></li>
             <!-- 상위카테고리 -->
-            <li th:each="category : ${categories}" id="category-[[${category.c_id}]]" class="category-item">
-                <a th:href="@{'/shop/allItemView?category1=' + ${category.c_id}}"
-                   th:text="${category.c_name}" class="category-link"></a>
+            <li th:each="category : ${categories}" id="category-[[${category.cId}]]" class="category-item">
+                <a th:href="@{'/shop/allItemView?category1=' + ${category.cId}}"
+                   th:text="${category.cName}" class="category-link"></a>
                 <!-- 하위카테고리 -->
                 <!-- 상위카테고리가 있다면 -->
-                <ul th:if="${subcategory.containsKey(category.c_id)}" id="subcategory-[[${category.c_id}]]" class="subcategory">
-                    <li th:each="subCategory : ${subcategory[category.c_id]}" class="subcategory-item">
-                        <a th:href="@{'/shop/allItemView?category2=' + ${subCategory.c_id}}"
-                           th:text="${subCategory.c_name}" class="subcategory-link"></a>
+                <ul th:if="${subcategory.containsKey(category.cId)}" id="subcategory-[[${category.cId}]]" class="subcategory">
+                    <li th:each="subCategory : ${subcategory[category.cId]}" class="subcategory-item">
+                        <a th:href="@{'/shop/allItemView?category2=' + ${subCategory.cId}}"
+                           th:text="${subCategory.cName}" class="subcategory-link"></a>
                     </li>
                 </ul>
             </li>
@@ -127,79 +127,21 @@
     <div th:each="item : ${itemList}" class="itemContainer">
         <!-- 이미지 -->
             <div class="itemImage">
-                <p><span th:text="${item.i_sub_image}"></span></p>
+                <p><span th:text="${item.iSubImage}"></span></p>
             </div>
             <div itemInfo>
                 <!-- 닉네임 -->
-                <p><h4 th:text="${item.u_nickname}"></h4></p>
+                <p><h4 th:text="${item.uNickname}"></h4></p>
                 <!-- 상품 이름 -->
-                <p th:text="${item.p_name}"></p>
+                <p th:text="${item.pName}"></p>
                 <!-- 가격 -->
                 <!-- 0일때 경매가 1일때 즉시 가로 구분함-->
                 <p>
-                    <span th:if="${item.p_sale_type == 0}" th:text="${item.p_b_price}"></span>
-                    <span th:if="${item.p_sale_type == 1}" th:text="${item.p_direct}"></span>
+                    <span th:if="${item.pSaleType == 0}" th:text="${item.pBPrice}"></span>
+                    <span th:if="${item.pSaleType == 1}" th:text="${item.pDirect}"></span>
                 </p>
         </div>
     </div>
 </body>
 </html>
-<script>
-    // 카테고리 클릭 시 호출되는 함수
-    function handleCategoryClick(category) {
-        // 선택한 카테고리 값을 hidden 필드에 설정
-        document.getElementById("selectedCategory").value = category;
-        // 정렬 옵션 초기화
-        resetSortOptions();
-        // 상품 목록 업데이트
-        updateItemList();
-    }
 
-    // 정렬 옵션 변경 시 호출되는 함수
-    function handleSortChange() {
-        // 상품 목록 업데이트
-        updateItemList();
-    }
-
-    // 정렬 옵션 초기화 함수
-    function resetSortOptions() {
-        document.getElementById("sort").selectedIndex = 0;
-    }
-
-    // 상품 목록 업데이트 함수
-    function updateItemList() {
-        // 선택한 카테고리 값 가져오기
-        var selectedCategory = document.getElementById("selectedCategory").value;
-        // 선택한 정렬 옵션 값 가져오기
-        var selectedSort = document.getElementById("sort").value;
-
-        // AJAX를 사용하여 서버로 데이터 요청
-        // 요청// 상품 목록 업데이트 함수
-        function updateItemList() {
-            // 선택한 카테고리 값 가져오기
-            var selectedCategory = document.getElementById("selectedCategory").value;
-            // 선택한 정렬 옵션 값 가져오기
-            var selectedSort = document.getElementById("sort").value;
-
-            // AJAX를 사용하여 서버로 데이터 요청
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        // 서버로부터 데이터 요청이 성공적으로 완료되면 상품 목록 업데이트
-                        var itemListContainer = document.getElementById("itemListContainer");
-                        itemListContainer.innerHTML = xhr.responseText;
-                    } else {
-                        // 서버 요청이 실패한 경우에 대한 처리
-                        console.error("서버 요청 실패");
-                    }
-                }
-            };
-
-            // GET 요청으로 데이터 전송
-            var url = "/shop/getItemList?category=" + selectedCategory + "&sort=" + selectedSort;
-            xhr.open("GET", url, true);
-            xhr.send();
-        }
-    }
-</script>

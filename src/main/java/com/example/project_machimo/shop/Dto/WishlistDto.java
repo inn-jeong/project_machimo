@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WishlistDto {
-    private Integer wish_id;//좋아요테이블 코드
-    private Integer user_id;//사용자테이블 코드
-    private Integer product_id;//상품테이블 코드
-    private Integer wish_like;//좋아요 갯수
+    private Integer wishId;//좋아요테이블 코드
+    private Integer userId;//사용자테이블 코드
+    private Integer productId;//상품테이블 코드
+    private Integer wishLike;//좋아요 갯수
 
 }

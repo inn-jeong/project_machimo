@@ -10,25 +10,25 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemDto {
-    private Integer product_id;//제품번호
-    private Integer user_id;//유저 번호
-    private Integer c_id;//카테고리 번호
-    private Integer c_id2;//자기참조 카테고리 번호
-    private String p_name;//제품 이름
-    private String p_info;//제품 정보
-    private Integer p_direct;//즉시 판매가
-    private Timestamp p_dur;//경매기간
-    private Integer p_b_price;//경매가
-    private Timestamp p_created_at;//제품 게시물 작성일
-    private Timestamp p_updated_at;//제품 게시물 수정날짜
-    private Integer p_hit;//제품 게시물 조회수
-    private Integer p_sales_status;//판매 상태
-    private Integer p_sale_type;//판매 유형
-    private String p_account;//판매정산계좌
-    private String p_address;//반송주소
-    private String p_bank;//은행명
-    private String u_nickname; //사용자의 닉네임
-    private String i_sub_image; //제품의 서브 이미지
-    private Integer wish_like;//좋아요수
-    private String c_name;//카테고리 이름
+    private Integer productId;//제품번호
+    private Integer userId;//유저 번호
+    private Integer cId;//카테고리 번호
+    private Integer cId2;//자기참조 카테고리 번호
+    private String pName;//제품 이름
+    private String pInfo;//제품 정보
+    private Integer pDirect;//즉시 판매가
+    private Timestamp pDur;//경매기간
+    private Integer pBPrice;//경매가
+    private Timestamp pCreatedAt;//제품 게시물 작성일
+    private Timestamp pUpdatedAt;//제품 게시물 수정날짜
+    private Integer pHit;//제품 게시물 조회수
+    private Integer pSalesStatus;//판매 상태
+    private Integer pSaleType;//판매 유형
+    private String pAccount;//판매정산계좌
+    private String pAddress;//반송주소
+    private String pBank;//은행명
+    private String uNickname; //사용자의 닉네임
+    private String iSubImage; //제품의 서브 이미지
+    private Integer wishLike;//좋아요수
+    private String cName;//카테고리 이름
 }
