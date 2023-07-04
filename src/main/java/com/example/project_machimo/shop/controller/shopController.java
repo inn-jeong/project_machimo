@@ -6,9 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
@@ -41,10 +42,11 @@ public class shopController {
         //하위카테고리를 가져옴
         if (c_id != null) {
             products = service.getProductsBySubcategoryId(c_id);
+//            상위카테고리를 가져옴
         } else if (c_id2 != null) {
             products = service.getProductsBycategoryId(c_id2);
         } else {
-//            전체를 눌렀을시 allItemView()
+//            전체,클릭 없을 시 allItemView()
             products = service.allItemView();
         }
 
@@ -56,64 +58,69 @@ public class shopController {
             items.add(item);
         }
 
-
+//        상품을 정렬하는 메소드
         if (sort != null) {
-            switch (sort) {
-                case "popularity":
-                    // 조회수로 정렬
-                    Collections.sort(items, Comparator.comparing(ItemDto::getP_hit).reversed());
-                    break;
-                case "newest":
-                    // 최신순으로 정렬
-                    Collections.sort(items, Comparator.comparing(ItemDto::getP_created_at).reversed());
-                    break;
-                case "interest":
-                    Collections.sort(items, Comparator.comparing(ItemDto::getWish_like).reversed());
-                    break;
-                case "auction_p":
-                    //경매 상품
-                    //경매 상품 필터링 (P_sale_type이 0인 상품만 출력)
-                    items.removeIf(item -> item.getP_sale_type() != 0);
-                    break;
-                case "auction_pp":
-                    //경매 가격 낮은 순
-                    //경매 상품 필터링 후 가격 낮은 순 으로 정렬
-                    items.removeIf(item -> item.getP_sale_type() != 0);
-                    Collections.sort(items, Comparator.comparing(ItemDto::getP_b_price));
-                    break;
-                case "auction_ppd":
-                    //경매 가격 높은 순
-                    items.removeIf(item -> item.getP_sale_type() != 0);
-                    Collections.sort(items, Comparator.comparing(ItemDto::getP_b_price).reversed());
-                    break;
-                case "auction_n":
-                    //일반 상품
-                    //일반 상품 필터링 (P_sale_type이 1인 상품만 출력)
-                    items.removeIf(item -> item.getP_sale_type() != 1);
-                    break;
-                case "auction_np":
-                    //일반 상품 가격 낮은 순
-                    // 반 상품 필터링 후 가격 낮은 순 으로 정렬
-                    items.removeIf(item -> item.getP_sale_type() != 1);
-                    Collections.sort(items, Comparator.comparing(ItemDto::getP_direct));
-                    break;
-                case "auction_npd":
-                    //일반 상품 가격 높은 순
-                    items.removeIf(item -> item.getP_sale_type() != 1);
-                    Collections.sort(items, Comparator.comparing(ItemDto::getP_direct).reversed());
-                    break;
-            }
+            items = sortItems(items, sort);
         }
+
 //        카테고리 값을 model에 저장 하고 넘어감
         model.addAttribute("categories", categories);
         model.addAttribute("subcategory", subcategory);
-//        model에 item의 값을 주고 넘어감
-        model.addAttribute("itemList", items);
+
 //        model에 사용자가 선택한 옵션을 들고 넘어감
         model.addAttribute("selectedSort", sort);
         model.addAttribute("selectedCategory", c_id);//카테고리 선택 정렬
+
+        //        model에 item의 값을 주고 넘어감
+        model.addAttribute("itemList", items);
         return "shop";
     }
+
+//    @RequestMapping("/getItemList")
+//    public String getItemList(Model model, @RequestParam(name = "category", required = false) String category,
+//                              @RequestParam(name = "sort", required = false) String sort) {
+//        // category와 sort 값을 사용하여 필요한 데이터를 조회하고 처리하는 로직을 구현하세요.
+//
+//        // 모든 카테고리와 그에 해당하는 하위 카테고리를 가져옴
+//        ArrayList<CategoryDto> categories = service.getCategories();
+//        Map<Integer, ArrayList<CategoryDto>> subcategory = new HashMap<>();
+//        for (CategoryDto categoryDto : categories) {
+//            ArrayList<CategoryDto> subCategories = service.getSubCategories(categoryDto.getC_id());
+//            subcategory.put(categoryDto.getC_id(), subCategories);
+//        }
+//
+//        // 선택한 카테고리에 해당하는 상품들을 가져옴
+//        List<ProductDto> products;
+//        if (category != null) {
+//            // 카테고리 값이 전달된 경우 해당 카테고리에 해당하는 상품을 가져옴
+//            products = service.getProductsBycategoryId(Integer.parseInt(category));
+//        } else {
+//            // 카테고리 값이 전달되지 않은 경우 모든 상품을 가져옴
+//            products = service.allItemView();
+//        }
+//
+//        List<ItemDto> items = new ArrayList<>();
+//        for (ProductDto product : products) {
+//            ItemDto item = changeItem(product);
+//            addInformation(item);
+//            items.add(item);
+//        }
+//
+////        상품을 정렬하는 메소드
+//        if (sort != null) {
+//            items = sortItems(items, sort);
+//        }
+//
+//        // 모델에 필요한 데이터를 추가
+//        model.addAttribute("categories", categories);
+//        model.addAttribute("subcategory", subcategory);
+//        model.addAttribute("selectedCategory", category);
+//        model.addAttribute("selectedSort", sort);
+//        model.addAttribute("itemList", items);
+//
+//        // shop.html 페이지로 이동
+//        return "shop";
+//    }
 
     // ProductDto를 ItemDto로 변환하는 메소드
     private ItemDto changeItem(ProductDto product) {
@@ -160,6 +167,55 @@ public class shopController {
             item.setWish_like(wishLike.get(0).getWish_like());
         }
     }
+    // 아이템 리스트를 정렬하는 메소드
+    private List<ItemDto> sortItems(List<ItemDto> items, String sort) {
+        switch (sort) {
+            case "popularity":
+                // 조회수로 정렬
+                Collections.sort(items, Comparator.comparing(ItemDto::getP_hit).reversed());
+                break;
+            case "newest":
+                // 최신순으로 정렬
+                Collections.sort(items, Comparator.comparing(ItemDto::getP_created_at).reversed());
+                break;
+            case "interest":
+                Collections.sort(items, Comparator.comparing(ItemDto::getWish_like).reversed());
+                break;
+            case "auction_p":
+                //경매 상품
+                //경매 상품 필터링 (P_sale_type이 0인 상품만 출력)
+                items.removeIf(item -> item.getP_sale_type() != 0);
+                break;
+            case "auction_pp":
+                //경매 가격 낮은 순
+                //경매 상품 필터링 후 가격 낮은 순 으로 정렬
+                items.removeIf(item -> item.getP_sale_type() != 0);
+                Collections.sort(items, Comparator.comparing(ItemDto::getP_b_price));
+                break;
+            case "auction_ppd":
+                //경매 가격 높은 순
+                items.removeIf(item -> item.getP_sale_type() != 0);
+                Collections.sort(items, Comparator.comparing(ItemDto::getP_b_price).reversed());
+                break;
+            case "auction_n":
+                //일반 상품
+                //일반 상품 필터링 (P_sale_type이 1인 상품만 출력)
+                items.removeIf(item -> item.getP_sale_type() != 1);
+                break;
+            case "auction_np":
+                //일반 상품 가격 낮은 순
+                // 반 상품 필터링 후 가격 낮은 순 으로 정렬
+                items.removeIf(item -> item.getP_sale_type() != 1);
+                Collections.sort(items, Comparator.comparing(ItemDto::getP_direct));
+                break;
+            case "auction_npd":
+                //일반 상품 가격 높은 순
+                items.removeIf(item -> item.getP_sale_type() != 1);
+                Collections.sort(items, Comparator.comparing(ItemDto::getP_direct).reversed());
+                break;
 
+        }
+        return items;
+    }
 }
 

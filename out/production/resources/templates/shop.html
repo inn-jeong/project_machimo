@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .category-list {
             display: flex;
@@ -104,7 +105,7 @@
         </ul>
     </div>
 
-    <form action="/shop/allItemView" method="get">
+    <form action="/shop/allItemView" method="get" id="sortForm">
         <select name="sort" id="sort">
             <option value="">전체보기</option>
 
@@ -143,3 +144,62 @@
     </div>
 </body>
 </html>
+<script>
+    // 카테고리 클릭 시 호출되는 함수
+    function handleCategoryClick(category) {
+        // 선택한 카테고리 값을 hidden 필드에 설정
+        document.getElementById("selectedCategory").value = category;
+        // 정렬 옵션 초기화
+        resetSortOptions();
+        // 상품 목록 업데이트
+        updateItemList();
+    }
+
+    // 정렬 옵션 변경 시 호출되는 함수
+    function handleSortChange() {
+        // 상품 목록 업데이트
+        updateItemList();
+    }
+
+    // 정렬 옵션 초기화 함수
+    function resetSortOptions() {
+        document.getElementById("sort").selectedIndex = 0;
+    }
+
+    // 상품 목록 업데이트 함수
+    function updateItemList() {
+        // 선택한 카테고리 값 가져오기
+        var selectedCategory = document.getElementById("selectedCategory").value;
+        // 선택한 정렬 옵션 값 가져오기
+        var selectedSort = document.getElementById("sort").value;
+
+        // AJAX를 사용하여 서버로 데이터 요청
+        // 요청// 상품 목록 업데이트 함수
+        function updateItemList() {
+            // 선택한 카테고리 값 가져오기
+            var selectedCategory = document.getElementById("selectedCategory").value;
+            // 선택한 정렬 옵션 값 가져오기
+            var selectedSort = document.getElementById("sort").value;
+
+            // AJAX를 사용하여 서버로 데이터 요청
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // 서버로부터 데이터 요청이 성공적으로 완료되면 상품 목록 업데이트
+                        var itemListContainer = document.getElementById("itemListContainer");
+                        itemListContainer.innerHTML = xhr.responseText;
+                    } else {
+                        // 서버 요청이 실패한 경우에 대한 처리
+                        console.error("서버 요청 실패");
+                    }
+                }
+            };
+
+            // GET 요청으로 데이터 전송
+            var url = "/shop/getItemList?category=" + selectedCategory + "&sort=" + selectedSort;
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+    }
+</script>
