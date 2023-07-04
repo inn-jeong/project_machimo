@@ -9,14 +9,22 @@
         FROM COMMENTS
     </select>
 
-    <select id="commentList" resultType="com.example.project_machimo.review.dto.CommentVO">
+    <select id="commentList" parameterType="int" resultType="com.example.project_machimo.review.dto.CommentVO">
+<!--    <select id="commentList" resultType="com.example.project_machimo.review.dto.CommentVO">-->
         SELECT
         *
         FROM COMMENTS
+        WHERE BNO = #{bno}
+        ORDER BY CNO
     </select>
 
 
     <insert id="commentInsert" parameterType="com.example.project_machimo.review.dto.CommentVO">
+<!--        <selectKey keyProperty="cno" resultType="int" order="BEFORE">-->
+<!--&lt;!&ndash;            SELECT MAX(CNO) + 1 FROM COMMENTS WHERE BNO = #{bno}&ndash;&gt;-->
+<!--&lt;!&ndash;            SELECT comments_seq.NEXTVAL FROM COMMENTS WHERE BNO = #{bno}&ndash;&gt;-->
+<!--            SELECT comments_seq.NEXTVAL FROM DUAL-->
+<!--        </selectKey>-->
         INSERT INTO
         COMMENTS (CNO, BNO, CONTENT, WRITER, REG_DATE)
         VALUES(#{cno},#{bno},#{content},#{writer},SYSDATE)

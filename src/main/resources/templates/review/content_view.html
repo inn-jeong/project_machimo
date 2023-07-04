@@ -20,20 +20,21 @@
     }
   </style>
   <script>
-    var id = getQueryStringObject().reviewId;
-    function getQueryStringObject() {
-      var a = window.location.search.substr(1).split('&');
-      if (a == "") return {};
-      var b = {};
-      for (var i = 0; i < a.length; ++i) {
-        var p = a[i].split('=', 2);
-        if (p.length == 1)
-          b[p[0]] = "";
-        else
-          b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
-      }
-      return b;
-    }
+
+   var id = getQueryStringObject().reviewId;
+   function getQueryStringObject() {
+     var a = window.location.search.substr(1).split('&');
+     if (a == "") return {};
+     var b = {};
+     for (var i = 0; i < a.length; ++i) {
+       var p = a[i].split('=', 2);
+       if (p.length == 1)
+         b[p[0]] = "";
+       else
+         b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+     }
+     return b;
+   }
   </script>
 
   <title>리뷰 내용</title>
@@ -92,20 +93,7 @@
   </form>
 
     <tr>
-      <!-- 댓글 -->
-<!--      <div class="container">-->
-<!--        <label for="content">comment</label>-->
-<!--        <form th:action="@{/comment/insert}" th:object="${comment}" method="post" name="commentInsertForm">-->
-<!--          <div class="input-group">-->
-<!--            <input type="hidden" id="bno" th:value="${content_view.reviewId}" />-->
-<!--            <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요." />-->
-<!--            <span class="input-group-btn">-->
-<!--                <button class="btn btn-default" type="submit" name="commentInsertBtn">등록</button>-->
-<!--            </span>-->
-<!--          </div>-->
-<!--        </form>-->
-<!--      </div>-->
-
+      <td colspan="3">
       <!--  댓글  -->
       <div class="container">
         <label for="content">comment</label>
@@ -132,12 +120,14 @@
           </div>
         </div>
       </div>
+      </td>
     </tr>
 </table>
 </div>
 <script>
-  var bno = '${content_view.reviewId}'; //게시글 번호
-
+  // var bno = '${content_view.reviewId}'; //게시글 번호
+  // content_view?pageNum=1&amount=10&reviewId=139 를 다 받아와야 그 페이지가 보이므로 그냥 reviewId만 불러오면 댓글이안보인다
+  var bno = id;
 
   $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시
     var insertData = $('[name=commentInsertForm]').serialize(); //commentInsertForm의 내용을 가져옴
@@ -148,10 +138,13 @@
 
   //댓글 목록
   function commentList(){
+  // function commentList(bno){
+  // function commentList(id){
     $.ajax({
       url : '/comment/list',
       type : 'get',
       data : {'bno':bno},
+      // data : bno,
       success : function(data){
         var a ='';
         $.each(data, function(key, value){
@@ -168,6 +161,7 @@
     });
   }
 
+
   //댓글 등록
   function commentInsert(insertData){
     $.ajax({
@@ -176,7 +170,8 @@
       data : insertData,
       success : function(data){
         if(data == 1) {
-          commentList(); //댓글 작성 후 댓글 목록 reload
+          // commentList(); //댓글 작성 후 댓글 목록 reload
+          commentList(bno); //댓글 작성 후 댓글 목록 reload // 인서트후에 새로고침 없이도 업데이트됨
           $('[name=content]').val('');
         }
       }
@@ -222,7 +217,8 @@
   }
 
   $(document).ready(function(){
-    commentList(); //페이지 로딩시 댓글 목록 출력
+    // commentList(); //페이지 로딩시 댓글 목록 출력
+    commentList(bno); //페이지 로딩시 댓글 목록 출력
   });
 
 

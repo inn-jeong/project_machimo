@@ -14,10 +14,12 @@ public class CommentService {
     @Autowired
     private SqlSession sqlSession;
 
-    public List<CommentVO> commentListService() throws Exception{
+    public List<CommentVO> commentListService(int bno) throws Exception{
+//    public List<CommentVO> commentListService() throws Exception{
         CommentMapper mCommentMapper = sqlSession.getMapper(CommentMapper.class);
 
-        return mCommentMapper.commentList();
+        return mCommentMapper.commentList(bno);
+//        return mCommentMapper.commentList();
     }
 
     public int commentInsertService(CommentVO comment) throws Exception{
