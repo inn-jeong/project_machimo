@@ -7,16 +7,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WishItem {
-    private Integer wishlistId;
+public class AuctionItem {
+    private Integer auctionId;
     private Integer productId;
-    private String iSubImg;
-    private Integer userId;
-    private String uName;
-    private String uNickname;
     private String pName;
-    private Integer pDirect;
+    private Integer userId;
+    private String uNickname;
+    private String pDur;
+    private String bidsAt;
+    private Integer amount;
     private Integer pBPrice;
-    private Integer pSaleType;
     private Integer pSalesStatus;
+    private String iSubImg;
 }

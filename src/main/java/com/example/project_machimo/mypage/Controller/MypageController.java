@@ -3,11 +3,8 @@ package com.example.project_machimo.mypage.Controller;
 import com.example.project_machimo.basket.Service.BasketService;
 import com.example.project_machimo.login.Dto.UserRequestDto;
 import com.example.project_machimo.login.Dto.UsersDto;
-import com.example.project_machimo.mypage.Dto.SalesItem;
-import com.example.project_machimo.mypage.Dto.UserUpdateRequestDto;
-import com.example.project_machimo.mypage.Dto.WishItem;
+import com.example.project_machimo.mypage.Dto.*;
 import com.example.project_machimo.mypage.Service.MypageService;
-import com.example.project_machimo.mypage.Dto.PurchaseItem;
 import com.example.project_machimo.sqlLogTest.UserDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -49,7 +46,7 @@ public class MypageController {
         return "mypage/mypage";
     }
 
-    @RequestMapping("/order_list")
+    @RequestMapping("/orderlist")
     public String orderList(HttpSession session, Model model){
         UsersDto user = (UsersDto)session.getAttribute("user");
         if(user == null){
@@ -63,7 +60,7 @@ public class MypageController {
         return "mypage/mypage";
     }
 
-    @RequestMapping("/sales_list")
+    @RequestMapping("/saleslist")
     public String salesList(HttpSession session, Model model){
         UsersDto user = (UsersDto)session.getAttribute("user");
         if(user == null){
@@ -145,7 +142,7 @@ public class MypageController {
 //        return "mypage/mypage";
     }
 
-    @RequestMapping("/wish")
+    @RequestMapping("/wishlist")
     public String wishList(HttpSession session,Model model){
         UsersDto user = (UsersDto) session.getAttribute("user");
         if(user == null){
@@ -154,6 +151,18 @@ public class MypageController {
 
         List<WishItem> items= service.getWishItem(user.getUserId());
         model.addAttribute("type","wish");
+        model.addAttribute("items",items);
+        return "mypage/mypage";
+    }
+
+    @RequestMapping("/auctionlist")
+    public String auctionList(HttpSession session,Model model){
+        UsersDto user = (UsersDto) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/loginT/login?login_try=no";
+        }
+        List<AuctionItem> items= service.getAuctionItems(user.getUserId());
+        model.addAttribute("type","auction");
         model.addAttribute("items",items);
         return "mypage/mypage";
     }

@@ -2,10 +2,7 @@ package com.example.project_machimo.mypage.Service;
 
 import com.example.project_machimo.login.Dto.UserRequestDto;
 import com.example.project_machimo.login.Dto.UsersDto;
-import com.example.project_machimo.mypage.Dto.PurchaseItem;
-import com.example.project_machimo.mypage.Dto.SalesItem;
-import com.example.project_machimo.mypage.Dto.UserUpdateRequestDto;
-import com.example.project_machimo.mypage.Dto.WishItem;
+import com.example.project_machimo.mypage.Dto.*;
 import org.springframework.validation.Errors;
 
 import java.util.ArrayList;
@@ -21,4 +18,5 @@ public interface MypageService {
     public int updateUser(HashMap<String, String> param);
     public UsersDto findUser(String uId);
     public ArrayList<WishItem> getWishItem(Integer userId);
+    public ArrayList<AuctionItem> getAuctionItems(Integer userId);
 }

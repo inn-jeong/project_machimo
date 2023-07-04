@@ -3,10 +3,7 @@ package com.example.project_machimo.mypage.Service;
 import com.example.project_machimo.login.Dto.UserRequestDto;
 import com.example.project_machimo.login.Dto.UsersDto;
 import com.example.project_machimo.mypage.Dao.MypageDao;
-import com.example.project_machimo.mypage.Dto.PurchaseItem;
-import com.example.project_machimo.mypage.Dto.SalesItem;
-import com.example.project_machimo.mypage.Dto.UserUpdateRequestDto;
-import com.example.project_machimo.mypage.Dto.WishItem;
+import com.example.project_machimo.mypage.Dto.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,5 +86,11 @@ public class MypageServiceImpl implements MypageService{
     public ArrayList<WishItem> getWishItem(Integer userId) {
         MypageDao dao = sqlSession.getMapper(MypageDao.class);
         return dao.getWishItem(userId);
+    }
+
+    @Override
+    public ArrayList<AuctionItem> getAuctionItems(Integer userId) {
+        MypageDao dao = sqlSession.getMapper(MypageDao.class);
+        return dao.getAuctionItems(userId);
     }
 }

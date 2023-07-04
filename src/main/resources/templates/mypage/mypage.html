@@ -86,13 +86,13 @@
                     <dl>
                         <dt>상품관리</dt>
                         <dd><a href="/basket/page">장바구니</a></dd>
-                        <dd><a href="/mypage/wish">관심상품</a></dd>
-                        <dd><a href="/mypage/sales_list">판매내역</a></dd>
+                        <dd><a href="/mypage/wishlist">관심상품</a></dd>
+                        <dd><a href="/mypage/saleslist">판매내역</a></dd>
                     </dl>
                     <dl>
                         <dt>주문관리</dt>
-                        <dd><a href="/mypage/order_list">주문내역</a></dd>
-                        <dd>낙찰상품</dd>
+                        <dd><a href="/mypage/orderlist">주문내역</a></dd>
+                        <dd><a href="/mypage/auctionlist">입찰상품</a></dd>
                     </dl>
                     <dl class="pb-5">
                         <dt>활동관리</dt>
@@ -323,7 +323,7 @@
                             <th colspan="2">주문상태</th>
                         </tr>
                         </thead>
-                        <tbody th:each="item, count:${items}" th:id="${item.productId}" class="item-show">
+                        <tbody th:if="${item.pSalesStatus == 1}" th:id="${item.productId}" th:each="item, count:${items}" class="item-show">
                         <tr>
                             <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
                             <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>
@@ -343,9 +343,43 @@
 <!--                                    <span th:case="0">판매승인전</span>-->
                                     <span th:case="1">판매중</span>
                                     <span th:case="2">판매완료</span>
-                                    <span th:case="3">걍매낙찰</span>
+                                    <span th:case="3">경매낙찰</span>
                                     <span th:case="4">경매실패</span>
 <!--                                    <span th:case="5">판매보류</span>-->
+                                </div>
+                            </td>
+                            <td rowspan="3" style="width: 80px" class="align-middle"><button>삭제</button></td>
+                        </tr>
+                        <tr>
+                            <td th:text="'판매자:'+${item.uNickname}" style="text-align: left"></td>
+                        </tr>
+                        <tr>
+                            <td th:text="${item.pName}" style="text-align: left"></td>
+                        </tr>
+                        </tbody>
+                        <tbody th:if="${item.pSalesStatus != 1}" th:id="${item.productId}" th:each="item, count:${items}" class="item-show table-active">
+                        <tr>
+                            <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
+                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>
+                            <td style="width: 200px; text-align: left">
+                                <div th:switch="${item.pSaleType}">
+                                    판매유형:
+                                    <span th:case="0">경매</span>
+                                    <span th:case="1">즉시판매</span>
+                                </div>
+                            </td>
+                            <td th:text="${item.productId}" rowspan="3" style="width: 120px" class="align-middle"></td>
+                            <!--                            판매유형에 따른 가격 출력-->
+                            <td th:if="${item.pSaleType == 1}" rowspan="3" style="width: 100px" class="align-middle">즉시구매가<br><span th:text="${item.pDirect}"></span>원</td>
+                            <td th:if="${item.pSaleType == 0}" rowspan="3" style="width: 100px" class="align-middle">낙찰가<br><span th:text="${item.pBPrice}"></span>원</td>
+                            <td rowspan="3" style="width: 80px" class="align-middle">
+                                <div th:switch="${item.pSalesStatus}">
+                                    <!--                                    <span th:case="0">판매승인전</span>-->
+                                    <span th:case="1">판매중</span>
+                                    <span th:case="2">판매완료</span>
+                                    <span th:case="3">경매낙찰</span>
+                                    <span th:case="4">경매실패</span>
+                                    <!--                                    <span th:case="5">판매보류</span>-->
                                 </div>
                             </td>
                             <td rowspan="3" style="width: 80px" class="align-middle"><button>삭제</button></td>
@@ -360,6 +394,58 @@
                     </table>
                     <div th:if="${items == null}" style="align-content: center">
                         관심 상품이 없습니다.
+                    </div>
+                </div>
+                <div th:if="${type.equals('auction')}" class="basket_list">
+                    <div class="order_list_subtitle">
+                        <h4>입찰상품</h4>
+                    </div>
+                    <table th:if="${items != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
+                        <thead>
+                        <tr class="table-active">
+                            <td>번호</td>
+                            <th colspan="2">상품정보</th>
+                            <th>입찰코드</th>
+                            <th>입찰가격</th>
+                            <th>입찰자</th>
+                            <th>입찰일자</th>
+                            <th>경매상태</th>
+                        </tr>
+                        </thead>
+<!--                        <tbody th:if="${item.pSalesStatus==1}" th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show">-->
+                        <tbody th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show">
+                            <tr>
+                                <td th:text="${count.count}" rowspan="3" style="width: 40px"  class="align-middle"></td>
+                                <td th:text="${item.iSubImg}"  rowspan="3" style="width: 100px" class="align-middle"></td>
+                                <td th:text="${item.uNickname}" style="width: 200px; text-align: left" class="align-middle"></td>
+                                <td th:text="${item.auctionId}"  rowspan="3" style="width: 80px" class="align-middle"></td>
+                                <td th:text="${item.amount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
+                                <td th:text="${item.amount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
+                                <td th:text="${item.bidsAt}"  rowspan="3" style="width: 100px" class="align-middle"></td>
+                                <td rowspan="3" style="width: 80px" class="align-middle">
+                                    <div th:switch="${item.pSalesStatus}">
+                                        <input type="hidden" th:value="${item.pSalesStatus}" class="sale_status">
+                                        <!--                                    <span th:case="0">판매승인전</span>-->
+                                        <span th:case="1">판매중</span>
+                                        <span th:case="2">판매완료</span>
+                                        <span th:case="3">경매낙찰</span>
+                                        <span th:case="4">경매실패</span>
+                                        <span th:case="5">판매보류</span>
+                                    </div>
+                                    <button th:if="${item.pSalesStatus==3 && item.userId.equals(session.user.userId)}">결제하기</button>
+    <!--                                <button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td th:text="${item.pName}" style="width: 200px; text-align: left"></td>
+                            </tr>
+                            <tr>
+                                <td th:text="'~'+${item.pDur}" style="width: 200px; text-align: left"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div th:if="${items == null}" style="align-content: center">
+                        입찰상품이 없습니다.
                     </div>
                 </div>
                 <div th:if="${type.equals('modify')}" class="basket_list">
@@ -497,6 +583,8 @@
         alert("수정 완료.");
         location.href="/mypage/mypage_page";
     }
+
+
     $(function (){
         var totalPrice = 0;
         $('.price').each(function (){
@@ -511,6 +599,8 @@
             count += 1;
         });
         $('#total_amount').text(count);
+
+        if($(".sale_status").val() != 1) $(".sale_status").closest('tbody').addClass("table-active");
 
     });
 
