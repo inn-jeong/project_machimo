@@ -3,6 +3,7 @@ package com.example.project_machimo.productEnroll.controller;
 
 import com.example.project_machimo.review.dto.CommentVO;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,21 +13,54 @@ import java.util.HashMap;
 import java.util.List;
 
 @Controller
+@Slf4j
 @RequestMapping("/productEnroll")
 public class EnrollController {
 
+
     @RequestMapping("/jusoPopup")
-//    public String jusoPopup(@RequestParam HashMap<String,String> param,
-//                            HttpServletRequest request,
-//                            Model model){
     public String jusoPopup(HttpServletRequest request, Model model){
-//  <input type="hidden" id="inputYn" th:value="${inputYn}">
-//  <input type="text" id="roadAddrPart1" th:value="${roadAddrPart1}">
-//  <input type="text" id="addrDetail" th:value="${addrDetail}">
-//  <input type="text" id="zipNo" th:value="${zipNo}">
-        model.addAttribute("inputYn", request.getParameter("inputYn"));//확인용
+        //request.setCharacterEncoding("UTF-8");  //한글깨지면 주석제거
+        //request.setCharacterEncoding("EUC-KR");  //해당시스템의 인코딩타입이 EUC-KR일경우에
+        log.info("@# =========juso init============");
+        String inputYn = request.getParameter("inputYn");
+        String roadFullAddr = request.getParameter("roadFullAddr");
+        String roadAddrPart1 = request.getParameter("roadAddrPart1");
 
-        return "/soldEnrollForm/jusoPopup";
+        String roadAddrPart2 = request.getParameter("roadAddrPart2");
+        String engAddr = request.getParameter("engAddr");
+        String jibunAddr = request.getParameter("jibunAddr");
+        String zipNo = request.getParameter("zipNo");
+        String addrDetail = request.getParameter("addrDetail");
+        String admCd    = request.getParameter("admCd");
+        String rnMgtSn = request.getParameter("rnMgtSn");
+        String bdMgtSn  = request.getParameter("bdMgtSn");
+        /** API 서비스 제공항목 확대 (2017.02) **/
+        String detBdNmList  = request.getParameter("detBdNmList");
+        String bdNm  = request.getParameter("bdNm");
+        String bdKdcd  = request.getParameter("bdKdcd");
+        String siNm  = request.getParameter("siNm");
+        String sggNm  = request.getParameter("sggNm");
+        String emdNm  = request.getParameter("emdNm");
+        String liNm  = request.getParameter("liNm");
+        String rn  = request.getParameter("rn");
+        String udrtYn  = request.getParameter("udrtYn");
+        String buldMnnm  = request.getParameter("buldMnnm");
+        String buldSlno  = request.getParameter("buldSlno");
+        String mtYn  = request.getParameter("mtYn");
+        String lnbrMnnm  = request.getParameter("lnbrMnnm");
+        String lnbrSlno  = request.getParameter("lnbrSlno");
+        String emdNo  = request.getParameter("emdNo");
+
+        log.info("@# juso input ===> "+inputYn);
+        log.info("@# juso part1 ===> "+roadAddrPart1);
+
+        model.addAttribute("inputYn",inputYn);
+        model.addAttribute("roadAddrPart1",roadAddrPart1);
+        model.addAttribute("addrDetail",addrDetail);
+        model.addAttribute("zipNo",zipNo);
+
+
+        return "/productEnroll/jusoPopup";
     }
-
 }

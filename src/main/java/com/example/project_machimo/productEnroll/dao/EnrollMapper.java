@@ -1,4 +1,4 @@
-package com.example.project_machimo.soldForm.dao;
+package com.example.project_machimo.productEnroll.dao;
 
 import com.example.project_machimo.review.dto.ReviewDto;
 import jdk.jfr.Category;
@@ -10,8 +10,6 @@ import java.util.List;
 
 @Mapper
 public interface EnrollMapper {
-
-
     void write(HashMap<String,String> param);
 
 }
