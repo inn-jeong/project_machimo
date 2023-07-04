@@ -53,25 +53,33 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity<? extends Objects> response(OrderDTO orderDTO) {
 
-        int orderStatus = orderDAO.insertOrderStatus();
-        int insertOrder = orderDAO.insertOrder(orderDTO);
-        int updateUserPoint = orderDAO.updateUserPoint(orderDTO.getUserId(),orderDTO.getUsedPointResult());
-
-        int result = orderStatus + insertOrder+updateUserPoint;
-
+        int result = getResult(orderDTO);
         List<Integer> productIdList = orderDTO.getProductIdList();
 
         if (result == 3) {
             for (Integer productIds : productIdList) {
-                orderDAO.insertOrderProducts(orderDTO.getOrderId(), productIds);
-                productsDAO.updateProductStatusCompletedCase(productIds);
+                completed(orderDTO, productIds);
             }
             return ResponseEntity.ok().build();
 
         } else {
-
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
+
+    private void completed(OrderDTO orderDTO, Integer productIds) {
+        orderDAO.insertOrderProducts(orderDTO.getOrderId(), productIds);
+        productsDAO.updateProductStatusCompletedCase(productIds);
+    }
+
+
+    private int getResult(OrderDTO orderDTO) {
+        int orderStatus = orderDAO.insertOrderStatus();
+        int insertOrder = orderDAO.insertOrder(orderDTO);
+        int updateUserPoint = orderDAO.updateUserPoint(orderDTO.getUserId(), orderDTO.getUsedPointResult());
+
+        int result = orderStatus + insertOrder+updateUserPoint;
+        return result;
     }
 
     @Override

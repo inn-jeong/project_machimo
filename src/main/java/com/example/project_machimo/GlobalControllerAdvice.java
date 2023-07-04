@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.mapping.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -19,6 +20,7 @@ import java.util.Map;
 public class GlobalControllerAdvice {
 
     private final AlertService service;
+
 
     @Autowired
     public GlobalControllerAdvice(AlertService service) {
@@ -60,6 +62,10 @@ public class GlobalControllerAdvice {
         return session.getAttribute("user") != null;
 
 
+    }
+    @ModelAttribute("session")
+    public Integer session(HttpSession session){
+        return (Integer)session.getAttribute("user");
     }
 
 

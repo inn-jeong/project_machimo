@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.project_machimo.wishlists.dao.WishListsDAO">
+    <select id="checkId" resultType="java.lang.Integer">
+        select 1
+        from WISHLISTS
+        where USER_ID = #{userId}
+          and productId = #{productId}    </select>
+</mapper>

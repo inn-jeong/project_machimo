@@ -22,7 +22,7 @@ public class AuctionRestController {
         this.response = response;
     }
 
-    @PostMapping("/action-list/amountCheck")
+    @PostMapping("/auction-list/amountCheck")
     public ResponseEntity<? extends Object> updateAmount(@RequestBody CheckDTO check, HttpSession session) {
 
         Integer userId = (Integer)session.getAttribute("user");
@@ -34,11 +34,6 @@ public class AuctionRestController {
 
     }
 
-    private boolean
-    haSession(Integer session) {
-
-        return true;
-    }
 
 
 

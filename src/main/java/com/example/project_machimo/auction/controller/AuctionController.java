@@ -61,7 +61,6 @@ public class AuctionController {
         Long amount = bidsService.maxAmount(id);
 
 
-
         model.addAttribute("aList", aList);
         model.addAttribute("pView", pView);
         model.addAttribute("isSaleEnded",isSaleEnded(pView.pDur(),pView.pSalesStatus()));
@@ -82,33 +81,16 @@ public class AuctionController {
         return "auctions/productList";
     }
 
-    @GetMapping("/action-list/test1Con")
-    public String test1(@RequestParam int pro, Model model) {
-        System.out.println(pro);
-        List<BidsVO> bList = bidsService.bList(pro);
-        AuctionVO aList = auctionService.aList(pro);
-        boolean hasBidHistory = bidsService.hasBidHistory(pro);
-        model.addAttribute("bList", bList);
-        model.addAttribute("hasBidHistory", hasBidHistory);
-        model.addAttribute("aList", aList);
-        return "auctions/test";
-    }
 
     private boolean isSaleEnded(Timestamp period,int productStatus){
 
-
-
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-
         switch (productStatus){
-            case 3, 4 -> {
+            case 2,3, 4 -> {
                 if (period.before(timestamp)) return true;
             }
-
-
         }
-
         return false;
 
     }
