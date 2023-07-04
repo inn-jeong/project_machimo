@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>제품 정보 입력</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/js/jusoPopup.js" ></script>
     <script>
         $(document).ready(function() {
             $('#category1').change(function() {
@@ -72,6 +73,19 @@
             <td><label for="pAddress">반송 주소:</label></td>
             <td><input type="text" id="pAddress" name="pAddress" required /></td>
         </tr>
+        <tr>
+            <td>주    소</td>
+            <td>
+                <input name="uAddrPostcode" id="uAddrPostcode" type="text" th:value="${userDto.uAddrPostcode}" size="10" readonly placeholder="우편번호"> <br>
+                <input name="uAddress" id="uAddress" type="text" th:value="${userDto.uAddress}" size="40" readonly>
+                <input type="button"  value="주소검색" onclick="goPopup();"> <br>
+                <input name="uAddressSub" id="uAddressSub" type="text" th:value="${userDto.uAddressSub}" size="20" placeholder="상세 주소">
+                <div><span class="fs-6 text-danger" th:text="${valid_uAddress}"></span> <br></div>
+            </td>
+
+        </tr>
+
+
     </table>
 
     <input type="submit" value="즉시 판매 제품 등록" />
