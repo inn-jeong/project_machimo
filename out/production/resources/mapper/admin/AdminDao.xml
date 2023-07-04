@@ -33,6 +33,15 @@
 <!--        ]]>-->
     </select>
 
+    <select id="userView" resultType="com.example.project_machimo.admin.dto.UsersDto">
+<!--        select u_id, u_nickname, u_password, u_name, u_jumin, u_phone, u_address from users where user_id = #{userId}-->
+        SELECT u.user_id, u_id, u_nickname, u_password, u_name, u_jumin, u_phone, u_address,
+        r.report_id, r.products_id, r.report_content, r.report_date, r.report_count
+        FROM users u
+        JOIN report r ON u.user_id = r.user_id
+        where u.user_id = #{userId}
+    </select>
+
     <delete id="removeReport">
         delete
     </delete>
@@ -48,10 +57,6 @@
     <update id="adminModify">
         update users set u_role=1 where user_id=#{userId}
     </update>
-
-    <select id="userView" resultType="com.example.project_machimo.admin.dto.UsersDto">
-        select u_id, u_nickname, u_password, u_name, u_jumin, u_phone, u_address from users where user_id = #{userId}
-    </select>
 
     <!--/////////문의,공지/////////-->
     <select id="BoardList" resultType="com.example.project_machimo.admin.dto.BoardDto">

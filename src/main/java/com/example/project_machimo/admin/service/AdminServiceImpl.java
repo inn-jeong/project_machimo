@@ -37,9 +37,9 @@ public class AdminServiceImpl implements AdminService  {
     }
 
     @Override
-    public UsersDto userView(HashMap<String, String> param) {
+    public UsersDto userView(int userId) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        return dao.userView(param);
+        return dao.userView(userId);
     }
 
     @Override

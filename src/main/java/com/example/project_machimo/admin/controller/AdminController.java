@@ -2,20 +2,16 @@ package com.example.project_machimo.admin.controller;
 
 import com.example.project_machimo.admin.dto.*;
 import com.example.project_machimo.admin.service.AdminService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 @Controller
 @Slf4j
@@ -27,15 +23,28 @@ public class AdminController {
     private HttpSession session;
 
     //사용자관리//
+
+    @RequestMapping("/index")
+    public String main(){
+        return "admin/index";
+    }
+
+
     @RequestMapping("/adminList")
-    public String adminList(Criteria cri, Model model){
+    public String adminList(Criteria cri, Model model, HttpSession session){
         System.out.println("@# adminList start");
-        log.info("@# controller adminList start");
+        //admin session
+        UsersDto user = new UsersDto();
+        user.setUserId(1); //admin
+        user.setUNickname("admin");
+        session.setAttribute("user",user);
+
         model.addAttribute("adminList",service.adminList(cri));
         int total = service.getTotalCount();
         model.addAttribute("pageMaker",new PageDto(total, cri));
         return "admin/adminList";
     }
+
 
     @GetMapping("/adminDelete/{userId}")
     public String adminDelete(@PathVariable int userId){
@@ -49,16 +58,18 @@ public class AdminController {
         return "redirect:/admin/adminList";
     }
 
-    @RequestMapping("/userView")
-    public String userView(@RequestParam HashMap<String, String> param ,Model model){
+//    @RequestMapping("/userView")
+    @GetMapping("/userView")
+    public String userView(@RequestParam int userId, Model model){
         System.out.println("@# adminList userView");
-        System.out.println("@# userId = " + param.get("userId"));
 
-        UsersDto dto = service.userView(param);
-        model.addAttribute("userView",dto);
-        model.addAttribute("pageMaker",param);
+//        UsersDto dto = service.userView(userId);
+        model.addAttribute("userView",service.userView(userId));
+//        model.addAttribute("pageMaker",param);
         return "admin/userView";
     }
+
+
 
     //신고삭제
     @PostMapping("/removeReport")

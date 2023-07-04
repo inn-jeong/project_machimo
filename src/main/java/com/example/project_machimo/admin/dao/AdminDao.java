@@ -18,7 +18,7 @@ public interface AdminDao {
     //user//
     ArrayList<UsersDto> adminList(Criteria cri);
 
-    UsersDto userView(HashMap<String, String> param);
+    UsersDto userView(int userId);
 
     public void adminDelete(int userId);
 

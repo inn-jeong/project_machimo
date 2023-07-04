@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                      layout:decorate="admin/layout/common">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>boardList</title>
-    <div th:replace="fragments/header.html :: fragment-header"></div>
+<!--    <div th:replace="fragments/header.html :: fragment-header"></div>-->
 </head>
-<body>
+<th:block layout:fragment="content">
+    <body>
 
-    <div class="container">
+<!--    <div class="container">-->
             <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">게시글 관리</h5>
             <div class="d-flex gap-2 justify-content-end py-3">
                 <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">
@@ -94,9 +97,9 @@
 
 
     <!--footer-->
-    <div th:replace="fragments/footer.html :: fragment-footer"></div>
+<!--    <div th:replace="fragments/footer.html :: fragment-footer"></div>/-->
 
-</body>
+    </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -159,3 +162,4 @@
     }
 
 </script>
+</th:block>

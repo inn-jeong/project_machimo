@@ -1,167 +1,156 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>userList</title>
-</head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<body>
-    <!-- Begin Page Content -->
-    <div>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{/admin/layout/layout}">
 
+    <th:block layout:fragment="admin-content">
+        <div class="container-fluid">
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">사용자관리</h1>
-        <p class="mb-4"> 페이징처리-번호거꾸로,페이지이동 / contentView / 검색기능 시간나면, showing 글자 왜 안보여</p>
+        <h1 class="h3 mb-2 text-gray-800">사용자 관리</h1>
 
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">MACHIMO USER LIST</h6>
+            </div>
 
-    <div class="row">
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">MACHIMO USER LIST</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                    <!--검색기능-->
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6"></div>
-                        <div class="col-sm-12 col-md-6"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">회원번호</th>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">닉네임</th>
-                                        <th scope="col">이메일</th>
-                                        <th scope="col">적립금</th>
-                                        <th scope="col">가입일</th>
-                                        <th scope="col">회원권한</th>
-                                        <th scope="col">신고횟수</th>
-                                        <th scope="col">신고관리</th>
-                                        <th scope="col">회원탈퇴</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="user: ${adminList}" th:if="${user != null}">
-                                        <td th:text="${user.userId}"></td>
-                                        <td>
-                                            <a class="move_link" th:data-id="${user.userId}"><span th:text="${user.uId}"></span></a>
-                                        </td>
-                                        <td th:text="${user.uNickname}"></td>
-                                        <td th:text="${user.uEmail}"></td>
-                                        <td th:text="${user.uPoint}"></td>
-                                        <td th:text="${user.uCreatedAt}"></td>
-                                        <td>
-<!--                                            <a th:href="@{|/admin/adminModify/${user.user_id}}">회원권한</a>-->
-                                           <span th:if="${user.uRole == 0}">USER</span>
-                                           <span th:if="${user.uRole == 1}">ADMIN</span>
-                                           <button type="submit">
-                                               <a th:href="@{|/admin/adminModify/${user.userId}}">권한부여</a>
-                                           </button>
-                                        </td>
-                                        <td th:text="${user.reportCount}"></td>
-                                        <td>
-                                            <!-- 신고 삭제 버튼 -->
-                                            <form action="/admin/removeReport" method="post">
-                                                <input type="hidden" name="reportCode" value="{reportCode}">
-                                                <input type="hidden" name="userId" value="${userId}">
-                                                <input type="hidden" name="productId" value="${productId}">
-                                                <button type="submit">신고 삭제</button>
-                                            </form>
-                                            <!-- 회원 차단 버튼 -->
-                                            <form action="/admin/blockUser" method="post">
-                                                <input type="hidden" name="userId" value="${userId}">
-                                                <input type="hidden" name="productId" value="${productId}">
-                                                <button type="submit">회원 차단</button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <button type="submit">
-                                                <a th:href="@{|/admin/adminDelete/${user.userId}}">회원탈퇴</a>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                        <thead>
+                            <tr>
+                                <th scope="col">회원번호</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">닉네임</th>
+                                <th scope="col">이메일</th>
+                                <th scope="col">적립금</th>
+                                <th scope="col">가입일</th>
+                                <th scope="col">회원권한</th>
+                                <th scope="col">신고횟수</th>
+                                <th scope="col">신고관리</th>
+                                <th scope="col">회원탈퇴</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="user: ${adminList}" th:if="${user != null}">
+                                <td th:text="${user.userId}"></td>
+                                <td>
+    <!--                                <a class="move_link" th:data-id="${user.userId}"><span th:text="${user.uId}"></span></a>-->
+                                    <a class="move_link" th:data-id="${user.userId}">
+                                        <span th:text="${user.uId}"></span>
+                                    </a>
+                                </td>
+                                <td th:text="${user.uNickname}"></td>
+                                <td th:text="${user.uEmail}"></td>
+                                <td th:text="${user.uPoint}"></td>
+                                <td th:text="${user.uCreatedAt}"></td>
+                                <td>
+    <!--                                            <a th:href="@{|/admin/adminModify/${user.user_id}}">회원권한</a>-->
+                                   <span th:if="${user.uRole == 0}">USER</span>
+                                   <span th:if="${user.uRole == 1}">ADMIN</span>
+                                   <button type="submit">
+                                       <a th:href="@{|/admin/adminModify/${user.userId}}">권한부여</a>
+                                   </button>
+                                </td>
+                                <td th:text="${user.reportCount}"></td>
+                                <td>
+                                    <!-- 신고 삭제 버튼 -->
+                                    <form action="/admin/removeReport" method="post">
+                                        <input type="hidden" name="reportCode" value="{reportCode}">
+                                        <input type="hidden" name="userId" value="${userId}">
+                                        <input type="hidden" name="productId" value="${productId}">
+                                        <button type="submit">신고 삭제</button>
+                                    </form>
+                                    <!-- 회원 차단 버튼 -->
+                                    <form action="/admin/blockUser" method="post">
+                                        <input type="hidden" name="userId" value="${userId}">
+                                        <input type="hidden" name="productId" value="${productId}">
+                                        <button type="submit">회원 차단</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <button type="submit">
+                                        <a th:href="@{|/admin/adminDelete/${user.userId}}">회원탈퇴</a>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row justify-content-center py-5">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                            showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
                         </div>
                     </div>
-                    <div class="row justify-content-center py-5">
-                        <div class="col-sm-12 col-md-5">
-                            <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
-                                showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-7">
-                            <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                                <ul class="pagination">
-                                    <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
-                                        <a th:href="@{'/page/'+${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
-                                            Previous
-                                        </a>
-                                    </li>
-                                    <li class="paginate_button page-link" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-                                        <a th:href="${num}" th:text="${num}">
-                                        </a>
-                                    </li>
-                                    <li th:if="${pageMaker.next}" class="paginate_button page-item next page-link" id="dataTable_next">
-                                        <a th:href="@{${pageMaker.endPage + 1}}" th:text="'Next'" aria-controls="dataTable" data-dt-idx="7" tabindex="0">
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                    <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                            <ul class="pagination">
+                                <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
+                                    <a th:href="@{'/page/'+${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
+                                        Previous
+                                    </a>
+                                </li>
+                                <li class="paginate_button page-link" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                                    <a th:href="${num}" th:text="${num}">
+                                    </a>
+                                </li>
+                                <li th:if="${pageMaker.next}" class="paginate_button page-item next page-link" id="dataTable_next">
+                                    <a th:href="@{${pageMaker.endPage + 1}}" th:text="'Next'" aria-controls="dataTable" data-dt-idx="7" tabindex="0">
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    </div>
-
-        <form th:method="get" id="actionForm" th:action="@{/admin/adminList}">
-            <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
-            <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
-        </form>
-
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-
-</body>
+        <div>
+            <form th:method="get" id="actionForm" th:action="@{/admin/adminList}">
+                <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+                <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+            </form>
+        </div>
+        </div>
+    </th:block>
 </html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-    var actionForm = $("#actionForm");
 
-    /////////////////페이지번호 처리/////////////////
-    $(".paginate_button a").on('click', function (e){
-        // 기본 동작 막음: 페이지 링크를 통해서 이동
-        e.preventDefault();
-        console.log("click~!");
-        console.log("@# href ===>"+$(this).attr("href"));
-        actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-        actionForm.submit();
-    });
-    // /////////////////게시글 처리/////////////////
-    $(".move_link").on("click", function (e){
-        e.preventDefault();
-        var userId = $(this).attr("data-id")
-        // console.log("move click~!");
-        console.log("@# href ===>"+$(this).attr("href"))
-        // <%--"content_view?bid=${dto.bid}"에 있는 ?bid= 의 bid와 name을 매칭--%>
-        actionForm.append("<input type='hidden' name='userId' value='"+userId+"'>");
-        // actionForm.attr("action","content_view"); -> x
-        // 컨트롤러에 content_view로 찾아감
-        actionForm.attr("action","userView").submit();
-    });
-    // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-    var bno = actionForm.find("input[name='userId']").val();
-    if(bno !== ''){
-        actionForm.find("input[name='userId']").remove();
-    }
-</script>
+<!--<th:block layout:fragment="script">-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+<!--    <script>-->
+<!--        var actionForm = $("#actionForm");-->
+<!--        /////////////////페이지번호 처리/////////////////-->
+<!--        $(".paginate_button a").on('click', function (e){-->
+<!--            // 기본 동작 막음: 페이지 링크를 통해서 이동-->
+<!--            e.preventDefault();-->
+<!--            console.log("click~!");-->
+<!--            console.log("@# href ===>"+$(this).attr("href"));-->
+<!--            actionForm.find("input[name='pageNum']").val($(this).attr("href"));-->
+<!--            actionForm.submit();-->
+<!--        });-->
+
+<!--        // /////////////////게시글 처리/////////////////-->
+<!--        $(".move_link").on("click", function (e){-->
+<!--            e.preventDefault();-->
+<!--            var userId = $(this).attr("data-id")-->
+<!--            console.log("@# href ===>"+$(this).attr("href"))-->
+<!--            actionForm.append("<input type='hidden' name='userId' value='"+userId+"'>");-->
+<!--            actionForm.attr("action","userView").submit();-->
+<!--        });-->
+
+<!--        window.onpageshow = function (event){-->
+<!--            if(event.persisted || (window.performance && window.performance.navigation.type==2)){-->
+<!--                location.reload();-->
+<!--            }-->
+<!--        }-->
+<!--        // // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지-->
+<!--        // var bno = actionForm.find("input[name='userId']").val();-->
+<!--        // if(bno !== ''){-->
+<!--        //     actionForm.find("input[name='userId']").remove();-->
+<!--        // }-->
+<!--    </script>-->
+<!--</th:block>-->
+
+

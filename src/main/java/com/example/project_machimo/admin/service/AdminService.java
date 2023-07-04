@@ -14,7 +14,7 @@ public interface AdminService {
     public int getTotalCount();
     public void adminDelete(int param );
 
-    UsersDto userView(HashMap<String, String> param);
+    UsersDto userView(int userId);
 
     public void removeReport(int reportId, int userId, int productId);
 
