@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .category-list {
             display: flex;
@@ -104,7 +105,7 @@
         </ul>
     </div>
 
-    <form action="/shop/allItemView" method="get">
+    <form action="/shop/getItemList" method="get" id="sortForm">
         <select name="sort" id="sort">
             <option value="">전체보기</option>
 
@@ -143,3 +144,4 @@
     </div>
 </body>
 </html>
+
