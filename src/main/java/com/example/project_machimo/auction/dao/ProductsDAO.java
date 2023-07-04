@@ -19,4 +19,7 @@ public interface ProductsDAO {
     void updatePrice();
 
     void updateProductStatusCompletedCase(int productId);
+
+    void updateLikeUp(int productId);
+    void updateLikeDown(int productId);
 }

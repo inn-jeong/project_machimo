@@ -56,6 +56,14 @@ input[type="checkbox"]{
     cursor: pointer;
 }
 
+.heart-btn {
+
+    float: right;
+
+
+
+}
+
 input[type="checkbox"]:checked + button::before{
     transform: rotate(45deg) translate(1em,-1.05em);
     animation: glow 0.6s ease-in 0.4s forwards;
@@ -70,15 +78,8 @@ input[type="checkbox"]:checked + button span{
     opacity: 0;
 }
 @keyframes glow {
-    100%{
+    100% {
         background: #db291d;
     }
-
-}
-.heart-btn {
-
-    float: right;
-
-
 
 }

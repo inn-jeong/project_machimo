@@ -6,7 +6,13 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface WishListsDAO {
 
-    Integer checkId(WishlistsDTO wishlistsDTO);
+    Integer likeCheck(Integer userId, Integer productId);
+
+    int insertWish(WishlistsDTO wishlistsDTO);
+
+
+    int deleteWish(WishlistsDTO wishlistsDTO);
+
 
 
 }

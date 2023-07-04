@@ -84,7 +84,7 @@
                 </div>
                 <div th:if="${pView.pSaleType() ==1}">
                     <b class="h4"
-                       data-th-text="${#numbers.formatInteger(pView.pDirect(), 3, 'COMMA') + '시발'}">즉시 판매 가격</b>
+                       data-th-text="${#numbers.formatInteger(pView.pDirect(), 3, 'COMMA') + '원'}">즉시 판매 가격</b>
                 </div>
 
                 <div>
@@ -110,8 +110,8 @@
                     </button>
 
                     <div class="heart-btn">
-                        <input type="checkbox" >
-                        <button class="like"><span>찜</span></button>
+                        <input id="likebox" th:checked="${isLiked}" type="checkbox" onclick="checkbox()" >
+                        <button  onclick="checkUserAndAct()" class="like" ><span>찜</span></button>
                     </div>
 
                 </div>
@@ -121,7 +121,7 @@
                 </button>
 
 
-                <button type="button" class="btn btn-link">공유</button>
+                <button type="button" onclick="clip()" class="btn btn-link">공유</button>
                 <div th:if="${isSaleEnded}">
                     <p>판매가 완료된 제품입니다.</p>
                 </div>
@@ -193,8 +193,9 @@
             </div>
         </div>
     </div>
+
 </div>
-<input hidden="hidden" th:value="${session}" id="sss">
+<input hidden="hidden" th:value="${sss}" value="0" id="sss">
 <th:block th:replace="fragments/footer:: footerFragment"></th:block>
 </body>
 </html>

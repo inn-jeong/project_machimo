@@ -4,6 +4,9 @@ import com.example.project_machimo.wishlists.dto.WishlistsDTO;
 
 public interface WishListsService {
 
-    boolean hasWishLists(WishlistsDTO wishlistsDTO);
+    int insertWish(WishlistsDTO wishlistsDTO);
+
+
+    int deleteWish(WishlistsDTO wishlistsDTO);
 
 }

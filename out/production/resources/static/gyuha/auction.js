@@ -1,8 +1,15 @@
-$(".btn-link").click(function () {
-    const url = encodeURI(window.location.href);
+function clip(){
 
-
-})
+	var url = '';
+	var textarea = document.createElement("textarea");
+	document.body.appendChild(textarea);
+	url = window.document.location.href;
+	textarea.value = url;
+	textarea.select();
+	document.execCommand("copy");
+	document.body.removeChild(textarea);
+	alert("URL이 복사되었습니다.")
+}
 
 $(document).ready(function () {
     $("#buyDirect").click(function (event) {
@@ -114,3 +121,43 @@ $(document).ready(function () {
 //     }
 //   });
 // });
+
+function checkbox(e) {
+    let checkbox = $("#likebox")
+
+
+    let pid = $("#pid").val();
+    let user_id = $("#sss").val();
+    if (user_id=="0"){
+        checkbox.prop('checked',false);
+        alert("회원만 가능합니다")
+        return;
+    }
+
+    if (checkbox.prop('checked')) {
+        console.log("체크 안 된 상태에서 누름")
+        $.ajax({
+            url: '/wishlists/insert',
+            type: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify({
+                user_id: Number(user_id),
+                product_id: Number(pid)
+            }),
+
+        })
+    } else {
+        console.log("체크 된 상태에서 누름")
+        $.ajax({
+            url: '/wishlists/delete',
+            type: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify({
+                user_id: user_id,
+                product_id: pid
+            })
+        })
+
+    }
+
+}
