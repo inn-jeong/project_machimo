@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">-->
+  <title>주소 검색</title>
+  <script type="text/javascript" src="/login/jquery.min.js"></script>
+</head>
+<body>
+  <input type="hidden" id="inputYn" th:value="${inputYn}">
+  <input type="text" id="roadAddrPart1" th:value="${roadAddrPart1}">
+  <input type="text" id="addrDetail" th:value="${addrDetail}">
+  <input type="text" id="zipNo" th:value="${zipNo}">
+  <form id="form" name="form" method="post">
+    <input type="hidden" id="confmKey" name="confmKey" value=""/>
+    <input type="hidden" id="returnUrl" name="returnUrl" value=""/>
+    <input type="hidden" id="resultType" name="resultType" value=""/>
+    <!-- // resultType항목 추가(2016.10.06)-->
+    <!-- 해당시스템의 인코딩타입이 EUC-KR일경우에만 추가 START-->
+    <!--
+    <input type="hidden" id="encodingType" name="encodingType" value="EUC-KR"/>
+     -->
+    <!-- 해당시스템의 인코딩타입이 EUC-KR일경우에만 추가 END-->
+  </form>
+  <script type="text/javascript">
+    //opener관련 오류가 발생하는 경우 아래 주석을 해지하고, 사용자의 도메인정보를 입력합니다. ("주소입력화면 소스"도 동일하게 적용시켜야 합니다.)
+    //document.domain = "abc.go.kr";
+
+
+    function init(){
+      console.log("init");
+      var url = location.href;
+      var confmKey = "devU01TX0FVVEgyMDIzMDYyNTIzNDI1ODExMzg3NjI=";//승인키
+      // resultType항목 추가(2016.10.06)
+      var resultType = "4"; // 도로명주소 검색결과 화면 출력유형, 1 : 도로명, 2 : 도로명+지번, 3 : 도로명+상세건물명, 4 : 도로명+지번+상세건물명
+      var inputYn= $("#inputYn").val();
+      if(inputYn != "Y"){
+        console.log("N");
+        document.form.confmKey.value = confmKey;
+        document.form.returnUrl.value = url;
+        document.form.resultType.value = resultType; // resultType항목 추가(2016.10.06)
+        document.form.action="https://business.juso.go.kr/addrlink/addrLinkUrl.do"; // 인터넷망
+        //document.form.action="https://business.juso.go.kr/addrlink/addrMobileLinkUrl.do"; //모바일 웹인 경우, 인터넷망
+        document.form.submit();
+      }else{
+        console.log("Y");
+        /** API 서비스 제공항목 확대 (2017.02) **/
+        // opener.jusoCallBack("<%=roadFullAddr%>","<%=roadAddrPart1%>","<%=addrDetail%>", "<%=roadAddrPart2%>","<%=engAddr%>"
+        //         , "<%=jibunAddr%>","<%=zipNo%>", "<%=admCd%>", "<%=rnMgtSn%>", "<%=bdMgtSn%>", "<%=detBdNmList%>"
+        //         , "<%=bdNm%>", "<%=bdKdcd%>", "<%=siNm%>", "<%=sggNm%>", "<%=emdNm%>", "<%=liNm%>", "<%=rn%>", "<%=udrtYn%>"
+        //         , "<%=buldMnnm%>", "<%=buldSlno%>", "<%=mtYn%>", "<%=lnbrMnnm%>", "<%=lnbrSlno%>", "<%=emdNo%>");
+        // console.log("part1"+$("#roadAddrPart1").val());
+        opener.jusoCallBack($("#roadAddrPart1").val(),$("#addrDetail").val(),$("#zipNo").val());
+        window.close();
+      }
+    }
+    init();
+  </script>
+</body>
+</html>
