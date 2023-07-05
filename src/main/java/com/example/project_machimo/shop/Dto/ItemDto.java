@@ -29,6 +29,6 @@ public class ItemDto {
     private String pBank;//은행명
     private String uNickname; //사용자의 닉네임
     private String iSubImage; //제품의 서브 이미지
-    private Integer wishLike;//좋아요수
+    private Integer pLike;//좋아요수
     private String cName;//카테고리 이름
 }
