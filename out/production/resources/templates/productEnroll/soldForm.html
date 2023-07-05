@@ -128,30 +128,6 @@
 <script>
   // 1차 카테고리 선택 항목이 변경될 때 호출되는 함수
   function selectSubcategory() {
-    // var category1 = document.getElementById("category1");
-    // var category2 = document.getElementById("category2");
-    // var selectedCategoryId = category1.value;
-    // console.log("select:"+selectedCategoryId)
-    // // Clear the existing options in category2
-    // category2.innerHTML = "<option value=''>전체</option>";
-    //
-    // if (selectedCategoryId !== "") {
-    //   var subcategories = $("#subcategory");
-    //   console.log("sub");
-    //   console.log("sub"+subcategories[0]);
-    //   var selectedSubcategories = subcategories[0];
-    //   if (selectedSubcategories !== null) {
-    //       console.log("test2");
-    //       console.log(typeof selectedSubcategories)
-    //     for (var i = 0; i < selectedSubcategories.length; i++) {
-    //         console.log("test2");
-    //       var option = document.createElement("option");
-    //       option.value = selectedSubcategories[i].cId;
-    //       option.text = selectedSubcategories[i].cName;
-    //       category2.appendChild(option);
-    //     }
-    //   }
-    // }
       var catego = $(".catego1").val();
       console.log("cate:"+catego);
       $("#category2-"+catego).css("display","inline-block");

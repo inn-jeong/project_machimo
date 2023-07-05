@@ -49,7 +49,7 @@ public class EnrollController {
     @RequestMapping("/catego")
     public ResponseEntity<?> catego(@RequestBody int cId){
         ArrayList<CategoryDto> dtos = service.getSubCategories(cId);
-        return ResponseEntity.ok().body(dtos.get(0));
+        return ResponseEntity.ok().body(dtos);
     }
 
 //    @RequestMapping("/enroll_form")
