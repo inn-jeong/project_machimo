@@ -12,12 +12,19 @@
     </select>
     <select id="getItemInfo" resultType="com.example.project_machimo.basket.Dto.BasketItemDto">
         select a.product_id, a.user_id, c.u_name, a.p_name, a.p_direct, a.p_sales_status, b.i_sub_img
-         from products a
-         join product_images b
-         on a.product_id = b.product_id
-         join users c on a.user_id = c.user_id where a.product_id=#{param1}
+        from products a
+        join product_images b
+        on a.product_id = b.product_id
+        join users c on a.user_id = c.user_id where a.product_id=#{param1}
     </select>
     <!--    <select id="getItemInfo" resultType="com.example.project_machimo.basket.Dto.ProductsDto">-->
-<!--        select * from products where product_id=#{param1}-->
-<!--    </select>-->
+    <!--        select * from products where product_id=#{param1}-->
+    <!--    </select>-->
+    <insert id="addBasket">
+        insert into BASKET values (bas_id_sqe.nextval,#{userId},#{productId})
+    </insert>
+    <select id="checkBasket" resultType="java.lang.Integer">
+        select 1 from basket where user_id =#{userId} and products_id = #{productId}
+    </select>
+
 </mapper>

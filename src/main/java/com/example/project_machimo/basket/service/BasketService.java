@@ -1,11 +1,14 @@
-package com.example.project_machimo.basket.service;
+package com.example.project_machimo.basket.Service;
 
+import com.example.project_machimo.basket.Dto.BasketDto;
+import com.example.project_machimo.basket.Dto.BasketItemDto;
+import com.example.project_machimo.basket.Dto.ProductsDto;
 
-import com.example.project_machimo.basket.dto.BasketDTO;
+import java.util.ArrayList;
 
 public interface BasketService {
-    int addBasket(BasketDTO basketDTO);
-
-    Integer checkBasket(BasketDTO basketDTO);
-
+    public ArrayList<BasketDto> getBasket(Integer userId);
+//    public ArrayList<ProductsDto> getBasketItems(ArrayList<BasketDto> basket);
+    public ArrayList<BasketItemDto> getBasketItems(ArrayList<BasketDto> basket);
+    public int deleteItem(Integer userId, Integer productId);
 }

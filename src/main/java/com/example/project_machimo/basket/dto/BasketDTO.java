@@ -1,16 +1,15 @@
-package com.example.project_machimo.basket.dto;
+package com.example.project_machimo.basket.Dto;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Data
-public class BasketDTO {
-    private Integer productId;
+@AllArgsConstructor
+@NoArgsConstructor
+public class BasketDto {
+    private Integer basketId;
     private Integer userId;
-
-
-
-
+    private Integer productId;
 }
