@@ -413,14 +413,14 @@
                         </tr>
                         </thead>
 <!--                        <tbody th:if="${item.pSalesStatus==1}" th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show">-->
-                        <tbody th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show">
+                        <tbody th:if="${item.pSalesStatus == 1 || item.pSalesStatus == 3}" th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show">
                             <tr>
                                 <td th:text="${count.count}" rowspan="3" style="width: 40px"  class="align-middle"></td>
                                 <td th:text="${item.iSubImg}"  rowspan="3" style="width: 100px" class="align-middle"></td>
                                 <td th:text="${item.uNickname}" style="width: 200px; text-align: left" class="align-middle"></td>
                                 <td th:text="${item.auctionId}"  rowspan="3" style="width: 80px" class="align-middle"></td>
                                 <td th:text="${item.amount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
-                                <td th:text="${item.amount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
+                                <td th:text="${item.uNickname}"  rowspan="3" style="width: 80px" class="align-middle"></td>
                                 <td th:text="${item.bidsAt}"  rowspan="3" style="width: 100px" class="align-middle"></td>
                                 <td rowspan="3" style="width: 80px" class="align-middle">
                                     <div th:switch="${item.pSalesStatus}">
@@ -442,6 +442,36 @@
                             <tr>
                                 <td th:text="'~'+${item.pDur}" style="width: 200px; text-align: left"></td>
                             </tr>
+                        </tbody>
+                        <tbody th:unless="${item.pSalesStatus == 1 || item.pSalesStatus == 3}" th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show table-active">
+                        <tr>
+                            <td th:text="${count.count}" rowspan="3" style="width: 40px"  class="align-middle"></td>
+                            <td th:text="${item.iSubImg}"  rowspan="3" style="width: 100px" class="align-middle"></td>
+                            <td th:text="${item.uNickname}" style="width: 200px; text-align: left" class="align-middle"></td>
+                            <td th:text="${item.auctionId}"  rowspan="3" style="width: 80px" class="align-middle"></td>
+                            <td th:text="${item.amount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
+                            <td th:text="${item.uNickname}"  rowspan="3" style="width: 80px" class="align-middle"></td>
+                            <td th:text="${item.bidsAt}"  rowspan="3" style="width: 100px" class="align-middle"></td>
+                            <td rowspan="3" style="width: 80px" class="align-middle">
+                                <div th:switch="${item.pSalesStatus}">
+                                    <input type="hidden" th:value="${item.pSalesStatus}" class="sale_status">
+                                    <!--                                    <span th:case="0">판매승인전</span>-->
+                                    <span th:case="1">판매중</span>
+                                    <span th:case="2">판매완료</span>
+                                    <span th:case="3">경매낙찰</span>
+                                    <span th:case="4">경매실패</span>
+                                    <span th:case="5">판매보류</span>
+                                </div>
+                                <button th:if="${item.pSalesStatus==3 && item.userId.equals(session.user.userId)}">결제하기</button>
+                                <!--                                <button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td th:text="${item.pName}" style="width: 200px; text-align: left"></td>
+                        </tr>
+                        <tr>
+                            <td th:text="'~'+${item.pDur}" style="width: 200px; text-align: left"></td>
+                        </tr>
                         </tbody>
                     </table>
                     <div th:if="${items == null}" style="align-content: center">
@@ -600,7 +630,7 @@
         });
         $('#total_amount').text(count);
 
-        if($(".sale_status").val() != 1) $(".sale_status").closest('tbody').addClass("table-active");
+
 
     });
 
