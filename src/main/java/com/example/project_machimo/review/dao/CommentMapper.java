@@ -19,7 +19,7 @@ public interface CommentMapper {
     public int commentInsert(CommentVO comment) throws Exception;
 
     // 댓글 수정
-    public int commentUpdate(CommentVO comment) throws Exception;
+    int commentUpdate(CommentVO comment) throws Exception;
 
     // 댓글 삭제
     public int commentDelete(int cno) throws Exception;
