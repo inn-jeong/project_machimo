@@ -76,12 +76,15 @@ public class SearchController {
         log.info("cri.getAmount() =====> {}", cri.getAmount());
 
         int total = searchService.searchTotal(cri);
+
+        log.info("토탈 === > {}",total);
         String keyword = cri.getKeyword();
         if (search.isEmpty()) {
             keyword = keyword + "에 대한 검색결과가 없습니다.";
             model.addAttribute("message", keyword);
             return "search/errorPage";
         } else {
+
             model.addAttribute("message", keyword);
             model.addAttribute("search", search);
             model.addAttribute("option", cri.getSearchOption());

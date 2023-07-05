@@ -24,6 +24,7 @@
         margin: 0;
     }
 
+
     </style>
 </head>
 
@@ -39,72 +40,111 @@
 </script>
 
 <body>
-<div class="container">
+<div class="container mt-5">
     <div class="row">
         <th:block th:replace="fragments/header :: headerFragment"></th:block>
-        <section class="col col-lg-2" style="overflow:scroll; width:600px; height:100px;"
-                 th:each="buyList:${getBuyList}">
-            <article>
-                <span th:text="${buyList.pName()}"></span>
 
-                <input class="p_name" type="hidden" th:value="${buyList.pName()}">
-                <input type='checkbox'
-                       checked='checked'
-                       name='amount'
-                       onclick='onClickCheckboxValue()'
-                       th:value="${buyList.pDirect()}"
-                       th:text="${buyList.pDirect()}"/>
-                <input type="hidden" th:value="${orderId}" id="orderId">
-                <input class="product_Id" type="hidden" th:value="${buyList.productId()}">
-            </article>
+        <section class="col-lg-9">
+            <div class="row">
+                <div class="col-lg-12" th:each="buyList:${getBuyList}">
+                    <h4>주문 목록</h4>
+                    <article style="overflow:scroll; width:600px; height:100px;">
+                        <span th:text="${buyList.pName()}"></span>
+                        <input class="p_name" type="hidden" th:value="${buyList.pName()}">
+                        <input type='checkbox' checked='checked' name='amount' onclick='onClickCheckboxValue()'
+                               th:value="${buyList.pDirect()}" th:text="${buyList.pDirect()}"/>
+                        <input type="hidden" th:value="${orderId}" id="orderId">
+                        <input class="product_Id" type="hidden" th:value="${buyList.productId()}">
+                    </article>
+                    <div>
+                        <h4>배송지</h4>
+                        <label>
+                            기본 주소지
+                            <input type="radio" checked name="addr" id="defaultAddr" onclick="toggleAddress(false)">
+                            <label>
+                                주소지 변경
+                                <input type="radio" name="addr" id="newAddr" onclick="toggleAddress(true)">
+                            </label>
+                        </label>
+                        <div id="originAddress">
+                            기본 주소<br>
+                            <input class="form-control" readonly th:value="${user.uAddress()}" style="width: 350px"><br>
+                            상세 주소<br>
+                            <input class="form-control" readonly th:value="${user.uAddress_sub()}" style="width: 250px">
+                        </div>
+
+                        <div id="extraAddress" style="display: none;">
+                            <input type="text" placeholder="새로운 주소 입력">
+                        </div>
+
+                    </div>
+                    <div>
+                        <h4>배송시요청 사항</h4>
+                        <select onclick="test()" id="req" class="form-select" aria-label="Default select example" style="width: 300px">
+                            <option value="0">조심히 안전하게 와주세요.</option>
+                            <option value="1">배송전 문자 부탁드립니다.</option>
+                            <option value="2">부재시 경비실에 맡겨주세요.</option>
+                            <option value="3">현관문 앞에 놔주세요</option>
+                        </select>
+                        <input type="text" id="order_req" class="form-control" style="width: 300px">
+                    </div>
+                </div>
+            </div>
         </section>
-        <aside class="col">
 
-            <div >
-            <h3>총 결제금액</h3>
-                <b id='result'></b>
+        <aside class="col-lg-3 border">
+            <div class="mb-3">
+                <h3>총 결제금액</h3>
+                <b hidden="hidden" id='result'></b>
+                <b  id='result2'></b>
+            </div>
+            <div class="mb-3">
+
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" value="kakaopay" name="payWith" id="kakaopay">
+                    <label class="form-check-label" for="kakaopay">카카오페이</label>
+                    <img src="/img/payment_icon_yellow_small.png" class="img-fluid" style="width: 70px; height: 25px;">
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" value="tosspay" name="payWith" id="tosspay">
+                    <label class="form-check-label" for="tosspay">토스페이</label>
+                    <img src="/img/logo-toss-pay.png" class="img-fluid" style="width: 70px; height: 20px;">
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" value="html5_inicis" name="payWith" id="html5_inicis">
+                    <label class="form-check-label" for="html5_inicis">신용카드 결제</label>
+                </div>
+            </div>
+            <div class="mb-3">
+               <h4>사용가능한 포인트</h4>
+                <span id="user_point" th:text="${user.uPoint()}"></span>&nbsp;포인트
+                <input id="point" type="number" class="form-control">
+                <button onclick="points()" id="redeem_point" class="btn btn-primary mt-2">적용</button>
+                <button onclick="all_use_point()" class="btn btn-primary mt-2">전체사용</button>
+            </div>
+            <div class="mb-3">
+                <b>사용한 포인트</b>
+                <span id="used_point">0</span>
 
             </div>
-
-            <img src="/img/payment_icon_yellow_small.png" style="width:60px; height:40px;">
-            <input type="text" id="order_req">
-            <input type="radio" value="kakaopay" name="payWith">카카오페이
-            <input type="radio" value="tosspay" name="payWith">토스페이
-            <input type="radio" value="html5_inicis" name="payWith">신용카드 결제
-
-
-            <button onclick="requestPay()" id="buy">버튼</button>
-
-
-            <h3>사용가능한 포인트</h3>
-
-            <span id="user_point" th:text="${user.uPoint()}"></span>
-
-
-            <input id="point" type="number" }>
-            <button onclick="points()" id="redeem_point">적용</button>
-            <button onclick="all_use_point()">전체사용</button>
-
-
-            <h3>사용한 포인트</h3>
-            <span id="used_point">0</span>
+            <div class="mb-3">
+                <button onclick="requestPay()" class="btn btn-outline-danger mt-2" id="buy">주문하기</button>
+            </div>
         </aside>
-        <div>
-
-        </div>
-        <th:block th:replace="fragments/footer :: footerFragment"></th:block>
-        <div hidden="hidden" class="u">
-            <input type="hidden" id="u_phone" th:value="${user.uPhone()}">
-            <input type="hidden" id="u_full_address" th:value="${user.uAddress()}+' '+${user.uAddress_sub()}">
-            <input type="hidden" id="u_address" th:value="${user.uAddress()}">
-            <input type="hidden" id="u_address_sub" th:value="${user.uAddress()}">
-            <input type="hidden" id="u_email" th:value="${user.uEmail()}">
-            <input type="hidden" id="u_addr_postcode" th:value="${user.uAddrPostCode()}">
-            <input type="hidden" id="u_name" th:value="${user.uName()}">
-            <input type="hidden" id="u_id" th:value="${user.userId()}">
-            <input type="hidden" id="u_point" th:value="${user.uPoint()}">
-        </div>
     </div>
+
+</div>
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+<div hidden="hidden" class="u">
+    <input type="hidden" id="u_phone" th:value="${user.uPhone()}">
+    <input type="hidden" id="u_full_address" th:value="${user.uAddress()}+' '+${user.uAddress_sub()}">
+    <input type="hidden" id="u_address" th:value="${user.uAddress()}">
+    <input type="hidden" id="u_address_sub" th:value="${user.uAddress()}">
+    <input type="hidden" id="u_email" th:value="${user.uEmail()}">
+    <input type="hidden" id="u_addr_postcode" th:value="${user.uAddrPostCode()}">
+    <input type="hidden" id="u_name" th:value="${user.uName()}">
+    <input type="hidden" id="u_id" th:value="${user.userId()}">
+    <input type="hidden" id="u_point" th:value="${user.uPoint()}">
 </div>
 </body>
 </html>

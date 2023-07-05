@@ -1,25 +1,24 @@
 function all_use_point() {
 
     const result = Number(document.getElementById('result').innerText);
-    if(result ===0){
+    if (result === 0 || result === 1) {
         return;
     }
     var use_point = document.getElementById("user_point").innerText
 
-    document.getElementById('used_point').innerText = document.getElementById("u_point").value
     console.log(use_point)
-    if (use_point>result){
-     use_point = result
-    document.getElementById('user_point').innerText = use_point
-    }else {
+    if (use_point >= result) {
+
+        document.getElementById('user_point').innerText = use_point - result + 1;
+        document.getElementById('used_point').innerText = Number(result - 1);
+        document.getElementById('result').innerText = 1;
+    } else {
         document.getElementById('user_point').innerText = 0
+        document.getElementById('used_point').innerText = document.getElementById("u_point").value
+        document.getElementById('result').innerText = Number(result - use_point);
+        document.getElementById('result2').innerText=result.toLocaleString('ko-kr')+"원"
     }
     console.log(result)
-    document.getElementById('result').innerText = Number(result - use_point);
-
-
-
-
 }
 
 function onClickCheckboxValue() {
@@ -28,17 +27,15 @@ function onClickCheckboxValue() {
     const selectedEls =
         document.querySelectorAll(query);
 
-
     let result = 0;
     selectedEls.forEach((el) => {
         result += Number(el.value);
     });
 
+    document.getElementById('result').innerText = result;
+    document.getElementById('result2').innerText=result.toLocaleString('ko-kr')+"원"
 
-    document.getElementById('result').innerText
-        = result;
 }
-
 
 window.onload = function () {
 
@@ -51,20 +48,25 @@ window.onload = function () {
         result += Number(el.value);
     });
 
-    document.getElementById('result').innerText
-        = result;
-
-
+    document.getElementById('result').innerText = result;
+    document.getElementById('result2').innerText=result.toLocaleString('ko-kr')+"원"
 };
 var used_point = 0;
 
 function points() {
 
-    const user_point = document.getElementById("user_point").innerText;
-    if (user_point==0){
+    const user_point = Number(document.getElementById("user_point").innerText);
+    const result = Number(document.getElementById('result').innerText);
+
+    if (user_point == 0 || result == 1) {
         return;
     }
-    const point = document.getElementById("point").value
+
+    const point = Number(document.getElementById("point").value)
+    if (point >= result) {
+        return;
+    }
+
     console.log("사용할려는 포인트" + point)
     console.log("가지고 있는 포인트" + user_point)
 
@@ -73,19 +75,14 @@ function points() {
         return;
     }
 
-
-    const result = Number(document.getElementById('result').innerText);
-    document.getElementById('result').innerText = Number(result - point);
-
+    document.getElementById('result').innerText = Number(result - point).toString().toLocaleString('ko-kr');
+    document.getElementById('result2').innerText=result.toLocaleString('ko-kr')+"원"
     document.getElementById("user_point").innerText = Number(user_point - point)
 
     used_point = (used_point + Number(point))
     console.log("사용한 포인트" + used_point)
-
-    document.getElementById("used_point").innerText = used_point.toLocaleString('ko-kr')
-
+    document.getElementById("used_point").innerText = used_point;
 }
-
 
 var IMP = window.IMP;
 IMP.init("imp67282556");
@@ -220,10 +217,24 @@ function requestPay() {
                         }
                     })
                 } else {
-                    alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+                    alert(rsp.error_msg);
                 }
             }
         );
     }
 
 }
+
+function toggleAddress(show) {
+    var extraAddress = document.getElementById('extraAddress');
+    let originAddress = document.getElementById('originAddress');
+    if (show) {
+        extraAddress.style.display = 'block';
+        originAddress.style.display = 'none'
+    } else {
+        extraAddress.style.display = 'none';
+        originAddress.style.display = 'block'
+    }
+}
+
+

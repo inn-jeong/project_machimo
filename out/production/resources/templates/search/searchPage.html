@@ -22,7 +22,6 @@
 </style>
 <body>
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
-
 <div class="row">
     <th:block th:each="result:${search}">
         <div class="col-md-3 text-center">
@@ -71,7 +70,6 @@
     </ul>
 </div>
 
-</div>
 <span id="option" hidden="hidden" th:text="${option}"></span>
 <form method="get" id="actionForm" action="searchList">
     <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
