@@ -44,8 +44,8 @@ public class ReportServiceImpl  implements ReportService {
     }
 
     public boolean isDuplicateReporting(ReportDTO reportDTO) {
-        List<Integer> result = reportDAO.duplicateReportingCheck(reportDTO);
-        return !result.isEmpty();
+        Integer result = reportDAO.duplicateReportingCheck(reportDTO);
+        return result != null;
     }
 
 

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainPageController {
     @GetMapping("/")
     public String test(Model model, HttpSession session){
-        session.setAttribute("userId",1);
+        session.setAttribute("userId",2);
         return "index";
     }
 

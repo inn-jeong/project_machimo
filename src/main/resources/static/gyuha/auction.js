@@ -172,7 +172,6 @@ function checkbox(e) {
 function add_basket() {
     let pid = $("#pid").val();
     let user_id = $("#sss").val();
-
     console.log(user_id)
     console.log(pid)
     $.ajax({

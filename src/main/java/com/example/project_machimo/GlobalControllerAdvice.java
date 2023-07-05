@@ -32,7 +32,7 @@ public class GlobalControllerAdvice {
     public Integer alertCount(HttpSession session) {
 
         //나중에 바꾸기
-        Integer userId = (Integer) session.getAttribute("user");
+        Integer userId = (Integer) session.getAttribute("userId");
 
         if (userId == null) {
             return null;
@@ -44,7 +44,7 @@ public class GlobalControllerAdvice {
 
     @ModelAttribute("alList")
     public List<AlertVO> alList(HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("user");
+        Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
             return null;
         }
@@ -59,13 +59,13 @@ public class GlobalControllerAdvice {
 
     @ModelAttribute("hasSession")
     public boolean hasSession(HttpSession session) {
-        return session.getAttribute("user") != null;
+        return session.getAttribute("userId") != null;
 
 
     }
     @ModelAttribute("session")
     public Integer session(HttpSession session){
-        return (Integer)session.getAttribute("user");
+        return (Integer)session.getAttribute("userId");
     }
 
 

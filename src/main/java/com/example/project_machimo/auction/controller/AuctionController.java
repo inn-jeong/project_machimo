@@ -79,8 +79,8 @@ public class AuctionController {
         List<BidsVO> bList = bidsService.bList(id);
         boolean hasBidHistory = bidsService.hasBidHistory(id);
         Long amount = bidsService.maxAmount(id);
-
         Integer integer = wishListsDAO.likeCheck(userId, id);
+
 
         boolean isLiked = integer != null;
 
@@ -94,7 +94,7 @@ public class AuctionController {
         model.addAttribute("bList", bList);
         model.addAttribute("checkDTO", new CheckDTO());
         model.addAttribute("endDate", timeStampToString(pView));
-        return "auctions/auctionsTest";
+        return "auctions/auction";
     }
 
     @GetMapping("/product")

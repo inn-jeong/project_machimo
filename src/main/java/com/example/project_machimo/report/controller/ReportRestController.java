@@ -29,7 +29,7 @@ public class ReportRestController {
         if (session.getAttribute("userId")==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("신고는 회원만 가능합니다.");
         }
-        reportDTO.setUserId((Integer) session.getAttribute("user"));
+        reportDTO.setUserId((Integer) session.getAttribute("userId"));
         return reportService.response(reportDTO);
     }
 

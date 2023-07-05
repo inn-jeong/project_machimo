@@ -1,13 +1,23 @@
 function all_use_point() {
+
+    const result = Number(document.getElementById('result').innerText);
+    if(result ===0){
+        return;
+    }
     var use_point = document.getElementById("user_point").innerText
 
     document.getElementById('used_point').innerText = document.getElementById("u_point").value
     console.log(use_point)
-    const result = Number(document.getElementById('result').innerText);
+    if (use_point>result){
+     use_point = result
+    document.getElementById('user_point').innerText = use_point
+    }else {
+        document.getElementById('user_point').innerText = 0
+    }
     console.log(result)
     document.getElementById('result').innerText = Number(result - use_point);
 
-    document.getElementById('user_point').innerText = 0
+
 
 
 }
@@ -72,7 +82,7 @@ function points() {
     used_point = (used_point + Number(point))
     console.log("사용한 포인트" + used_point)
 
-    document.getElementById("used_point").innerText = used_point
+    document.getElementById("used_point").innerText = used_point.toLocaleString('ko-kr')
 
 }
 
@@ -118,7 +128,6 @@ function requestPay() {
     let today = new Date();
     let isoDate = today.toISOString();
     let user_id = document.getElementById("u_id").value;
-
 
     if (order_req.length <= 0) {
         order_req = "조심히 안전하게 와주세요";
