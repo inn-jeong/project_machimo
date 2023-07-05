@@ -1,17 +1,13 @@
 package com.example.project_machimo.productEnroll.controller;
 
 
-import com.example.project_machimo.productEnroll.dto.CategoryVO;
-import com.example.project_machimo.productEnroll.dto.ProductDto;
 import com.example.project_machimo.productEnroll.service.EnrollService;
 import com.example.project_machimo.shop.Dto.CategoryDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,17 +35,13 @@ public class EnrollController {
 
         //        카테고리 값을 model에 저장 하고 넘어감
         model.addAttribute("categories", categories);
+
+//        Map안에 배열을 담은 형태
         model.addAttribute("subcategory", subcategory);
-        log.info("@# category ===>"+categories.get(0).getCId());
-        log.info("@# category ===>"+model.getAttribute("categories"));
+//        log.info("@# category ===>"+categories.get(0).getCId());
+//        log.info("@# category ===>"+model.getAttribute("categories"));
 
         return "productEnroll/soldForm";
-    }
-
-    @RequestMapping("/catego")
-    public ResponseEntity<?> catego(@RequestBody int cId){
-        ArrayList<CategoryDto> dtos = service.getSubCategories(cId);
-        return ResponseEntity.ok().body(dtos);
     }
 
 //    @RequestMapping("/enroll_form")
