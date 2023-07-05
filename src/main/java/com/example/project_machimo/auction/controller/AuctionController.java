@@ -66,7 +66,7 @@ public class AuctionController {
 
     @GetMapping("/action-list/{id}")
     public String showProduct(Model model, @PathVariable int id, HttpSession session) {
-        Integer userId = Optional.ofNullable((Integer) session.getAttribute("user")).orElse(0);
+        Integer userId = Optional.ofNullable((Integer) session.getAttribute("userId")).orElse(0);
         log.info("유저아이디는 ===> {}",userId);
 
 

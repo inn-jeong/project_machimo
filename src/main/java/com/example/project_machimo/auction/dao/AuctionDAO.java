@@ -13,4 +13,5 @@ public interface AuctionDAO {
     public void highestBidUpdate(Long amount,int id);
 
     public List<AuctionVO> endList(Timestamp timestamp);
+
 }

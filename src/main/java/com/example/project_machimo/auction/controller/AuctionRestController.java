@@ -25,7 +25,7 @@ public class AuctionRestController {
     @PostMapping("/auction-list/amountCheck")
     public ResponseEntity<? extends Object> updateAmount(@RequestBody CheckDTO check, HttpSession session) {
 
-        Integer userId = (Integer)session.getAttribute("user");
+        Integer userId = (Integer)session.getAttribute("userId");
         if (userId == null ){
             return response.sessionEntityForCheck();
         }

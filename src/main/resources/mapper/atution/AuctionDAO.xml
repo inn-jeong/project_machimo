@@ -7,11 +7,15 @@
         update AUCTIONS set HIGHEST_BID = #{param1}
         where PRODUCTS_id = #{param2}
     </update>
+    <update id="updateHit">
+        update PRODUCTS set p_hit= p_hit +1
+        where PRODUCT_ID = #{param1};
+    </update>
     <select id="pList" resultType="com.example.project_machimo.auction.dto.AuctionVO">
         select * from auctions where PRODUCTS_id = #{0}
     </select>
     <select id="endList" resultType="com.example.project_machimo.auction.dto.AuctionVO">
-        select * from auctions  where end_time <![CDATA[<=]]> #{param1}
+        select * from auctions where end_time <![CDATA[<=]]> #{param1}
     </select>
 
 </mapper>

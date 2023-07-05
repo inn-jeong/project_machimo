@@ -24,18 +24,19 @@ public class ReportServiceImpl  implements ReportService {
     public ResponseEntity<? extends Object> response(ReportDTO reportDTO) {
 
         boolean duplicateReporting = isDuplicateReporting(reportDTO);
-        int i = insertReport(reportDTO);
         String message;
+
+        if (isDuplicateReporting(reportDTO)){
+            message = "이미 신고한 게시글입니다.";
+            System.out.println("값이 안 비어있음");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+        }
+
+        int i = insertReport(reportDTO);
         if (i!=1){
             message = "저장중 문제가 발생하였습니다.";
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
         }
-
-        if (isDuplicateReporting(reportDTO)){
-            message = "이미 신고한 게시글입니다.";
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
-        }
-
 
 
 
@@ -44,7 +45,6 @@ public class ReportServiceImpl  implements ReportService {
 
     public boolean isDuplicateReporting(ReportDTO reportDTO) {
         List<Integer> result = reportDAO.duplicateReportingCheck(reportDTO);
-
         return !result.isEmpty();
     }
 
