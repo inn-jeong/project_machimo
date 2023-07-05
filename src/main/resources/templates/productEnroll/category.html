@@ -42,27 +42,27 @@
       <option value="">2차 카테고리 선택</option>
     </select>
   </td>
-  <!-- 기현이거일단복사한거-->
-  <!-- 카테고리 목록 -->
-  <!--      <div>-->
-  <!--        <h3>카테고리</h3>-->
-  <!--        <ul class="category-list">-->
-  <!--          <li class="category-item"><a href="/shop/allItemView" class="mainCate">전체</a></li>-->
-  <!--          &lt;!&ndash; 상위카테고리 &ndash;&gt;-->
-  <!--          <li th:each="category : ${categories}" id="category-[[${category.c_id}]]" class="category-item">-->
-  <!--            <a th:href="@{'/shop/allItemView?category1=' + ${category.c_id}}"-->
-  <!--               th:text="${category.c_name}" class="category-link"></a>-->
-  <!--            &lt;!&ndash; 하위카테고리 &ndash;&gt;-->
-  <!--            &lt;!&ndash; 상위카테고리가 있다면 &ndash;&gt;-->
-  <!--            <ul th:if="${subcategory.containsKey(category.c_id)}" id="subcategory-[[${category.c_id}]]" class="subcategory">-->
-  <!--              <li th:each="subCategory : ${subcategory[category.c_id]}" class="subcategory-item">-->
-  <!--                <a th:href="@{'/shop/allItemView?category2=' + ${subCategory.c_id}}"-->
-  <!--                   th:text="${subCategory.c_name}" class="subcategory-link"></a>-->
-  <!--              </li>-->
-  <!--            </ul>-->
-  <!--          </li>-->
-  <!--        </ul>-->
-  <!--      </div>-->
+<!--   기현이거일단복사한거-->
+<!--   카테고리 목록 -->
+        <div>
+          <h3>카테고리</h3>
+          <ul class="category-list">
+            <li class="category-item"><a href="/shop/allItemView" class="mainCate">전체</a></li>
+            <!-- 상위카테고리 -->
+            <li th:each="category : ${categories}" id="category-[[${category.c_id}]]" class="category-item">
+              <a th:href="@{'/shop/allItemView?category1=' + ${category.c_id}}"
+                 th:text="${category.c_name}" class="category-link"></a>
+              <!-- 하위카테고리 -->
+              <!-- 상위카테고리가 있다면 -->
+              <ul th:if="${subcategory.containsKey(category.c_id)}" id="subcategory-[[${category.c_id}]]" class="subcategory">
+                <li th:each="subCategory : ${subcategory[category.c_id]}" class="subcategory-item">
+                  <a th:href="@{'/shop/allItemView?category2=' + ${subCategory.c_id}}"
+                     th:text="${subCategory.c_name}" class="subcategory-link"></a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
 
 </tr>
 </body>

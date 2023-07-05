@@ -5,13 +5,18 @@
 <mapper namespace="com.example.project_machimo.productEnroll.dao.EnrollMapper">
 
 
-    <insert id="write">
+    <insert id="write" parameterType="hashmap" >
         INSERT INTO products
         (product_id, c_id, user_id, p_name, p_info, p_created_at, p_sale_type, p_account, p_address, p_bank, p_address_sub, p_addr_postcode)
         VALUES (
-        (SELECT COALESCE(MAX(product_id), 0) + 1 FROM products),
-        #{cId}, #{userId}, #{pName}, #{pInfo}, sysdate, #{pSaleType}, #{pAccount}, #{pAddress}, #{pBank}, #{pAddressSub}, #{pAddrPostcode}
+<!--        (SELECT COALESCE(MAX(product_id), 0) + 1 FROM products),-->
+<!--        (SELECT (MAX(product_id) + 1 FROM products),-->
+<!--        (select nvl(max(product_id),0) from products)+1,-->
+        1,
+<!--        #{cId}, #{userId}, #{pName}, #{pInfo}, sysdate, #{pSaleType}, #{pAccount}, #{pAddress}, #{pBank}, #{pAddressSub}, #{pAddrPostcode}-->
+        #{cId}, #{userId}, #{pName}, #{pInfo}, #{pDur}, #{pSaleType}, #{pAccount}, #{pAddress}, #{pBank}, #{pAddressSub}, #{pAddrPostcode}
         );
+<!--        INSERT INTO products (product_id, c_id, user_id, p_name, p_info, p_created_at, p_sale_type, p_account, p_address, p_bank, p_address_sub, p_addr_postcode) VALUES ( 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );-->
     </insert>
 
 </mapper>

@@ -1,16 +1,25 @@
 package com.example.project_machimo.productEnroll.controller;
 
 
+import com.example.project_machimo.productEnroll.dto.ProductDto;
+import com.example.project_machimo.productEnroll.service.EnrollService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
 
 @Controller
 @Slf4j
 @RequestMapping("/productEnroll")
 public class EnrollController {
+
+    @Autowired
+    private EnrollService service;
 
     @RequestMapping("/enroll_form")
     public String enroll_form(){
@@ -18,9 +27,14 @@ public class EnrollController {
     }
 
     @RequestMapping("/enroll")
-    public String enroll(){
-        return "productEnroll";
+    public String enroll(@RequestParam HashMap<String, String> param){
+
+        service.write(param);
+
+        return "productEnroll/success";
     }
+
+
     @RequestMapping("/jusoPopup")
     public String jusoPopup(HttpServletRequest request, Model model){
         //request.setCharacterEncoding("UTF-8");  //한글깨지면 주석제거

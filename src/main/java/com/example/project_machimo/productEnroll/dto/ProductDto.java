@@ -12,12 +12,13 @@ import java.sql.Timestamp;
 public class ProductDto {
     private int productId;//시퀀스, 트리거로 증가, 필수
     private int cId;//사용자가 입력, 필수
-    private int cId2;
+    private int cId2;//사용자가 입력
     private int userId;//사용자가 입력, 필수
     private String pName;//사용자가 입력, 필수
     private String pInfo;//사용자가 입력, 필수
     private int pDirect;//사용자가 입력한 즉시판매가- 경매라면 0
-    private Timestamp pDur;//사용자가 달력에서 고른 날짜-sysdate
+    private Timestamp pDur;//sysdate+ pDurDate
+    private int pDurDate;//7/14/21일 중에 사용자가 고른 숫자, 필수
     private int pBPrice;//사용자가 입력한 경매 시작가격- 즉시판매라면 0
     private Timestamp pCreatedAt;//sysdate로 입력, 필수
     private Timestamp pUpdatedAt;

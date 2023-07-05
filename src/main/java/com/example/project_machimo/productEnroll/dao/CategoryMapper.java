@@ -8,7 +8,7 @@ import java.util.ArrayList;
 @Mapper
 public interface CategoryMapper {
 
-    public ArrayList<CategoryVO> getCategories();
+    public ArrayList<CategoryVO> getCategories(int cId);
     public ArrayList<CategoryVO> getSubCategories(int cId2);
 
 }

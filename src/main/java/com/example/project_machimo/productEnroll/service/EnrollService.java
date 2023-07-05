@@ -2,16 +2,13 @@ package com.example.project_machimo.productEnroll.service;
 
 import com.example.project_machimo.productEnroll.dao.EnrollMapper;
 import com.example.project_machimo.productEnroll.dto.ProductDto;
-import com.example.project_machimo.review.dao.CommentMapper;
-import com.example.project_machimo.review.dao.ReviewDao;
-import com.example.project_machimo.review.dto.CommentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -20,11 +17,37 @@ public class EnrollService {
     @Autowired
     private SqlSession sqlSession;
 
-    public void write(HashMap<String, String> param) {
-        log.info("@# ReviewServiceImpl.write() start");
-        EnrollMapper dao = sqlSession.getMapper(EnrollMapper.class);
-        dao.write(param);
-        log.info("@# ReviewServiceImpl.write() end");
-    }
 
+    private final EnrollMapper mapper;
+    @Autowired
+    public EnrollService(EnrollMapper mapper) {
+        this.mapper = mapper;
+    }
+//    public void write(HashMap<String, String> param) {
+    public void write(HashMap<String, String> param) {
+        log.info("@# EnrollService.write() start");
+        ProductDto dto = new ProductDto();
+        dto.setCId(Integer.parseInt(param.get("cId")));
+        dto.setUserId(Integer.parseInt(param.get("userId")));
+        dto.setPName(param.get("pName"));
+        dto.setPInfo(param.get("pInfo"));
+//        dto.setPDur(Timestamp.valueOf(param.get("pDur")));
+        dto.setPDurDate(Integer.parseInt(param.get("pDurDate")));
+        dto.setPSaleType(Integer.parseInt(param.get("pSaleType")));
+        dto.setPAccount(param.get("pAccount"));
+        dto.setPAddress(param.get("pAddress"));
+        dto.setPBank(param.get("pBank"));
+        dto.setPAddressSub(param.get("pAddressSub"));
+        dto.setPAddrPostcode(Integer.parseInt(param.get("pAddrPostcode")));
+        // 나머지 필드도 필요한 경우에 세팅
+
+        mapper.write(dto);
+        log.info("@# EnrollService.write() end");
+    }
+//    public void write(HashMap<String, String> dto) {
+//        log.info("@# EnrollService.write() start");
+//        EnrollMapper mapper = sqlSession.getMapper(EnrollMapper.class);
+//        mapper.write(dto);
+//        log.info("@# EnrollService.write() end");
+//    }
 }
