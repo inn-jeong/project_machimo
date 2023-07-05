@@ -25,7 +25,7 @@ public class AuctionExpirationHandler {
     }
 
 //    @Scheduled(fixedDelay = 10000)
-//    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 0 * * * *")
     public void executeTask() {
         System.out.println("동작하니??");
 

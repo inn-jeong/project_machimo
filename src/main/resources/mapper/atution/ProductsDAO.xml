@@ -28,12 +28,28 @@
         WHERE p.PRODUCT_ID = a.PRODUCTS_ID and p.P_SALES_STATUS = 3
         )
     </update>
-
+    <update id="updateProductStatusCompletedCase">
+        update PRODUCTS set P_SALES_STATUS = 2
+        where PRODUCT_ID = #{param1}
+    </update>
+    <update id="updateLikeUp">
+        update PRODUCTS set P_LIKE = P_LIKE + 1
+        where PRODUCT_ID = #{0}
+    </update>
+    <update id="updateLikeDown">
+        update PRODUCTS set P_LIKE = P_LIKE - 1
+        where PRODUCT_ID = #{0}
+    </update>
+    <update id="updateHit">update PRODUCTS set p_hit= p_hit +1
+        where PRODUCT_ID = #{param1}
+    </update>
     <select id="pList" resultType="com.example.project_machimo.auction.dto.ProductsVO">
         select * from products
     </select>
     <select id="pView" resultType="com.example.project_machimo.auction.dto.ProductsVO">
         select * from products where product_id = #{0}
     </select>
+
+
 </mapper>
 

@@ -15,10 +15,15 @@
             src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"
     ></script>
 
-    <script src="/gyuha/import.js"></script>
+    <script src="/gyuha/payment.js"></script>
 
 
     </script>
+    <style> input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }</style>
 </head>
 
 
@@ -37,19 +42,20 @@
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
 <div style="overflow:scroll; width:600px; height:100px;" th:each="buyList:${getBuyList}">
 
-    <span th:text="${buyList.p_name()}"></span>
+    <span th:text="${buyList.pName()}"></span>
 
-    <input class="p_name" type="hidden" th:value="${buyList.p_name()}">
+    <input class="p_name" type="hidden" th:value="${buyList.pName()}">
     <input type='checkbox'
            checked='checked'
            name='amount'
            onclick='onClickCheckboxValue()'
-           th:value="${buyList.p_direct()}"
-           th:text="${buyList.p_direct()}"/>
+           th:value="${buyList.pDirect()}"
+           th:text="${buyList.pDirect()}"/>
     <input type="hidden" th:value="${orderId}" id="orderId">
     <input class="product_Id" type="hidden" th:value="${buyList.productId()}">
 </div>
 <h3>총 결제금액</h3>
+
 <div id='result'></div>
 
 <div>
@@ -72,9 +78,21 @@
                 <button onclick="requestPay()" id="buy">버튼</button>
             </td>
         </tr>
+        <tr>
+            <td><h3>사용가능한 포인트</h3></td>
 
+            <td><span id="user_point" th:text="${user.uPoint()}"></span></td>
+        </tr>
+        <tr>
+            <td><input id="point" type="number" }>
+                <button onclick="points()" id="redeem_point">적용</button>
+                <button onclick="all_use_point()" >전체사용</button>
+
+            </td>
+            <td><h3>사용한 포인트</h3></td>
+            <td><span id="used_point">0</span></td>
+        </tr>
     </table>
-
 </div>
 
 <th:block th:replace="fragments/footer :: footerFragment"></th:block>
@@ -87,6 +105,7 @@
     <input type="hidden" id="u_addr_postcode" th:value="${user.uAddrPostCode()}">
     <input type="hidden" id="u_name" th:value="${user.uName()}">
     <input type="hidden" id="u_id" th:value="${user.userId()}">
+    <input type="hidden" id="u_point" th:value="${user.uPoint()}">
 </div>
 </body>
 </html>

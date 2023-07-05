@@ -22,7 +22,10 @@
     /*    }*/
 </style>
 <script>
+    function delete_alert() {
 
+
+    }
 </script>
 <link rel="stylesheet" href="/headerCss/header.css">
 
@@ -40,7 +43,7 @@
 <th:block th:fragment="headerFragment">
     <!-- Dropdown - Alerts -->
 
-    </li>
+
 
     <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
         <header class="py-1 fixed">
@@ -49,10 +52,10 @@
                 <div class="d-flex justify-content-end pt-1">
 
                     <ul class="top_list nav nav-pills">
-                        <li class="nav-item"><a href="#"
+                        <li class="nav-item"><a href="/admin/boardList "
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">고객센터</a>
                         </li>
-                        <li class="nav-item"><a href="#"
+                        <li class="nav-item"><a href="/mypage/mypage_page"
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">마이페이지</a>
                         </li>
                         <li class="nav-item"><a href="#"
@@ -68,9 +71,13 @@
                             </th:block>
                         </a>
                         </li>
-                        <li class="nav-item"><a href="#"
-                                                class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">로그인
+                        <li class="nav-item"><a href="/loginT/login" th:if="${hasSession}"
+                                                class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">로그아웃
+                        </a>
+                        </li>
 
+                        <li class="nav-item"><a href="/loginT/login" th:unless="${hasSession}"
+                                                class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">로그인
                         </a>
                         </li>
                     </ul>
@@ -109,7 +116,7 @@
                                 <input name="keyword" type="search" placeholder="search">
                                 <input type="hidden" name="pageNum" value="1">
                                 <input type="hidden" name="amount" value="10">
-                                <button type="submit" style="border: none" class="bg-body-tertiary">
+                                <button id="search" onclick="test()" type="button" style="border: none" class="bg-body-tertiary">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                                          class="bi bi-search" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -122,22 +129,7 @@
             </div>
         </header>
         <nav>
-            <div class="container d-flex flex-wrap gab-0">
-                <ul class="nav me-auto">
-                    <li class="nav-item"><a href="#"
-                                            class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">추천</a>
-                    </li>
-                    <li class="nav-item"><a href="#"
-                                            class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">랭킹</a>
-                    </li>
-                    <li class="nav-item"><a href="#"
-                                            class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">브랜드</a>
-                    </li>
-                    <li class="nav-item"><a href="#"
-                                            class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">판매하기</a>
-                    </li>
-                </ul>
-            </div>
+
         </nav>
     </div>
     <div class="modal fade  modal-dialog-scrollable" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -150,10 +142,15 @@
                 </div>
                 <div class="modal-body">
                     <div th:each="alert : ${alList}">
-                        <a class="move_alert" th:href="@{/test23(alId=${alert.alId})}" th:text="${alert.alMessage} +'  '+${#dates.format(alert.alCreateAt, 'yyyy-MM-dd HH:mm')}"  th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''" ></a>
+                        <a class="move_alert" th:href="@{/test23(alId=${alert.alId})}"
+                           th:text="${alert.alMessage} +'  '+${#dates.format(alert.alCreateAt, 'yyyy-MM-dd HH:mm')}"
+                           th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''"></a>
                     </div>
                 </div>
 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="delete_alert()">전체 삭제</button>
+                </div>
             </div>
         </div>
     </div>
@@ -161,3 +158,4 @@
 
 </body>
 </html>
+

@@ -14,83 +14,19 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <script>
-
-        $(".btn-link").click(function () {
-            const url = encodeURI(window.location.href);
+    <script src="/gyuha/auction.js">
 
 
-        })
-
-        $(document).ready(function () {
-            $("#buyDirect").click(function (event) {
-                event.preventDefault();
-
-                $.ajax({
-                    url: "/order/checkSession",
-                    type: "get",
-
-                    success: function (response) {
-                        $("form[action='/order/buyDirect']").submit();
-                    },
-                    error: function () {
-                        alert("로그인이 필요한 서비스입니다.")
-                    }
-                })
-
-            })
-
-
-        })
-
-        $(document).ready(function () {
-            $("#compare").click(function (event) {
-                event.preventDefault();
-
-                var bidsInput = $('input[name="bids"]').val();
-                var productIdInput = $('input[name="productId"]').val();
-                var bidsHistoryInput = $('input[name="bidsHistory"]').prop('checked');
-                var firstPriceInput = $('input[name="firstPrice"]').val();
-
-                $.ajax({
-                    url: "/auction/action-list/amountCheck",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                        bids: bidsInput,
-                        productId: productIdInput,
-                        bidsHistory: bidsHistoryInput,
-                        firstPrice: firstPriceInput
-                    }),
-                    success: function (response) {
-                        alert("입찰성공")
-                        document.getElementById("test1").click()
-                        location.reload()
-
-                    },
-                    error: function (xhr, status, error) {
-                        var response = JSON.parse(xhr.responseText);
-                        if (response.message == "로그인이 필요한 서비스입니다") {
-                            alert(response.message);
-                            document.getElementById("test1").click();
-                            return window.location.href = 'http://localhost:8090/login';
-
-                        }
-                        alert(response.message);
-                    }
-                });
-            });
-        });
     </script>
 </head>
 <link rel="stylesheet" href="/headerCss/header.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/gyuha/heart.css">
 
-</script>
 <body>
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
 <!-- NAV -->
@@ -133,6 +69,7 @@
 
             <div class="col-lg-4 border p-4">
                 <h2 class="mb-3">제품 제목</h2>
+
                 <p><strong>경매 종료일:</strong> <span th:text="${endDate}"></span></p>
                 <div>
                     <br>
@@ -164,25 +101,26 @@
                     <form action="/order/buyDirect" method="post">
                         <input th:if="${pView.pSaleType()==1}" type="submit"
                                class="btn btn-success btn-lg mb-3 w-100" value="즉시구매" id="buyDirect">
-                        <input hidden th:value="${pView.productsId()}" name=productId>
+                        <input hidden id="pid" th:value="${pView.productsId()}" name=productId>
                     </form>
 
-                    <button type="button" class="btn btn-secondary btn-lg mb-3 w-100" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">
+                    <button type="button" class="btn btn-secondary btn-lg mb-3 w-100" onclick="add_basket()">
                         장바구니
                     </button>
-                    <button type="button" class="btn btn-outline-danger"
-                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                        신고
-                    </button>
-                    <button type="button" class="btn btn-outline-danger"
-                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                        신고
-                    </button>
 
-                    <button type="button" class="btn btn-link">공유</button>
+                    <div class="heart-btn">
+                        <input id="likebox" th:checked="${isLiked}" type="checkbox" onclick="checkbox()" >
+                        <button  onclick="checkUserAndAct()" class="like" ><span>찜</span></button>
+                    </div>
+
                 </div>
 
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#test"
+                        data-bs-whatever="@getbootstrap">신고
+                </button>
+
+
+                <button type="button" onclick="clip()" class="btn btn-link">공유</button>
                 <div th:if="${isSaleEnded}">
                     <p>판매가 완료된 제품입니다.</p>
                 </div>
@@ -201,7 +139,6 @@
 </main>
 
 
-</div>
 <!--&#45;&#45;                모달 -->
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
@@ -232,6 +169,32 @@
         </div>
     </form>
 </div>
+
+
+<div class="modal fade" id="test" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">신고🚨</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="report_content" class="col-form-label">신고내용:</label>
+                        <textarea id="report_content" class="form-control"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="report_cancel" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" id="report_btn" class="btn btn-primary">신고하기</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<input hidden="hidden" th:value="${sss}" value="0" id="sss">
 <th:block th:replace="fragments/footer:: footerFragment"></th:block>
 </body>
 </html>

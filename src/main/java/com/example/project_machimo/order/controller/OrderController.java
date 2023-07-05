@@ -83,9 +83,4 @@ public class OrderController {
         return "order/complete";
 
     }
-
-    @GetMapping("/test")
-    public String test(){
-        return "order/orderTest";
-    }
 }

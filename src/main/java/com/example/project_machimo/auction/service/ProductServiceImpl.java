@@ -21,6 +21,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductsVO pView(int id) {
+        productsDAO.updateHit(id);
         return productsDAO.pView(id);
     }
 
