@@ -1,9 +1,6 @@
 package com.example.project_machimo.admin.service;
 
-import com.example.project_machimo.admin.dto.BoardDto;
-import com.example.project_machimo.admin.dto.Criteria;
-import com.example.project_machimo.admin.dto.ProductDto;
-import com.example.project_machimo.admin.dto.UsersDto;
+import com.example.project_machimo.admin.dto.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +33,7 @@ public interface AdminService {
 
     ArrayList<ProductDto> pList(Criteria cri);
 
-    public void updateStatus(int productInd, int pSalesStatus);
+//    public int auctionsStatus (ProductId, PSalesStatus, p_sale_type);
+
     public void productDelete(int productId);
 }

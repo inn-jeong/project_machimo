@@ -2,9 +2,11 @@ package com.example.project_machimo.admin.controller;
 
 import com.example.project_machimo.admin.dto.*;
 import com.example.project_machimo.admin.service.AdminService;
+import com.example.project_machimo.admin.service.ProductStatusService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,13 @@ public class AdminController {
     private AdminService service;
     @Autowired
     private HttpSession session;
+
+    private final ProductStatusService productStatusService;
+
+    @Autowired
+    public AdminController(ProductStatusService productStatusService) {
+        this.productStatusService = productStatusService;
+    }
 
     //사용자관리//
 
@@ -52,11 +61,19 @@ public class AdminController {
         return "redirect:/admin/adminList";
     }
     @RequestMapping("/adminModify/{userId}")
-    public String adminModify(@PathVariable int userId){
+    public ResponseEntity<?> adminModify(@PathVariable Integer userId){
         System.out.println("@# controller adminModify userId = "+ userId );
         service.adminModify(userId);
-        return "redirect:/admin/adminList";
+        return ResponseEntity.ok().build();
     }
+//    @RequestMapping("/adminModify/{userId}")
+//    public String adminModify(@PathVariable String userId){
+//        System.out.println("@# controller adminModify userId = "+ userId );
+//        int uId = Integer.parseInt(userId);
+//        service.adminModify(uId);
+//        return "redirect:/admin/adminList";
+//    }
+
 
 //    @RequestMapping("/userView")
     @GetMapping("/userView")
@@ -181,12 +198,18 @@ public class AdminController {
     }
 
     @PostMapping("/status")
-    @ResponseBody //반환하는값이 달라짐 보통은 뷰 반환하는데 반환하는 문자열을 그대로 반환한다.
-    public String status(@RequestParam String ProductId, @RequestParam String PSalesStatus ){
-        int i = Integer.parseInt(ProductId);
-        int j = Integer.parseInt(PSalesStatus);
-        service.updateStatus(i, j);
-        return "ok";
+    @ResponseBody
+    public ResponseEntity<?> status(@RequestBody StatusDto dto ){
+        System.out.println("@# status start");
+        log.info("dto=={}",dto);
+        int update = productStatusService.update(dto);
+
+        if(update == 1){ //업데이트 정상작동 여부 (성공이면 1)
+            return ResponseEntity.ok().build();
+        }else {
+            return ResponseEntity.badRequest().body("판매 승인에 실패했습니다.");
+        }
+
     }
 
     @PostMapping("/productDelete")

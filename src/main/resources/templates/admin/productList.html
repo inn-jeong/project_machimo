@@ -29,8 +29,7 @@
                     <col width="5%" />
                     <col width="5%" />
                     <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
+                    <col width="10%" />
                     <col width="5%" />
                 </colgroup>
                 <thead class="table-light text-dark fs-5">
@@ -57,47 +56,45 @@
                 <tr th:each="list: ${pList}" th:if="${list != null}">
                     <th>
                         <label class="checkbox-inline">
-                            <input type="checkbox" name="chk" class="chk" onclick="chkClicked()" th:value="${list.ProductId}">
+                            <input type="checkbox" name="chk" class="chk" onclick="chkClicked()" th:value="${list.productId}">
                         </label>
                     </th>
-                    <td th:text="${list.ProductId}"></td>
-                    <td th:text="${list.CName}"></td>
+                    <td th:text="${list.productId}"></td>
+                    <td th:text="${list.cName}"></td>
                     <!-- 제품이미지 + 제품명-->
-                    <td th:text="${list.PName}">
-<!--                        <img th:src="@{/컨트롤러/${list.IImage}|}" alt="">-->
+                    <td th:text="${list.pName}">
+<!-
                     </td>
-                    <td th:text="${list.PInfo}"></td>
+                    <td th:text="${list.pInfo}"></td>
                     <!-- 판매유형) 경매:0 즉시판매:1-->
-                    <td th:switch="${list.PSaleType}">
+                    <td th:switch="${list.pSaleType}">
                         <span th:case=0 th:text="경매"></span>
                         <span th:case=1 th:text="즉시판매"></span>
                     </td>
                     <!-- 판매가(즉시판매) -->
-                    <td th:text="${list.PDirect}"></td>
+                    <td th:text="${list.pDirect}"></td>
                     <!-- 경매가 -->
                     <td th:text="${list.PBPrice}"></td>
-                    <td th:text="${#dates.format(list.PCreatedAt, 'YYYY-MM-DD')}"></td>
-                    <td th:text="${#dates.format(list.PUpdatedAt, 'YYYY-MM-DD')}"></td>
+                    <td th:text="${#dates.format(list.pCreatedAt, 'YYYY-MM-DD')}"></td>
+                    <td th:text="${#dates.format(list.pUpdatedAt, 'YYYY-MM-DD')}"></td>
                     <!-- 판매상태) 대기중(판매승인전):0 , 판매중:1, 판매완료:2, 낙찰:3, 경매실패:4-->
-                    <td th:switch="${list.PSalesStatus}">
-                        <span th:case=0 th:text="대기중"></span>
-                        <span th:case=1 th:text="판매중"></span>
-                        <span th:case=2 th:text="판매완료"></span>
-                        <span th:case=3 th:text="낙찰"></span>
-                        <span th:case=4 th:text="판매반려"></span>
+                    <td th:switch="${list.pSalesStatus}">
+                        <span th:case=0 >
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        th:onclick="'updateStatus(\''+${list.productId}+'\',\''+1+'\',\''+${list.pSaleType}+'\')'">승인</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        th:onclick="'updateStatus(\''+${list.productId}+'\',\''+5+'\',\''+${list.pSaleType}+'\')'">거절</button>
+                            </div>
+                        </span>
+                        <span th:case=1 >판매중</span>
+                        <span th:case=2 >판매완료</span>
+                        <span th:case=3 >낙찰</span>
+                        <span th:case=4 >낙찰실패</span>
+                        <span th:case=5 >판매반려</span>
                     </td>
                     <td>
-                        <button class="btn btn-primary rounded-pill px-3" type="button" th:onclick="'updateStatus(\''+${list.ProductId}+'\',\''+1+'\')'">
-                            승인
-                        </button>
-                        <button class="btn btn-danger rounded-pill px-3" type="button" th:onclick="'updateStatus(\''+${list.ProductId}+'\',\''+4+'\')'">
-                            반려
-                        </button>
-<!--                        <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">-->
-<!--                            <a th:href="@{/admin/boardView(board_id=${list.ProductId})}">수정</a>-->
-<!--                        </button>-->
-                        <button class="btn btn-danger rounded-pill px-3" type="button" th:onclick="'productDelete(\''+${list.ProductId}+'\')'">
-<!--                        <button class="btn btn-danger rounded-pill px-3" type="button" th:onclick="|productDelete/${list.ProductId}|">-->
+                        <button class="btn btn-sm btn-danger rounded-pill px-3" type="button" th:onclick="'productDelete(\''+${list.productId}+'\')'">
                             삭제
                         </button>
                     </td>
@@ -153,15 +150,26 @@
     $(".paginate_button a").on('click', function (e){
         // 기본 동작 막음: 페이지 링크를 통해서 이동
         e.preventDefault();
+        // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+        var bno = actionForm.find("input[name='user_id']").val();
+        if(bno !== ''){
+            actionForm.find("input[name='user_id']").remove();
+        }
         actionForm.find("input[name='pageNum']").val($(this).attr("href"));
         actionForm.submit();
     });
+
     // /////////////////게시글 처리/////////////////
     $(".move_link").on("click", function (e){
         e.preventDefault();
-        var ProductId = $(this).attr("data-id")
-        actionForm.append("<input type='hidden' name='ProductId' value='"+ProductId+"'>");
-        console.log("ProductId= "+ProductId);
+        var productId = $(this).attr("data-id")
+        // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+        var bno = actionForm.find("input[name='user_id']").val();
+        if(bno !== ''){
+            actionForm.find("input[name='user_id']").remove();
+        }
+        actionForm.append("<input type='hidden' name='productId' value='"+productId+"'>");
+        console.log("productId= "+productId);
         actionForm.attr("action","productView").submit();
     });
 
@@ -172,34 +180,33 @@
         }
     }
 
-    // // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-    // var bno = actionForm.find("input[name='user_id']").val();
-    // if(bno !== ''){
-    //     actionForm.find("input[name='user_id']").remove();
-    // }
-    // $(document).on('click',function (e){
-    //     e.preventDefault();
-    //     var url = "";
-    // });
-    function updateStatus(ProductId, PSalesStatus) {
+    function updateStatus(productId, pSalesStatus, pSaleType) {
         console.log("1");
+        console.log("pSaleType ==>"+pSaleType); //1 //경매0/판매1
+        console.log("productId ==>"+productId); //9
+        console.log("pSalesStatus ==>"+pSalesStatus); //1
+        // productId = parseInt(productId);
+        // pSaleType = parseInt(pSaleType);
+        // pSalesStatus = parseInt(pSalesStatus);
         $.ajax({
             url: '/admin/status',
             method: 'POST',
-            data: {
-                'ProductId': ProductId,
-                'PSalesStatus': PSalesStatus
-            },
+            contentType: 'application/json',
+            data:JSON.stringify({
+                'productId': productId,
+                'pSalesStatus': pSalesStatus,
+                'pSaleType': pSaleType
+            }),
             success: function(response) {
-                if (response == "ok")
-                    alert('판매상태를 변경하였습니다.');
-                    location.href = '/admin/productList';
+                alert('판매상태를 변경하였습니다.');
+                location.href = '/admin/productList';
             },
             error: function(error) {
-                alert('판매상태 변경에 실패했습니다.');
+                alert(error.responseText);
             }
         });
     }
+
     function productDelete(ProductId) {
         console.log("productDelete start")
             $.ajax({
@@ -219,149 +226,5 @@
             });
         }
 
-    // 체크박스 전체 선택 클릭 이벤트
-    function allChecked(target){
-
-        if($(target).is(":checked")){
-            $(".chk").prop("checked",true);
-        } else {
-            $(".chk").prop("checked",false);
-        }
-        const checkbox = document.getElementById('allCheckBox'); //전체 체크박스 버튼
-        const is_checked = checkbox.checked; //전체 체크박스 버튼 체크 여부
-        if(is_checked){
-            chkAllChecked() //체크박스 전체 체크
-        }else{
-            chkAllUnChecked() //체크박스 전체 해제
-        }
-    }
-    // 자식 체크박스 클릭 이벤트
-    function chkClicked(){
-        //체크박스전체갯수
-        var allCount = $("input:checkbox[name=chk]").length;
-        //체크된 체크박스 전체갯수
-        var checkedCount = $("input:checkbox[name=chk]:checked").length;
-        //체크박스 전체갯수와 체크된 체크박스 전체갯수가 같으면 체크박스 전체 체크
-        if(allCount == checkedCount){
-            $(".chk").prop("checked",true);
-        } else {
-            $("#allCheckBox").prop("checked", false);
-        }
-
-
-        //체크박스 전체갯수
-        const  allCount = document.querySelectorAll(".chk").length;
-        //체크된 체크박스 전체 갯수
-        const query = 'input[name="chk"]:checked'
-        const selectedElements = document.querySelectorAll(query);
-        const selectedElementsCnt = selectedElements.length;
-
-        //체크박스 전체갯수와 체크된 체크박스 전체갯수가 같으면 전체 체크박스 체크
-        if(allCount === selectedElementsCnt){
-            document.getElementById('allCheckBox').checked = true;
-        } else {
-            //같지않으면 전체 체크박스 해제
-            document.getElementById('allCheckBox').checked = false;
-        }
-    }
-    //체크박스 전체 체크
-    function chkAllChecked(){
-        document.querySelectorAll(".chk").forEach(function (v,i){
-            v.checked = true;
-        });
-    }
-    //체크박스 전체 체크 해제
-    function chkAllUnChecked(){
-        document.querySelectorAll(".chk").forEach(function (v,i){
-            v.checked = false;
-        });
-    }
-
-    //글삭제
-    // function productDelete() {
-        // console.log("productDelete start")
-        // var boardIdxArray = [];
-        //
-        // $("input:checkbox[name=chk]:checked").each(function(){
-        //     boardIdxArray.push($(this).val());
-        // });
-        //
-        // console.log(boardIdxArray);
-        //
-        // if (boardIdxArray === "") {
-        //     alert("삭제할 항목을 선택해주세요.");
-        //     return false;
-        // }
-        //
-        // var confirmAlert = confirm('정말로 삭제하시겠습니까?');
-        //
-        // if (confirmAlert) {
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '/admin/productDelete',
-        //         dataType: 'json',
-        //         data: JSON.stringify(boardIdxArray),
-        //         contentType: 'application/json',
-        //         success: function(result) {
-        //             alert("해당 글이 정상적으로 삭제되었습니다.");
-        //             goPage(0);
-        //         },
-        //         error: function(request, status, error) {
-        //             // 오류 처리 코드
-        //         }
-        //     });
-        // }
-            // console.log("productDelete start")
-            // let cnt = $("input[name='chk']:checked").length;
-            // let arr = new Array();
-            //
-            // $("input[name='chk']:checked").each(function(){
-            //     arr.push($(this).val());
-            // });
-            //
-            // console.log(arr);
-            //
-            // if (cnt == "") {
-            //     alert("삭제할 항목을 선택해주세요.");
-            //     return false;
-            // }
-
-            // var confirmAlert = confirm('정말로 삭제하시겠습니까?');
-
-
-
-
-    // //체크박스 체크된 항목
-        // const query = 'input[name="chk"]:checked'
-        // const selectedElements = document.querySelectorAll(query);
-        // //체크박스 체크된 항목의 갯수
-        // const selectedElementsCnt = selectedElements.length;
-        //
-        // if(selectedElementsCnt == 0){
-        //     alert("삭제할 항목을 선택해주세요.");
-        //     return false;
-        // } else {
-        //     if(confirm("정말로 삭제하시겠습니까?")){
-        //         //배열 생성
-        //         const arr = new Array(selectedElementsCnt);
-        //         document.querySelectorAll('input[name="chk"]:checked').forEach(function (v,i){
-        //             arr[i] = v.value;
-        //         });
-        //
-        //         const form = document.createElement('form');
-        //         form.setAttribute('method','post');
-        //         form.setAttribute('action', '/admin/productDelete');
-        //
-        //         var input1 = document.createElement('input');
-        //         input1.setAttribute("type","hidden");
-        //         input1.setAttribute("name","productId");
-        //         input1.setAttribute("value",arr);
-        //         form.appendChild(input1);
-        //         console.log(form);
-        //         document.body.appendChild(form);
-        //         form.submit();
-        //     }
-        // }
-    // }
 
 </script>

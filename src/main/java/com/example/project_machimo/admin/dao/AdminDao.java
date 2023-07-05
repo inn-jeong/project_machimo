@@ -1,9 +1,6 @@
 package com.example.project_machimo.admin.dao;
 
-import com.example.project_machimo.admin.dto.BoardDto;
-import com.example.project_machimo.admin.dto.Criteria;
-import com.example.project_machimo.admin.dto.ProductDto;
-import com.example.project_machimo.admin.dto.UsersDto;
+import com.example.project_machimo.admin.dto.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +42,7 @@ public interface AdminDao {
     //제품관리//
     ArrayList<ProductDto> pList(Criteria cri);
 
-    void updateStatus(int ProductId, int PSalesStatus);
+    int updateStatus(StatusDto dto);
 
     void productDelete(int productId);
 

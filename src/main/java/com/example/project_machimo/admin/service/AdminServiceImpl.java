@@ -1,10 +1,7 @@
 package com.example.project_machimo.admin.service;
 
 import com.example.project_machimo.admin.dao.AdminDao;
-import com.example.project_machimo.admin.dto.BoardDto;
-import com.example.project_machimo.admin.dto.Criteria;
-import com.example.project_machimo.admin.dto.ProductDto;
-import com.example.project_machimo.admin.dto.UsersDto;
+import com.example.project_machimo.admin.dto.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,28 +112,6 @@ public class AdminServiceImpl implements AdminService  {
         return dao.pList(cri);
     }
 
-    public void save(ProductDto dto) throws IOException {
-        int fileStatus = dto.getIId();
-        //파일 첨부 여부에 따라 로직 분리
-        if(dto.getBoardFile().isEmpty()){
-            //첨부 파일 없는 경우
-            fileStatus = 0;
-        } else {
-            //첨부 파일 있는 경우
-            fileStatus = 1;
-            MultipartFile boardFile = dto.getBoardFile();//dto에 실제 파일 가져옴
-            String originalFilename = boardFile.getOriginalFilename(); //실제 파일의 이름 가져옴
-            String iImage = System.currentTimeMillis() + "_" + originalFilename; //23456485_imgname.jpg
-            String savePath = "C:/machimo_img/"+iImage; // 실제파일경로) C:/machimo_img/23456485_imgname.jpg
-            boardFile.transferTo(new File(savePath)); //파일 저장
-        }
-    }
-
-    @Override
-    public void updateStatus(int ProductId, int PSalesStatus) {
-        AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        dao.updateStatus(ProductId, PSalesStatus);
-    }
 
     @Override
     public void productDelete(int productId) {

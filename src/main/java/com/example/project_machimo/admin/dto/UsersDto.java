@@ -27,7 +27,6 @@ public class UsersDto {
     private String uSignout;
     private int uAddrPostcode;
     private String uAccount;
-
     //신고
     private int reportId;
 //    private int userId;
