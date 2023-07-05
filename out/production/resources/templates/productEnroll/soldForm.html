@@ -18,35 +18,33 @@
         <td colspan="2" th:align="center"><h1>판매 신청 폼</h1></td>
       </tr>
 
-
-<!--        <tbody th:each="category : ${categories}">-->
         <tr>
             <td><label for="category1">1차 카테고리:</label></td>
             <td>
                 <select id="category1" name="category1" onchange="selectSubcategory()">
-<!--                <select id="category1" name="category1">-->
-                    <!--                <select id="category1" name="category1">-->
                     <option value="">전체</option>
                     <option class="catego1" th:each="category : ${categories}" th:value="${category.cId}" th:text="${category.cName}"></option>
+<!--                    <option class="category1" th:each="category : ${categories}" th:value="${category.cId}" th:text="${category.cName}"></option>-->
                 </select>
             </td>
         </tr>
-<!--        </tbody>-->
 
       <tr>
 <!--        <td><label for="category2">2차 카테고리:</label></td>-->
         <td>2차 카테고리:</td>
         <td>
+<!--            맵 형태라서 2차카테고리만으로는 for-each를 적용할 수 없어서 div에 for-each를 써서 1차 카테고리를 먼저 반복시켜줌-->
             <div th:each="category:${categories}">
-<!--              <div th:id="'catego2-'+${category.cId}" style="display: none" th:each="subcategory:${subcategory[category.cId]}">-->
 <!--              <div th:id="'catego2-'+${category.cId}" th:each="subcategory:${subcategory[category.cId]}">-->
-              <select th:id="'category2-'+${category.cId}" style="display: none" name="category2">
+<!--                ex : category2-100 으로 id가 생기는거  그냥 ${category.cId}만 사용할 시 사용자에게 숫자만 보이니까-->
+
+<!--                class는 중복 가능하므로 여러개의 옵션이 다 catego2라는 클래스 이름으로 지정되어있음.-->
+              <select class="catego2" th:id="'category2-'+${category.cId}" style="display: none" name="category2">
                 <option value="">전체</option>
-<!--                <option th:each="catego:${subcategory}" th:value="${catego.cId}" th:text="${catego.cName}"></option>-->
-                <option th:each="subcategory:${subcategory[category.cId]}" th:value="${subcategory.cId}" th:text="${subcategory.cName}"></option>
+<!--                  map을 불러올때는 대괄호를 사용함, 맵 안의 객체 배열이기 때문에 사용하기 위해 한번 더 꺼내는 과정 필요-->
+                <option  th:each="subcategory:${subcategory[category.cId]}" th:value="${subcategory.cId}" th:text="${subcategory.cName}"></option>
 
               </select>
-<!--              </div>-->
             </div>
         </td>
       </tr>
@@ -64,8 +62,9 @@
         <td><label for="pSaleType">판매 형태:</label></td>
         <td>
           <select id="pSaleType" name="pSaleType" required>
-            <option value="1">경매</option>
-            <option value="2">즉시 판매</option>
+              <option value="">전체</option>
+            <option value="0">경매</option>
+            <option value="1">즉시 판매</option>
           </select>
         </td>
       </tr>
@@ -74,7 +73,8 @@
       <tr id="auctionFields" style="display: none;">
         <td><label for="pDurDate">판매 기간:</label></td>
         <td>
-          <select id="pDurDate" name="pDurDate" required>
+          <select id="pDurDate" name="pDurDate" >
+              <option value="">전체</option>
             <option value="7">7</option>
             <option value="14">14</option>
             <option value="21">21</option>
@@ -83,13 +83,13 @@
       </tr>
       <tr id="auctionStartPrice" style="display: none;">
         <td><label for="pBPrice">경매 시작 가격:</label></td>
-        <td><input type="number" id="pBPrice" name="pBPrice" min="100" placeholder="최소 100원 이상부터 입력 가능합니다."  required /></td>
+        <td><input type="number" id="pBPrice" name="pBPrice" min="100" placeholder="최소 100원 이상부터 입력 가능합니다." /></td>
       </tr>
 
       <!-- Fields for Immediate Sale Type -->
       <tr id="immediateSaleFields" style="display: none;">
         <td><label for="pDirect">즉시 판매 가격:</label></td>
-        <td><input type="number" id="pDirect" name="pDirect" min="100" placeholder="최소 100원 이상부터 입력 가능합니다." required /></td>
+        <td><input type="number" id="pDirect" name="pDirect" min="100" placeholder="최소 100원 이상부터 입력 가능합니다."/></td>
       </tr>
       <tr>
         <td><label for="pAccount">정산 계좌번호:</label></td>
@@ -128,15 +128,18 @@
 <script>
   // 1차 카테고리 선택 항목이 변경될 때 호출되는 함수
   function selectSubcategory() {
-      var catego = $(".catego1").val();
+      // var catego = $(".category1").val();
+      var catego = $(".catego1").filter(":selected").val();
       console.log("cate:"+catego);
+      // selectSubcategory()가 실행될때 일단 여러 개 떠있을 catego2의 옵션을 가려주고
+      $(".catego2").css("display","none");
+      // 그 중 category2에 변수 catego가 연결된 값 = 즉 2차카테고리로서 존재할 수 있는 값 만 다시 디스플레이로 보여줌
       $("#category2-"+catego).css("display","inline-block");
   }
 
-
-
 </script>
 <script>
+
 
   // $("option:selected", this).each(function () {
   //   var selectVal = $(this).val();
@@ -152,11 +155,11 @@
   function toggleFields() {
     var saleType = $("#pSaleType").val();
 
-    if (saleType === "1") {
+    if (saleType === "0") {
       $("#auctionFields").show();
       $("#auctionStartPrice").show();
       $("#immediateSaleFields").hide();
-    } else if (saleType === "2") {
+    } else if (saleType === "1") {
       $("#auctionFields").hide();
       $("#auctionStartPrice").hide();
       $("#immediateSaleFields").show();
@@ -186,13 +189,13 @@
   });
 
   /* 상품 등록 버튼 */
-  // $("#enrollBtn").on("click",function(e){
-  //
-  //   e.preventDefault();
-  //   alert("등록 성공하였습니다.")
-  //   enrollForm.submit();
-  //
-  // });
+  $("#enrollBtn").on("click",function(e){
+
+    e.preventDefault();
+    alert("등록 성공하였습니다.")
+    enrollForm.submit();
+
+  });
 
 </script>
 </html>
