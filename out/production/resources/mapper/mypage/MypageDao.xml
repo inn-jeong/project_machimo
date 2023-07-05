@@ -55,29 +55,25 @@
         where a.user_id = #{param1}
     </select>
     <select id="getAuctionItems" resultType="com.example.project_machimo.mypage.Dto.AuctionItem">
-        select a.auction_id,a.product_id,a.amount,
-                to_char(a.bids_at,'YYYY-MM-DD HH24:MI') bids_at,
+        select b.auction_id,
+                b.product_id,
                 p.p_name,
-                to_char(p.p_dur,'YYYY-MM-DD HH24:MI') p_dur,
+                u.user_id,
+                u.u_nickname,
+                p.p_dur,
+                b.bids_at,
+                b.amount,
+                p.p_b_price,
                 p.p_sales_status,
-                a.user_id, u.u_nickname,
                 i.i_sub_img
-        from (select max(amount) amount,product_id,user_id,auction_id,bids_at
-            from bids group by product_id,user_id,auction_id,bids_at) a
+        from bids b
+        join products p on p.product_id = b.product_id
+        join users u on u.user_id = b.user_id
+        join product_images i on i.product_id = b.product_id
+        where user_id = #{param1}
+    </select>
+    <select id="getCurrentAmount" resultType="com.example.project_machimo.mypage.Dto.AuctionItem">
 
-        join (select product_id, user_id, p_name, p_dur, p_sales_status
-        from products) p
-        on p.product_id = a.product_id
-
-        join (select user_id, u_nickname
-        from users) u
-        on u.user_id=p.user_id
-
-        join (select product_id,i_sub_img
-        from product_images) i
-        on i.product_id = p.product_id
-
-        where a.user_id =#{param1}
     </select>
 
 </mapper>

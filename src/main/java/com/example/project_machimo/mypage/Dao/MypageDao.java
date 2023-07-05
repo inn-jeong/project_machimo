@@ -19,4 +19,5 @@ public interface MypageDao {
     public UsersDto findUser(String uId);
     public ArrayList<WishItem> getWishItem(Integer userId);
     public ArrayList<AuctionItem> getAuctionItems(Integer userId);
+    public AuctionItem getCurrentAmount(Integer productId);
 }

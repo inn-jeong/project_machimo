@@ -91,6 +91,12 @@ public class MypageServiceImpl implements MypageService{
     @Override
     public ArrayList<AuctionItem> getAuctionItems(Integer userId) {
         MypageDao dao = sqlSession.getMapper(MypageDao.class);
-        return dao.getAuctionItems(userId);
+        ArrayList<AuctionItem> items = dao.getAuctionItems(userId);
+        if(!items.isEmpty()){
+            for (AuctionItem item:items) {
+
+            }
+        }
+        return items;
     }
 }

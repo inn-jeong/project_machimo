@@ -13,8 +13,9 @@ public class AuctionItem {
     private String pName;
     private Integer userId;
     private String uNickname;
-    private String uBidsNickname;
     private Integer userBidsId;
+    private String uBidsNickname;
+    private Integer currentAmount;
     private String pDur;
     private String bidsAt;
     private Integer amount;
