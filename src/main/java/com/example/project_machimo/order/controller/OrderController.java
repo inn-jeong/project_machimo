@@ -33,7 +33,7 @@ public class OrderController {
              List<Integer> productId
             ,HttpSession session
     ) {
-        BuyerVO user = orderService.getUser((Integer) session.getAttribute("user"));
+        BuyerVO user = orderService.getUser((Integer) session.getAttribute("userId"));
         model.addAttribute("getBuyList",orderService.getBuyList(productId));
         model.addAttribute("user",user);
         model.addAttribute("orderId",orderService.getOrderId());
@@ -42,7 +42,7 @@ public class OrderController {
 
     @GetMapping("/checkSession")
     public ResponseEntity<?> request(HttpSession session){
-        Object user = session.getAttribute("user");
+        Integer user =(Integer) session.getAttribute("userId");
         System.out.println(user);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -61,12 +61,12 @@ public class OrderController {
             ){
 
         Integer user;
-        System.out.println(session.getAttribute("user")+"세션이름ㄴㅇㅁㄴㄹㅇㄴㅁ");
+        System.out.println(session.getAttribute("userId")+"세션이름ㄴㅇㅁㄴㄹㅇㄴㅁ");
         System.out.println(userId+"유저이이디 이름 ");
         System.out.println("오더 아읻"+orderId);
-        if (session.getAttribute("user")!=null){
+        if (session.getAttribute("userId")!=null){
 
-             user=(Integer) session.getAttribute("user");
+             user=(Integer) session.getAttribute("userId");
         }else {
             user = 0;
         }

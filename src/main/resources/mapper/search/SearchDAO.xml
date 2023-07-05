@@ -3,6 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.project_machimo.search.dao.SearchDAO">
+<!--    <sql id="criteria">-->
+<!--        <trim prefix="(" suffix=") AND">-->
+<!--            <foreach item="searchOption" collection="optionArr">-->
+<!--                -->
+<!--            </foreach>-->
+<!--        </trim>-->
+<!--    </sql>-->
 <!--    <select id="searchUser" resultType="com.example.project_machimo.search.dto.SearchVO">-->
 <!--        SELECT p.PRODUCT_id as PRODUCT_id, u.USER_ID as user_id, u.U_NICKNAME as u_nickname-->
 <!--        ,i.i_ID as i_id, MIN(i.I_IMAGE) AS i_image,MIN(i.i_sub_img) as i_sub_img-->
@@ -105,6 +112,7 @@
         ) i ON P.PRODUCT_id = i.PRODUCT_ID
         WHERE
   ]]>
+<!--    <include refid="criteria"></include>-->
   <if test="searchOption == 'productName'">
     p.P_NAME LIKE '%'||#{keyword}||'%'
   </if>

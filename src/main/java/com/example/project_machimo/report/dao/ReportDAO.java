@@ -9,7 +9,7 @@ import java.util.List;
 public interface ReportDAO {
 
 
-    List<Integer> duplicateReportingCheck(ReportDTO reportDTO);
+    Integer duplicateReportingCheck(ReportDTO reportDTO);
     int insertReport(ReportDTO reportDTO);
 
 

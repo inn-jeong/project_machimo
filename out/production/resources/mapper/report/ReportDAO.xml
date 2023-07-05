@@ -5,7 +5,7 @@
         insert into REPORT values (report_id_seq.nextval,#{userId},#{productId},#{reportContent},sysdate,(select nvl(max(REPORT_COUNT),0)+1 from REPORT where PRODUCTS_ID = #{productId}))
     </insert>
     <select id="duplicateReportingCheck" resultType="java.lang.Integer">
-        select 1
+        select products_id
         from REPORT
         where USER_ID = #{userId}
           and PRODUCTS_ID = #{productId}

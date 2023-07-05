@@ -66,7 +66,7 @@ public class AuctionController {
 
     @GetMapping("/action-list/{id}")
     public String showProduct(Model model, @PathVariable int id, HttpSession session) {
-        Integer userId = Optional.ofNullable((Integer) session.getAttribute("user")).orElse(0);
+        Integer userId = Optional.ofNullable((Integer) session.getAttribute("userId")).orElse(0);
         log.info("유저아이디는 ===> {}",userId);
 
 
@@ -79,8 +79,8 @@ public class AuctionController {
         List<BidsVO> bList = bidsService.bList(id);
         boolean hasBidHistory = bidsService.hasBidHistory(id);
         Long amount = bidsService.maxAmount(id);
-
         Integer integer = wishListsDAO.likeCheck(userId, id);
+
 
         boolean isLiked = integer != null;
 
@@ -94,7 +94,7 @@ public class AuctionController {
         model.addAttribute("bList", bList);
         model.addAttribute("checkDTO", new CheckDTO());
         model.addAttribute("endDate", timeStampToString(pView));
-        return "auctions/auctionsTest";
+        return "auctions/auction";
     }
 
     @GetMapping("/product")

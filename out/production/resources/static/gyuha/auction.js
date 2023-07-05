@@ -1,14 +1,14 @@
-function clip(){
+function clip() {
 
-	var url = '';
-	var textarea = document.createElement("textarea");
-	document.body.appendChild(textarea);
-	url = window.document.location.href;
-	textarea.value = url;
-	textarea.select();
-	document.execCommand("copy");
-	document.body.removeChild(textarea);
-	alert("URL이 복사되었습니다.")
+    var url = '';
+    var textarea = document.createElement("textarea");
+    document.body.appendChild(textarea);
+    url = window.document.location.href;
+    textarea.value = url;
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+    alert("URL이 복사되었습니다.")
 }
 
 $(document).ready(function () {
@@ -24,6 +24,7 @@ $(document).ready(function () {
             },
             error: function () {
                 alert("로그인이 필요한 서비스입니다.")
+                window.location.href = '/login/login';
             }
         })
 
@@ -62,10 +63,11 @@ $(document).ready(function () {
                 if (response.message == "로그인이 필요한 서비스입니다") {
                     alert(response.message);
                     document.getElementById("test1").click();
-                    return window.location.href = 'http://localhost:8090/login';
+                 window.location.href = '/login/login';
 
                 }
                 alert(response.message);
+                window.location.replace('http://localhost:8090/login') ;
             }
         });
     });
@@ -76,7 +78,7 @@ $(document).ready(function () {
 
         let pid = $("#pid").val();
         let report_content = $("#report_content").val();
-
+        let cancelBtn = $("#report_cancel");
 
         $.ajax({
             url: "/report/send",
@@ -88,9 +90,14 @@ $(document).ready(function () {
 
             }),
             success: function () {
+
+                cancelBtn.click();
                 alert("신고를 완료하였습니다.")
+
             },
             error: function (response) {
+
+                cancelBtn.click();
                 alert(response.responseText)
             }
         })
@@ -128,8 +135,8 @@ function checkbox(e) {
 
     let pid = $("#pid").val();
     let user_id = $("#sss").val();
-    if (user_id=="0"){
-        checkbox.prop('checked',false);
+    if (user_id == "0") {
+        checkbox.prop('checked', false);
         alert("회원만 가능합니다")
         return;
     }
@@ -160,4 +167,28 @@ function checkbox(e) {
 
     }
 
+}
+
+function add_basket() {
+    let pid = $("#pid").val();
+    let user_id = $("#sss").val();
+    console.log(user_id)
+    console.log(pid)
+    $.ajax({
+
+        url: "/basket/addBasket",
+        type: 'POST',
+        contentType: "application/json",
+        data: JSON.stringify({
+            user_id: user_id,
+            product_id: pid
+        }),
+        success: function () {
+            alert("장바구니에 추가되었습니다.")
+        },
+        error: function (response) {
+            alert(response.responseText)
+            window.location.href = '/login/login';
+        }
+    })
 }

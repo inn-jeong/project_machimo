@@ -3,6 +3,7 @@ package com.example.project_machimo.wishlists.controller;
 
 import com.example.project_machimo.wishlists.dto.WishlistsDTO;
 import com.example.project_machimo.wishlists.service.WishListsService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,14 +26,18 @@ public class WishListsRestController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<?> ins(@RequestBody WishlistsDTO wishlistsDTO){
+    public ResponseEntity<?> ins(@RequestBody WishlistsDTO wishlistsDTO, HttpSession session){
+        if(session.getAttribute("userId") == null){
+            return ResponseEntity.badRequest().body("로그인이 필요한 서비스입니다");
+
+        }
         log.info("#insert json ==> {}",wishlistsDTO);
         int i = wishListsService.insertWish(wishlistsDTO);
 
         if (i==1){
             return ResponseEntity.ok().build();
         }else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.badRequest().build();
         }
 
 

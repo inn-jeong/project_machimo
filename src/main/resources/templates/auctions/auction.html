@@ -104,8 +104,7 @@
                         <input hidden id="pid" th:value="${pView.productsId()}" name=productId>
                     </form>
 
-                    <button type="button" class="btn btn-secondary btn-lg mb-3 w-100" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">
+                    <button type="button" class="btn btn-secondary btn-lg mb-3 w-100" onclick="add_basket()">
                         장바구니
                     </button>
 
@@ -188,7 +187,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" id="report_cancel" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                 <button type="button" id="report_btn" class="btn btn-primary">신고하기</button>
             </div>
         </div>

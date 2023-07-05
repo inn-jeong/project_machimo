@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainPageController {
     @GetMapping("/")
     public String test(Model model, HttpSession session){
-        session.setAttribute("user",1);
-        return "testHtml/index";
+        session.setAttribute("userId",2);
+        return "index";
     }
 
     @GetMapping("/delete")
