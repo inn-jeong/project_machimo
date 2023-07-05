@@ -1,29 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>boardList</title>
-    <div th:replace="fragments/header.html :: fragment-header"></div>
-</head>
-<body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout/layout}">
 
+<th:block layout:fragment="admin-content">
     <div class="container">
-            <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">제품 관리</h5>
-            <div class="d-flex gap-2 justify-content-end py-3">
-                <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">
-<!--                    <a th:href="@{/admin/boardWriteView}">제품 등록</a>-->
-<!--                    <a th:href="#">제품 등록</a>-->
-                </button>
-            </div>
+        <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">제품 관리</h5>
+
+        <!-- 검색기능 -->
+        <div>
+            <form id="searchForm" method="get">
+                <label>
+                    <select name="type">
+                        <option value="C" th:selected="${pageMaker.cri.type eq 'C'?'selected':''}">카테고리</option>
+                        <option value="T" th:selected="${pageMaker.cri.type eq 'T'?'selected':''}">제품명</option>
+                        <option value="I" th:selected="${pageMaker.cri.type eq 'I'?'selected':''}">상품정보</option>
+                        <option value="Y" th:selected="${pageMaker.cri.type eq 'Y'?'selected':''}">판매유형</option>
+                        <option value="P" th:selected="${pageMaker.cri.type eq 'P'?'selected':''}">판매가</option>
+                        <option value="A" th:selected="${pageMaker.cri.type eq 'A'?'selected':''}">경매가</option>
+                        <option value="U" th:selected="${pageMaker.cri.type eq 'U'?'selected':''}">등록일자</option>
+                        <option value="S" th:selected="${pageMaker.cri.type eq 'S'?'selected':''}">판매상태</option>
+                    </select>
+                </label>
+                <label>
+                    <input type="text" name="keyword" th:value="${pageMaker.cri.keyword}">
+                </label>
+                <button type="submit">search</button>
+            </form>
+        </div>
 
         <div class="row">
             <table class="table table-hover table-responsive text-nowrap mb-0 align-middle">
                 <colgroup>
                     <col width="2%" />
-                    <col width="2%" />
                     <col width="5%" />
-                    <col width="20%" />
+                    <col width="30%" />
                     <col width="5%" />
                     <col width="5%" />
                     <col width="5%" />
@@ -34,12 +45,7 @@
                 </colgroup>
                 <thead class="table-light text-dark fs-5">
                 <tr>
-                    <th>
-                        <label class="checkbox-inline">
-                            <input type="checkbox" id="allCheckBox" class="chk" th:onclick="allChecked()">
-                        </label>
-                    </th>
-                    <th class="border-bottom-0">제품코드</th>
+                    <th class="border-bottom-0">No</th>
                     <th class="border-bottom-0">카테고리</th>
                     <th class="border-bottom-0">제품명</th>
                     <th class="border-bottom-0">상품정보</th>
@@ -54,17 +60,18 @@
                 </thead>
                 <tbody>
                 <tr th:each="list: ${pList}" th:if="${list != null}">
-                    <th>
-                        <label class="checkbox-inline">
-                            <input type="checkbox" name="chk" class="chk" onclick="chkClicked()" th:value="${list.productId}">
-                        </label>
-                    </th>
                     <td th:text="${list.productId}"></td>
                     <td th:text="${list.cName}"></td>
-                    <!-- 제품이미지 + 제품명-->
+
+                    <!-- 병합시 제품명 클릭하면 판매글로 이동-->
                     <td th:text="${list.pName}">
-<!-
+<!--                    <td>-->
+<!--                        <a class="move_link" th:data-id="${list.productId}">-->
+<!--                            <span th:text="${list.pName}"></span>-->
+<!--                        </a>-->
+<!--                    </td>-->
                     </td>
+
                     <td th:text="${list.pInfo}"></td>
                     <!-- 판매유형) 경매:0 즉시판매:1-->
                     <td th:switch="${list.pSaleType}">
@@ -74,7 +81,7 @@
                     <!-- 판매가(즉시판매) -->
                     <td th:text="${list.pDirect}"></td>
                     <!-- 경매가 -->
-                    <td th:text="${list.PBPrice}"></td>
+                    <td th:text="${list.pBPrice}"></td>
                     <td th:text="${#dates.format(list.pCreatedAt, 'YYYY-MM-DD')}"></td>
                     <td th:text="${#dates.format(list.pUpdatedAt, 'YYYY-MM-DD')}"></td>
                     <!-- 판매상태) 대기중(판매승인전):0 , 판매중:1, 판매완료:2, 낙찰:3, 경매실패:4-->
@@ -135,96 +142,101 @@
     <form th:method="get" id="actionForm" th:action="@{/admin/productList}">
         <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
         <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+        <input type="hidden" name="type" th:value="${pageMaker.cri.type}">
+        <input type="hidden" name="keyword" th:value="${pageMaker.cri.keyword}">
     </form>
 
-    <!--footer-->
-    <div th:replace="fragments/footer.html :: fragment-footer"></div>
-
-</body>
-</html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script th:inline="javascript">
-    var actionForm = $("#actionForm");
-
-    /////////////////페이지번호 처리/////////////////
-    $(".paginate_button a").on('click', function (e){
-        // 기본 동작 막음: 페이지 링크를 통해서 이동
-        e.preventDefault();
-        // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-        var bno = actionForm.find("input[name='user_id']").val();
-        if(bno !== ''){
-            actionForm.find("input[name='user_id']").remove();
-        }
-        actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-        actionForm.submit();
-    });
-
-    // /////////////////게시글 처리/////////////////
-    $(".move_link").on("click", function (e){
-        e.preventDefault();
-        var productId = $(this).attr("data-id")
-        // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-        var bno = actionForm.find("input[name='user_id']").val();
-        if(bno !== ''){
-            actionForm.find("input[name='user_id']").remove();
-        }
-        actionForm.append("<input type='hidden' name='productId' value='"+productId+"'>");
-        console.log("productId= "+productId);
-        actionForm.attr("action","productView").submit();
-    });
-
-    // 뒤로가기시 새로고침(조회수)
-    window.onpageshow = function (event){
-        if(event.persisted || (window.performance && window.performance.navigation.type==2)){
-            location.reload();
-        }
-    }
-
-    function updateStatus(productId, pSalesStatus, pSaleType) {
-        console.log("1");
-        console.log("pSaleType ==>"+pSaleType); //1 //경매0/판매1
-        console.log("productId ==>"+productId); //9
-        console.log("pSalesStatus ==>"+pSalesStatus); //1
-        // productId = parseInt(productId);
-        // pSaleType = parseInt(pSaleType);
-        // pSalesStatus = parseInt(pSalesStatus);
-        $.ajax({
-            url: '/admin/status',
-            method: 'POST',
-            contentType: 'application/json',
-            data:JSON.stringify({
-                'productId': productId,
-                'pSalesStatus': pSalesStatus,
-                'pSaleType': pSaleType
-            }),
-            success: function(response) {
-                alert('판매상태를 변경하였습니다.');
-                location.href = '/admin/productList';
-            },
-            error: function(error) {
-                alert(error.responseText);
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script th:inline="javascript">
+        var actionForm = $("#actionForm");
+        /////////////////페이지번호 처리/////////////////
+        $(".paginate_button a").on('click', function (e){
+            // 기본 동작 막음: 페이지 링크를 통해서 이동
+            e.preventDefault();
+            // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+            var bno = actionForm.find("input[name='user_id']").val();
+            if(bno !== ''){
+                actionForm.find("input[name='user_id']").remove();
             }
+            actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+            actionForm.submit();
         });
-    }
-
-    function productDelete(ProductId) {
-        console.log("productDelete start")
+        // /////////////////게시글 처리/////////////////
+        $(".move_link").on("click", function (e){
+            e.preventDefault();
+            var productId = $(this).attr("data-id")
+            // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+            var bno = actionForm.find("input[name='user_id']").val();
+            if(bno !== ''){
+                actionForm.find("input[name='user_id']").remove();
+            }
+            actionForm.append("<input type='hidden' name='productId' value='"+productId+"'>");
+            console.log("productId= "+productId);
+            actionForm.attr("action","productView").submit();
+        });
+        // 뒤로가기시 새로고침(조회수)
+        window.onpageshow = function (event){
+            if(event.persisted || (window.performance && window.performance.navigation.type==2)){
+                location.reload();
+            }
+        }
+        function updateStatus(productId, pSalesStatus, pSaleType) {
+            console.log("1");
+            console.log("pSaleType ==>"+pSaleType);
+            console.log("productId ==>"+productId);
+            console.log("pSalesStatus ==>"+pSalesStatus);
             $.ajax({
-                url: '/admin/productDelete',
+                url: '/admin/status',
                 method: 'POST',
-                data: {
-                    'ProductId': ProductId
-                },
+                contentType: 'application/json',
+                data:JSON.stringify({
+                    'productId': productId,
+                    'pSalesStatus': pSalesStatus,
+                    'pSaleType': pSaleType
+                }),
                 success: function(response) {
-                    if (response == "ok")
-                        alert("해당 글이 정상적으로 삭제되었습니다.");
-                        location.href='/admin/productList';
+                    alert('판매상태를 변경하였습니다.');
+                    location.href = '/admin/productList';
                 },
                 error: function(error) {
-                    alert('게시글 삭제에 실패했습니다.');
+                    alert(error.responseText);
                 }
             });
         }
-
-
-</script>
+        function productDelete(ProductId) {
+            console.log("productDelete start")
+                $.ajax({
+                    url: '/admin/productDelete',
+                    method: 'POST',
+                    data: {
+                        'ProductId': ProductId
+                    },
+                    success: function(response) {
+                        if (response == "ok")
+                            alert("해당 글이 정상적으로 삭제되었습니다.");
+                            location.href='/admin/productList';
+                    },
+                    error: function(error) {
+                        alert('게시글 삭제에 실패했습니다.');
+                    }
+                });
+            }
+        var searchForm = $("#searchForm");
+        $("#searchForm button").on("click", function () {
+            var selectedType = searchForm.find("select[name='type']").val();
+            var keyword = searchForm.find("input[name='keyword']").val();
+            console.log("@# selectedType "+selectedType);
+            console.log("@# keyword "+keyword);
+            if (!selectedType) {
+                alert("검색종류를 선택하세요");
+                return false;
+            }
+            if (!keyword) {
+                alert("키워드를 입력하세요");
+                return false;
+            }
+            searchForm.attr("action", "productList").submit();
+        });
+    </script>
+</th:block>
+</html>

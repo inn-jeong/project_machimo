@@ -3,7 +3,7 @@
 
     <th:block th:fragment="admin-sidebar">
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-success  sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/index.html">
@@ -20,7 +20,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/static/startbootstrap-sb-admin-2-gh-pages/startbootstrap-sb-admin-2-gh-pages/index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard(시간남으면구현)</span></a>
+                    <span>Admin Home</span></a>
             </li>
 
             <!-- Divider -->
@@ -41,7 +41,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">MACHIMO MEMBER:</h6>
-                        <a class="collapse-item" href="../../../../../../../OneDrive/바탕%20화면/startbootstrap-sb-admin-2-gh-pages/startbootstrap-sb-admin-2-gh-pages/buttons.html">회원관리</a>
+                        <a class="collapse-item" href="http://localhost:8090/admin/adminList">회원관리</a>
                     </div>
                 </div>
             </li>
@@ -59,31 +59,19 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>게시판 관리</span>
+                    <span>게시글 관리</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">MACHIMO BOARD:</h6>
-                        <a class="collapse-item" href="../../../../../../../OneDrive/바탕%20화면/startbootstrap-sb-admin-2-gh-pages/startbootstrap-sb-admin-2-gh-pages/login.html">게시글 목록</a>
-                        <a class="collapse-item" href="../../../../../../../OneDrive/바탕%20화면/startbootstrap-sb-admin-2-gh-pages/startbootstrap-sb-admin-2-gh-pages/register.html">공지 등록</a>
-                        <a class="collapse-item" href="../../../../../../../OneDrive/바탕%20화면/startbootstrap-sb-admin-2-gh-pages/startbootstrap-sb-admin-2-gh-pages/forgot-password.html">Forgot Password</a>
+                        <a class="collapse-item" href="http://localhost:8090/admin/boardList">게시글 목록</a>
+                        <a class="collapse-item" href="http://localhost:8090/admin/boardWrite">공지/문의 등록</a>
                         <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="../../../../../../../OneDrive/바탕%20화면/startbootstrap-sb-admin-2-gh-pages/startbootstrap-sb-admin-2-gh-pages/404.html">404 Page</a>
-                        <a class="collapse-item" href="../../../../../../../OneDrive/바탕%20화면/startbootstrap-sb-admin-2-gh-pages/startbootstrap-sb-admin-2-gh-pages/blank.html">Blank Page</a>
+                        <h6 class="collapse-header">MACHIMO PRODUCTS:</h6>
+                        <a class="collapse-item" href="http://localhost:8090/admin/productList">제품관리</a>
                     </div>
                 </div>
             </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item active">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>제품관리</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">

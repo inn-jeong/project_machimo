@@ -13,6 +13,24 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">MACHIMO USER LIST</h6>
             </div>
+            <!-- 검색기능 -->
+            <div>
+                <form id="searchForm" method="get">
+                    <label>
+                        <select name="type">
+                            <option value="U" th:selected="${pageMaker.cri.type eq 'N'?'selected':''}">회원번호</option>
+                            <option value="I" th:selected="${pageMaker.cri.type eq 'I'?'selected':''}">ID</option>
+                            <option value="N" th:selected="${pageMaker.cri.type eq 'N'?'selected':''}">닉네임</option>
+                            <option value="E" th:selected="${pageMaker.cri.type eq 'E'?'selected':''}">이메일</option>
+                            <option value="R" th:selected="${pageMaker.cri.type eq 'R'?'selected':''}">회원권한</option>
+                        </select>
+                    </label>
+                    <label>
+                        <input type="text" name="keyword" th:value="${pageMaker.cri.keyword}">
+                    </label>
+                    <button type="submit">search</button>
+                </form>
+            </div>
 
             <div class="card-body">
                 <div class="table-responsive">
@@ -35,7 +53,6 @@
                             <tr th:each="user: ${adminList}" th:if="${user != null}">
                                 <td th:text="${user.userId}"></td>
                                 <td>
-    <!--                                <a class="move_link" th:data-id="${user.userId}"><span th:text="${user.uId}"></span></a>-->
                                     <a class="move_link" th:data-id="${user.userId}">
                                         <span th:text="${user.uId}"></span>
                                     </a>
@@ -115,12 +132,14 @@
             <form th:method="get" id="actionForm">
                 <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
                 <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+                <input type="hidden" name="type" th:value="${pageMaker.cri.type}">
+                <input type="hidden" name="keyword" th:value="${pageMaker.cri.keyword}">
             </form>
         </div>
         </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
+    <script th:inline="javascript">
         var actionForm = $("#actionForm");
         /////////////////페이지번호 처리/////////////////
         $(".paginate_button a").on('click', function (e){
@@ -186,6 +205,38 @@
                 location.reload();
             }
         }
+
+        //검색기능//
+        // var searchForm = $("#searchForm");
+        // $("#searchForm button").on("click", function (){
+        //     if(searchForm.find("option:selected").val()) {
+        //         alert("검색종류를 선택하세요");
+        //         return false;
+        //     }
+        //     if(searchForm.find("input[name]='keyword']").val()){
+        //         alert("키워드를 입력하세요");
+        //         return false;
+        //     }
+        //     searchForm.attr("action","adminList").submit();
+        // });
+        var searchForm = $("#searchForm");
+        $("#searchForm button").on("click", function () {
+            var selectedType = searchForm.find("select[name='type']").val();
+            var keyword = searchForm.find("input[name='keyword']").val();
+            console.log("@# selectedType "+selectedType);
+            console.log("@# keyword "+keyword);
+            if (!selectedType) {
+                alert("검색종류를 선택하세요");
+                return false;
+            }
+
+            if (!keyword) {
+                alert("키워드를 입력하세요");
+                return false;
+            }
+
+            searchForm.attr("action", "adminList").submit();
+        });
 
     </script>
     </th:block>

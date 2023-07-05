@@ -4,37 +4,57 @@
 
 <mapper namespace="com.example.project_machimo.admin.dao.AdminDao">
 
+    <sql id="criteria">
+        <trim prefix="(" suffix=")">
+            <foreach item="type" collection="typeArr">
+                <choose>
+                    <when test="type == 'U'.toString()">
+                        u.user_id like '%'||#{keyword}||'%'
+                    </when>
+                    <when test="type == 'I'.toString()">
+                         u.u_id like '%'||#{keyword}||'%'
+                    </when>
+                    <when test="type == 'N'.toString()">
+                         u.u_nickname like '%'||#{keyword}||'%'
+                    </when>
+                    <when test="type == 'E'.toString()">
+                         u.u_email like '%'||#{keyword}||'%'
+                    </when>
+                    <when test="type == 'R'.toString()">
+                         u.u_role like '%'||#{keyword}||'%'
+                    </when>
+                </choose>
+            </foreach>
+        </trim>
+    </sql>
+
     <!--/////////유저 관리/////////-->
     <select id="adminList" resultType="com.example.project_machimo.admin.dto.UsersDto">
         <![CDATA[
             SELECT *
             FROM (
-            SELECT ROWNUM AS rn, temp.*
-            FROM (
-            SELECT u.user_id, u.u_id, u.u_nickname, u.u_email, u.u_point, u.u_created_at, u.u_role,
-            r.report_id, r.products_id, r.report_content, r.report_date, r.report_count
-            FROM users u
-            JOIN report r ON u.user_id = r.user_id
-            ORDER BY u.user_id DESC
-            ) temp
+                SELECT ROWNUM AS rn, temp.*
+                FROM (
+                    SELECT u.user_id, u.u_id, u.u_nickname, u.u_email, u.u_point, u.u_created_at, u.u_role,
+                    r.report_id, r.products_id, r.report_content, r.report_date, r.report_count
+                    FROM users u
+                    JOIN report r ON u.user_id = r.user_id
+            ]]>
+                 <where>
+                     <include refid="criteria"></include>
+                 </where>
+            <![CDATA[
+                    ORDER BY u.user_id DESC
+                ) temp
             )
-            WHERE rn <= (#{pageNum} * #{amount})
+            WHERE
+            rn <= (#{pageNum} * #{amount})
             AND rn > (#{pageNum} - 1) * #{amount}
         ]]>
-<!--        <![CDATA[-->
-<!--                select * from (-->
-<!--                select rownum rn, temp.* from-->
-<!--                (select-->
-<!--                 user_id, u_id, u_nickname, u_email, u_point, u_created_at, u_role-->
-<!--                from users-->
-<!--                order by user_id desc ) temp-->
-<!--                where rownum <= ( #{pageNum} * #{amount}))-->
-<!--                where rn > (#{pageNum} -1) * #{amount}-->
-<!--        ]]>-->
     </select>
 
+
     <select id="userView" resultType="com.example.project_machimo.admin.dto.UsersDto">
-<!--        select u_id, u_nickname, u_password, u_name, u_jumin, u_phone, u_address from users where user_id = #{userId}-->
         SELECT u.user_id, u_id, u_nickname, u_password, u_name, u_jumin, u_phone, u_address,
         r.report_id, r.products_id, r.report_content, r.report_date, r.report_count
         FROM users u
@@ -58,19 +78,50 @@
         update users set u_role=1 where user_id=#{userId}
     </update>
 
+
     <!--/////////문의,공지/////////-->
+    <sql id="bcriteria">
+        <trim prefix="(" suffix=")" prefixOverrides="OR">
+            <foreach item="type" collection="typeArr">
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'C'.toString()">
+                            b_category like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'T'.toString()">
+                            b_title like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            b_writer like '%'||#{keyword}||'%'
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    </sql>
+
     <select id="BoardList" resultType="com.example.project_machimo.admin.dto.BoardDto">
         <![CDATA[
                 select * from (
-                select rownum rn, temp.* from
-                (select
-                 board_id, b_category, b_title, b_writer, b_date, b_hit
+                select rownum rn, temp.*
+                from(
+                select
+                board_id, b_category, b_title, b_writer, b_date, b_hit
                 from board
-                order by board_id desc ) temp
-                where rownum <= ( #{pageNum} * #{amount}))
+        ]]>
+            <where>
+                <include refid="bcriteria"></include>
+            </where>
+        <![CDATA[
+                order by board_id desc
+                ) temp
+                where
+                rownum <= ( #{pageNum} * #{amount})
+                )
                 where rn > (#{pageNum} -1) * #{amount}
         ]]>
     </select>
+
 
     <select id="boardView" resultType="com.example.project_machimo.admin.dto.BoardDto">
         select board_id, inquiry_category, b_category, b_title, b_writer, b_date, b_content, b_hit from board where board_id = ${boardId}
@@ -97,9 +148,51 @@
         delete from board where board_id = #{param1}
     </delete>
 
-
+<!--    카테고리-->
+<!--    제품명<-->
+<!--        상품정보-->
+<!--        판매유형-->
+<!--        판매가<-->
+<!--        경매가<-->
+<!--        등록일자-->
+<!--        판매상태-->
 
     <!--/////////제품관리/////////-->
+    <sql id="pcriteria">
+        <trim prefix="(" suffix=")" prefixOverrides="OR">
+            <foreach item="type" collection="typeArr">
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'C'.toString()">
+                            c.c_name like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'T'.toString()">
+                            p.p_name like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            p.p_info like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            p.p_sale_type like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            p.p_direct like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            p.p_b_price like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            p.p_created_at like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            p.p_sales_status like '%'||#{keyword}||'%'
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    </sql>
+
     <select id="pList" resultType="com.example.project_machimo.admin.dto.ProductDto">
         <![CDATA[
             SELECT *
@@ -109,6 +202,11 @@
             select * from
             products p
             join category c on p.c_id = c.c_id
+        ]]>
+        <where>
+            <include refid="pcriteria"></include>
+        </where>
+        <![CDATA[
             ORDER BY p.c_id DESC
             ) temp
             )
@@ -116,6 +214,7 @@
             AND rn > (#{pageNum} - 1) * #{amount}
         ]]>
     </select>
+
 
 <!--        SELECT p.product_id, p.p_name, ca.c_name, ca.c_name2, pi.i_sub_img, p.p_info, p.p_direct, p.p_b_price, p.p_created_at, p.p_updated_at, p.p_sales_status, p.p_sale_type-->
 <!--        FROM products p-->

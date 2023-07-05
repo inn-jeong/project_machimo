@@ -146,6 +146,16 @@ public class AdminController {
         return "/admin/boardWrite";
     }
 
+    @GetMapping("/boardWrite")
+    public String adminBoardWrite(){
+        System.out.println("@# ==> adminBoardWrite ");
+        UsersDto dto = new UsersDto();
+        session.setAttribute("user",dto);
+        return "admin/adminBoardWrite";
+    }
+
+
+
     //게시글 작성
     @PostMapping("/boardWrite")
     @ResponseBody
@@ -155,6 +165,7 @@ public class AdminController {
         service.boardWrite(dto);
         return "writeOk";
     }
+
     @GetMapping("/boardModifyView/{boardId}")
     public String boardModifyView(@PathVariable int boardId, Model model){
         model.addAttribute("boardView",service.boardView(boardId));
