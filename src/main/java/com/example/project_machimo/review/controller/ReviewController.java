@@ -68,13 +68,6 @@ public class ReviewController {
         return "review/write_view";
     }
 
-//    @RequestMapping("/write")
-//    public String write(@RequestParam HashMap<String, String> param, Model model) {
-//        log.info("@# write");
-//        service.write(param);
-//        return "redirect:list";
-//    }
-
     @RequestMapping("/write")
     public String write(@RequestParam HashMap<String, String> param, Model model) {
         log.info("@# write");
@@ -144,6 +137,7 @@ public class ReviewController {
 //    produce 속성 :전송되는 json데이터 인코딩해서 이미지 파일이름 한글이어도 안깨지도록 해줌
     @RequestMapping (value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 //    반환타입이 ResponseEntity 객체ㅡ http의 body 에 추가될 데이터는 List<AttachImageVO> 임
+//    public ResponseEntity<List<AttachImageVO>> uploadajaxAction(@RequestParam("reviewId") int reviewId, MultipartFile[] uploadFile){
     public ResponseEntity<List<AttachImageVO>> uploadajaxAction(MultipartFile[] uploadFile){
 
         log.info("uploadAjaxAction");
@@ -198,6 +192,7 @@ public class ReviewController {
             String uploadFileName = multipartFile.getOriginalFilename();
             vo.setFileName(uploadFileName);
             vo.setUploadPath(datePath);
+//            vo.setReviewId(reviewId);
 
             /* uuid 적용 파일 이름 */
             String uuid = UUID.randomUUID().toString();
@@ -230,10 +225,11 @@ public class ReviewController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            service.imageEnroll(vo);
             list.add(vo);
         }//for
 //        http의 body에 추가될 데이터는 List<AttachImageVO>이고, 상태코드가 Ok(200)인 ResponseEntity 객체 생성
-        ResponseEntity<List<AttachImageVO>> result = new ResponseEntity<List<AttachImageVO>>(list, HttpStatus.OK);
+        ResponseEntity<List<AttachImageVO>> result = new ResponseEntity<>(list, HttpStatus.OK);
         return result;
     }
 

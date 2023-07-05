@@ -28,11 +28,12 @@
 
     <insert id="write">
 
-        <selectKey resultType="int" keyProperty="review_id" order="AFTER">
-            SELECT MAX(review_id) FROM review
-        </selectKey>
+<!--        <selectKey resultType="int" keyProperty="review_id" order="AFTER">-->
+<!--            SELECT MAX(review_id) FROM review-->
+<!--        </selectKey>-->
         INSERT INTO review (review_id, product_id, review_writter, review_title, review_content, review_star)
         VALUES ((SELECT MAX(review_id)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})
+<!--        VALUES ((SELECT count(*)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})-->
 
 <!--        INSERT INTO review (review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_thum)-->
 <!--        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{reviewImg}, #{reviewThum})-->
@@ -90,9 +91,9 @@
         select * from review_image where review_id = #{reviewId}
     </select>
 
-    <insert id="imageEnroll">
+    <insert id="imageEnroll" parameterType="com.example.project_machimo.review.dto.AttachImageVO">
         insert into review_image(review_id, file_name, upload_path, uuid)
-        values (#{reviewId}, #{fileName}, #{uploadPath}, #{uuid});
+        values ((SELECT count(*)+1 FROM review), #{fileName}, #{uploadPath}, #{uuid})
     </insert>
     <!--    useGeneratedKeys 옵션을 true로 설정하면 생성된 게시글의 PK가 parameterType에 선언된 요청 객체(params)에 저장되며, keyProperty에 선언된 id에 값이 매핑(바인딩)됩니다.-->
 <!--    <insert id="save" parameterType="com.study.domain.post.PostRequest" useGeneratedKeys="true" keyProperty="id">-->

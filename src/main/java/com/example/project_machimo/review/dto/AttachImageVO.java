@@ -16,9 +16,4 @@ public class AttachImageVO {
     /* 경로 */
     private String uploadPath;
 
-//    private int fno;
-//    private int bno;
-//    private String fileName;     //저장할 파일
-//    private String fileOriName;  //실제 파일
-//    private String fileUrl;
 }
