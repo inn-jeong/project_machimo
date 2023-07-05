@@ -6,8 +6,16 @@
     <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
         .category-list {
             display: flex;
+            justify-content: center;
             list-style-type: none;
             padding: 0;
         }
@@ -47,48 +55,61 @@
         .subcategory-link:hover {
             color: #0000ff;
         }
-        .mainCate{
-            color: #333;
-            text-decoration: none;
-            border-bottom: none;
-        }
-        .mainCate:hover {
-            color: #ff0000;
-        }
-        .itemContainer {
+
+        .product-list {
             display: flex;
-            align-items: center;
-            border: 1px solid #ccc;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product-item {
+            flex: 0 0 calc(25% - 20px);
+            margin: 10px;
             padding: 10px;
-            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
         }
-        .itemImage {
-            flex: 0 0 100px;
-            margin-right: 10px;
-        }
+
         .item-image img {
             width: 100%;
             height: auto;
         }
+
         .item-info h4 {
             margin: 0;
             font-size: 16px;
             font-weight: bold;
         }
+
         .item-info p {
             margin: 0;
             font-size: 14px;
         }
+
+        .sort-form {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .sort-label {
+            margin-right: 5px;
+        }
+
+        .product-count {
+            margin-top: 10px;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
-    shop 페이지 입니다.
-
+<div class="container">
+    <h1>SHOP</h1>
     <!-- 카테고리 목록 -->
     <div>
-        <h3>카테고리</h3>
         <ul class="category-list">
-            <li class="category-item"><a href="/shop/allItemView" class="mainCate">전체</a></li>
+            <li class="category-item"><a href="/shop/allItemView" class="category-link">전체</a></li>
             <!-- 상위카테고리 -->
             <li th:each="category : ${categories}" id="category-[[${category.cId}]]" class="category-item">
                 <a th:href="@{'/shop/allItemView?category1=' + ${category.cId}}"
@@ -105,43 +126,50 @@
         </ul>
     </div>
 
-    <form action="/shop/allItemView" method="get" id="sortForm">
-        <select name="sort" id="sort">
-            <option value="">전체보기</option>
+    <div class="sort-form">
+        <form action="/shop/allItemView" method="get" id="sortForm">
+            <label for="sort" class="sort-label"></label>
+            <select name="sort" id="sort">
+                <option value="">전체보기</option>
+                <!-- th:selct 속성으로 selectedSort 변수에 값을 확인하고 해당하는 옵션을 선택상태로 설정 -->
+                <option value="newest" th:selected="${selectedSort == 'newest'}">최신순</option>
+                <option value="popularity" th:selected="${selectedSort == 'popularity'}">인기순</option>
+                <option value="interest" th:selected="${selectedSort == 'interest'}">관심많은 순</option>
+                <option value="auction_p" th:selected="${selectedSort == 'auction_p'}">경매 상품</option>
+                <option value="auction_pp" th:selected="${selectedSort == 'auction_pp'}">경매 가격 낮은 순</option>
+                <option value="auction_ppd" th:selected="${selectedSort == 'auction_ppd'}">경매 가격 높은 순</option>
+                <option value="auction_n" th:selected="${selectedSort == 'auction_n'}">일반 상품</option>
+                <option value="auction_np" th:selected="${selectedSort == 'auction_np'}">일반 상품 낮은 순</option>
+                <option value="auction_npd" th:selected="${selectedSort == 'auction_npd'}">일반 상품 높은 순</option>
+            </select>
+            <input type="hidden" name="category2" th:value="${category1}" />
+            <input type="hidden" name="category1" th:value="${category2}" />
+            <button type="submit">정렬 적용</button>
+        </form>
+    </div>
 
-<!--            th:selct 속성으로 selectedSort 변수에 값을 확인하고 해당하는 옵션을 선택상태로 설정-->
-            <option value="newest" th:selected="${selectedSort == 'newest'}">최신순</option>
-            <option value="popularity" th:selected="${selectedSort == 'popularity'}">인기순</option>
-            <option value="interest" th:selected="${selectedSort == 'interest'}">관심많은 순</option>
-            <option value="auction_p" th:selected="${selectedSort == 'auction_p'}">경매 상품</option>
-            <option value="auction_pp" th:selected="${selectedSort == 'auction_pp'}">경매 가격 낮은 순</option>
-            <option value="auction_ppd" th:selected="${selectedSort == 'auction_ppd'}">경매 가격 높은 순</option>
-            <option value="auction_n" th:selected="${selectedSort == 'auction_n'}">일반 상품</option>
-            <option value="auction_np" th:selected="${selectedSort == 'auction_np'}">일반 상품 낮은 순</option>
-            <option value="auction_npd" th:selected="${selectedSort == 'auction_npd'}">일반 상품 높은 순</option>
-        </select>
-        <button type="submit">정렬 적용</button>
-    </form>
+    <div class="product-count">
+        상품 수: <span th:text="${countProduct}"></span>
+    </div>
 
-    <!-- 이미지와 상품 정보를 반복하여 표시 -->
-    <div th:each="item : ${itemList}" class="itemContainer">
-        <!-- 이미지 -->
-            <div class="itemImage">
+    <div class="product-list">
+        <!-- 이미지와 상품 정보를 반복하여 표시 -->
+        <div class="product-item" th:each="item : ${itemList}">
+            <!-- 이미지 -->
+            <div class="item-image">
                 <p><span th:text="${item.iSubImage}"></span></p>
             </div>
-            <div itemInfo>
+            <div class="item-info">
                 <!-- 닉네임 -->
-                <p><h4 th:text="${item.uNickname}"></h4></p>
+                <h4 th:text="${item.uNickname}"></h4>
                 <!-- 상품 이름 -->
                 <p th:text="${item.pName}"></p>
                 <!-- 가격 -->
-                <!-- 0일때 경매가 1일때 즉시 가로 구분함-->
                 <p>
                     <span th:if="${item.pSaleType == 0}" th:text="${item.pBPrice}"></span>
                     <span th:if="${item.pSaleType == 1}" th:text="${item.pDirect}"></span>
                 </p>
+            </div>
         </div>
     </div>
-</body>
 </html>
-

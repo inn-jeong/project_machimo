@@ -1,4 +1,4 @@
-package com.example.project_machimo.shop.Dto;
+package com.example.project_machimo.main.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

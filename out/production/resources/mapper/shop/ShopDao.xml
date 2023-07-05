@@ -16,7 +16,7 @@
         c.c_id2,c.c_name from products p
         join users u on p.user_id = u.user_id
         join product_images pi on pi.product_id = p.product_id
-        join category c on c.c_id=p.c_id;
+        join category c on c.c_id=p.c_id
     </select>
     <select id="findNickName" resultType="com.example.project_machimo.shop.Dto.UsersDto">
         select u_nickname,user_id from users where user_id = #{userId}
@@ -47,5 +47,9 @@
     </select>
     <select id="getCategoryById" resultType="com.example.project_machimo.shop.Dto.CategoryDto">
         select c_id, c_name, c_id2 from category where c_id = #{cId}
+    </select>
+
+    <select id="countProduct" resultType="Integer">
+        select count(product_id)"count_product" from products
     </select>
 </mapper>

@@ -17,4 +17,5 @@ public interface ShopService {
     List<ItemDto> getProductsBySubcategoryId(int cId);
     List<ItemDto> getProductsBycategoryId(int cId2);
     ArrayList<CategoryDto> getCategoryById(Integer cId);
+    public Integer countProduct();
 }

@@ -16,7 +16,8 @@ public interface ShopDao {
     public ArrayList<WishlistDto> wishLike(int productId);
     public ArrayList<CategoryDto> getCategories();
     public ArrayList<CategoryDto> getSubCategories(Integer cId2);
-    List<ItemDto> getProductsBySubcategoryId(int cId);
-    List<ItemDto> getProductsBycategoryId(int cId2);
-    ArrayList<CategoryDto> getCategoryById(Integer cId);
+    public List<ItemDto> getProductsBySubcategoryId(int cId);
+    public List<ItemDto> getProductsBycategoryId(int cId2);
+    public ArrayList<CategoryDto> getCategoryById(Integer cId);
+    public Integer countProduct();
 }
