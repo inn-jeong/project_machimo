@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -165,5 +167,44 @@ public class MypageController {
         model.addAttribute("type","auction");
         model.addAttribute("items",items);
         return "mypage/mypage";
+    }
+
+    @RequestMapping("/boardlist")
+    public String boardList(HttpSession session, Model model){
+        UsersDto user = (UsersDto) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/loginT/login?login_try=no";
+        }
+        ArrayList<BoardDto> boards = service.getBoards(user.getUserId());
+        model.addAttribute("type","board");
+        model.addAttribute("boards",boards);
+        return "mypage/mypage";
+    }
+
+    @RequestMapping("/withdrawal")
+    public String withdrawal(HttpSession session,Model model){
+        UsersDto user = (UsersDto) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/loginT/login?login_try=no";
+        }
+        model.addAttribute("type","withdrawal");
+        return "mypage/mypage";
+    }
+
+    @RequestMapping("/check_withdrawal")
+    @ResponseBody
+    public String checkWithdrawal(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String result;
+        String uPassword = ((UsersDto)session.getAttribute("user")).getUPassword();
+        String inputPwd = request.getParameter("uPassword");
+        String checkWith = request.getParameter("checkWith");
+
+        if(uPassword.equals(inputPwd) && checkWith.equals("탈퇴하겠습니다")){
+            result = "confirm";
+        }else{
+            result = "denined";
+        }
+        return result;
     }
 }

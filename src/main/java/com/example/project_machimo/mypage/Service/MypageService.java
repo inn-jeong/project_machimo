@@ -19,4 +19,5 @@ public interface MypageService {
     public UsersDto findUser(String uId);
     public ArrayList<WishItem> getWishItem(Integer userId);
     public ArrayList<AuctionItem> getAuctionItems(Integer userId);
+    public ArrayList<BoardDto> getBoards(Integer userId);
 }

@@ -46,7 +46,7 @@
         .usertitle{
             color: rgb(255,102,35) !important;
         }
-        .order_list_subtitle{
+        .list_subtitle{
             padding: 60px 0 20px 30px;
         }
         dl{
@@ -81,7 +81,7 @@
                     <dl>
                         <dt>정보관리</dt>
                         <dd><a href="/mypage/modify">나의 정보수정</a></dd>
-                        <dd>회원탈퇴</dd>
+                        <dd><a href="/mypage/withdrawal">회원탈퇴</a></dd>
                     </dl>
                     <dl>
                         <dt>상품관리</dt>
@@ -96,13 +96,13 @@
                     </dl>
                     <dl class="pb-5">
                         <dt>활동관리</dt>
-                        <dd>나의 문의내역</dd>
-                        <dd>나의 상품후기</dd>
+                        <dd><a href="/mypage/boardlist">나의 문의내역</a></dd>
+<!--                        <dd>나의 상품후기</dd>-->
                     </dl>
                 </div>
                 <div th:if="${type.equals('main')}" class="order_list">
                     <input type="hidden" id="result_modify" th:value="${modify}">
-                    <div class="order_list_subtitle">
+                    <div class="list_subtitle">
                         <h4>최근 구매 내역</h4>
                     </div>
                     <table th:if="${items != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
@@ -147,7 +147,7 @@
                     </div>
                 </div>
                 <div th:if="${type.equals('order')}" class="order_list">
-                    <div class="order_list_subtitle">
+                    <div class="list_subtitle">
                         <h4>구매 내역</h4>
                     </div>
                     <table th:if="${items != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
@@ -174,7 +174,7 @@
                             </td>
                             <td th:text="${item.createdAt}" rowspan="3" style="width: 120px" class="align-middle"></td>
                             <td th:text="${item.orderId}" rowspan="3" style="width: 80px" class="align-middle"></td>
-<!--                            판매유형에 따른 가격 출력-->
+                            <!--                            판매유형에 따른 가격 출력-->
                             <td th:if="${item.pSaleType == 1}" rowspan="3" style="width: 100px" class="align-middle">즉시구매가<br><span th:text="${item.pDirect}"></span>원</td>
                             <td th:if="${item.pSaleType == 0}" rowspan="3" style="width: 100px" class="align-middle">낙찰가<br><span th:text="${item.pBPrice}"></span>원</td>
                             <td th:text="${item.orderStatus}" rowspan="3" style="width: 80px" class="align-middle"></td>
@@ -193,7 +193,7 @@
                     </div>
                 </div>
                 <div th:if="${type.equals('sales')}" class="order_list">
-                    <div class="order_list_subtitle">
+                    <div class="list_subtitle">
                         <h4>판매 내역</h4>
                     </div>
                     <table th:if="${salesItems != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
@@ -246,7 +246,7 @@
                     </div>
                 </div>
                 <div th:if="${type.equals('basket')}" class="basket_list">
-                    <div class="order_list_subtitle">
+                    <div class="list_subtitle">
                         <h4>장바구니</h4>
                     </div>
                     <table th:if="${basketItems != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
@@ -310,12 +310,15 @@
                     </div>
                 </div>
                 <div th:if="${type.equals('wish')}" class="basket_list">
-                    <div class="order_list_subtitle">
+                    <div class="list_subtitle">
                         <h4>관심상품</h4>
                     </div>
                     <table th:if="${items != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
                         <thead>
                         <tr class="table-active">
+                            <td>
+                                <input type="checkbox" id="selectAllCheckBox" checked>
+                            </td>
                             <td>번호</td>
                             <th colspan="2">상품정보</th>
                             <th>제품코드</th>
@@ -325,6 +328,9 @@
                         </thead>
                         <tbody th:if="${item.pSalesStatus == 1}" th:id="${item.productId}" th:each="item, count:${items}" class="item-show">
                         <tr>
+                            <td rowspan="3" style="width: 20px;" class="align-middle">
+                                <input type="checkbox" class="checkBoxItem" th:value="${item.productId}" checked>
+                            </td>
                             <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
                             <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>
                             <td style="width: 200px; text-align: left">
@@ -359,6 +365,9 @@
                         </tbody>
                         <tbody th:if="${item.pSalesStatus != 1}" th:id="${item.productId}" th:each="item, count:${items}" class="item-show table-active">
                         <tr>
+                            <td rowspan="3" class="align-middle" style="width: 20px;">
+<!--                                <input type="checkbox" th:value="${item.productId}">-->
+                            </td>
                             <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
                             <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>
                             <td style="width: 200px; text-align: left">
@@ -391,13 +400,19 @@
                             <td th:text="${item.pName}" style="text-align: left"></td>
                         </tr>
                         </tbody>
+                        <tr>
+                            <td style="text-align: center" colspan="8">
+                                <button>장바구니 담기</button>
+                            </td>
+                        </tr>
+
                     </table>
                     <div th:if="${items == null}" style="align-content: center">
                         관심 상품이 없습니다.
                     </div>
                 </div>
                 <div th:if="${type.equals('auction')}" class="basket_list">
-                    <div class="order_list_subtitle">
+                    <div class="list_subtitle">
                         <h4>입찰상품</h4>
                     </div>
                     <table th:if="${items != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
@@ -413,14 +428,14 @@
                         </tr>
                         </thead>
 <!--                        <tbody th:if="${item.pSalesStatus==1}" th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show">-->
-                        <tbody th:if="${item.pSalesStatus == 1 || item.pSalesStatus == 3}" th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show">
+                        <tbody th:if="${item.pSalesStatus == 1 || (item.pSalesStatus == 3 && item.userBidsId.equals(session.user.userId))}" th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show">
                             <tr>
                                 <td th:text="${count.count}" rowspan="3" style="width: 40px"  class="align-middle"></td>
                                 <td th:text="${item.iSubImg}"  rowspan="3" style="width: 100px" class="align-middle"></td>
                                 <td th:text="${item.uNickname}" style="width: 200px; text-align: left" class="align-middle"></td>
                                 <td th:text="${item.auctionId}"  rowspan="3" style="width: 80px" class="align-middle"></td>
-                                <td th:text="${item.amount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
-                                <td th:text="${item.uNickname}"  rowspan="3" style="width: 80px" class="align-middle"></td>
+                                <td th:text="${item.currentAmount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
+                                <td th:text="${item.uBidsNickname}"  rowspan="3" style="width: 80px" class="align-middle"></td>
                                 <td th:text="${item.bidsAt}"  rowspan="3" style="width: 100px" class="align-middle"></td>
                                 <td rowspan="3" style="width: 80px" class="align-middle">
                                     <div th:switch="${item.pSalesStatus}">
@@ -432,7 +447,7 @@
                                         <span th:case="4">경매실패</span>
                                         <span th:case="5">판매보류</span>
                                     </div>
-                                    <button th:if="${item.pSalesStatus==3 && item.userId.equals(session.user.userId)}">결제하기</button>
+                                    <button th:if="${item.pSalesStatus==3 && item.userBidsId.equals(session.user.userId)}">결제하기</button>
     <!--                                <button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button>-->
                                 </td>
                             </tr>
@@ -443,14 +458,14 @@
                                 <td th:text="'~'+${item.pDur}" style="width: 200px; text-align: left"></td>
                             </tr>
                         </tbody>
-                        <tbody th:unless="${item.pSalesStatus == 1 || item.pSalesStatus == 3}" th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show table-active">
+                        <tbody th:unless="${item.pSalesStatus == 1 || item.pSalesStatus == 3 && item.userBidsId.equals(session.user.userId)}" th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show table-active">
                         <tr>
                             <td th:text="${count.count}" rowspan="3" style="width: 40px"  class="align-middle"></td>
                             <td th:text="${item.iSubImg}"  rowspan="3" style="width: 100px" class="align-middle"></td>
                             <td th:text="${item.uNickname}" style="width: 200px; text-align: left" class="align-middle"></td>
                             <td th:text="${item.auctionId}"  rowspan="3" style="width: 80px" class="align-middle"></td>
-                            <td th:text="${item.amount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
-                            <td th:text="${item.uNickname}"  rowspan="3" style="width: 80px" class="align-middle"></td>
+                            <td th:text="${item.currentAmount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
+                            <td th:text="${item.uBidsNickname}"  rowspan="3" style="width: 80px" class="align-middle"></td>
                             <td th:text="${item.bidsAt}"  rowspan="3" style="width: 100px" class="align-middle"></td>
                             <td rowspan="3" style="width: 80px" class="align-middle">
                                 <div th:switch="${item.pSalesStatus}">
@@ -462,8 +477,7 @@
                                     <span th:case="4">경매실패</span>
                                     <span th:case="5">판매보류</span>
                                 </div>
-                                <button th:if="${item.pSalesStatus==3 && item.userId.equals(session.user.userId)}">결제하기</button>
-                                <!--                                <button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button>-->
+<!--                                <button th:if="${item.pSalesStatus==3 && item.userBidsId.equals(session.user.userId)}">결제하기</button>-->
                             </td>
                         </tr>
                         <tr>
@@ -476,6 +490,35 @@
                     </table>
                     <div th:if="${items == null}" style="align-content: center">
                         입찰상품이 없습니다.
+                    </div>
+                </div>
+                <div th:if="${type.equals('board')}" class="board_list">
+                    <div class="list_subtitle">
+                        <h4>나의 문의내역</h4>
+                    </div>
+                    <table th:if="${boards != null}" class="table table-hover mx-auto text-center" style="width: 1000px">
+                        <thead>
+                        <tr class="table-active">
+                            <th style="width: 40px">번호</th>
+                            <th style="width: 150px">제목</th>
+                            <th style="width: 60px">작성자</th>
+                            <th style="width: 80px">작성일</th>
+                            <th style="width: 50px">조회수</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <!--            <tr th:each="item, count:${basketItems}" th:id="${item.product_id}" >-->
+                            <tr th:id="${board.boardId}" th:each="board :${boards}" class="item-show">
+                                <td th:text="${board.boardId}"></td>
+                                <td th:text="'['+${board.inquiryCategory}+']'+${board.bTitle}" style="text-align: left"></td>
+                                <td th:text="${board.uNickname}"></td>
+                                <td th:text="${board.bDate}"></td>
+                                <td th:text="${board.bHit}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div th:if="${boards == null}" style="align-content: center">
+                        문의내역이 없습니다.
                     </div>
                 </div>
                 <div th:if="${type.equals('modify')}" class="basket_list">
@@ -567,6 +610,38 @@
                         </table>
                     </form>
                 </div>
+                <div th:if="${type.equals('withdrawal')}" class="order_list">
+                    <div class="list_subtitle">
+                        <h4>탈퇴하기</h4>
+                    </div>
+                    <table class="table table-active mx-auto text-center" style="width: 1000px">
+                        <thead>
+                        <tr class="table-active">
+                            <td style="width: 250px">
+                                <p>탈퇴하실 경우 구매내역 확인은 물론 로그인 후 가능한 모든 기능은 사용하실 수 없습니다.</p>
+                                <p>탈퇴하신 후에 회원 정보의 복구는 불가능하며, 보유하신 쿠폰이나 적립금도 모두 무효화됩니다.</p>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <input type="password" id="uPassword" placeholder="비밀번호" style="width: 400px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" id="checkWith" placeholder="'탈퇴하겠습니다'를 입력해주세요." style="width: 400px">
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <div style="text-align: center">
+                        <button onclick="user_withdrawal()" class="btn btn-light" style="width: 150px; height: 60px">화인</button>
+                        <button class="btn btn-dark" style="width: 150px; height: 60px" onclick="javascript:location.href='/mypage/mypage_page'">취소</button>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -603,6 +678,14 @@
     //         }
     //     });
     // }
+    $(document).ready(function (){
+        $("#selectAllCheckBox").change(function (){
+           const isChecked = $(this).is(':checked');
+           $(".checkBoxItem").prop('checked',isChecked);
+        });
+    });
+
+
     $(".item-show").on('click',function (){
         var productId = $(this).attr('id');
         $("#productId").val(productId);
@@ -675,6 +758,31 @@
                 alert(response);
             }
         });
+    }
+
+    function user_withdrawal(){
+        var uPasswrod = $("#uPassword").val();
+        var checkWith = $("#checkWith").val();
+        $.ajax({
+            url:'/mypage/check_withdrawal',
+            type:'POST',
+            data:{
+                uPassword:uPasswrod,
+                checkWith:checkWith
+            },
+            success:function (response){
+                if(response == 'confirm'){
+                    alert('탈퇴 처리하였습니다.');
+                    location.href="/loginT/login"; //메인페이지로 수정
+                }else{
+                    alert('잘못 입력하셨습니다.');
+                }
+            },
+            error: function (response){
+                alert(response);
+            }
+        });
+
     }
 
 </script>

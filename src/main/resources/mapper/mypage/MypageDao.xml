@@ -56,24 +56,45 @@
     </select>
     <select id="getAuctionItems" resultType="com.example.project_machimo.mypage.Dto.AuctionItem">
         select b.auction_id,
-                b.product_id,
+                a.product_id,
                 p.p_name,
-                u.user_id,
+                a.user_id,
                 u.u_nickname,
                 p.p_dur,
                 b.bids_at,
-                b.amount,
+                a.amount,
                 p.p_b_price,
                 p.p_sales_status,
                 i.i_sub_img
-        from bids b
-        join products p on p.product_id = b.product_id
-        join users u on u.user_id = b.user_id
-        join product_images i on i.product_id = b.product_id
-        where user_id = #{param1}
+        from (select distinct b.product_id,b.user_id,b.amount
+            from (select max(amount) amount, product_id,user_id from bids group by product_id,user_id) b
+            where b.user_id=1) a
+        join bids b on b.product_id = a.product_id and b.user_id=a.user_id and b.amount=a.amount
+        join products p on p.product_id = a.product_id
+        join users u on u.user_id = p.user_id
+        join product_images i on i.product_id = a.product_id
     </select>
     <select id="getCurrentAmount" resultType="com.example.project_machimo.mypage.Dto.AuctionItem">
-
+        select a.current_amount,a.user_bids_id, u.u_nickname u_bids_nickname
+        from (select amount current_amount, user_id user_bids_id
+            from bids
+            where product_id = #{param1}
+            and amount = (
+            select max(amount)
+            from bids
+            where product_id = #{param1}
+        )) a
+        join users u on u.user_id = a.user_bids_id
+    </select>
+    <select id="getBoards" resultType="com.example.project_machimo.mypage.Dto.BoardDto">
+        select b.board_id,b.user_id,u.u_nickname,
+                b.b_category,b.inquiry_category,
+                b.b_title,b.b_writer,
+                to_char(b.b_date,'YYYY-MM-DD HH24:MI') b_date,
+                b.b_hit
+        from board b
+        join users u on u.user_id = b.user_id
+        where b.user_id = 1 and b.b_category='문의'
     </select>
 
 </mapper>

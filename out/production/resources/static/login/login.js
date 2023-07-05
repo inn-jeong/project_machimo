@@ -26,9 +26,9 @@ function kakaoLogin() {
                         contentType: "application/json; charset=UTF-8",
                         data: JSON.stringify(
                             {
-                                u_social: response.id,
-                                u_email: response.kakao_account.email,
-                                u_nickname: response.kakao_account.profile.nickname
+                                usocial: response.id,
+                                uemail: response.kakao_account.email,
+                                unickname: response.kakao_account.profile.nickname
                             }
                         ),
                         success: function (res) {

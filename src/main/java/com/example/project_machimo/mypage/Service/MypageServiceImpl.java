@@ -94,9 +94,18 @@ public class MypageServiceImpl implements MypageService{
         ArrayList<AuctionItem> items = dao.getAuctionItems(userId);
         if(!items.isEmpty()){
             for (AuctionItem item:items) {
-
+                AuctionItem currentItem = dao.getCurrentAmount(item.getProductId());
+                item.setUserBidsId(currentItem.getUserBidsId());
+                item.setUBidsNickname(currentItem.getUBidsNickname());
+                item.setCurrentAmount(currentItem.getCurrentAmount());
             }
         }
         return items;
+    }
+
+    @Override
+    public ArrayList<BoardDto> getBoards(Integer userId) {
+        MypageDao dao = sqlSession.getMapper(MypageDao.class);
+        return dao.getBoards(userId);
     }
 }
