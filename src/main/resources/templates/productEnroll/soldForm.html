@@ -9,28 +9,50 @@
 <body>
 
 <div class="admin_content_main">
-  <form action="/productEnroll/enroll" method="post" id="soldForm" name="soldForm">
-<!--    <input type="hidden" name="cId" th:value="${cId}" />-->
-<!--    <input type="number" name="cId" th:value='1' />-->
-<!--    <input type="hidden" name="userId" th:value="${userId}" />-->
+  <form action="/productEnroll/enroll" method="post" id="enrollForm" name="enrollForm">
+<!--  <form action="/productEnroll/enroll" method="post" id="soldForm" name="soldForm">-->
     <input type="hidden" name="userId" th:value='11' />
-<!--    <input type="number" name="userId" th:value='11' />-->
-    <input type="hidden" name="cId" th:value='1' />
-<!--    <h1>판매 등록 폼</h1>-->
+<!--      <div id="subcategory" data-my-object="" ></div>-->
     <table th:border="1">
       <tr>
-        <td colspan="2" th:align="center"><h1>판매 신청 폼<h1></td>
+        <td colspan="2" th:align="center"><h1>판매 신청 폼</h1></td>
       </tr>
-      <label>1차 분류</label>
-      <select class="category1">
-        <option value="">전체</option>
-      </select>
 
-      <label>2차 분류</label>
-      <select class="category2" name="cateCode">
-        <option value="">전체</option>
-      </select>
+
+<!--        <tbody th:each="category : ${categories}">-->
+        <tr>
+            <td><label for="category1">1차 카테고리:</label></td>
+            <td>
+                <select id="category1" name="category1" onchange="selectSubcategory()">
+<!--                <select id="category1" name="category1">-->
+                    <!--                <select id="category1" name="category1">-->
+                    <option value="">전체</option>
+                    <option class="catego1" th:each="category : ${categories}" th:value="${category.cId}" th:text="${category.cName}"></option>
+                </select>
+            </td>
+        </tr>
+<!--        </tbody>-->
+
       <tr>
+<!--        <td><label for="category2">2차 카테고리:</label></td>-->
+        <td>2차 카테고리:</td>
+        <td>
+            <div th:each="category:${categories}">
+<!--              <div th:id="'catego2-'+${category.cId}" style="display: none" th:each="subcategory:${subcategory[category.cId]}">-->
+<!--              <div th:id="'catego2-'+${category.cId}" th:each="subcategory:${subcategory[category.cId]}">-->
+              <select th:id="'category2-'+${category.cId}" style="display: none" name="category2">
+                <option value="">전체</option>
+<!--                <option th:each="catego:${subcategory}" th:value="${catego.cId}" th:text="${catego.cName}"></option>-->
+                <option th:each="subcategory:${subcategory[category.cId]}" th:value="${subcategory.cId}" th:text="${subcategory.cName}"></option>
+
+              </select>
+<!--              </div>-->
+            </div>
+        </td>
+      </tr>
+
+
+        <tr>
         <td><label for="pName">제품명:</label></td>
         <td><input type="text" id="pName" name="pName" required /></td>
       </tr>
@@ -38,34 +60,6 @@
         <td><label for="pInfo">제품 정보:</label></td>
         <td><textarea id="pInfo" name="pInfo" required></textarea></td>
       </tr>
-<!--      <tr>-->
-<!--        <td><label for="pSaleType">판매 형태:</label></td>-->
-<!--        <td>-->
-<!--          <select id="pSaleType" name="pSaleType" required>-->
-<!--            <option value="1">경매</option>-->
-<!--            <option value="2">즉시 판매</option>-->
-<!--          </select>-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--      <tr>-->
-<!--        <td><label for="pDurDate">판매 기간:</label></td>-->
-<!--        <td>-->
-<!--          <select id="pDurDate" name="pDurDate" required>-->
-<!--            <option value="7">7</option>-->
-<!--            <option value="14">14</option>-->
-<!--            <option value="21">21</option>-->
-<!--          </select>-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--      <tr>-->
-<!--        <td><label for="pDirect">즉시 판매 가격:</label></td>-->
-<!--        <td><input type="number" id="pDirect" name="pDirect" min="0" required /></td>-->
-<!--      </tr>-->
-<!--      <tr>-->
-<!--        <td><label for="pBPrice">경매 시작 가격:</label></td>-->
-<!--        <td><input type="number" id="pBPrice" name="pBPrice" min="0" required /></td>-->
-<!--      </tr>-->
-
       <tr>
         <td><label for="pSaleType">판매 형태:</label></td>
         <td>
@@ -97,11 +91,6 @@
         <td><label for="pDirect">즉시 판매 가격:</label></td>
         <td><input type="number" id="pDirect" name="pDirect" min="100" placeholder="최소 100원 이상부터 입력 가능합니다." required /></td>
       </tr>
-
-      <!--      <tr>-->
-<!--        <td><label for="pDur">경매 종료일:</label></td>-->
-<!--        <td><input type="datetime-local" id="pDur" name="pDur" required /></td>-->
-<!--      </tr>-->
       <tr>
         <td><label for="pAccount">정산 계좌번호:</label></td>
         <td><input type="text" id="pAccount" name="pAccount" required /></td>
@@ -114,11 +103,6 @@
       <tr>
       <td>주    소</td>
       <td>
-<!--        <input name="uAddrPostcode" id="uAddrPostcode" type="text" th:value="${userDto.uAddrPostcode}" size="10" readonly placeholder="우편번호"> <br>-->
-<!--        <input name="uAddress" id="uAddress" type="text" th:value="${userDto.uAddress}" size="40" readonly>-->
-<!--        <input type="button"  value="주소검색" onclick="goPopup();"> <br>-->
-<!--        <input name="uAddressSub" id="uAddressSub" type="text" th:value="${userDto.uAddressSub}" size="20" placeholder="상세 주소">-->
-<!--        <div><span class="fs-6 text-danger" th:text="${valid_uAddress}"></span> <br></div>-->
         <input name="pAddrPostcode" id="pAddrPostcode" type="text"  size="10" readonly placeholder="우편번호"> <br>
         <input name="pAddress" id="pAddress" type="text"  size="40" readonly>
         <input type="button"  value="주소검색" onclick="goPopup();"> <br>
@@ -139,19 +123,32 @@
   </form>
   </div>
 </body>
+
+
+<script>
+  // 1차 카테고리 선택 항목이 변경될 때 호출되는 함수
+  function selectSubcategory() {
+      var catego = $(".catego1").val();
+      console.log("cate:"+catego);
+      $("#category2-"+catego).css("display","inline-block");
+  }
+
+
+
+</script>
 <script>
 
-  $("option:selected", this).each(function () {
-    var selectVal = $(this).val();
-    cate2Select.append("<option value='" + selectVal + "'>전체</option>");
-
-    for(var i= 0; i < cate2Arr.length; i++){
-      if (selectVal == cate2Arr[i].cateCodeRef){
-        cate2Select.append("<option value='" + cate2Arr[i].cateCode + "'>"
-                  + cate2Arr[i].cateName + "</option>");
-      }
-    }
-  })
+  // $("option:selected", this).each(function () {
+  //   var selectVal = $(this).val();
+  //   cate2Select.append("<option value='" + selectVal + "'>전체</option>");
+  //
+  //   for(var i= 0; i < cate2Arr.length; i++){
+  //     if (selectVal == cate2Arr[i].cateCodeRef){
+  //       cate2Select.append("<option value='" + cate2Arr[i].cateCode + "'>"
+  //                 + cate2Arr[i].cateName + "</option>");
+  //     }
+  //   }
+  // })
   function toggleFields() {
     var saleType = $("#pSaleType").val();
 

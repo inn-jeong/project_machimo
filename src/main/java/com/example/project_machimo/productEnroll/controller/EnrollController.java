@@ -1,17 +1,23 @@
 package com.example.project_machimo.productEnroll.controller;
 
 
+import com.example.project_machimo.productEnroll.dto.CategoryVO;
 import com.example.project_machimo.productEnroll.dto.ProductDto;
 import com.example.project_machimo.productEnroll.service.EnrollService;
+import com.example.project_machimo.shop.Dto.CategoryDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -22,15 +28,45 @@ public class EnrollController {
     private EnrollService service;
 
     @RequestMapping("/enroll_form")
-    public String enroll_form(){
+    public String enroll_form(Model model){
+        //        // 모든 카테고리와 그에 해당하는 하위 카테고리를 가져옴
+        ArrayList<CategoryDto> categories = service.getCategories();
+        Map<Integer, ArrayList<CategoryDto>> subcategory = new HashMap<>();
+        for (CategoryDto category : categories) {
+            ArrayList<CategoryDto> subCategories = service.getSubCategories(category.getCId());
+            subcategory.put(category.getCId(), subCategories);
+        }
+
+        //        카테고리 값을 model에 저장 하고 넘어감
+        model.addAttribute("categories", categories);
+        model.addAttribute("subcategory", subcategory);
+        log.info("@# category ===>"+categories.get(0).getCId());
+        log.info("@# category ===>"+model.getAttribute("categories"));
+
         return "productEnroll/soldForm";
     }
+
+    @RequestMapping("/catego")
+    public ResponseEntity<?> catego(@RequestBody int cId){
+        ArrayList<CategoryDto> dtos = service.getSubCategories(cId);
+        return ResponseEntity.ok().body(dtos.get(0));
+    }
+
+//    @RequestMapping("/enroll_form")
+//    public String enroll_form( , @RequestParam(name = "category2", required = false) Integer cId
+//            ,@RequestParam(name = "category1", required = false) Integer cId2){
+//        return "productEnroll/soldForm";
+//    }
 
     @RequestMapping("/enroll")
     public String enroll(@RequestParam HashMap<String, String> param){
 
-        service.write(param);
+//
+//        //        카테고리 값을 model에 저장 하고 넘어감
+//        model.addAttribute("categories", categories);
+//        model.addAttribute("subcategory", subcategory);
 
+        service.write(param);
         return "productEnroll/success";
     }
 

@@ -1,13 +1,17 @@
 package com.example.project_machimo.productEnroll.service;
 
 import com.example.project_machimo.productEnroll.dao.EnrollMapper;
+import com.example.project_machimo.productEnroll.dto.CategoryVO;
 import com.example.project_machimo.productEnroll.dto.ProductDto;
+import com.example.project_machimo.shop.Dao.ShopDao;
+import com.example.project_machimo.shop.Dto.CategoryDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
@@ -18,11 +22,27 @@ public class EnrollService {
     private SqlSession sqlSession;
 
 
+
     private final EnrollMapper mapper;
     @Autowired
     public EnrollService(EnrollMapper mapper) {
         this.mapper = mapper;
     }
+
+    public ArrayList<CategoryDto> getCategories() {
+        log.info("@# getCategories");
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        ArrayList<CategoryDto> categories = dao.getCategories();
+        return categories;
+    }
+
+    public ArrayList<CategoryDto> getSubCategories(Integer cId2) {
+        log.info("@# getSubCategories");
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        ArrayList<CategoryDto> subCategories = dao.getSubCategories(cId2);
+        return subCategories;
+    }
+
 //    public void write(HashMap<String, String> param) {
     public void write(HashMap<String, String> param) {
         log.info("@# EnrollService.write() start");

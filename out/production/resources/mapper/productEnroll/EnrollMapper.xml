@@ -19,4 +19,12 @@
 <!--        INSERT INTO products (product_id, c_id, user_id, p_name, p_info, p_created_at, p_sale_type, p_account, p_address, p_bank, p_address_sub, p_addr_postcode) VALUES ( 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );-->
     </insert>
 
+    <select id="getCategories" resultType="com.example.project_machimo.productEnroll.dto.CategoryVO">
+        select c_id, c_name, c_id2 from category where c_id2 is null
+    </select>
+
+    <select id="getSubCategories" resultType="com.example.project_machimo.productEnroll.dto.CategoryVO">
+        select c_id, c_name, c_id2 from category where c_id2 = #{cId2}
+    </select>
+
 </mapper>
