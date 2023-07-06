@@ -33,13 +33,50 @@
             cursor: pointer;
         }
 
+        /*star.css*/
+        .myform fieldset{
+            display: inline-block;
+            direction: rtl;
+            border:0;
+        }
+        .myform fieldset legend{
+            text-align: right;
+        }
+        .myform input[type=radio]{
+            display: none;
+        }
+        .myform label{
+            font-size: 3em;
+            color: transparent;
+            text-shadow: 0 0 0 #f0f0f0;
+        }
+        .myform label:hover{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+        .myform label:hover ~ label{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+        .myform input[type=radio]:checked ~ label{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+        #reviewContent {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: solid 1.5px #D3D3D3;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: none;
+        }
+
     </style>
 </head>
 <body>
 <h1>리뷰 작성</h1>
-<!--<form id="frm" action="write" method="post" enctype="multipart/form-data">-->
-<form id="frm" action="/review/write" method="post" enctype="multipart/form-data">
+<form id="frm" action="write" method="post" enctype="multipart/form-data">
     <table width="500" border="1">
+<!--<form id="frm" action="/review/write" method="post" enctype="multipart/form-data">-->
         <tr>
             <div class="form_section">
                 <div class="form_section_title">
@@ -59,7 +96,7 @@
         </tr>
         <tr>
             <td><label for="productId">상품 ID:</label></td>
-            <td><input type="text" id="productId" name="productId" required /></td>
+            <td><input type="number" id="productId" name="productId" required /></td>
         </tr>
         <tr>
             <td><label for="reviewWritter">작성자:</label></td>
@@ -71,27 +108,48 @@
         </tr>
         <tr>
             <td><label for="reviewContent">내용:</label></td>
-            <td><textarea id="reviewContent" name="reviewContent" required></textarea></td>
+            <td><textarea id="reviewContent" name="reviewContent"
+                          placeholder="좋은 리뷰를 남겨주시면 machimo에 큰 힘이 됩니다! 포인트 500p도 지급!!" required></textarea></td>
         </tr>
-        <tr>
-            <td><label for="reviewStar">별점:</label></td>
-            <td><input type="number" id="reviewStar" name="reviewStar" min="1" max="5" required /></td>
-        </tr>
+<!--        <tr>-->
+<!--            <td><label for="reviewStar">별점:</label></td>-->
+<!--            <td><input type="number" id="reviewStar" name="reviewStar" min="1" max="5" required /></td>-->
+<!--        </tr>-->
+
 <!--        <tr>-->
 <!--            <td><label for="reviewImg">이미지:</label></td>-->
 <!--            <td><input type="text" id="reviewImg" name="reviewImg" required /></td>-->
 <!--        </tr>-->
         <tr>
             <td colspan="2">
+                <span class="myform">
+                <fieldset>
+                    <span class="text-bold">별점을 선택해주세요</span>
+                    <input type="radio" name="reviewStar" value="5" id="rate1"><label
+                        for="rate1">★</label>
+                    <input type="radio" name="reviewStar" value="4" id="rate2"><label
+                        for="rate2">★</label>
+                    <input type="radio" name="reviewStar" value="3" id="rate3"><label
+                        for="rate3">★</label>
+                    <input type="radio" name="reviewStar" value="2" id="rate4"><label
+                        for="rate4">★</label>
+                    <input type="radio" name="reviewStar" value="1" id="rate5"><label
+                        for="rate5">★</label>
+                </fieldset>
+        </span>
+            </td>
+            <input type="hidden" id="reviewId1" th:value="${getReviewId}"/>
+<!--            <span th:text="${getReviewId}"></span>-->
+        </tr>
+        <tr>
+            <td colspan="2">
 <!--                <input type="button" onclick="fn_submit()" value="글 작성" />-->
                 <input type="submit" value="글 작성" />
-                &nbsp;&nbsp;&nbsp;
                 <a href="list">목록보기</a>
             </td>
         </tr>
-
     </table>
-</form>
+    </form>
 </body>
 <script src="/js/jquery.js"></script>
 <script>
@@ -186,7 +244,8 @@
         // 이미지 출력 url은  파라미터 값의 구분자로서 '/' 사용해야함 not \
         // encodeURIComponent(): '/'와 '\'문자 또한 인코딩을 하기 때문에 replace() 메서드를 사용 안 해도 해당 URI로 동작됨
         // + utf-8 인코딩 안되는 웹브라우저에서도 자동 인코딩해줌
-        let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+        // let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+        let fileCallPath = encodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.fileName);
 
         // test에서 했던 태그를 이제 js를 통해 동적으로 추가되도록 해줌
         str += "<div id='result_card'>";
@@ -196,7 +255,8 @@
         // 이미지 한개만 출력
         str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.fileName +"'>";
         str += "<input type='hidden' name='imageList[0].uuid' value='"+ obj.uuid +"'>";
-        str += "<input type='hidden' name='imageList[0].uploadPath' value='"+ obj.uploadPath +"'>";
+        // str += "<input type='hidden' name='imageList[0].uploadPath' value='"+ obj.uploadPath +"'>";
+        str += "<input type='hidden' name='imageList[0].uploadPath' value='"+ obj.url +"'>";
         str += "</div>";
 
         uploadResult.append(str);
@@ -216,10 +276,13 @@
 
         let targetDiv = $("#result_card");
 
+        var reviewId =  $("#reviewId1").val();
+
         $.ajax({
             // url: '/admin/deleteFile',
             url: '/deleteFile',
-            data : {fileName : targetFile},
+            // data : {fileName : targetFile},
+            data : {fileName : targetFile, reviewId: reviewId},
             dataType : 'text',
             type : 'POST',
             success : function(result){
