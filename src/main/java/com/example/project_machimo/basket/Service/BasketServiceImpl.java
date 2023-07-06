@@ -31,12 +31,18 @@ public class BasketServiceImpl implements BasketService {
         ArrayList<BasketItemDto> basketItems = new ArrayList<>();
         for(BasketDto dto:basket){
             Integer productId = dto.getProductId();
-            log.info("@# dao getBasket id ===>"+dto.getProductId());
+//            log.info("@# dao getBasket id ===>"+dto.getProductId());
             BasketItemDto itemDto = dao.getItemInfo(productId);
-            log.info("@# dao getBasket item_id ===>"+itemDto.getProductId());
+//            log.info("@# dao getBasket item_id ===>"+itemDto.getProductId());
             basketItems.add(itemDto);
         }
         return basketItems;
+    }
+
+    @Override
+    public ArrayList<BasketItemDto> getBasketItems(Integer userId) {
+        BasketDao dao = sqlSession.getMapper(BasketDao.class);
+        return dao.getBasketItems(userId);
     }
 
 //    @Override

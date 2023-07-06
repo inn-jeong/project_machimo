@@ -25,6 +25,8 @@
 <!--    자바스크립트에서 타임리프로 바로 값을 불러오지 못해 input 태그에 값을 담아 id 값을 통해 session이나 model에 담긴 값을 가져옴-->
     <input type="hidden" id="login_try" th:value="${login_try}">
     <input type="hidden" id="register" th:value="${register}">
+    <input type="hidden" id=blur th:value="${blur}">
+    <input type="hidden" id=suspension th:value="${suspension}">
     <input type="hidden" id="user" th:value="${session.user}">
     <input type="hidden" id="naverUser" th:value="${session.naverUser}">
     <input type="hidden" id="kakaoUser" th:value="${session.kakaoUser}">
@@ -86,6 +88,7 @@
     $(function() {
         var login_try = $("#login_try").val();
         var register = $("#register").val();
+        var blur = $("#blur").val();
 
         //로그인 시도한 전적이 있으면 알림
         if(login_try == "yes"){
@@ -99,6 +102,11 @@
         //회원가입 성공 후 넘어왔을 때 알림
         if(register == "ok"){
             alert("회원가입 성공! \n로그인 후 서비스를 이용해주세요.");
+            window.location.href="/loginT/login";
+        }
+
+        if(blur == 'yes'){
+            alert("로그인 실패! \n신고건이 접수되어 계정이 3일간 정지됩니다.\n기한:"+$("#suspension").val());
             window.location.href="/loginT/login";
         }
 

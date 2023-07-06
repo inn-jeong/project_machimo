@@ -33,18 +33,20 @@ public class BasketController {
         }
         Integer userId = user.getUserId();
         log.info("@# basket user_id===>" +userId);
-        ArrayList<BasketDto> basket = service.getBasket(userId);
+//        ArrayList<BasketDto> basket = service.getBasket(userId);
 //        List<ProductsDto> basketItems = service.getBasketItems(basket);
-        log.info("@# basket basket=====>"+basket);
-        if(!basket.isEmpty()){
-            List<BasketItemDto> basketItems = service.getBasketItems(basket);
-            if(!basketItems.isEmpty()){
-                log.info("@# basket product_id ===>"+basketItems.get(0).getProductId());
-                log.info("@# basket p_name ===>"+basketItems.get(0).getPName());
-                log.info("@# basket p_direct ===>"+basketItems.get(0).getPDirect());
-                model.addAttribute("basketItems",basketItems);
-            }
-        }
+//        log.info("@# basket basket=====>"+basket);
+//        if(!basket.isEmpty()){
+//            List<BasketItemDto> basketItems = service.getBasketItems(basket);
+//            if(!basketItems.isEmpty()){
+////                log.info("@# basket product_id ===>"+basketItems.get(0).getProductId());
+////                log.info("@# basket p_name ===>"+basketItems.get(0).getPName());
+////                log.info("@# basket p_direct ===>"+basketItems.get(0).getPDirect());
+//                model.addAttribute("basketItems",basketItems);
+//            }
+//        }
+        ArrayList<BasketItemDto> items = service.getBasketItems(userId);
+        model.addAttribute("basketItems",items);
         model.addAttribute("type","basket");
         return "mypage/mypage";
     }

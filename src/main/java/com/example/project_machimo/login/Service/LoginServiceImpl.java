@@ -2,6 +2,7 @@ package com.example.project_machimo.login.Service;
 
 import com.example.project_machimo.login.Dao.LoginDao;
 import com.example.project_machimo.login.Dto.MailDto;
+import com.example.project_machimo.login.Dto.UserSuspension;
 import com.example.project_machimo.login.Dto.UsersDto;
 import com.example.project_machimo.login.Dto.UserRequestDto;
 import lombok.extern.slf4j.Slf4j;
@@ -202,5 +203,15 @@ public class LoginServiceImpl implements LoginService{
         message.setReplyTo("innjeong429@gmail.com");
         log.info("message"+message);
         mailSender.send(message);
+    }
+
+    @Override
+    public UserSuspension checkBlur(Integer userId) {
+        LoginDao dao = sqlSession.getMapper(LoginDao.class);
+        int re = dao.updateBlur(userId);
+        if(re == 1){
+            dao.deleteReport(userId);
+        }
+        return dao.checkBlur(userId);
     }
 }

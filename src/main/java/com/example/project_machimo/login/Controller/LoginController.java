@@ -1,6 +1,7 @@
 package com.example.project_machimo.login.Controller;
 
 import com.example.project_machimo.login.Dto.MailDto;
+import com.example.project_machimo.login.Dto.UserSuspension;
 import com.example.project_machimo.login.Dto.UsersDto;
 import com.example.project_machimo.login.Dto.UserRequestDto;
 import com.example.project_machimo.login.Service.LoginService;
@@ -38,6 +39,8 @@ public class LoginController {
 //        HttpSession session = request.getSession();
         String login_try = request.getParameter("login_try");
         String register = request.getParameter("register");
+        String blur = request.getParameter("blur");
+        String suspension = request.getParameter("suspension");
         //로그인 화면 진입 시 실패 후 진입인지 처음 진입인지 알기 위한 처리
         if (login_try != null) {
             if (login_try.equals("yes")) {
@@ -47,11 +50,17 @@ public class LoginController {
                 model.addAttribute("login_try", "no");
             }
         }
-        if (register != null) {
-            if (register.equals("ok")) {
-                log.info("@# register===>"+register);
-                model.addAttribute("register", "ok");
-            }
+        if (register != null && register.equals("ok")) {
+            log.info("@# register===>"+register);
+            model.addAttribute("register", "ok");
+        }
+        if(blur != null && blur.equals("yes")){
+            log.info("@# blur===>"+blur);
+            model.addAttribute("blur", "yes");
+        }
+        if(suspension != null){
+            log.info("@# suspension===>"+suspension);
+            model.addAttribute("suspension", suspension);
         }
 
 //        return "login/loginTest2";
@@ -71,6 +80,11 @@ public class LoginController {
         if(re == 1) { //로그인 성공시 메인 페이지로 이동
             UsersDto dto = service.findUser(param);
             log.info("@# login_process user set ===>"+dto);
+            UserSuspension checkBlur = service.checkBlur(dto.getUserId());
+            log.info("@# checkBlur ===>"+checkBlur);
+            if(checkBlur != null){
+                return "redirect:/loginT/login?blur=yes&suspension="+checkBlur.getUSuspension();
+            }
             session.setAttribute("user",dto);
             session.setAttribute("user_id",dto.getUserId());
             str = "redirect:/loginT/login_ok";
@@ -83,8 +97,12 @@ public class LoginController {
 
     //로그인 성공시 화면(메인화면으로 수정해야 함)
     @RequestMapping("/login_ok")
-    public String login_ok(Model model) {
+    public String login_ok(HttpSession session,Model model) {
         log.info("login_ok");
+        UsersDto user = (UsersDto) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/loginT/login?login_try=no";
+        }
         return "login/login_ok";
     }
 
@@ -150,6 +168,11 @@ public class LoginController {
         if(dto == null){
             page = "redirect:/loginT/register_page?naverMem=yes";
         }else{
+            UserSuspension checkBlur = service.checkBlur(dto.getUserId());
+            log.info("@# checkBlur ===>"+checkBlur);
+            if(checkBlur != null){
+                return "redirect:/loginT/login?blur=yes&suspension="+checkBlur.getUSuspension();
+            }
             session.setAttribute("user",dto);
             page = "login/login_ok";
         }
@@ -281,7 +304,13 @@ public class LoginController {
         UsersDto kakaoUser = (UsersDto)session.getAttribute("kakaoUser");
         if (login_ok.equals("yes")){
             page = "login/login_ok";
-            session.setAttribute("user",service.findUserId(kakaoUser.getUSocial()));
+            UsersDto user = service.findUserId(kakaoUser.getUSocial());
+            UserSuspension checkBlur = service.checkBlur(user.getUserId());
+            log.info("@# checkBlur ===>"+checkBlur);
+            if(checkBlur != null){
+                return "redirect:/loginT/login?blur=yes&suspension="+checkBlur.getUSuspension();
+            }
+            session.setAttribute("user",user);
         }else{
             page = "redirect:/loginT/register_page?kakaoMem=yes";
         }

@@ -17,6 +17,14 @@
          on a.product_id = b.product_id
          join users c on a.user_id = c.user_id where a.product_id=#{param1}
     </select>
+    <select id="getBasketItems" resultType="com.example.project_machimo.basket.Dto.BasketItemDto">
+        select b.product_id,b.user_id,u.u_name,p.p_name,p.p_direct,p.p_sales_status,i.i_sub_img
+        from basket b
+        join products p on p.product_id = b.product_id
+        join users u on u.user_id = b.user_id
+        join product_images i on i.product_id = b.product_id
+        where b.user_id = #{param1}
+    </select>
     <!--    <select id="getItemInfo" resultType="com.example.project_machimo.basket.Dto.ProductsDto">-->
 <!--        select * from products where product_id=#{param1}-->
 <!--    </select>-->

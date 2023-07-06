@@ -2,6 +2,7 @@ package com.example.project_machimo.login.Service;
 
 
 import com.example.project_machimo.login.Dto.MailDto;
+import com.example.project_machimo.login.Dto.UserSuspension;
 import com.example.project_machimo.login.Dto.UsersDto;
 import com.example.project_machimo.login.Dto.UserRequestDto;
 import org.springframework.validation.Errors;
@@ -26,5 +27,6 @@ public interface LoginService {
     public void updatePassword(String password, String userEmail);
     public String getTempPassword();
     public void mailSend(MailDto mailDto);
+    public UserSuspension checkBlur(Integer userId);
 }
 

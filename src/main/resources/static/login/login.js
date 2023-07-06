@@ -33,7 +33,7 @@ function kakaoLogin() {
                         ),
                         success: function (res) {
                             if (res == "confirm") {
-                                alert("로그인 성공!");
+                                // alert("로그인 성공!");
                                 window.location.href = "/loginT/kakaoLogin_ok?login_ok=yes";
                             } else {
                                 alert("가입된 계정이 없어 회원가입 화면으로 이동합니다.");
@@ -64,8 +64,9 @@ function logout() {
         Kakao.API.request({
             url: '/v1/user/unlink',
             success: function (response) {
-            console.log(response);
-                alert("로그아웃 하였습니다.");
+                console.log(response);
+                console.log("카카오 로그아웃");
+                // alert("로그아웃 하였습니다.");
             },
             fail: function (error) {
                 console.log(error);

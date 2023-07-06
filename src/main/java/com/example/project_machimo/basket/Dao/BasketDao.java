@@ -13,4 +13,5 @@ public interface BasketDao {
 //    public ProductsDto getItemInfo(Integer product_id);
     public BasketItemDto getItemInfo(Integer productId);
     public int deleteItem(Integer userId, Integer productId);
+    ArrayList<BasketItemDto> getBasketItems(Integer userId);
 }
