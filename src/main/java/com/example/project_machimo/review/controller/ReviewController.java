@@ -24,10 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -94,12 +91,19 @@ public class ReviewController {
         List<String> imagePaths = new ArrayList<>();
 
         for (AttachImageVO image : images) {
-//            String imagePath = image.getUploadPath()+'/'+'s_'+image.getUuid()+'_'+image.getFileName();
+//            String imagePath = "/upload/" +image.getUploadPath() + "/s_" + image.getUuid() + "_" + image.getFileName();
             String imagePath = image.getUploadPath() + "/s_" + image.getUuid() + "_" + image.getFileName();
-            imagePaths.add(imagePath);
-        }
-        model.addAttribute("imagePaths",imagePaths);
+            String replacedPath = imagePath.replaceAll("\\\\", "/");
+//            imagePaths.add(imagePath);
+            imagePaths.add(replacedPath);
 
+            System.out.println("imagePath = " + replacedPath);
+        }
+
+//        String str =  imagePaths.get(0);
+//        System.out.println("imagePath = " + str);
+//        model.addAttribute("imagePaths", str);
+        model.addAttribute("imagePaths", imagePaths);
 
 
         model.addAttribute("content_view", dto);
@@ -188,8 +192,7 @@ public class ReviewController {
 
         }
 
-//        String uploadFolder = "C:\\upload";
-//        String uploadFolder = new File("src/main/resources/upload").getAbsolutePath();
+//      String uploadFolder = "C:\\upload";
         String uploadFolder = new File("src/main/resources/static/upload").getAbsolutePath();
 
 //        날짜 폴더 경로
@@ -216,19 +219,26 @@ public class ReviewController {
             /* 파일 이름 */
             String uploadFileName = multipartFile.getOriginalFilename();
             vo.setFileName(uploadFileName);
-            vo.setUploadPath(datePath);
 
+            System.out.println("uploadFileName = " + uploadFileName);
+            
+            vo.setUploadPath(datePath);
+            
+            System.out.println("datePath = " + datePath);
+            
 //            String baseUrl = "http://localhost:8090/upload/"; // 기본 URL
 //            String imageUrl = baseUrl + uploadPath.toString().replace("\\", "/") + "/" + uploadFileName; // URL 조합
 //            String imageUrl = uploadPath.toString().replace("\\", "/") + "/" + uploadFileName; // URL 조합
             String imageUrl = uploadPath.toString();
-
+            
             vo.setUrl(imageUrl); // url 멤버 변수 설정
 //            vo.setReviewId(reviewId);
-
+            System.out.println("imageUrl = " + imageUrl);
             /* uuid 적용 파일 이름 */
             String uuid = UUID.randomUUID().toString();
             vo.setUuid(uuid);
+
+            System.out.println("uuid = " + uuid);
 
             uploadFileName = uuid + "_" + uploadFileName;
 

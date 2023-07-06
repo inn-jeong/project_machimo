@@ -85,11 +85,6 @@
                 <div class="form_section_content">
                     <input type="file" id ="fileItem" name="uploadFile" style="height: 30px;" th:multiple="true">
                     <div id="uploadResult">
-<!--                        test위해 억지로 파일 우겨넣어보기-->
-<!--                        <div id="result_card">-->
-<!--                            <div class="imgDeleteBtn">x</div>-->
-<!--                            <img src="/display?fileName=test.png" alt="">-->
-<!--                        </div>-->
                     </div>
                 </div>
             </div>
@@ -111,15 +106,6 @@
             <td><textarea id="reviewContent" name="reviewContent"
                           placeholder="좋은 리뷰를 남겨주시면 machimo에 큰 힘이 됩니다! 포인트 500p도 지급!!" required></textarea></td>
         </tr>
-<!--        <tr>-->
-<!--            <td><label for="reviewStar">별점:</label></td>-->
-<!--            <td><input type="number" id="reviewStar" name="reviewStar" min="1" max="5" required /></td>-->
-<!--        </tr>-->
-
-<!--        <tr>-->
-<!--            <td><label for="reviewImg">이미지:</label></td>-->
-<!--            <td><input type="text" id="reviewImg" name="reviewImg" required /></td>-->
-<!--        </tr>-->
         <tr>
             <td colspan="2">
                 <span class="myform">
@@ -152,6 +138,7 @@
     </form>
 </body>
 <script src="/js/jquery.js"></script>
+
 <script>
     /* 이미지 업로드 */
     $("input[type='file']").on("change", function(e){
@@ -172,7 +159,6 @@
         if(!fileCheck(fileObj.name, fileObj.size)){
             return false;
         }
-
 
         //multiple 속성으로 사용자가 여러 개의 파일을 선택할 수 있으므로 반복문
         for(let i = 0; i < fileList.length; i++){
@@ -246,21 +232,27 @@
         // + utf-8 인코딩 안되는 웹브라우저에서도 자동 인코딩해줌
         // let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
         let fileCallPath = encodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.fileName);
+        // var decodeCallPath = (obj.url+"/s_" + obj.uuid + "_" + obj.fileName);
+
 
         // test에서 했던 태그를 이제 js를 통해 동적으로 추가되도록 해줌
         str += "<div id='result_card'>";
-        str += "<img src='/display?fileName=" + fileCallPath +"'>";
+        // str += "<img src='/display?fileName=" + fileCallPath +"'>";
+        // str += "<img src='" + decodeCallPath +"'>";
+        // str += "<img data-file='" + decodeCallPath +"'>";
+
         // str += "<div class='imgDeleteBtn'>x</div>";
         str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
         // 이미지 한개만 출력
         str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.fileName +"'>";
         str += "<input type='hidden' name='imageList[0].uuid' value='"+ obj.uuid +"'>";
-        // str += "<input type='hidden' name='imageList[0].uploadPath' value='"+ obj.uploadPath +"'>";
-        str += "<input type='hidden' name='imageList[0].uploadPath' value='"+ obj.url +"'>";
+        str += "<input type='hidden' name='imageList[0].uploadPath' value='"+ obj.uploadPath +"'>";
+        str += "<input type='hidden' name='imageList[0].url' value='"+ obj.url +"'>";
         str += "</div>";
 
         uploadResult.append(str);
     }
+
 
     /* 이미지 삭제 버튼 동작 */
     // div태그는 웹페이지 렌더링 이후 js코드를 통해 동적으로 출력된 코드이므로 그냥 click으로 작동 x

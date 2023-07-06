@@ -58,33 +58,9 @@ public class Controller {
     }
 
 
-////    이미지 출력
-//    @GetMapping("/display")
-////    @ResponseBody
-////    public ResponseEntity<byte[]> getImage(String fileName) {
-////        File file = new File("c:\\upload\\" + fileName);
-//
-//
-//        // 리턴용 객체와 파일 조회용 객체생성
-//        ResponseEntity<byte[]> result = null;
-//
-//        try {
-//
-//            // 화면에 무슨 타입으로 보여줄지 + 해당 타입으로 뭘 보여줄지 작성
-//            HttpHeaders header = new HttpHeaders();
-//            header.add("Content-Type", Files.probeContentType(file.toPath()));
-//            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-//
-//
-//            // 오류발생했을땐 해당 메시지 + null 값 리턴
-//        } catch (Exception e) { e.printStackTrace();}
-//        return result;
-//
-//    }
-
     @GetMapping("/display")
-//    public ResponseEntity<List<byte[]>> getImages(@RequestParam("reviewId") int reviewId) {
-    public ResponseEntity<List<byte[]>> getImages(@RequestParam("bno") int reviewId) {
+    public ResponseEntity<List<byte[]>> getImages(@RequestParam("reviewId") int reviewId) {
+//    public ResponseEntity<List<byte[]>> getImages(@RequestParam("bno") int reviewId) {
 
         AttachMapper mapper = sqlSession.getMapper(AttachMapper.class);
         List<AttachImageVO> imageList = mapper.getAttachList(reviewId);

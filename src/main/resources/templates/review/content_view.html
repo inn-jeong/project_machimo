@@ -10,6 +10,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
   <style type="text/css">
     #result_card img{
       max-width: 100%;
@@ -19,6 +21,7 @@
       margin-top: 10px;
       margin: auto;
     }
+
   </style>
   <script>
 
@@ -75,40 +78,39 @@
     <td>제목:</td>
     <td><span th:text="${content_view.reviewTitle}"></span></td>
   </tr>
-  <tr>
-    <td>별점:</td>
-    <td><span th:text="${content_view.reviewStar}"></span></td>
-  </tr>
+    <tr>
+      <td>별점:</td>
+      <td>
+        <div class="star-rating">
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+        </div>
+      </td>
+      <input type="hidden" id="reviewStar" th:value="${content_view.reviewStar}">
+    </tr>
+    <tr>
+      <td colspan="2">
+        <!-- 이미지 표시 -->
+          <span th:each="imagePath : ${imagePaths}">
+<!--            <img th:if="${!imagePaths.isEmpty()}" th:src="@{'/upload/' + ${imagePath}}" alt="/img/noImage.png" style="width: 300px; height: 200px;">-->
+<!--            <img th:if="${imagePaths.isEmpty()}" th:src="@{'/img/noImage.png'}" style="width: 300px; height: 200px;">-->
+<!--            <img th:src="@{/upload/}+${imagePath}" style="width: 300px; height: 200px;">-->
+<!--            <img th:src="${imagePath}" style="width: 300px; height: 200px;">-->
+            <img th:src="@{'/upload/' + ${imagePath}}" style="width: 300px; height: 200px;">
+               <script th:inline="javascript">
+                  /* imagePath의 값을 콘솔에 출력 */
+                  // console.log("@#@###################=>"+[[@{/upload/}]]);
+                </script>
+          </span>
+    </tr>
     <tr>
     <td>내용:</td>
     <td><span th:text="${content_view.reviewContent}"></span></td>
   </tr>
 
-<!--    이미지 출력-->
-<!--    <div class="form_section">-->
-<!--      <div class="form_section_title">-->
-<!--        <label>상품 이미지</label>-->
-<!--      </div>-->
-<!--      <div class="form_section_content">-->
-<!--        <div id="uploadResult">-->
-<!--          <div th:each="image : ${images}">-->
-<!--            <img th:src="${image.url}" alt="Image" />-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-
-    <!-- 이미지 표시 -->
-<!--    <div th:each="imagePath : ${imagePaths}">-->
-<!--      <img th:src="@{${imagePath}}" alt="Image">-->
-<!--    </div>-->
-
-    <!-- 이미지 표시 -->
-    <div th:each="imagePath : ${imagePaths}">
-<!--      <img th:src="@{/upload/${imagePath}}" alt="Image">-->
-      <img th:src="@{'/upload/' + ${imagePath}}" alt="Image">
-    </div>
-  
   <tr>
     <td colspan="3">
       <input class="btn" type="submit" value="수정" formaction="modify_view" style="width: 100px; height: 30px;">
@@ -150,6 +152,21 @@
     </tr>
 </table>
 </div>
+
+<script>
+  // 별점 값을 가져와서 해당 별점까지 별을 색칠하는 함수
+  function fillStarRating(starRating) {
+    const stars = document.querySelectorAll('.star-rating .fa-star');
+    for (let i = 0; i < starRating; i++) {
+      stars[i].classList.remove('far');
+      stars[i].classList.add('fas');
+    }
+  }
+
+  // 페이지 로드 시 별점 값을 가져와서 별을 색칠합니다
+  const reviewStar = $("#reviewStar").val();
+  fillStarRating(reviewStar);
+</script>
 <script>
   // var bno = '${content_view.reviewId}'; //게시글 번호
   // content_view?pageNum=1&amount=10&reviewId=139 를 다 받아와야 그 페이지가 보이므로 그냥 reviewId만 불러오면 댓글이안보인다
@@ -164,8 +181,6 @@
 
   //댓글 목록
   function commentList(){
-  // function commentList(bno){
-  // function commentList(id){
     $.ajax({
       url : '/comment/list',
       type : 'get',
@@ -246,59 +261,6 @@
   $(document).ready(function(){
     // commentList(); //페이지 로딩시 댓글 목록 출력
     commentList(bno); //페이지 로딩시 댓글 목록 출력
-
-    /* 이미지 정보 호출 */
-    // let bookId = '<c:out value="${goodsInfo.bookId}"/>';
-    // let uploadReslut = $("#uploadReslut");
-
-
-    // // 페이지 로딩 시 이미지 출력
-    // // var reviewId = '${content_view.reviewId}';
-    // // var reviewId = $("#reviewId").val()
-    // var reviewId = $("[name='bno']").val();
-    // var uploadReslut = $("#uploadResult");
-    //
-    // $.getJSON("/getAttachList", {reviewId : reviewId}, function(arr){
-    //
-    //   // 이미지 없는 경우 noImage출력 후 콜백 함수 바로 빠져나감
-    //   if(arr.length === 0){
-    //     let str = "";
-    //     str += "<div id='result_card'>";
-    //     str += "<img src='/img/noImage.png'>";
-    //     str += "</div>";
-    //
-    //     uploadReslut.html(str);
-    //     return;
-    //   }
-    //   let str = "";
-    //   let obj = arr[0];
-    //
-    //   // uploadPath왜인식못하지
-    //   // let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
-    //   // str += "<div id='result_card'";
-    //   // str += "data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'";
-    //   // str += ">";
-    //   // str += "<img src='/display?fileName=" + fileCallPath +"'>";
-    //   // str += "</div>";
-    //
-    //   let fileCallPath = encodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.fileName);
-    //
-    //
-    //   // let fileCallPath = decodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.fileName);
-    //   // let fileCallPath = decodeURIComponent("/s_" + obj.uuid + "_" + obj.fileName);
-    //   // let fileCallPath = decodeURIComponent(obj.uuid);
-    //
-    //
-    //   str += "<div id='result_card'";
-    //   str += "data-path='" + obj.url + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'";
-    //   str += ">";
-    //   str += "<img src='/display?fileName=" + fileCallPath +"'>";
-    //   // str += "<img src='/display?reviewId="+ fileCallPath +"'>";
-    //   str += "</div>";
-    //
-    //   uploadReslut.html(str);
-    //
-    // });
 
   });
 
