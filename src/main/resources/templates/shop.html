@@ -52,55 +52,21 @@
             color: #666;
             text-decoration: none;
         }
-
         .subcategory-link:hover {
             color: #0000ff;
         }
-
-        .product-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .product-item {
-            flex: 0 0 calc(25% - 20px);
-            margin: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: center;
-        }
-
-        .item-image img {
-            width: 100%;
-            height: auto;
-        }
-
-        .item-info h4 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .item-info p {
-            margin: 0;
-            font-size: 14px;
-        }
-
         .sort-form {
             display: flex;
             align-items: center;
             justify-content: flex-end;
             margin-top: 10px;
         }
-
         .sort-label {
             margin-right: 5px;
         }
-
         .product-count {
-            margin-top: 10px;
-            text-align: right;
+            font-size: 1.2rem;
+            align-self: flex-start;
         }
     </style>
 </head>
@@ -150,32 +116,31 @@
         </form>
     </div>
 
-    <div class="product-count">
+    <div class="product-count" style="align-self: flex-start;">
         상품 수: <span th:text="${countProduct}"></span>
     </div>
 
-    <div class="product-list">
-        <!-- 이미지와 상품 정보를 반복하여 표시 -->
-        <div th:each="item : ${itemList}" class="product-item">
-            <a th:href="@{/auction/action-list/{id}(id=${item.getProductId()})}">
-                <!-- 이미지 -->
-                <div class="item-image">
-                    <p><span th:text="${item.iSubImage}"></span></p>
-                </div>
-                <div class="item-info">
-                    <!-- 닉네임 -->
-                    <h4 th:text="${item.uNickname}"></h4>
-                    <!-- 상품 이름 -->
-                    <p th:text="${item.pName}"></p>
-                    <!-- 가격 -->
-                    <p>
-                        <span th:if="${item.pSaleType == 0}" th:text="${#numbers.formatDecimal(item.pBPrice, 0, 'COMMA', 0, 'POINT')}+'원'"></span>
-                        <span th:if="${item.pSaleType == 1}" th:text="${#numbers.formatDecimal(item.pDirect, 0, 'COMMA', 0, 'POINT')}+'원'"></span>
-                    </p>
-                    <p>
-                        <span th:if="${item.pSaleType == 0}">경매가</span>
-                        <span th:if="${item.pSaleType == 1}">즉시 구매가</span>
-                    </p>
+    <div class="card_list row row-cols-1 row-cols-md-4 g-4">
+        <div class="col" th:each="item : ${itemList}">
+            <a th:href="@{/auction/action-list/{id}(id=${item.productId})}" style="text-decoration: none;">
+                <div class="card h-100">
+                    <div class="card-image">
+                        <img src="https://volcanoshop.net/web/product/medium/202209/45b31f29ff98e31f0547cc7923dbb8c7.jpg" class="card-img-top object-fit-cover border rounded">
+                    </div>
+                    <div class="info_box pt-1">
+                        <div class="item fs-6 fw-bold" th:text="${item.uNickname}">Stussy</div>
+                        <div class="item fs-6 fw-medium mb-2" th:text="${item.pName}">Stussy Diced Out T-Shirt Black</div>
+                        <div class="price fs-6 fw-bold">
+                            <!--                            92,000원-->
+                            <span th:if="${item.pSaleType ==0}" th:text="${#numbers.formatDecimal(item.pBPrice, 0, 'COMMA', 0, 'POINT')}+'원'"></span>
+                            <span th:if="${item.pSaleType ==1}" th:text="${#numbers.formatDecimal(item.pDirect, 0, 'COMMA', 0, 'POINT')}+'원'"></span>
+                        </div>
+                        <div class="fs-6 fw-light text-secondary">
+                            <!--                            즉시구매가-->
+                            <span th:if="${item.pSaleType ==0}">경매가</span>
+                            <span th:if="${item.pSaleType ==1}">즉시 구매가</span>
+                        </div>
+                    </div>
                 </div>
             </a>
         </div>
