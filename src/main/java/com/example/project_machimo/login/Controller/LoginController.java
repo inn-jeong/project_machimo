@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -265,12 +266,23 @@ public class LoginController {
         return result;
     }
 
-    @RequestMapping("kakao/callback")
+//    @RequestMapping("kakao/callback")
 //    public String kakaoLogin(@RequestParam("code")String code,Model model){
-    public String kakaoLogin(@RequestParam(value = "response",required = false)Map<String, Objects> parameters, HttpServletRequest request, Model model){
-        String json = parameters.get("response").toString();
+//    public String kakaoLogin(@RequestParam(value = "response",required = false)Map<String, Objects> parameters, HttpServletRequest request, Model model){
+//        String json = parameters.get("response").toString();
+//
+//        return "login/kakaoCallback";
+//    }
 
-        return "login/kakaoCallback";
+    @RequestMapping("/test")
+    public String test(HashMap<String,Integer> productList,Model model){
+        Integer number1 = productList.get("productId");
+//        Integer number2 = Integer.parseInt(productList.get(1));
+        log.info("@# num1===>" +number1);
+        log.info("@# map ===>"+productList);
+        model.addAttribute("p1",number1);
+//        model.addAttribute("p2",number2);
+        return "login/test";
     }
 
     @RequestMapping("/kakaoLogin_process")

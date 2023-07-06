@@ -1,7 +1,6 @@
 package com.example.project_machimo.basket.Service;
 
 import com.example.project_machimo.basket.Dao.BasketDao;
-import com.example.project_machimo.basket.Dto.BasketDto;
 import com.example.project_machimo.basket.Dto.BasketItemDto;
 import com.example.project_machimo.basket.Dto.ProductsDto;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +17,26 @@ public class BasketServiceImpl implements BasketService {
     @Autowired
     private SqlSession sqlSession;
 
-    @Override
-    public ArrayList<BasketDto> getBasket(Integer userId) {
-        BasketDao dao = sqlSession.getMapper(BasketDao.class);
-        ArrayList<BasketDto> basket = dao.getBasket(userId);
-        return basket;
-    }
+//    @Override
+//    public ArrayList<BasketDto> getBasket(Integer userId) {
+//        BasketDao dao = sqlSession.getMapper(BasketDao.class);
+//        ArrayList<BasketDto> basket = dao.getBasket(userId);
+//        return basket;
+//    }
 
-    @Override
-    public ArrayList<BasketItemDto> getBasketItems(ArrayList<BasketDto> basket) {
-        BasketDao dao = sqlSession.getMapper(BasketDao.class);
-        ArrayList<BasketItemDto> basketItems = new ArrayList<>();
-        for(BasketDto dto:basket){
-            Integer productId = dto.getProductId();
-//            log.info("@# dao getBasket id ===>"+dto.getProductId());
-            BasketItemDto itemDto = dao.getItemInfo(productId);
-//            log.info("@# dao getBasket item_id ===>"+itemDto.getProductId());
-            basketItems.add(itemDto);
-        }
-        return basketItems;
-    }
+//    @Override
+//    public ArrayList<BasketItemDto> getBasketItems(ArrayList<BasketDto> basket) {
+//        BasketDao dao = sqlSession.getMapper(BasketDao.class);
+//        ArrayList<BasketItemDto> basketItems = new ArrayList<>();
+//        for(BasketDto dto:basket){
+//            Integer productId = dto.getProductId();
+////            log.info("@# dao getBasket id ===>"+dto.getProductId());
+//            BasketItemDto itemDto = dao.getItemInfo(productId);
+////            log.info("@# dao getBasket item_id ===>"+itemDto.getProductId());
+//            basketItems.add(itemDto);
+//        }
+//        return basketItems;
+//    }
 
     @Override
     public ArrayList<BasketItemDto> getBasketItems(Integer userId) {

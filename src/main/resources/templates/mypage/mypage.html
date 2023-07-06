@@ -249,6 +249,7 @@
                     <div class="list_subtitle">
                         <h4>장바구니</h4>
                     </div>
+                    <form id="basketForm" method="post" action="/loginT/test">
                     <table th:unless="${basketItems.isEmpty()}" class="table table-hover mx-auto text-center" style="width: 1000px">
                         <thead>
                         <tr class="table-active">
@@ -268,7 +269,7 @@
                         <!--            <tr th:each="item, count:${basketItems}" th:id="${item.product_id}" >-->
                         <tr th:if="${item.pSalesStatus==1}" th:id="${item.productId}" th:each="item, count:${basketItems}">
                             <td style="width: 20px;" class="align-middle">
-                                <input type="checkbox" class="checkBoxItem" th:value="${item.productId}" checked>
+                                <input type="checkbox" name="productId" class="checkBoxItem" th:value="${item.productId}" checked>
                             </td>
                             <td th:class="count" th:text="${count.count}"></td>
                             <td th:text="${item.iSubImg}" class="item-show"></td>
@@ -306,11 +307,13 @@
                         </tr>
                         <tr>
                             <td style="text-align: center" colspan="7">
-                                <button>결제하기</button>
+<!--                                <button onclick="sendProductId()">결제하기</button>-->
+                                <input type="submit" value="결제하기">
                             </td>
                         </tr>
                         </tfoot>
                     </table>
+                    </form>
                     <div th:if="${basketItems.isEmpty()}" style="align-content: center">
                         장바구니가 비어있습니다.
                     </div>
@@ -796,7 +799,43 @@
                 alert(response);
             }
         });
-
     }
+
+    function getSelectedItems(){
+        var selectedItems = [];
+
+        $(".checkBoxItem:checked").each(function() {
+            // var item = {
+            //     id: $(this).val(),
+            //     name: $(this).data("productId"),
+            //     // 추가 필요한 속성이 있다면 여기에 추가
+            // };
+            // selectedItems.push(item);
+
+            //json 데이터에 productId라는 id 가 필요 없을 때
+            const value = $(this).val();
+            selectedItems.push(value);
+        });
+        return JSON.stringify(selectedItems);
+    }
+
+    function sendProductId() {
+        const selectedItems = getSelectedItems(); // JSON 데이터 생성
+
+        // const form = document.createElement('form');
+        // form.method = 'POST';
+        // form.action = '/loginT/test'; // 다음 페이지의 URL을 지정해야 합니다.
+        //
+        // const input = document.createElement('input');
+        // input.type = 'hidden';
+        // input.name = 'productList'; // JSON 데이터를 전송할 필드 이름
+        // input.value = selectedItems;
+
+        // form.appendChild(input);
+        // document.body.appendChild(form);
+        // form.submit();
+    }
+
+
 
 </script>

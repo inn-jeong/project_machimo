@@ -1,6 +1,5 @@
 package com.example.project_machimo.basket.Controller;
 
-import com.example.project_machimo.basket.Dto.BasketDto;
 import com.example.project_machimo.basket.Dto.BasketItemDto;
 import com.example.project_machimo.basket.Dto.ProductsDto;
 import com.example.project_machimo.basket.Service.BasketService;

@@ -7,16 +7,16 @@
     <delete id="deleteItem">
         delete from basket where user_id=#{param1} and product_id=#{param2}
     </delete>
-    <select id="getBasket" resultType="com.example.project_machimo.basket.Dto.BasketDto">
-        select * from basket where user_id=#{param1}
-    </select>
-    <select id="getItemInfo" resultType="com.example.project_machimo.basket.Dto.BasketItemDto">
-        select a.product_id, a.user_id, c.u_name, a.p_name, a.p_direct, a.p_sales_status, b.i_sub_img
-         from products a
-         join product_images b
-         on a.product_id = b.product_id
-         join users c on a.user_id = c.user_id where a.product_id=#{param1}
-    </select>
+<!--    <select id="getBasket" resultType="com.example.project_machimo.basket.Dto.BasketDto">-->
+<!--        select * from basket where user_id=#{param1}-->
+<!--    </select>-->
+<!--    <select id="getItemInfo" resultType="com.example.project_machimo.basket.Dto.BasketItemDto">-->
+<!--        select a.product_id, a.user_id, c.u_name, a.p_name, a.p_direct, a.p_sales_status, b.i_sub_img-->
+<!--         from products a-->
+<!--         join product_images b-->
+<!--         on a.product_id = b.product_id-->
+<!--         join users c on a.user_id = c.user_id where a.product_id=#{param1}-->
+<!--    </select>-->
     <select id="getBasketItems" resultType="com.example.project_machimo.basket.Dto.BasketItemDto">
         select b.product_id,b.user_id,u.u_name,p.p_name,p.p_direct,p.p_sales_status,i.i_sub_img
         from basket b
