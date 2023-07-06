@@ -72,6 +72,7 @@ public class LoginController {
             UsersDto dto = service.findUser(param);
             log.info("@# login_process user set ===>"+dto);
             session.setAttribute("user",dto);
+            session.setAttribute("user_id",dto.getUserId());
             str = "redirect:/loginT/login_ok";
         }else { //로그인 실패시 다시 로그인 화면으로 이동, 알림
             str = "redirect:/loginT/login?login_try=yes";
