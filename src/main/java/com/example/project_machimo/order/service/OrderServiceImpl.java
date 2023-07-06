@@ -6,13 +6,10 @@ import com.example.project_machimo.order.dto.BuyProductVO;
 import com.example.project_machimo.order.dto.BuyerVO;
 import com.example.project_machimo.order.dto.OrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -51,23 +48,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseEntity<? extends Objects> response(OrderDTO orderDTO) {
+    public int response(OrderDTO orderDTO) {
 
-        int result = getResult(orderDTO);
-        List<Integer> productIdList = orderDTO.getProductIdList();
 
-        if (result == 3) {
-            for (Integer productIds : productIdList) {
-                completed(orderDTO, productIds);
-            }
-            return ResponseEntity.ok().build();
-
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        return  getResult(orderDTO);
     }
 
-    private void completed(OrderDTO orderDTO, Integer productIds) {
+    @Override
+    public void completed(OrderDTO orderDTO, Integer productIds) {
         orderDAO.insertOrderProducts(orderDTO.getOrderId(), productIds);
         productsDAO.updateProductStatusCompletedCase(productIds);
     }
@@ -85,6 +73,21 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int getOrderProductTotal(int orderId) {
         return orderDAO.getOrderProductTotal(orderId);
+    }
+
+    @Override
+    public int getAmountResult(List<Integer> productIds) {
+        int result = 0;
+        for (Integer productId : productIds) {
+            result += orderDAO.getAmountResult(productId);
+        }
+        return result;
+    }
+
+    @Override
+    public int getUserPoint(int userId) {
+
+        return orderDAO.getUserPoint(userId);
     }
 }
 

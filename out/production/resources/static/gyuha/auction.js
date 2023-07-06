@@ -79,14 +79,21 @@ $(document).ready(function () {
         let pid = $("#pid").val();
         let report_content = $("#report_content").val();
         let cancelBtn = $("#report_cancel");
+        let seller_user_id = $("#seller").val()
+        let user_id = $("#sss").val();
+
+        console.log("세일러 아이디"+seller_user_id);
 
         $.ajax({
             url: "/report/send",
             type: "post",
             contentType: "application/json",
             data: JSON.stringify({
+                user_id:user_id,
                 product_id: pid,
-                report_content: report_content
+                report_content: report_content,
+                seller_user_id: seller_user_id
+
 
             }),
             success: function () {

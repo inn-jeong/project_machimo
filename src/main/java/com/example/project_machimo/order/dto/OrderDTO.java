@@ -6,13 +6,18 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.util.List;
 
 @Data
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class OrderDTO {
 
     private Integer orderId;

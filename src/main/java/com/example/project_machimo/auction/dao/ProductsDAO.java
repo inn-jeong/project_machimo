@@ -24,4 +24,6 @@ public interface ProductsDAO {
     void updateLikeDown(int productId);
 
     void updateHit(int id);
+
+    void updateBPrice(int id,Long price);
 }

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -51,7 +52,37 @@ public class OrderRestController {
     }
     @RequestMapping("/success")
     public ResponseEntity<? extends Object> response(@RequestBody OrderDTO orderDTO){
-        return orderService.response(orderDTO);
+        int response = orderService.response(orderDTO);
+
+        int amountResult = orderService.getAmountResult(orderDTO.getProductIdList());
+
+        int userPoint = orderService.getUserPoint(orderDTO.getUserId());
+
+        int usedPointResult = orderDTO.getUsedPointResult();
+        int orderPrice = orderDTO.getOrderPrice();
+
+        int orderTotalPrice = amountResult-usedPointResult;
+        System.out.println("어먼트 리절트 = "+amountResult+"주문값 = "+orderPrice);
+
+        System.out.println("유저 포인트 = "+userPoint+"사용한 포인트"+usedPointResult);
+        if (response!=3){
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (orderPrice!=orderDTO.getOrderPrice()){
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (userPoint >= orderDTO.getUsedPointResult()){
+            return ResponseEntity.ok().build();
+        }else {
+            List<Integer> productIdList = orderDTO.getProductIdList();
+            for (Integer productId : productIdList) {
+            orderService.completed(orderDTO,productId);
+
+            }
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 

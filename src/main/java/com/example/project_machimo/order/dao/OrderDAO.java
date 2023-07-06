@@ -23,5 +23,7 @@ public interface OrderDAO {
 
     int updateUserPoint(@Param("userId")int userId,@Param("point")int point);
 
+    int getUserPoint(int userId);
+    int getAmountResult(int productId);
 
 }

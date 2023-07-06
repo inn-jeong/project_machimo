@@ -45,4 +45,11 @@
         select sum(p_price) from order_products
         where order_id=#{orderId}
     </select>
+    <select id="getAmountResult" resultType="java.lang.Integer">
+        select p_direct from products where product_id = #{param1}
+    </select>
+    <select id="getUserPoint" resultType="java.lang.Integer">
+        select u_point from users where user_id = #{param1}
+
+    </select>
 </mapper>

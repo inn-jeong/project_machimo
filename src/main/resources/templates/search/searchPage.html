@@ -19,57 +19,99 @@
         display: flex;
         list-style: none;
     }
+
+    a {
+        text-decoration-line: none;
+    }
 </style>
 <body>
 <th:block th:replace="fragments/header :: headerFragment"></th:block>
-<div class="row">
-    <th:block th:each="result:${search}">
-        <div class="col-md-3 text-center">
-            <a th:href="@{http://localhost:8090/auction/action-list/{id}(id=${result.productId()})}">
-                <span th:text="${result.pName()}"></span>
-            </a><br>
-                <span th:text="${result.uNickName()}"></span>
+<div class="container">
+    <div class="row">
+        <section class="new_in container">
+            <!-- title -->
+            <div class="product_title py-3">
+                <div class="title fs-4 fw-bold -4" th:text="${message+'에 대한 검색결과'}">New In</div>
+                <div class="sub_title fs-8 fw-light fs-3" th:text="${pageMaker.total+'개'}">신규 등록 상품</div>
+
+            </div>
+            <div class="col-sm-12 col-md-5 py-3 ms-auto" style="text-align: right;">
+                <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                    showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span
+                        th:text="${pageMaker.getCri().getAmount()}"></span> of <span
+                        th:text="${pageMaker.getTotal()}"></span> entries
+                </div>
+            </div>
+
+            <!-- card -->
+            <div class="card_list row row-cols-1 row-cols-md-4 g-4">
+                <th:block th:each="result:${search}">
+                    <div class="col">
+                        <a th:href="@{/auction/action-list/{id}(id=${result.productId()})}">
+                            <div class="card h-100">
+                                <div class="card-image">
+                                    <img src="https://volcanoshop.net/web/product/medium/202207/2246137a254cc292520136388d752dd5.jpg"
+                                         class="card-img-top object-fit-cover border rounded">
+                                    <th:block th:switch="${result.pSalesStatus()}">
+                                        <small th:case="1">판매중</small>
+                                        <small th:case="2">판매완료</small>
+                                        <small th:case="4">판매종료</small>
+                                    </th:block>
+                                </div>
+                                <div class="info_box pt-1">
+                                    <div class="item fs-6 fw-bold" th:text="${result.pName()}">Stussy</div>
+                                    <div class="item fs-6 fw-medium mb-2" th:text="${result.pInfo()}">Stussy Diced Out
+                                        T-Shirt Black
+                                    </div>
+                                    <th:block th:if="${result.pSaleType()==0}">
+                                        <div class="price fs-6 fw-bold"
+                                             data-th-text="${#numbers.formatInteger(result.pBPrice(), 3, 'COMMA') + '원'}">
+                                            92,000원
+                                        </div>
+                                        <div class="fs-6 fw-light text-secondary">최고입찰가</div>
+                                    </th:block>
+                                    <th:block th:if="${result.pSaleType()==1}">
+                                        <div class="price fs-6 fw-bold"
+                                             data-th-text="${#numbers.formatInteger(result.pDirect(), 3, 'COMMA') + '원'}">
+                                            92,000원
+                                        </div>
+                                        <div class="fs-6 fw-light text-secondary">즉시구매가</div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </th:block>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center py-5">
+        <div class="col-sm-12 col-md-6">
+            <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                <ul class="pagination">
+                    <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
+                        <a th:href="@{${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0"
+                           tabindex="0">
+                            Previous
+                        </a>
+                    </li>
+                    <li class="paginate_button page-link"
+                        th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                        <a th:href="${num}" th:text="${num}">
+                        </a>
+                    </li>
+                    <li th:if="${pageMaker.next}" class="paginate_button page-item next page-link" id="dataTable_next">
+                        <a th:href="@{${pageMaker.endPage + 1}}" th:text="'Next'" aria-controls="dataTable"
+                           data-dt-idx="7" tabindex="0">
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-
-
-
-    </th:block>
+    </div>
 </div>
-<div class="div_page d-flex justify-content-center" align="center">
-    <ul>
-        <!-- 이전 페이지가 있으면 [Previous] 링크를 생성 -->
-        <th:block th:if="${pageMaker.prev}">
-            <li class="paginate_button">
-                <!-- 시작페이지 -1 하면 이전의 10개 페이지 표시 ex>11->10(1~10), 21->20(11~20) -->
-                <a th:href="@{${pageMaker.startPage - 1}}">
-                    [Previous]
-                </a>
-            </li>
-        </th:block>
-
-        <!-- startPage부터 endPage까지 각 페이지 번호에 대해 반복 -->
-        <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-            <li th:if="${num!=0}" class="paginate_button"
-                th:style="${pageMaker.cri.pageNum == num ? 'background-color: yellow' : ''}">
-                <!-- 현재 페이지는 배경색 노란색으로 표시 -->
-                <a th:href="@{${num}}">
-                    <span th:text="${num}">[num]</span>
-                </a>
-            </li>
-        </th:block>
-
-        <!-- 다음 페이지가 있으면 [Next] 링크를 생성 -->
-        <th:block th:if="${pageMaker.next}">
-            <li class="paginate_button">
-                <!-- 시작페이지 +1 하면 이후의 10개 페이지 표시 ex>10->11(11~20), 20->21(21~30) -->
-                <a th:href="@{${pageMaker.endPage + 1}}">
-                    [Next]
-                </a>
-            </li>
-        </th:block>
-    </ul>
-</div>
-
 <span id="option" hidden="hidden" th:text="${option}"></span>
 <form method="get" id="actionForm" action="searchList">
     <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">

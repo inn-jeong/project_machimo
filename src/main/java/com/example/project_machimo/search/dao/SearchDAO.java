@@ -11,4 +11,5 @@ public interface SearchDAO {
     List<SearchVO>searchListPage(Criteria cri);
     int searchUsersTotal(Criteria cri);
 
+
 }

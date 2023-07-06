@@ -3,10 +3,8 @@ package com.example.project_machimo.order.service;
 import com.example.project_machimo.order.dto.BuyProductVO;
 import com.example.project_machimo.order.dto.BuyerVO;
 import com.example.project_machimo.order.dto.OrderDTO;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Objects;
 
 public interface OrderService {
     List<BuyProductVO> getBuyList(List<Integer> sellerIds);
@@ -15,7 +13,11 @@ public interface OrderService {
 
     Integer getOrderId();
 
-    ResponseEntity<? extends Objects> response (OrderDTO orderDTO);
+    int response (OrderDTO orderDTO);
 
     int getOrderProductTotal (int orderId);
+
+    int getAmountResult ( List<Integer> productIds);
+    int getUserPoint(int userId);
+    void completed(OrderDTO orderDTO, Integer productIds);
 }

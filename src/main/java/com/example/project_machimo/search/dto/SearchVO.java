@@ -9,6 +9,9 @@ public record SearchVO(
         , String iSubImage
         ,String pName
         ,String pInfo
-
+        ,Integer pSalesStatus
+        ,Integer pSaleType
+        ,Long pDirect
+        ,Long pBPrice
 ) {
 }

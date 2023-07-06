@@ -45,6 +45,7 @@ public class AuctionController {
             , BidsService bidsService
             , WishListsDAO wishListsDAO
 
+
     ) {
         this.auctionService = auctionService;
         this.productService = productService;
@@ -71,6 +72,7 @@ public class AuctionController {
 
 
 
+
         log.info("showProduct 여기로옴 ");
         System.out.println("@!#!@#$!@#@!#" + id);
         AuctionVO aList = auctionService.aList(id);
@@ -83,7 +85,9 @@ public class AuctionController {
 
 
         boolean isLiked = integer != null;
-
+        int sellerId = auctionService.getUserId(pView.productsId());
+        System.out.println("일러 아이디"+sellerId);
+        model.addAttribute("sellerId",sellerId);
         model.addAttribute("sss",userId);
         model.addAttribute("isLiked", isLiked);
         model.addAttribute("aList", aList);

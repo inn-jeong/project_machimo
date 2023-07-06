@@ -16,7 +16,7 @@ function all_use_point() {
         document.getElementById('user_point').innerText = 0
         document.getElementById('used_point').innerText = document.getElementById("u_point").value
         document.getElementById('result').innerText = Number(result - use_point);
-        document.getElementById('result2').innerText=result.toLocaleString('ko-kr')+"원"
+        document.getElementById('result2').innerText = result.toLocaleString('ko-kr') + "원"
     }
     console.log(result)
 }
@@ -31,17 +31,16 @@ function onClickCheckboxValue() {
     selectedEls.forEach((el) => {
         result += Number(el.value);
     });
+    console.log(result)
 
     document.getElementById('result').innerText = result;
-    document.getElementById('result2').innerText=result.toLocaleString('ko-kr')+"원"
+    document.getElementById('result2').innerText = result.toLocaleString('ko-kr') + "원"
 
 }
 
 window.onload = function () {
 
-    const query = 'input[name="amount"]:checked';
-    const selectedEls =
-        document.querySelectorAll(query);
+    const selectedEls = document.querySelectorAll(".p_direct");
 
     let result = 0;
     selectedEls.forEach((el) => {
@@ -49,7 +48,7 @@ window.onload = function () {
     });
 
     document.getElementById('result').innerText = result;
-    document.getElementById('result2').innerText=result.toLocaleString('ko-kr')+"원"
+    document.getElementById('result2').innerText = result.toLocaleString('ko-kr') + "원"
 };
 var used_point = 0;
 
@@ -76,7 +75,7 @@ function points() {
     }
 
     document.getElementById('result').innerText = Number(result - point).toString().toLocaleString('ko-kr');
-    document.getElementById('result2').innerText=result.toLocaleString('ko-kr')+"원"
+    document.getElementById('result2').innerText = result.toLocaleString('ko-kr') + "원"
     document.getElementById("user_point").innerText = Number(user_point - point)
 
     used_point = (used_point + Number(point))
@@ -138,16 +137,17 @@ function requestPay() {
     }
 
     console.log("제이슨 데이터" + JSON.stringify(json))
+    const rand_0_99 = Math.floor(Math.random() * 100);
 
-    if (radioVal === '무통장 입금') {
 
-    } else {
+
+
         IMP.request_pay(
             {
 
                 pg: radioVal,		//pg파라미터 값
                 pay_method: "card",		//결제 방법
-                merchant_uid: "machimm" + 10,//주문번호
+                merchant_uid: "machimm" + rand_0_99,//주문번호
                 name: p_name,		//상품 명
                 amount: amount,			//금액
                 buyer_email: email,
@@ -159,14 +159,13 @@ function requestPay() {
 
             },
             function (rsp) {
-
                 if (rsp.success) {
                     //서버 검증 요청 부분
                     console.log(rsp.imp_uid)
                     console.log(rsp.merchant_uid)
                     console.log(rsp.paid_amount)
                     $.ajax({
-                        type: "get",
+                        type: "post",
                         url: '/payment/verify/' + rsp.imp_uid
                     }).done(function (data) {
                         console.log(data.response.amount)
@@ -194,7 +193,18 @@ function requestPay() {
                                 }
                                 , error: function () {
                                     alert("결제정보 저장중 오류가 발생하였습니다.")
+                                    $.ajax({
+                                        type: "post",
+                                        url: '/pay/cancel',
+                                        contentType: "application/json",
+                                        data: JSON.stringify({
+                                            imp_uid: rsp.imp_uid,
+                                            merchant_uid: order_id,
+                                            amount: rsp.paid_amount,
+                                            product_list: product_list
+                                        })
 
+                                    })
                                 }
 
                             })
@@ -221,7 +231,6 @@ function requestPay() {
                 }
             }
         );
-    }
 
 }
 

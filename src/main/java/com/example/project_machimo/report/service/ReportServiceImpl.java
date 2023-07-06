@@ -2,6 +2,7 @@ package com.example.project_machimo.report.service;
 
 import com.example.project_machimo.report.dao.ReportDAO;
 import com.example.project_machimo.report.dto.ReportDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ReportServiceImpl  implements ReportService {
 
     private final ReportDAO reportDAO;
@@ -22,6 +24,7 @@ public class ReportServiceImpl  implements ReportService {
 
     @Override
     public ResponseEntity<? extends Object> response(ReportDTO reportDTO) {
+        log.info("리폿 리스폰으로 들어온 제이슨 ===> {}",reportDTO);
 
         boolean duplicateReporting = isDuplicateReporting(reportDTO);
         String message;

@@ -132,6 +132,10 @@
             i.i_sub_img as i_sub_img,
             p.P_NAME as p_name,
             p.P_INFO as p_info,
+            p.p_sales_status as p_sales_status,
+            p.p_sale_type as p_sale_type,
+            p.p_direct as p_direct,
+            p.p_b_price as p_b_price,
             ROW_NUMBER() OVER (ORDER BY p.P_CREATED_AT) rn
         FROM USERS U
         JOIN PRODUCTS P ON U.USER_ID = P.USER_ID

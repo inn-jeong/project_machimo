@@ -63,7 +63,7 @@ public class OrderController {
         Integer user;
         System.out.println(session.getAttribute("userId")+"세션이름ㄴㅇㅁㄴㄹㅇㄴㅁ");
         System.out.println(userId+"유저이이디 이름 ");
-        System.out.println("오더 아읻"+orderId);
+        System.out.println("오더 아이디"+orderId);
         if (session.getAttribute("userId")!=null){
 
              user=(Integer) session.getAttribute("userId");

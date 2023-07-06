@@ -1,5 +1,6 @@
 package com.example.project_machimo.auction.service;
 
+import com.example.project_machimo.auction.dao.ProductsDAO;
 import com.example.project_machimo.auction.dto.BidsVO;
 import com.example.project_machimo.auction.dto.CheckDTO;
 import lombok.Data;
@@ -21,11 +22,16 @@ public class CheckResponseEntityImpl implements CheckResponseEntity {
 
     final private BidsService bidsService;
 
+    final private ProductsDAO productsDAO;
     @Autowired
-    public CheckResponseEntityImpl(AuctionService auctionService, BidsService bidsService) {
+
+    public CheckResponseEntityImpl(AuctionService auctionService, BidsService bidsService, ProductsDAO productsDAO) {
         this.auctionService = auctionService;
         this.bidsService = bidsService;
+        this.productsDAO = productsDAO;
     }
+
+
 
 @Override
 public ResponseEntity<?> getResponseEntityForCheck(CheckDTO check,Integer userSession) {
@@ -85,6 +91,7 @@ private ResponseEntity<?> processBid(Long bids, int productId, Long firstPrice,I
 private ResponseEntity<?> processNewBid(Long bids, int productId, Long firstPrice,Integer userId) {
     bidsService.write(bids, productId, firstPrice,userId);
     auctionService.highestBidUpdate(bids, productId,userId);
+    productsDAO.updateBPrice(productId,bids);
     log.info("새로운 입찰자 나왔슴");
     List<BidsVO> bidsVOS = bidsService.bList(productId);
     return ResponseEntity.ok(bidsVOS);
@@ -93,6 +100,7 @@ private ResponseEntity<?> processNewBid(Long bids, int productId, Long firstPric
 private ResponseEntity<?> updateExistingBid(Long bids, int productId,Integer userId) {
     bidsService.amountUpdate(bids, productId,userId);
     auctionService.highestBidUpdate(bids, productId,userId);
+    productsDAO.updateBPrice(productId,bids);
     log.info("입찰가 업데이트됨");
     List<BidsVO> bidsVOS = bidsService.bList(productId);
     return ResponseEntity.ok(bidsVOS);

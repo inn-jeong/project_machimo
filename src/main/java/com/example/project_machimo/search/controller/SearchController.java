@@ -41,7 +41,14 @@ public class SearchController {
         log.info("어먼트에용에용" + String.valueOf(cri.getAmount()));
 
         List<SearchVO> search = searchService.search(cri);
+        int count = 0;
+        for (SearchVO searchVO : search) {
+            if(searchVO.pSaleType()==0){
+                count++;
+            }
 
+        }
+        System.out.println("카운트 "+count);
         int total = searchService.searchTotal(cri);
         String keyword = cri.getKeyword();
         if (search.isEmpty()) {
@@ -71,7 +78,13 @@ public class SearchController {
 
 
         List<SearchVO> search = searchService.search(cri);
-
+        int count = 0;
+        for (SearchVO searchVO : search) {
+            if(searchVO.pSaleType()==0){
+                count++;
+            }
+        }
+        System.out.println("카운트 "+count);
         log.info("cri.getPageNum() =====> {}", cri.getPageNum());
         log.info("cri.getAmount() =====> {}", cri.getAmount());
 
