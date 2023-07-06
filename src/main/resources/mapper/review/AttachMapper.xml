@@ -5,7 +5,15 @@
 <mapper namespace="com.example.project_machimo.review.dao.AttachMapper">
 
 
+    <delete id="deleteFile">
+        delete from review_image where review_id = #{reviewId}
+    </delete>
+
+
     <select id="getAttachList" parameterType="int" resultType="com.example.project_machimo.review.dto.AttachImageVO">
         select * from review_image where review_id = #{reviewId}
+    </select>
+    <select id="getReviewId" resultType="java.lang.Integer">
+        select count(*)+1 from review
     </select>
 </mapper>

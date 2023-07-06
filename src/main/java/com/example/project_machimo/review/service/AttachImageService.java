@@ -16,10 +16,21 @@ public class AttachImageService {
     @Autowired
     private SqlSession sqlSession;
 
+    public int getReviewId(){
+        AttachMapper mapper = sqlSession.getMapper(AttachMapper.class);
+        log.info("getReviewId.........");
+        return mapper.getReviewId();
+    };
+
     public List<AttachImageVO> getAttachList(int reviewId){
         AttachMapper mapper = sqlSession.getMapper(AttachMapper.class);
         log.info("getAttachList.........");
         return mapper.getAttachList(reviewId);
     };
 
+    public void deleteFile(int reviewId){
+        AttachMapper mapper = sqlSession.getMapper(AttachMapper.class);
+        log.info("deleteFile.........");
+        mapper.deleteFile(reviewId);
+    };
 }

@@ -16,4 +16,6 @@ public class AttachImageVO {
     /* 경로 */
     private String uploadPath;
 
+    private String url; // URL 추가
+
 }

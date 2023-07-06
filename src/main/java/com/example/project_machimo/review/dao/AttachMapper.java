@@ -9,5 +9,8 @@ import java.util.List;
 public interface AttachMapper {
 
     /* 이미지 데이터 반환 */
+    int getReviewId();
     public List<AttachImageVO> getAttachList(int reviewId);
+
+    void deleteFile(int reviewId);
 }

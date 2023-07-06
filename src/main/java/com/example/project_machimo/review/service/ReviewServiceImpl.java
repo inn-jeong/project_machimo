@@ -45,7 +45,7 @@ public class ReviewServiceImpl implements ReviewService{
     public void write(HashMap<String, String> param) {
         log.info("@# ReviewServiceImpl.write() start");
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
-
+        dao.write(param);
         log.info("@# ReviewServiceImpl.write() end");
     }
 

@@ -3,6 +3,7 @@ package com.example.project_machimo.review.controller;
 import com.example.project_machimo.review.dto.AttachImageVO;
 import com.example.project_machimo.review.dto.*;
 //import com.example.project_machimo.review.service.AttachImageService;
+import com.example.project_machimo.review.service.AttachImageService;
 import com.example.project_machimo.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -37,6 +38,10 @@ public class ReviewController {
     @Autowired
     private ReviewService service;
 
+    @Autowired
+    private AttachImageService imageService;
+
+
 //    @Autowired
 //    private AttachImageService imageService;
 
@@ -63,8 +68,9 @@ public class ReviewController {
         return "review/list";
     }
     @RequestMapping("/write_view")
-    public String writeView() {
+    public String writeView(Model model) {
         log.info("@# writeView");
+        model.addAttribute("getReviewId",imageService.getReviewId());
         return "review/write_view";
     }
 
@@ -81,12 +87,16 @@ public class ReviewController {
         log.info("@# contentView");
         ReviewDto dto = service.contentView(param);
 
+        List<AttachImageVO> images = service.getAttachList(Integer.parseInt(param.get("reviewId")));
+        model.addAttribute("images",images);
+
         model.addAttribute("content_view", dto);
         service.updateCount(dto.getReviewId());
 //        model.addAttribute("hit", hit);
 //        content_view.jsp 에서 pageMaker를 가지고 페이징 처리
         model.addAttribute("pageMaker", param);
 //        model.addAttribute("images", imageService.getAttachList(dto.getReviewId()));
+
 
         return "review/content_view";
     }
@@ -166,7 +176,8 @@ public class ReviewController {
 
         }
 
-        String uploadFolder = "C:\\upload";
+//        String uploadFolder = "C:\\upload";
+        String uploadFolder = new File("src/main/resources/upload").getAbsolutePath();
 
 //        날짜 폴더 경로
         LocalDate currentDate = LocalDate.now();
@@ -188,10 +199,18 @@ public class ReviewController {
 //            이미지 정보 객체
             AttachImageVO vo = new AttachImageVO();
 
+
             /* 파일 이름 */
             String uploadFileName = multipartFile.getOriginalFilename();
             vo.setFileName(uploadFileName);
             vo.setUploadPath(datePath);
+
+//            String baseUrl = "http://localhost:8090/upload/"; // 기본 URL
+//            String imageUrl = baseUrl + uploadPath.toString().replace("\\", "/") + "/" + uploadFileName; // URL 조합
+//            String imageUrl = uploadPath.toString().replace("\\", "/") + "/" + uploadFileName; // URL 조합
+            String imageUrl = uploadPath.toString();
+
+            vo.setUrl(imageUrl); // url 멤버 변수 설정
 //            vo.setReviewId(reviewId);
 
             /* uuid 적용 파일 이름 */

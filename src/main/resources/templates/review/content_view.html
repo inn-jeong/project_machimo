@@ -90,9 +90,10 @@
         <label>상품 이미지</label>
       </div>
       <div class="form_section_content">
-
         <div id="uploadResult">
-
+          <div th:each="image : ${images}">
+            <img th:src="${image.url}" alt="Image" />
+          </div>
         </div>
       </div>
     </div>
