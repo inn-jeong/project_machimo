@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .container {
@@ -104,6 +105,7 @@
     </style>
 </head>
 <body>
+<th:block th:replace="fragments/header"></th:block>
 <div class="container">
     <h1>SHOP</h1>
     <!-- 카테고리 목록 -->
@@ -154,22 +156,32 @@
 
     <div class="product-list">
         <!-- 이미지와 상품 정보를 반복하여 표시 -->
-        <div class="product-item" th:each="item : ${itemList}">
-            <!-- 이미지 -->
-            <div class="item-image">
-                <p><span th:text="${item.iSubImage}"></span></p>
-            </div>
-            <div class="item-info">
-                <!-- 닉네임 -->
-                <h4 th:text="${item.uNickname}"></h4>
-                <!-- 상품 이름 -->
-                <p th:text="${item.pName}"></p>
-                <!-- 가격 -->
-                <p>
-                    <span th:if="${item.pSaleType == 0}" th:text="${item.pBPrice}"></span>
-                    <span th:if="${item.pSaleType == 1}" th:text="${item.pDirect}"></span>
-                </p>
-            </div>
+        <div th:each="item : ${itemList}" class="product-item">
+            <a th:href="@{/auction/action-list/{id}(id=${item.getProductId()})}">
+                <!-- 이미지 -->
+                <div class="item-image">
+                    <p><span th:text="${item.iSubImage}"></span></p>
+                </div>
+                <div class="item-info">
+                    <!-- 닉네임 -->
+                    <h4 th:text="${item.uNickname}"></h4>
+                    <!-- 상품 이름 -->
+                    <p th:text="${item.pName}"></p>
+                    <!-- 가격 -->
+                    <p>
+                        <span th:if="${item.pSaleType == 0}" th:text="${#numbers.formatDecimal(item.pBPrice, 0, 'COMMA', 0, 'POINT')}+'원'"></span>
+                        <span th:if="${item.pSaleType == 1}" th:text="${#numbers.formatDecimal(item.pDirect, 0, 'COMMA', 0, 'POINT')}+'원'"></span>
+                    </p>
+                    <p>
+                        <span th:if="${item.pSaleType == 0}">경매가</span>
+                        <span th:if="${item.pSaleType == 1}">즉시 구매가</span>
+                    </p>
+                </div>
+            </a>
         </div>
     </div>
+</div>
+<th:block th:replace="fragments/footer"></th:block>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
 </html>

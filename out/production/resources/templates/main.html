@@ -48,6 +48,8 @@
                     <span th:if="${popular.pSaleType == 0}" th:text="${popular.pBPrice}"></span>
                     <span th:if="${popular.pSaleType == 1}" th:text="${popular.pDirect}"></span>
                 </p>
+                <span th:if="${popular.pSaleType == 0}" th:text="경매가"></span>
+                <span th:if="${popular.pSaleType == 1}" th:text="즉시구매가"></span>
             </div>
         </div>
     </div>

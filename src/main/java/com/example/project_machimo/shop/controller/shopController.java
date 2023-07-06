@@ -65,7 +65,8 @@ public class shopController {
         if (sort != null) {
             items = sortItems(items, sort);
         }
-
+//        정렬하고 나서 남은 상품을 세기
+        countProduct = items.size();
 
 
 //        카테고리 값을 model에 저장 하고 넘어감

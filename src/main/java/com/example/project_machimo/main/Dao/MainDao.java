@@ -9,4 +9,8 @@ import java.util.ArrayList;
 public interface MainDao {
     public ArrayList<ItemDto> newestItem();
     public ArrayList<ItemDto> popularItem();
+
+    public ArrayList<ItemDto> figureItem();
+
+    public ArrayList<ItemDto> goodsItem();
 }

@@ -24,10 +24,14 @@ public class MainController {
 
         ArrayList<ItemDto> newest = service.newestItem();
         ArrayList<ItemDto> popular = service.popularItem();
+        ArrayList<ItemDto> fiqure = service.figureItem();
+        ArrayList<ItemDto> goods = service.goodsItem();
 
         model.addAttribute("newestItem",newest);
         model.addAttribute("popularItem",popular);
+        model.addAttribute("figureItem",fiqure);
+        model.addAttribute("goodsItem",goods);
 
-        return "main";
+        return "index";
     }
 }

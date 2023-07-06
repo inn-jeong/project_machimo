@@ -34,4 +34,22 @@ public class MainServiceImpl implements  MainService{
         log.info("@# popularItem end");
         return popularItem;
     }
+
+    @Override
+    public ArrayList<ItemDto> figureItem() {
+        log.info("@# figureItem start");
+        MainDao dao = sqlSession.getMapper(MainDao.class);
+        ArrayList<ItemDto> figureItem = dao.figureItem();
+        log.info("@# figureItem end");
+        return figureItem;
+    }
+
+    @Override
+    public ArrayList<ItemDto> goodsItem() {
+        log.info("@# goodsItem start");
+        MainDao dao = sqlSession.getMapper(MainDao.class);
+        ArrayList<ItemDto> goodsItem = dao.goodsItem();
+        log.info("@# goodsItem end");
+        return goodsItem;
+    }
 }
