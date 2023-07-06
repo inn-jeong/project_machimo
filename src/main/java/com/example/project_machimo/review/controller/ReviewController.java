@@ -48,6 +48,7 @@ public class ReviewController {
 //    @Value("${uploadPath}")
 //    private String uploadPath;
 
+
     @RequestMapping("/list_old")
     public String list(Model model) {
         log.info("@# list");
@@ -87,8 +88,19 @@ public class ReviewController {
         log.info("@# contentView");
         ReviewDto dto = service.contentView(param);
 
+
+        //이미지 불러오기
         List<AttachImageVO> images = service.getAttachList(Integer.parseInt(param.get("reviewId")));
-        model.addAttribute("images",images);
+        List<String> imagePaths = new ArrayList<>();
+
+        for (AttachImageVO image : images) {
+//            String imagePath = image.getUploadPath()+'/'+'s_'+image.getUuid()+'_'+image.getFileName();
+            String imagePath = image.getUploadPath() + "/s_" + image.getUuid() + "_" + image.getFileName();
+            imagePaths.add(imagePath);
+        }
+        model.addAttribute("imagePaths",imagePaths);
+
+
 
         model.addAttribute("content_view", dto);
         service.updateCount(dto.getReviewId());
@@ -177,7 +189,8 @@ public class ReviewController {
         }
 
 //        String uploadFolder = "C:\\upload";
-        String uploadFolder = new File("src/main/resources/upload").getAbsolutePath();
+//        String uploadFolder = new File("src/main/resources/upload").getAbsolutePath();
+        String uploadFolder = new File("src/main/resources/static/upload").getAbsolutePath();
 
 //        날짜 폴더 경로
         LocalDate currentDate = LocalDate.now();

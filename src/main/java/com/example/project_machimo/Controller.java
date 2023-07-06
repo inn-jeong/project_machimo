@@ -3,6 +3,7 @@ package com.example.project_machimo;
 import com.example.project_machimo.review.dao.AttachMapper;
 import com.example.project_machimo.review.dao.ReviewDao;
 import com.example.project_machimo.review.dto.AttachImageVO;
+import com.example.project_machimo.review.service.AttachImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -35,6 +36,10 @@ public class Controller {
     @Autowired
     private SqlSession sqlSession;
 
+    @Autowired
+    private AttachImageService imageService;
+
+
 //    @Autowired
 //    private AttachMapper attachMapper;
 
@@ -48,7 +53,6 @@ public class Controller {
         ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
         log.info("getAttachList.........." + reviewId);
 
-//        return new ResponseEntity<List<AttachImageVO>>(attachMapper.getAttachList(reviewId), HttpStatus.OK);
         return new ResponseEntity<List<AttachImageVO>>(dao.getAttachList(reviewId), HttpStatus.OK);
 
     }
@@ -58,8 +62,6 @@ public class Controller {
 //    @GetMapping("/display")
 ////    @ResponseBody
 ////    public ResponseEntity<byte[]> getImage(String fileName) {
-//    public ResponseEntity<byte[]> getImage(@RequestParam("reviewId") int reviewId) {
-//
 ////        File file = new File("c:\\upload\\" + fileName);
 //
 //
@@ -81,7 +83,8 @@ public class Controller {
 //    }
 
     @GetMapping("/display")
-    public ResponseEntity<List<byte[]>> getImages(@RequestParam("reviewId") int reviewId) {
+//    public ResponseEntity<List<byte[]>> getImages(@RequestParam("reviewId") int reviewId) {
+    public ResponseEntity<List<byte[]>> getImages(@RequestParam("bno") int reviewId) {
 
         AttachMapper mapper = sqlSession.getMapper(AttachMapper.class);
         List<AttachImageVO> imageList = mapper.getAttachList(reviewId);

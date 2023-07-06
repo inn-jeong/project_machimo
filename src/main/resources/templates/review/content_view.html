@@ -52,7 +52,7 @@
     <input type="hidden" name="reviewId" th:value="${pageMaker.reviewId}">
   <tr>
     <td>리뷰 ID:</td>
-    <td><span th:text="${content_view.reviewId}" ></span></td>
+    <td><span th:text="${content_view.reviewId}"></span></td>
   </tr>
   <tr>
     <td>상품 ID:</td>
@@ -85,19 +85,30 @@
   </tr>
 
 <!--    이미지 출력-->
-    <div class="form_section">
-      <div class="form_section_title">
-        <label>상품 이미지</label>
-      </div>
-      <div class="form_section_content">
-        <div id="uploadResult">
-          <div th:each="image : ${images}">
-            <img th:src="${image.url}" alt="Image" />
-          </div>
-        </div>
-      </div>
-    </div>
+<!--    <div class="form_section">-->
+<!--      <div class="form_section_title">-->
+<!--        <label>상품 이미지</label>-->
+<!--      </div>-->
+<!--      <div class="form_section_content">-->
+<!--        <div id="uploadResult">-->
+<!--          <div th:each="image : ${images}">-->
+<!--            <img th:src="${image.url}" alt="Image" />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
 
+    <!-- 이미지 표시 -->
+<!--    <div th:each="imagePath : ${imagePaths}">-->
+<!--      <img th:src="@{${imagePath}}" alt="Image">-->
+<!--    </div>-->
+
+    <!-- 이미지 표시 -->
+    <div th:each="imagePath : ${imagePaths}">
+<!--      <img th:src="@{/upload/${imagePath}}" alt="Image">-->
+      <img th:src="@{'/upload/' + ${imagePath}}" alt="Image">
+    </div>
+  
   <tr>
     <td colspan="3">
       <input class="btn" type="submit" value="수정" formaction="modify_view" style="width: 100px; height: 30px;">
@@ -241,39 +252,56 @@
     // let uploadReslut = $("#uploadReslut");
 
 
-    // 페이지 로딩 시 이미지 출력
-    var reviewId = '${content_view.reviewId}';
-    var uploadReslut = $("#uploadResult");
-
-    $.getJSON("/getAttachList", {reviewId : reviewId}, function(arr){
-
-      // 이미지 없는 경우 noImage출력 후 콜백 함수 바로 빠져나감
-      if(arr.length === 0){
-        let str = "";
-        str += "<div id='result_card'>";
-        str += "<img src='/resources/img/noImage.png'>";
-        str += "</div>";
-
-        uploadReslut.html(str);
-        return;
-      }
-
-      let str = "";
-      let obj = arr[0];
-
-      // uploadPath왜인식못하지
-      let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
-      str += "<div id='result_card'";
-      str += "data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'";
-      str += ">";
-      str += "<img src='/display?fileName=" + fileCallPath +"'>";
-      str += "</div>";
-
-      uploadReslut.html(str);
-
-    });
+    // // 페이지 로딩 시 이미지 출력
+    // // var reviewId = '${content_view.reviewId}';
+    // // var reviewId = $("#reviewId").val()
+    // var reviewId = $("[name='bno']").val();
+    // var uploadReslut = $("#uploadResult");
+    //
+    // $.getJSON("/getAttachList", {reviewId : reviewId}, function(arr){
+    //
+    //   // 이미지 없는 경우 noImage출력 후 콜백 함수 바로 빠져나감
+    //   if(arr.length === 0){
+    //     let str = "";
+    //     str += "<div id='result_card'>";
+    //     str += "<img src='/img/noImage.png'>";
+    //     str += "</div>";
+    //
+    //     uploadReslut.html(str);
+    //     return;
+    //   }
+    //   let str = "";
+    //   let obj = arr[0];
+    //
+    //   // uploadPath왜인식못하지
+    //   // let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+    //   // str += "<div id='result_card'";
+    //   // str += "data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'";
+    //   // str += ">";
+    //   // str += "<img src='/display?fileName=" + fileCallPath +"'>";
+    //   // str += "</div>";
+    //
+    //   let fileCallPath = encodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.fileName);
+    //
+    //
+    //   // let fileCallPath = decodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.fileName);
+    //   // let fileCallPath = decodeURIComponent("/s_" + obj.uuid + "_" + obj.fileName);
+    //   // let fileCallPath = decodeURIComponent(obj.uuid);
+    //
+    //
+    //   str += "<div id='result_card'";
+    //   str += "data-path='" + obj.url + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'";
+    //   str += ">";
+    //   str += "<img src='/display?fileName=" + fileCallPath +"'>";
+    //   // str += "<img src='/display?reviewId="+ fileCallPath +"'>";
+    //   str += "</div>";
+    //
+    //   uploadReslut.html(str);
+    //
+    // });
 
   });
+
 
 
 </script>
