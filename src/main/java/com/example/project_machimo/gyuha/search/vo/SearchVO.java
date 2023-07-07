@@ -1,4 +1,4 @@
-package com.example.project_machimo.gyuha.search.dto;
+package com.example.project_machimo.gyuha.search.vo;
 
 
 /*- 최규하

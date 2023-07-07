@@ -1,5 +1,6 @@
 package com.example.project_machimo.gyuha.basket.Controller;
 
+import com.example.project_machimo.gyuha.aop.LoginCheck;
 import com.example.project_machimo.gyuha.basket.dto.BasketDTO;
 import com.example.project_machimo.gyuha.basket.service.BasketService;
 import jakarta.servlet.http.HttpSession;
@@ -24,14 +25,13 @@ public class BasketRestController {
     }
 
     @PostMapping("/addBasket")
+    @LoginCheck
     public ResponseEntity<? extends Object> add(
             @RequestBody BasketDTO basketDTO
             , HttpSession session
     ) {
         log.info("장바구니에 들어온 제이슨 {}",basketDTO);
-        if (session.getAttribute("userId")==null){
-            return ResponseEntity.badRequest().body("로그인이 필요한 서비스입니다.");
-        }
+
 
         Integer checkBasket = basketService.checkBasket(basketDTO);
         if (checkBasket == null) {

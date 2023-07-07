@@ -119,7 +119,7 @@
         </if>
 
     </select>
-    <select id="searchListPage" resultType="com.example.project_machimo.gyuha.search.dto.SearchVO">
+    <select id="searchListPage" resultType="com.example.project_machimo.gyuha.search.vo.SearchVO">
         <![CDATA[
     SELECT *
     FROM (

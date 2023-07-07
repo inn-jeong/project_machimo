@@ -57,7 +57,8 @@
                         <li class="nav-item"><a href="/admin/boardList "
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">고객센터</a>
                         </li>
-                        <li class="nav-item"><a href="/mypage/mypage_page"
+
+                        <li th:if="${hasSession}" class="nav-item"><a href="/mypage/mypage_page"
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">마이페이지</a>
                         </li>
                         <li class="nav-item"><a href="#"

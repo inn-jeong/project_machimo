@@ -4,7 +4,7 @@ import com.example.project_machimo.gyuha.alert.dao.AlertDAO;
 import com.example.project_machimo.gyuha.auction.dao.AuctionDAO;
 import com.example.project_machimo.gyuha.auction.dao.BidsDAO;
 import com.example.project_machimo.gyuha.auction.dao.ProductsDAO;
-import com.example.project_machimo.gyuha.auction.dto.AuctionVO;
+import com.example.project_machimo.gyuha.auction.vo.AuctionVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

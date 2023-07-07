@@ -1,7 +1,7 @@
 package com.example.project_machimo.gyuha.order.service;
 
-import com.example.project_machimo.gyuha.order.dto.BuyProductVO;
-import com.example.project_machimo.gyuha.order.dto.BuyerVO;
+import com.example.project_machimo.gyuha.order.vo.BuyProductVO;
+import com.example.project_machimo.gyuha.order.vo.BuyerVO;
 import com.example.project_machimo.gyuha.order.dto.OrderDTO;
 
 import java.util.List;

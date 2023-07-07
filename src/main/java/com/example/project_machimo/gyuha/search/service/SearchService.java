@@ -1,7 +1,7 @@
 package com.example.project_machimo.gyuha.search.service;
 
 import com.example.project_machimo.gyuha.search.dto.SearchCriteria;
-import com.example.project_machimo.gyuha.search.dto.SearchVO;
+import com.example.project_machimo.gyuha.search.vo.SearchVO;
 
 import java.util.List;
 

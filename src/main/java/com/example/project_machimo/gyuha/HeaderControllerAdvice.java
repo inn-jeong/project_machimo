@@ -1,6 +1,6 @@
 package com.example.project_machimo.gyuha;
 
-import com.example.project_machimo.gyuha.alert.dto.AlertVO;
+import com.example.project_machimo.gyuha.alert.vo.AlertVO;
 import com.example.project_machimo.gyuha.alert.service.AlertService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -12,13 +12,13 @@ import java.util.List;
 
 @Slf4j
 @ControllerAdvice
-public class GlobalControllerAdvice {
+public class HeaderControllerAdvice {
 
     private final AlertService service;
 
 
     @Autowired
-    public GlobalControllerAdvice(AlertService service) {
+    public HeaderControllerAdvice(AlertService service) {
         this.service = service;
     }
 

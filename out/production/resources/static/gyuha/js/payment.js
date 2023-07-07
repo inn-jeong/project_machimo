@@ -182,7 +182,8 @@ function requestPay() {
                                 order_address: address,
                                 order_address_sub: address_sub,
                                 user_id: user_id,
-                                used_point_result: used_point_result
+                                used_point_result: used_point_result,
+
                             })
                             , success: function () {
                                 alert("결제 성공")

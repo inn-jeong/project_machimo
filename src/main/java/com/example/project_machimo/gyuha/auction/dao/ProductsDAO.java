@@ -1,6 +1,6 @@
 package com.example.project_machimo.gyuha.auction.dao;
 
-import com.example.project_machimo.gyuha.auction.dto.ProductsVO;
+import com.example.project_machimo.gyuha.auction.vo.ProductsVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.Timestamp;

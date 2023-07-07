@@ -2,7 +2,7 @@ package com.example.project_machimo.gyuha.search.service;
 
 import com.example.project_machimo.gyuha.search.dao.SearchDAO;
 import com.example.project_machimo.gyuha.search.dto.SearchCriteria;
-import com.example.project_machimo.gyuha.search.dto.SearchVO;
+import com.example.project_machimo.gyuha.search.vo.SearchVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

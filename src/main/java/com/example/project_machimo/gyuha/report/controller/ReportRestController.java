@@ -1,6 +1,7 @@
 package com.example.project_machimo.gyuha.report.controller;
 
 
+import com.example.project_machimo.gyuha.aop.LoginCheck;
 import com.example.project_machimo.gyuha.report.dto.ReportDTO;
 import com.example.project_machimo.gyuha.report.service.ReportService;
 import jakarta.servlet.http.HttpSession;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 
 /*
@@ -28,17 +28,32 @@ public class ReportRestController {
     public ReportRestController(ReportService reportService) {
         this.reportService = reportService;
     }
+
     /*
     -최규하
-    유저 세션이 null이라면 badRequset와함께 body에 이유를 담아서 보냄
-    세션이 있다면 service에서 처리한 결과를 리턴함*/
+    service에서 가져온 결과값에 따라서 리스폰을 내림
+    if문에 충족하지 못할경우 ok가 리턴됨
+    충족할 경우 message에 담아서 body에 보냄
+
+  */
     @PostMapping("/send")
-    public ResponseEntity<? extends Object> sendResponse(@RequestBody ReportDTO reportDTO, HttpSession session){
-        if (session.getAttribute("userId")==null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("신고는 회원만 가능합니다.");
+    @LoginCheck
+    public ResponseEntity<? extends Object> sendResponse(@RequestBody ReportDTO reportDTO, HttpSession session) {
+        String message;
+        boolean duplicateReporting = reportService.isDuplicateReporting(reportDTO);
+        if (duplicateReporting) {
+            message = "이미 신고한 게시글입니다.";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
         }
-        reportDTO.setUserId((Integer) session.getAttribute("userId"));
-        return reportService.response(reportDTO);
+
+        int i = reportService.insertReport(reportDTO);
+        if (i != 1) {
+            message = "저장중 문제가 발생하였습니다.";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+        }
+
+
+        return ResponseEntity.ok().build();
     }
 
 

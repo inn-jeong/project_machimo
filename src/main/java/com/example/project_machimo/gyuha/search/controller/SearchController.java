@@ -2,7 +2,7 @@ package com.example.project_machimo.gyuha.search.controller;
 
 import com.example.project_machimo.gyuha.search.dto.SearchCriteria;
 import com.example.project_machimo.gyuha.search.dto.SearchPageDTO;
-import com.example.project_machimo.gyuha.search.dto.SearchVO;
+import com.example.project_machimo.gyuha.search.vo.SearchVO;
 import com.example.project_machimo.gyuha.search.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+
+/*
+-최규하
+검색결과 처리 및 페이징
+* */
 @Controller
 @RequestMapping("/search")
 @Slf4j

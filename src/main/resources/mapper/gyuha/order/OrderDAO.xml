@@ -6,13 +6,9 @@
 
 
     <insert id="insertOrder">
-        INSERT INTO ORDERS
-        (order_id, user_id, product_id, order_status_id, created_at, updated_at, order_address,
-        order_address_sub,used_point,
-        order_price)
-        SELECT #{orderId}, #{userId}, 1,0, #{createdAt}, null, #{orderAddress}, #{orderAddressSub},#{usedPointResult},
-        #{orderPrice}
-        FROM ORDER_STATUS
+        INSERT INTO ORDERS values (order_id_seq.nextval, #{userId}, 1, 0, #{createdAt}, null,#{orderReq},
+        #{orderAddress}, #{orderAddressSub},
+         #{orderPrice},#{usedPointResult})
     </insert>
 
     <insert id="insertOrderProducts">
@@ -38,11 +34,11 @@
     <delete id="deleteOrderProducts">
         delete order_products where order_id = #{orderID}
     </delete>
-    <select id="getProduct" resultType="com.example.project_machimo.gyuha.order.dto.BuyProductVO">
+    <select id="getProduct" resultType="com.example.project_machimo.gyuha.order.vo.BuyProductVO">
         select PRODUCT_ID,P_NAME,USER_ID,P_DIRECT,p_b_price,p_sale_type from PRODUCTS
         where PRODUCT_ID = #{0}
     </select>
-    <select id="getUser" resultType="com.example.project_machimo.gyuha.order.dto.BuyerVO">
+    <select id="getUser" resultType="com.example.project_machimo.gyuha.order.vo.BuyerVO">
         select USER_ID,U_NAME,U_POINT,U_ADDRESS,U_ADDRESS_SUB,u_phone,u_email,u_addr_postcode from USERS
         where USER_ID = #{0}
     </select>

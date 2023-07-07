@@ -70,10 +70,10 @@
         from ALERTS
         where USER_ID = #{0}
     </select>
-    <select id="alList" resultType="com.example.project_machimo.gyuha.alert.dto.AlertVO">
+    <select id="alList" resultType="com.example.project_machimo.gyuha.alert.vo.AlertVO">
         select * from ALERTS where USER_ID = #{uId}
     </select>
-    <select id="alAlList" resultType="com.example.project_machimo.gyuha.alert.dto.AlertVO">
+    <select id="alAlList" resultType="com.example.project_machimo.gyuha.alert.vo.AlertVO">
         select * from alerts;
     </select>
 

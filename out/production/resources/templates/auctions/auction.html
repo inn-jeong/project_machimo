@@ -43,27 +43,20 @@
 <main>
 
 
-
     <div class="container">
         <div class="row justify-content-center ">
             <div class="col-lg-8 mb-4">
                 <div id="carouselExampleFade" class="carousel slide carousel-fade">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="/gyuha/img/1.jpg" class="d-block w-100" alt="">
+                            <img src="/gyuha/img/3.jpg" class="d-block w-100" alt="...">
+
                         </div>
                         <div class="carousel-item active-table-tab">
                             <img src="/gyuha/img/2.jpg" class="d-block w-100" alt="...">
                         </div>
-                        <div class="carousel-item active-table-tab">
-                            <img src="/gyuha/img/3.jpg" class="d-block w-100" alt="...">
-                        </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" d
-
-
-
-
+                    <button class="carousel-control-prev" type="button"
                             data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
@@ -111,6 +104,7 @@
                         <input th:if="${pView.pSaleType()==1}" type="submit"
                                class="btn btn-success btn-lg mb-3 w-100" value="즉시구매" id="buyDirect">
                         <input hidden id="pid" th:value="${pView.productsId()}" name=productId>
+
                     </form>
 
                     <button type="button" class="btn btn-secondary btn-lg mb-3 w-100" onclick="add_basket()">
@@ -118,7 +112,7 @@
                     </button>
 
                     <div class="heart-btn">
-                        <input id="likebox" th:checked="${isLiked}" type="checkbox" onclick="checkbox()" >
+                        <input id="likebox" th:checked="${isLiked}"  type="checkbox" >
                         <button  onclick="checkUserAndAct()" class="like" ><span>찜</span></button>
                     </div>
 
@@ -130,8 +124,8 @@
 
 
                 <button type="button" onclick="clip()" class="btn btn-link">공유</button>
-                <div th:if="${isSaleEnded}">
-                    <p>판매가 완료된 제품입니다.</p>
+                <div th:if="${isSaleEnded}" class="flex-box">
+                    <h5 align="center" style="color: aquamarine">SOLD OUT</h5>
                 </div>
             </div>
         </div>
@@ -205,7 +199,7 @@
     </div>
 
 </div>
-<input hidden="hidden" th:value="${sss}" value="0" id="sss">
+<input hidden="hidden" th:value="${session.userId}" value="0" id="sss">
 <th:block th:replace="fragments/footer:: footerFragment"></th:block>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.example.project_machimo.gyuha.auction.controller;
 
+import com.example.project_machimo.gyuha.aop.LoginCheck;
 import com.example.project_machimo.gyuha.auction.service.CheckResponseEntity;
 import com.example.project_machimo.gyuha.auction.dto.CheckDTO;
 import jakarta.servlet.http.HttpSession;
@@ -21,13 +22,10 @@ public class AuctionRestController {
     }
 
     @PostMapping("/auction-list/amountCheck")
+    @LoginCheck
     public ResponseEntity<? extends Object> updateAmount(@RequestBody CheckDTO check, HttpSession session) {
 
         Integer userId = (Integer)session.getAttribute("userId");
-        if (userId == null ){
-            return response.sessionEntityForCheck();
-        }
-
         return response.getResponseEntityForCheck(check,userId);
 
     }

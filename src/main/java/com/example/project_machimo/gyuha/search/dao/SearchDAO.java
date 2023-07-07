@@ -1,7 +1,7 @@
 package com.example.project_machimo.gyuha.search.dao;
 
 import com.example.project_machimo.gyuha.search.dto.SearchCriteria;
-import com.example.project_machimo.gyuha.search.dto.SearchVO;
+import com.example.project_machimo.gyuha.search.vo.SearchVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

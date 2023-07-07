@@ -1,10 +1,9 @@
 package com.example.project_machimo.gyuha.auction.controller;
 
 
-import com.example.project_machimo.gyuha.auction.dto.AuctionVO;
-import com.example.project_machimo.gyuha.auction.dto.BidsVO;
-import com.example.project_machimo.gyuha.auction.dto.CheckDTO;
-import com.example.project_machimo.gyuha.auction.dto.ProductsVO;
+import com.example.project_machimo.gyuha.auction.vo.AuctionVO;
+import com.example.project_machimo.gyuha.auction.vo.BidsVO;
+import com.example.project_machimo.gyuha.auction.vo.ProductsVO;
 import com.example.project_machimo.gyuha.auction.service.AuctionService;
 import com.example.project_machimo.gyuha.auction.service.BidsService;
 import com.example.project_machimo.gyuha.auction.service.ProductService;
@@ -69,34 +68,30 @@ public class AuctionController {
     public String showProduct(Model model, @PathVariable int id, HttpSession session) {
         Integer userId = Optional.ofNullable((Integer) session.getAttribute("userId")).orElse(0);
         log.info("유저아이디는 ===> {}",userId);
-
-
-
-
         log.info("showProduct 여기로옴 ");
         System.out.println("@!#!@#$!@#@!#" + id);
+
+
         AuctionVO aList = auctionService.aList(id);
         ProductsVO pView = productService.pView(id);
-        log.info("@#첫 가격은  === > {}", pView.pBPrice());
         List<BidsVO> bList = bidsService.bList(id);
         boolean hasBidHistory = bidsService.hasBidHistory(id);
         Long amount = bidsService.maxAmount(id);
         Integer integer = wishListsDAO.likeCheck(userId, id);
 
-
+        log.info("@#첫 가격은  === > {}", pView.pBPrice());
+        boolean saleEnded = auctionService.isSaleEnded(pView.pDur(), pView.pSalesStatus());
         boolean isLiked = integer != null;
         int sellerId = auctionService.getUserId(pView.productsId());
         System.out.println("일러 아이디"+sellerId);
         model.addAttribute("sellerId",sellerId);
-        model.addAttribute("sss",userId);
         model.addAttribute("isLiked", isLiked);
         model.addAttribute("aList", aList);
         model.addAttribute("pView", pView);
-        model.addAttribute("isSaleEnded", isSaleEnded(pView.pDur(), pView.pSalesStatus()));
+        model.addAttribute("isSaleEnded", saleEnded);
         model.addAttribute("hasBidHistory", hasBidHistory);
         model.addAttribute("amount", amount);
         model.addAttribute("bList", bList);
-        model.addAttribute("checkDTO", new CheckDTO());
         model.addAttribute("endDate", timeStampToString(pView));
         return "auctions/auction";
     }
@@ -111,17 +106,6 @@ public class AuctionController {
     }
 
 
-    private boolean isSaleEnded(Timestamp period, int productStatus) {
 
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-        switch (productStatus) {
-            case 2, 3, 4 -> {
-                if (period.before(timestamp)) return true;
-            }
-        }
-        return false;
-
-    }
 
 }

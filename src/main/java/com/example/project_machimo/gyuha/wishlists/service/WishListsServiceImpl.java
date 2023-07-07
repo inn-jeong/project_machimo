@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 
 
 /* - 최규하
-찜목록 처리 Service*/
+찜목록 처리 Service
+*/
 @Service
 public class WishListsServiceImpl implements WishListsService{
 
@@ -24,12 +25,19 @@ public class WishListsServiceImpl implements WishListsService{
     }
 
 
-
+    /* - 최규하
+    제품테이블에 좋아요 갯수를 +1 업데이트 시킴
+    그 후 위시리트에 추가
+            */
     @Override
     public int insertWish(WishlistsDTO wishlistsDTO) {
         productsDAO.updateLikeUp(wishlistsDTO.getProductId());
         return wishListsDAO.insertWish(wishlistsDTO);
     }
+    /* - 최규하
+    제품테이블에 좋아요 갯수를 -1 업데이트 시킴
+    그 후 위시리스트에서 제거
+            */
 
     @Override
     public int deleteWish(WishlistsDTO wishlistsDTO) {

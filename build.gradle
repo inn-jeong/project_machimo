@@ -56,6 +56,8 @@ dependencies {
 
 //    아임포트
     implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
+//    AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 
 

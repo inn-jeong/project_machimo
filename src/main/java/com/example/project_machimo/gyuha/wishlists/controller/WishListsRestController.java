@@ -1,6 +1,7 @@
 package com.example.project_machimo.gyuha.wishlists.controller;
 
 
+import com.example.project_machimo.gyuha.aop.LoginCheck;
 import com.example.project_machimo.gyuha.wishlists.dto.WishlistsDTO;
 import com.example.project_machimo.gyuha.wishlists.service.WishListsService;
 import jakarta.servlet.http.HttpSession;
@@ -33,12 +34,9 @@ public class WishListsRestController {
       찜 테이블에 정보를 저장하는 컨트롤러 메소드
       찜 테이블에 인서트를 성공하면 i의 값이 1이됨
       i의 값이 1이라면 ok를 내려주고 아니라면 badRequest를 내려줌*/
+    @LoginCheck
     @PostMapping("/insert")
     public ResponseEntity<?> ins(@RequestBody WishlistsDTO wishlistsDTO, HttpSession session) {
-        if (session.getAttribute("userId") == null) {
-            return ResponseEntity.badRequest().body("로그인이 필요한 서비스입니다");
-
-        }
         log.info("#insert json ==> {}", wishlistsDTO);
         int i = wishListsService.insertWish(wishlistsDTO);
 

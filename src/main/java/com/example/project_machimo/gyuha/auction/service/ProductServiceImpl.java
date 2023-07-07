@@ -1,7 +1,7 @@
 package com.example.project_machimo.gyuha.auction.service;
 
 import com.example.project_machimo.gyuha.auction.dao.ProductsDAO;
-import com.example.project_machimo.gyuha.auction.dto.ProductsVO;
+import com.example.project_machimo.gyuha.auction.vo.ProductsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.example.project_machimo.gyuha.alert.service;
 
 import com.example.project_machimo.gyuha.alert.dao.AlertDAO;
-import com.example.project_machimo.gyuha.alert.dto.AlertVO;
+import com.example.project_machimo.gyuha.alert.vo.AlertVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

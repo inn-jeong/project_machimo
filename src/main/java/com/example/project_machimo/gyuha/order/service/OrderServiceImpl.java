@@ -2,8 +2,8 @@ package com.example.project_machimo.gyuha.order.service;
 
 import com.example.project_machimo.gyuha.auction.dao.ProductsDAO;
 import com.example.project_machimo.gyuha.order.dao.OrderDAO;
-import com.example.project_machimo.gyuha.order.dto.BuyProductVO;
-import com.example.project_machimo.gyuha.order.dto.BuyerVO;
+import com.example.project_machimo.gyuha.order.vo.BuyProductVO;
+import com.example.project_machimo.gyuha.order.vo.BuyerVO;
 import com.example.project_machimo.gyuha.order.dto.OrderDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+/*
+
+주문을 처리하는 ServiceImpl
+*/
 
 @Service
 @Slf4j

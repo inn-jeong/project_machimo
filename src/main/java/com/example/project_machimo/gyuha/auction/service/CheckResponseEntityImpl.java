@@ -1,7 +1,7 @@
 package com.example.project_machimo.gyuha.auction.service;
 
 import com.example.project_machimo.gyuha.auction.dao.ProductsDAO;
-import com.example.project_machimo.gyuha.auction.dto.BidsVO;
+import com.example.project_machimo.gyuha.auction.vo.BidsVO;
 import com.example.project_machimo.gyuha.auction.dto.CheckDTO;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -106,12 +106,6 @@ private ResponseEntity<?> updateExistingBid(Long bids, int productId,Integer use
     return ResponseEntity.ok(bidsVOS);
 }
 
-    @Override
-    public ResponseEntity<?> sessionEntityForCheck() {
-        CustomResponse response = new CustomResponse();
-        response.setMessage("로그인이 필요한 서비스입니다.");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-    }
 
     @Data
     static class CustomResponse {

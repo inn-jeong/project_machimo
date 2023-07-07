@@ -1,4 +1,4 @@
-package com.example.project_machimo.gyuha.alert.dto;
+package com.example.project_machimo.gyuha.alert.vo;
 
 import java.sql.Timestamp;
 

@@ -14,6 +14,11 @@ $(document).ready(function () {
         let val = $("#alertRes").val();
         console.log(val)
 
+        let text = Number($("#alNum").text().replaceAll('+',''));
+
+        console.log("text val == >" + text);
+
+
 
         $.ajax({
 
@@ -24,15 +29,19 @@ $(document).ready(function () {
             },
             success: function () {
                 console.log("삭제됨")
-                $('[id^=alert' + alert_id + ']').remove();
+                $('[id=alert' + alert_id + ']').remove();
                 if ((val - 1) == 0) {
                     $('[id=alerts]').remove()
 
                 } else {
-                    $("#alNum").text(val - 1);
-                    $("#alertRes").val(val - 1);
-                    if ($("#alNum").text()=="10"){
-                        $("#alNum").text(9+);
+
+                    if (val > 10) {
+                        console.log("여기왔음 ")
+                        $("#alNum").text("9+");
+                        $("#alertRes").val(val - 1);
+                    } else {
+                        $("#alNum").text(val - 1);
+                        $("#alertRes").val(val - 1);
                     }
                 }
 
@@ -50,7 +59,7 @@ $(document).ready(function () {
             type: "post",
             success: function () {
                 $("#al_All").remove();
-                  $("#alerts").remove();
+                $("#alerts").remove();
 
 
             },

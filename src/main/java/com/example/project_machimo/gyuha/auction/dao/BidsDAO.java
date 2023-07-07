@@ -1,6 +1,6 @@
 package com.example.project_machimo.gyuha.auction.dao;
 
-import com.example.project_machimo.gyuha.auction.dto.BidsVO;
+import com.example.project_machimo.gyuha.auction.vo.BidsVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

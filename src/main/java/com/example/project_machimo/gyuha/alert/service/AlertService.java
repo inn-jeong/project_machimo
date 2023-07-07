@@ -1,6 +1,6 @@
 package com.example.project_machimo.gyuha.alert.service;
 
-import com.example.project_machimo.gyuha.alert.dto.AlertVO;
+import com.example.project_machimo.gyuha.alert.vo.AlertVO;
 
 import java.util.List;
 
