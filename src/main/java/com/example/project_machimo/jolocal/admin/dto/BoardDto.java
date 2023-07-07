@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/java/com/example/project_machimo/inn_jeong/mypage/Dto/BoardDto.java
-package com.example.project_machimo.inn_jeong.mypage.Dto;
-========
 package com.example.project_machimo.jolocal.admin.dto;
->>>>>>>> origin/admin:src/main/java/com/example/project_machimo/jolocal/admin/dto/BoardDto.java
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

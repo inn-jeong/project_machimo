@@ -1,27 +1,21 @@
-<<<<<<<< HEAD:src/main/java/com/example/project_machimo/gyuha/search/dto/PageDTO.java
 package com.example.project_machimo.gyuha.search.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-========
-package com.example.project_machimo.jolocal.admin.dto;
-
-import lombok.Getter;
->>>>>>>> origin/admin:src/main/java/com/example/project_machimo/jolocal/admin/dto/PageDto.java
 
 //페이징 DTO
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageDTO {
+public class SearchPageDTO {
       private int startPage; //시작페이지: 1,11
     private int endPage; //끝페이지: 10,20
     private boolean prev,next;
     private int total;
     private Criteria cri; //화면에 출력 갯수
 
-    public PageDTO(int total, Criteria cri) {
+    public SearchPageDTO(int total, Criteria cri) {
         this.total = total;
         this.cri = cri;
 

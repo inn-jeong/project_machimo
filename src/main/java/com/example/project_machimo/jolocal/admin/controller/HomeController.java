@@ -5,6 +5,7 @@ import com.example.project_machimo.jolocal.admin.dto.Criteria;
 import com.example.project_machimo.jolocal.admin.dto.PageDto;
 import com.example.project_machimo.jolocal.admin.dto.UsersDto;
 import com.example.project_machimo.jolocal.admin.service.AdminService;
+import com.example.project_machimo.jomuragi.review.dto.PageDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,7 +41,7 @@ public class HomeController {
 
         int total = service.getTotalCount();
         model.addAttribute("boardList",service.boardList(cri));
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("pageMaker",new PageDTO(total, cri));
         return "home/userBoardList";
     }
     @GetMapping("/userQnAList")

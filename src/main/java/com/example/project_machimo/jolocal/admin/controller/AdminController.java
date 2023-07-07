@@ -49,7 +49,7 @@ public class AdminController {
 
         model.addAttribute("adminList",service.adminList(cri));
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("pageMaker",new PageDTO(total, cri));
         return "admin/adminList";
     }
 
