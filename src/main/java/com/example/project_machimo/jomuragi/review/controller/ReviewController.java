@@ -1,10 +1,13 @@
 package com.example.project_machimo.jomuragi.review.controller;
 
 import com.example.project_machimo.jomuragi.review.dto.AttachImageVO;
-import com.example.project_machimo.jomuragi.review.dto.*;
-//import com.example.project_machimo.jomuragi.review.service.AttachImageService;
+import com.example.project_machimo.jomuragi.review.dto.Criteria;
+import com.example.project_machimo.jomuragi.review.dto.PageDTO;
+import com.example.project_machimo.jomuragi.review.dto.ReviewDto;
 import com.example.project_machimo.jomuragi.review.service.AttachImageService;
 import com.example.project_machimo.jomuragi.review.service.ReviewService;
+import com.example.project_machimo.jomuragi.shop.Dto.UsersDto;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,7 +29,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -55,10 +63,18 @@ public class ReviewController {
     }
 
     @RequestMapping("/list")
-    public String list(Criteria cri, Model model) {
+//    public String list(Criteria cri, Model model) {
+    public String list(Criteria cri, Model model, HttpSession session) {
         log.info("@# list");
         log.info("@#cri =======>"+cri);
         log.info("@#getPageNum() =======>"+cri.getPageNum());
+
+        UsersDto user = new UsersDto();
+        user.setUserId(1); //admin
+        user.setUNickname("admin");
+        session.setAttribute("user",user);
+
+
 //        ArrayList<ReviewDto> list = service.list();
         model.addAttribute("list",service.list(cri));
         int total = service.getTotalCount();
@@ -93,6 +109,7 @@ public class ReviewController {
         for (AttachImageVO image : images) {
 //            String imagePath = "/upload/" +image.getUploadPath() + "/s_" + image.getUuid() + "_" + image.getFileName();
             String imagePath = image.getUploadPath() + "/s_" + image.getUuid() + "_" + image.getFileName();
+
             String replacedPath = imagePath.replaceAll("\\\\", "/");
 //            imagePaths.add(imagePath);
             imagePaths.add(replacedPath);

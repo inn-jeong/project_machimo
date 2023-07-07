@@ -1,11 +1,8 @@
 package com.example.project_machimo.jomuragi.productEnroll.controller;
 
 
-import com.example.project_machimo.jomuragi.productEnroll.dao.EnrollMapper;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO;
 import com.example.project_machimo.jomuragi.productEnroll.service.EnrollService;
-import com.example.project_machimo.jomuragi.review.dao.AttachMapper;
-import com.example.project_machimo.jomuragi.review.dto.AttachImageVO;
 import com.example.project_machimo.jomuragi.shop.Dto.CategoryDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +42,24 @@ public class EnrollController {
     @Autowired
     private EnrollService service;
 
+    @RequestMapping("/imageView")
+    public String image_view( Model model){
+        //이미지 불러오기
+        List<ProductImageVO> images = service.getAttachList(2);
+        List<String> imagePaths = new ArrayList<>();
 
+        for (ProductImageVO image : images) {
+            String imagePath = image.getUploadPath() + "/s_" + image.getUuid() + "_" + image.getIImage();
+
+            String replacedPath = imagePath.replaceAll("\\\\", "/");
+            imagePaths.add(replacedPath);
+
+            System.out.println("imagePath = " + replacedPath);
+        }
+
+        model.addAttribute("imagePaths", imagePaths);
+        return "productEnroll/imageTest";
+    }
     @RequestMapping("/check")
     public String check_view(Model model){
 
@@ -227,28 +241,28 @@ public class EnrollController {
             /* 파일 위치, 파일 이름을 합친 File 객체 */
             File saveFile = new File(uploadPath, uploadFileName);
 
-//            /* 파일 저장 */
-//            try {
-//                multipartFile.transferTo(saveFile);
-//
-////                thumnailator사용
-//                File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
-//
-//                BufferedImage bo_image = ImageIO.read(saveFile);
-//
-//                //비율
-//                double ratio = 3;
-//                //넓이 높이
-//                int width = (int) (bo_image.getWidth() / ratio);
-//                int height = (int) (bo_image.getHeight() / ratio);
-//
-//                Thumbnails.of(saveFile)
-//                        .size(width, height)
-//                        .toFile(thumbnailFile);
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            /* 파일 저장 */
+            try {
+                multipartFile.transferTo(saveFile);
+
+//                thumnailator사용
+                File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
+
+                BufferedImage bo_image = ImageIO.read(saveFile);
+
+                //비율
+                double ratio = 3;
+                //넓이 높이
+                int width = (int) (bo_image.getWidth() / ratio);
+                int height = (int) (bo_image.getHeight() / ratio);
+
+                Thumbnails.of(saveFile)
+                        .size(width, height)
+                        .toFile(thumbnailFile);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             service.imageEnroll(vo);
             list.add(vo);
         }//for
