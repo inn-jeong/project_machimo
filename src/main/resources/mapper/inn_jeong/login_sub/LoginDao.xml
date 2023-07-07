@@ -73,8 +73,8 @@
                         group by seller_user_id) r
                 on r.seller_user_id = u.user_id)
     </update>
-    <delete id="deleteReport">
-        delete from report where seller_user_id = #{param1}
+    <delete id="initialReport">
+        update report set report_count=0 where seller_user_id = #{param1}
     </delete>
 
     <select id="findUser" resultType="com.example.project_machimo.inn_jeong.login.Dto.UsersDto">

@@ -18,5 +18,5 @@ public interface LoginDao {
     public void updatePassword(String uId, String uPassword);
     public int updateBlur(Integer userId);
     public UserSuspension checkBlur(Integer userId);
-    public void deleteReport(Integer userId);
+    public void initialReport(Integer userId);
 }

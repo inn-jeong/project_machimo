@@ -210,7 +210,7 @@ public class LoginServiceImpl implements LoginService{
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         int re = dao.updateBlur(userId);
         if(re == 1){
-            dao.deleteReport(userId);
+            dao.initialReport(userId);
         }
         return dao.checkBlur(userId);
     }
