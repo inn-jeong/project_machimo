@@ -306,6 +306,8 @@
 
         // test에서 했던 태그를 이제 js를 통해 동적으로 추가되도록 해줌
         str += "<div id='result_card'>";
+        str += "<img src='/display?fileName=" + fileCallPath +"'>";
+
         str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
         // 이미지 한개만 출력
         str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.iImage +"'>";

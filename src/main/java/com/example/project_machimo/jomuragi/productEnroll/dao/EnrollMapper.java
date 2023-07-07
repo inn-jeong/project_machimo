@@ -6,6 +6,7 @@ import com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 public interface EnrollMapper {
@@ -26,5 +27,6 @@ public interface EnrollMapper {
 
 
     /* 이미지 데이터 반환 */
-//    public List<productImageVO> getAttachList(int productId);}
+    List<ProductImageVO> getAttachList(int productId);
+
 }

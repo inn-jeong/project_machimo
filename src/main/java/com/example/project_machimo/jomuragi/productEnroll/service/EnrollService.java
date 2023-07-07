@@ -3,7 +3,7 @@ package com.example.project_machimo.jomuragi.productEnroll.service;
 import com.example.project_machimo.jomuragi.productEnroll.dao.EnrollMapper;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductDto;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO;
-import com.example.project_machimo.jomuragi.review.dao.AttachMapper;
+import com.example.project_machimo.jomuragi.review.dto.AttachImageVO;
 import com.example.project_machimo.jomuragi.shop.Dao.ShopDao;
 import com.example.project_machimo.jomuragi.shop.Dto.CategoryDto;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -96,9 +97,8 @@ public class EnrollService {
         mapper.deleteFile(productId);
     };
 
-//    public List<AttachImageVO> getAttachList(int productId){
-//        ReviewDao dao = sqlSession.getMapper(ReviewDao.class);
-//        log.info("getAttachList.........");
-//        return dao.getAttachList(productId);
-//    };
+    public List<ProductImageVO> getAttachList(int productId){
+        log.info("getAttachList.........");
+       return mapper.getAttachList(productId);
+    };
 }

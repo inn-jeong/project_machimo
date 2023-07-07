@@ -4,16 +4,20 @@ package com.example.project_machimo.jomuragi.productEnroll.controller;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO;
 import com.example.project_machimo.jomuragi.productEnroll.service.EnrollService;
 import com.example.project_machimo.jomuragi.review.dao.AttachMapper;
+import com.example.project_machimo.jomuragi.review.dto.AttachImageVO;
 import com.example.project_machimo.jomuragi.shop.Dto.CategoryDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +27,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.time.LocalDate;
@@ -278,5 +285,45 @@ public class EnrollController {
             return new ResponseEntity<>("fail", HttpStatus.NOT_IMPLEMENTED);
         }
         return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+
+    @GetMapping("/display")
+    public ResponseEntity<List<byte[]>> getImages(@RequestParam("reviewId") int reviewId) {
+//    public ResponseEntity<List<byte[]>> getImages(@RequestParam("bno") int reviewId) {
+
+        AttachMapper mapper = sqlSession.getMapper(AttachMapper.class);
+        List<AttachImageVO> imageList = mapper.getAttachList(reviewId);
+
+        List<byte[]> imageBytesList = new ArrayList<>();
+
+        for (AttachImageVO image : imageList) {
+            String imageUrl = image.getUrl();
+
+            try {
+                URL url = new URL(imageUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoOutput(true);
+                connection.setRequestMethod("GET");
+
+                // 이미지 가져오기
+                InputStream inputStream = connection.getInputStream();
+                byte[] imageBytes = IOUtils.toByteArray(inputStream);
+
+                imageBytesList.add(imageBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (!imageBytesList.isEmpty()) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+
+            return new ResponseEntity<>(imageBytesList, headers, HttpStatus.OK);
+        }
+
+        // 이미지가 존재하지 않거나 오류가 발생한 경우 에러 응답
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
