@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_machimo.gyuha.search.dao.SearchDAO">
+    <!--    <sql id="criteria">-->
+    <!--        <trim prefix="(" suffix=") AND">-->
+    <!--            <foreach item="searchOption" collection="optionArr">-->
+    <!--                -->
+    <!--            </foreach>-->
+    <!--        </trim>-->
+    <!--    </sql>-->
+    <!--    <select id="searchUser" resultType="com.example.project_machimo.search.dto.SearchVO">-->
+    <!--        SELECT p.PRODUCT_id as PRODUCT_id, u.USER_ID as user_id, u.U_NICKNAME as u_nickname-->
+    <!--        ,i.i_ID as i_id, MIN(i.I_IMAGE) AS i_image,MIN(i.i_sub_img) as i_sub_img-->
+    <!--        ,p.P_NAME as p_name , p.P_INFO as p_info-->
+    <!--        FROM USERS U-->
+    <!--        JOIN PRODUCTS P ON U.USER_ID = P.USER_ID-->
+    <!--        LEFT JOIN (-->
+    <!--        SELECT PRODUCT_ID,I_ID,MIN(I_IMAGE) AS I_IMAGE ,MIN(i_sub_img) as i_sub_img , p.P_NAME as p_name,p.P_INFO as-->
+    <!--        p_info-->
+    <!--        FROM PRODUCT_IMAGES i join PRODUCTS p on p.PRODUCT_id = i.PRODUCT_ID-->
+    <!--        GROUP BY PRODUCT_ID,I_ID,P_NAME,P_INFO-->
+    <!--        ) i ON P.PRODUCT_id = i.PRODUCT_ID-->
+    <!--        WHERE u.U_NICKNAME LIKE '%'||#{keyword}||'%'-->
+    <!--        GROUP BY p.PRODUCT_id, u.USER_ID, u.U_NICKNAME, i.i_ID,p.P_NAME,p.P_INFO-->
+    <!--        ORDER BY u.USER_ID-->
+    <!--    </select>-->
+    <!--    <select id="searchProductName" resultType="com.example.project_machimo.search.dto.SearchVO">-->
+
+    <!--        SELECT p.PRODUCT_id as PRODUCT_id, u.USER_ID as user_id, u.U_NICKNAME as u_nickname-->
+    <!--        ,i.i_ID as i_id, MIN(i.I_IMAGE) AS i_image,MIN(i.i_sub_img) as i_sub_img-->
+    <!--        ,p.P_NAME as p_name , p.P_INFO as p_info-->
+    <!--        FROM USERS U-->
+    <!--        JOIN PRODUCTS P ON U.USER_ID = P.USER_ID-->
+    <!--        LEFT JOIN (-->
+    <!--        SELECT PRODUCT_ID,I_ID,MIN(I_IMAGE) AS I_IMAGE ,MIN(i_sub_img) as i_sub_img , p.P_NAME as p_name,p.P_INFO as-->
+    <!--        p_info-->
+    <!--        FROM PRODUCT_IMAGES i join PRODUCTS p on p.PRODUCT_id = i.PRODUCT_ID-->
+    <!--        GROUP BY PRODUCT_ID,I_ID,P_NAME,P_INFO-->
+    <!--        ) i ON P.PRODUCT_id = i.PRODUCT_ID-->
+    <!--        WHERE p.P_NAME LIKE '%'||#{keyword}||'%'-->
+    <!--        GROUP BY p.PRODUCT_id, u.USER_ID, u.U_NICKNAME, i.i_ID,p.P_NAME,p.P_INFO-->
+    <!--        ORDER BY u.USER_ID-->
+
+    <!--    </select>-->
+    <!--    <select id="searchProductInfo" resultType="com.example.project_machimo.search.dto.SearchVO">-->
+    <!--        SELECT p.PRODUCT_id as PRODUCT_id, u.USER_ID as user_id, u.U_NICKNAME as u_nickname-->
+    <!--        ,i.i_ID as i_id, MIN(i.I_IMAGE) AS i_image,MIN(i.i_sub_img) as i_sub_img-->
+    <!--        ,p.P_NAME as p_name , p.P_INFO as p_info-->
+    <!--        FROM USERS U-->
+    <!--        JOIN PRODUCTS P ON U.USER_ID = P.USER_ID-->
+    <!--        LEFT JOIN (-->
+    <!--        SELECT PRODUCT_ID,I_ID,MIN(I_IMAGE) AS I_IMAGE ,MIN(i_sub_img) as i_sub_img , p.P_NAME as p_name,p.P_INFO as-->
+    <!--        p_info-->
+    <!--        FROM PRODUCT_IMAGES i join PRODUCTS p on p.PRODUCT_id = i.PRODUCT_ID-->
+    <!--        GROUP BY PRODUCT_ID,I_ID,P_NAME,P_INFO-->
+    <!--        ) i ON P.PRODUCT_id = i.PRODUCT_ID-->
+    <!--        WHERE p.P_INFO LIKE '%'||#{keyword}||'%'-->
+    <!--        GROUP BY p.PRODUCT_id, u.USER_ID, u.U_NICKNAME, i.i_ID,p.P_NAME,p.P_INFO-->
+    <!--        ORDER BY u.USER_ID-->
+    <!--    </select>-->
+    <!--    <select id="searchProductNameOrInfo" resultType="com.example.project_machimo.search.dto.SearchVO">-->
+    <!--SELECT *-->
+    <!--FROM (-->
+    <!--    SELECT-->
+    <!--        p.PRODUCT_id as PRODUCT_id,-->
+    <!--        u.USER_ID as user_id,-->
+    <!--        u.U_NICKNAME as u_nickname,-->
+    <!--        i.i_ID as i_id,-->
+    <!--        i.I_IMAGE as i_image,-->
+    <!--        i.i_sub_img as i_sub_img,-->
+    <!--        p.P_NAME as p_name,-->
+    <!--        p.P_INFO as p_info-->
+    <!--    FROM USERS U-->
+    <!--    JOIN PRODUCTS P ON U.USER_ID = P.USER_ID-->
+    <!--    LEFT JOIN (-->
+    <!--        SELECT PRODUCT_ID, I_ID, MIN(I_IMAGE) AS I_IMAGE, MIN(i_sub_img) as i_sub_img-->
+    <!--        FROM PRODUCT_IMAGES-->
+    <!--        GROUP BY PRODUCT_ID, I_ID-->
+    <!--    ) i ON P.PRODUCT_id = i.PRODUCT_ID-->
+    <!--    WHERE p.P_NAME LIKE '%'||#{keyword}||'%' or p.P_INFO like '%'||#{keyword}||'%'-->
+    <!--    ORDER BY p.P_CREATED_AT-->
+    <!--)-->
+    <!--WHERE ROWNUM <![CDATA[<=]]> 10-->
+    <!--    </select>-->
+
+    <select id="searchUsersTotal" resultType="java.lang.Integer">
+
+        select count(*) from
+
+        <if test="searchOption == 'productName'">
+            products
+        </if>
+        <if test="searchOption == 'userNickName'">
+            users
+        </if>
+        <if test="searchOption == 'productInfo'">
+            products
+        </if>
+        <if test="searchOption == 'proNameOrProInfo'">
+            products
+        </if>
+        <![CDATA[
+
+        where   ]]>
+        <!--    <include refid="criteria"></include>-->
+        <if test="searchOption == 'productName'">
+            P_NAME LIKE '%'||#{keyword}||'%'
+        </if>
+        <if test="searchOption == 'userNickName'">
+            U_NICKNAME LIKE '%'||#{keyword}||'%'
+        </if>
+        <if test="searchOption == 'productInfo'">
+            P_INFO LIKE '%'||#{keyword}||'%'
+        </if>
+        <if test="searchOption == 'proNameOrProInfo'">
+            P_NAME LIKE '%'||#{keyword}||'%' OR P_INFO LIKE '%'||#{keyword}||'%'
+        </if>
+
+    </select>
+    <select id="searchListPage" resultType="com.example.project_machimo.gyuha.search.dto.SearchVO">
+        <![CDATA[
+    SELECT *
+    FROM (
+        SELECT
+            p.PRODUCT_id as PRODUCT_id,
+            u.USER_ID as user_id,
+            u.U_NICKNAME as u_nickname,
+            i.i_ID as i_id,
+            i.I_IMAGE as i_image,
+            i.i_sub_img as i_sub_img,
+            p.P_NAME as p_name,
+            p.P_INFO as p_info,
+            p.p_sales_status as p_sales_status,
+            p.p_sale_type as p_sale_type,
+            p.p_direct as p_direct,
+            p.p_b_price as p_b_price,
+            ROW_NUMBER() OVER (ORDER BY p.P_CREATED_AT) rn
+        FROM USERS U
+        JOIN PRODUCTS P ON U.USER_ID = P.USER_ID
+        LEFT JOIN (
+            SELECT PRODUCT_ID, I_ID, MIN(I_IMAGE) AS I_IMAGE, MIN(i_sub_img) as i_sub_img
+            FROM PRODUCT_IMAGES
+            GROUP BY PRODUCT_ID, I_ID
+        ) i ON P.PRODUCT_id = i.PRODUCT_ID
+        WHERE
+  ]]>
+        <!--    <include refid="criteria"></include>-->
+        <if test="searchOption == 'productName'">
+            p.P_NAME LIKE '%'||#{keyword}||'%'
+        </if>
+        <if test="searchOption == 'userNickName'">
+            u.U_NICKNAME LIKE '%'||#{keyword}||'%'
+        </if>
+        <if test="searchOption == 'productInfo'">
+            p.P_INFO LIKE '%'||#{keyword}||'%'
+        </if>
+        <if test="searchOption == 'proNameOrProInfo'">
+            p.P_NAME LIKE '%'||#{keyword}||'%' OR p.P_INFO LIKE '%'||#{keyword}||'%'
+        </if>
+        <![CDATA[
+    )
+    WHERE rn > (#{pageNum}-1) * #{amount} AND rn <= (#{pageNum}*#{amount})
+  ]]>
+    </select>
+
+</mapper>
