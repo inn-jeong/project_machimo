@@ -4,6 +4,7 @@
                 layout:decorate="~{/admin/layout/layout}">
 
     <th:block layout:fragment="admin-content">
+
         <div class="container-fluid">
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">사용자 관리</h1>
@@ -45,7 +46,6 @@
                                 <th scope="col">가입일</th>
                                 <th scope="col">회원권한</th>
                                 <th scope="col">신고횟수</th>
-                                <th scope="col">신고관리</th>
                                 <th scope="col">회원탈퇴</th>
                             </tr>
                         </thead>
@@ -62,29 +62,16 @@
                                 <td th:text="${user.uPoint}"></td>
                                 <td th:text="${user.uCreatedAt}"></td>
                                 <td>
-    <!--                                            <a th:href="@{|/admin/adminModify/${user.user_id}}">회원권한</a>-->
                                    <span th:if="${user.uRole == 0}">USER</span>
                                    <span th:if="${user.uRole == 1}">ADMIN</span>
                                    <button type="submit" class="confirmAdmin" th:data-userId="${user.userId}" th:data-uId="${user.uId}">
                                        <span th:text="권한부여"></span>
                                    </button>
-<!--                                       <a th:href="@{|/admin/adminModify/${user.userId}}">권한부여</a>-->
                                 </td>
-                                <td th:text="${user.reportCount}"></td>
                                 <td>
-                                    <!-- 신고 삭제 버튼 -->
-                                    <form action="/admin/removeReport" method="post">
-                                        <input type="hidden" name="reportCode" value="{reportCode}">
-                                        <input type="hidden" name="userId" value="${userId}">
-                                        <input type="hidden" name="productId" value="${productId}">
-                                        <button type="submit">신고 삭제</button>
-                                    </form>
-                                    <!-- 회원 차단 버튼 -->
-                                    <form action="/admin/blockUser" method="post">
-                                        <input type="hidden" name="userId" value="${userId}">
-                                        <input type="hidden" name="productId" value="${productId}">
-                                        <button type="submit">회원 차단</button>
-                                    </form>
+                                    <a th:href="@{/admin/reportView(userId=${user.userId})}" data-target="reportView" data-bs-toggle="modal">
+                                       <span th:text="${user.reportCount}"></span>
+                                    </a>
                                 </td>
                                 <td>
                                     <button type="submit">
@@ -127,8 +114,6 @@
 
         <div>
 
-<!--            <form th:method="get" id="actionForm" th:action="@{/admin/adminList}">-->
-<!--            actionForm.att에서 list or view로 submit해서 action 삭제-->
             <form th:method="get" id="actionForm">
                 <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
                 <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
@@ -168,7 +153,7 @@
                 actionForm.find("input[name='userId']").remove();
             }
             actionForm.append("<input type='hidden' name='userId' value='"+userId+"'>");
-            actionForm.attr("action","userView").submit();
+            actionForm.attr("action","/admin/userView").submit();
         });
 
         //관리자권한부여//
@@ -180,7 +165,7 @@
             var chk = confirm(uId + ' 사용자에게 관리자 권한을 부여하시겠습니까?');
             if(chk){
                 $.ajax({
-                    url:'/admin/adminModify/',
+                    url:'/admin/Authorization/',
                     method:'POST',
                     data: JSON.stringify({
                         userId:userId
@@ -206,19 +191,6 @@
             }
         }
 
-        //검색기능//
-        // var searchForm = $("#searchForm");
-        // $("#searchForm button").on("click", function (){
-        //     if(searchForm.find("option:selected").val()) {
-        //         alert("검색종류를 선택하세요");
-        //         return false;
-        //     }
-        //     if(searchForm.find("input[name]='keyword']").val()){
-        //         alert("키워드를 입력하세요");
-        //         return false;
-        //     }
-        //     searchForm.attr("action","adminList").submit();
-        // });
         var searchForm = $("#searchForm");
         $("#searchForm button").on("click", function () {
             var selectedType = searchForm.find("select[name='type']").val();

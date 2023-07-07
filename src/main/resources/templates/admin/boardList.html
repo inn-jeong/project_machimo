@@ -8,7 +8,7 @@
             <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">게시글 관리</h5>
             <div class="d-flex gap-2 justify-content-end py-3">
                 <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">
-                    <a th:href="@{/admin/boardWriteView}">글쓰기</a>
+                    <a th:href="@{/home/boardWriteView}">글쓰기</a>
                 </button>
             </div>
 
@@ -86,7 +86,7 @@
                         <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                             <ul class="pagination">
                                 <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
-                                    <a th:href="@{'/page/'+${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
+                                    <a th:href="@{${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
                                         Previous
                                     </a>
                                 </li>
@@ -104,7 +104,7 @@
                 </div>
         </div>
 
-        <form th:method="get" id="actionForm" th:action="@{/admin/boardList}">
+        <form th:method="get" id="actionForm" th:action="@{home/boardView}">
             <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
             <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
             <input type="hidden" name="type" th:value="${pageMaker.cri.type}">
@@ -122,9 +122,9 @@
                 console.log("click~!");
                 console.log("@# href ===>"+$(this).attr("href"));
                 // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-                var bno = actionForm.find("input[name='user_id']").val();
+                var bno = actionForm.find("input[name='boardId']").val();
                 if(bno !== ''){
-                    actionForm.find("input[name='user_id']").remove();
+                    actionForm.find("input[name='boardId']").remove();
                 }
                 actionForm.find("input[name='pageNum']").val($(this).attr("href"));
                 actionForm.submit();
@@ -141,7 +141,7 @@
                 }
                 actionForm.append("<input type='hidden' name='boardId' value='"+boardId+"'>");
                 console.log("boardId= "+boardId);
-                actionForm.attr("action","boardView").submit();
+                actionForm.attr("action","/home/boardView").submit();
             });
             window.onpageshow = function (event){
                 if(event.persisted || (window.performance && window.performance.navigation.type==2)){
