@@ -7,11 +7,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 //@SpringBootApplication
 //@Configuration
+@EnableScheduling
 public class ProjectMachimoApplication {
 
 	public static void main(String[] args) {
