@@ -9,15 +9,28 @@
 <body>
 
 <div class="admin_content_main">
-  <form action="/productEnroll/enroll" method="post" id="enrollForm" name="enrollForm">
-<!--  <form action="/productEnroll/enroll" method="post" id="soldForm" name="soldForm">-->
+<!--  <form action="/productEnroll/enroll" method="post" id="enrollForm" name="enrollForm">-->
+  <form action="/productEnroll/enroll" method="post" id="enrollForm" name="enrollForm" enctype="multipart/form-data">
     <input type="hidden" name="userId" th:value='11' />
+      <input type="hidden" id="getProductId" th:value="${getProductId}"/>
+
 <!--      <div id="subcategory" data-my-object="" ></div>-->
     <table th:border="1">
       <tr>
         <td colspan="2" th:align="center"><h1>판매 신청 폼</h1></td>
       </tr>
-
+        <tr>
+            <div class="form_section">
+                <div class="form_section_title">
+                    <label>상품 이미지</label>
+                </div>
+                <div class="form_section_content">
+                    <input type="file" id ="fileItem" name="uploadFile" style="height: 30px;" th:multiple="true">
+                    <div id="uploadResult">
+                    </div>
+                </div>
+            </div>
+        </tr>
         <tr>
             <td><label for="category1">1차 카테고리:</label></td>
             <td>
@@ -196,6 +209,155 @@
     enrollForm.submit();
 
   });
+
+</script>
+
+
+<script src="/js/jquery.js"></script>
+
+<script>
+    /* 이미지 업로드 */
+    $("input[type='file']").on("change", function(e){
+        /* 이미지 존재시 삭제 */
+        // 미리보기 태그가 존재한다면 이미지가 이미 저장된거임
+        if($(".imgDeleteBtn").length > 0){
+            deleteFile();
+        }
+
+        // formData 객체를 인스턴스화 해서 주소를 변수에 저장
+        let formData = new FormData();
+
+        let fileInput = $("input[name='uploadFile']");
+        let fileList = fileInput[0].files;
+        let fileObj = fileList[0];
+
+        // view단에서 이미지 파일인지 아닌지 체크
+        if(!fileCheck(fileObj.name, fileObj.size)){
+            return false;
+        }
+
+        //multiple 속성으로 사용자가 여러 개의 파일을 선택할 수 있으므로 반복문
+        for(let i = 0; i < fileList.length; i++){
+            // 사용자가 선택한 파일을 FormData 에 uploadFile이란 이름으로 추가, (기존 값 집합의 끝에 새로운 값 추가)
+            formData.append("uploadFile", fileList[i]);
+        }
+
+        $.ajax({
+            // 서버로 요청을 보낼 url
+            url: '/productEnroll/uploadAjaxAction',
+            // false로 해야 첨부파일이 서버로 전송됨
+            processData : false,
+            contentType : false,
+            data : formData,
+            type : 'POST',
+            dataType : 'json',
+            // 뷰에서 서버에서 전송한 이미지 정보를 전달 받기 위함. 속성값으로 콜백함수를 부여, 전달받은 객체 데이터 = result
+            success : function(result){
+                console.log(result);
+                showUploadImage(result);
+            },
+            error : function(result){
+                alert("이미지 파일이 아닙니다.");
+            }
+        });
+
+        alert("통과");
+
+    });
+
+    // 파일 사이즈, 타입 제한하는 변수
+    let regex = new RegExp("(.*?)\.(jpg|png)$");
+    let maxSize = 10485760; //10MB
+
+    function fileCheck(fileName, fileSize){
+
+        if(fileSize >= maxSize){
+            alert("파일 사이즈 초과");
+            return false;
+        }
+
+        if(!regex.test(fileName)){
+            alert("해당 종류의 파일은 업로드할 수 없습니다.");
+            return false;
+        }
+
+        return true;
+
+    }
+
+    /* 이미지 출력 */
+    function showUploadImage(uploadResultArr){
+
+        /* 전달받은 데이터 검증 */
+        if(!uploadResultArr || uploadResultArr.length == 0){return}
+
+        // id 속성이 uploadResult인 div 태그 요소에 쉽게 접근하기 위해 변수 선언
+        let uploadResult = $("#uploadResult");
+
+        // 이미지 한개만 전달받을때
+        let obj = uploadResultArr[0];
+
+        let str = "";
+
+        // let fileCallPath = encodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.fileName);
+        let fileCallPath = encodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.iImage);
+        // var decodeCallPath = (obj.url+"/s_" + obj.uuid + "_" + obj.fileName);
+
+
+        // test에서 했던 태그를 이제 js를 통해 동적으로 추가되도록 해줌
+        str += "<div id='result_card'>";
+        str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
+        // 이미지 한개만 출력
+        str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.iImage +"'>";
+        str += "<input type='hidden' name='imageList[0].uuid' value='"+ obj.uuid +"'>";
+        str += "<input type='hidden' name='imageList[0].uploadPath' value='"+ obj.uploadPath +"'>";
+        str += "<input type='hidden' name='imageList[0].url' value='"+ obj.url +"'>";
+        str += "</div>";
+
+        uploadResult.append(str);
+    }
+
+
+    /* 이미지 삭제 버튼 동작 */
+    // div태그는 웹페이지 렌더링 이후 js코드를 통해 동적으로 출력된 코드이므로 그냥 click으로 작동 x
+    // $(".imgDeletBtn").click(function(){
+    $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
+        deleteFile();
+    });
+
+    /* 파일 삭제 메서드 */
+    function deleteFile(){
+
+        let targetFile = $(".imgDeleteBtn").data("file");
+
+        let targetDiv = $("#result_card");
+
+        var productId =  $("#getProductId").val();
+
+        $.ajax({
+            // url: '/admin/deleteFile',
+            url: '/productEnroll/deleteFile',
+            // data : {fileName : targetFile},
+            data : {fileName : targetFile, productId: productId},
+            dataType : 'text',
+            type : 'POST',
+            success : function(result){
+                console.log(result);
+
+                targetDiv.remove();
+                $("input[type='file']").val("");
+
+            },
+            error : function(result){
+                console.log(result);
+
+                alert("파일을 삭제하지 못하였습니다.")
+            }
+        });
+    }
+
+</script>
+<script type="text/javascript">
 
 </script>
 </html>
