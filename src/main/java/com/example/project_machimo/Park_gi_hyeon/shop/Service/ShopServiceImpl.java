@@ -1,14 +1,7 @@
-<<<<<<<< HEAD:src/main/java/com/example/project_machimo/jomuragi/shop/Service/ShopServiceImpl.java
-package com.example.project_machimo.jomuragi.shop.Service;
-
-import com.example.project_machimo.jomuragi.shop.Dao.ShopDao;
-import com.example.project_machimo.jomuragi.shop.Dto.*;
-========
 package com.example.project_machimo.Park_gi_hyeon.shop.Service;
 
 import com.example.project_machimo.Park_gi_hyeon.shop.Dao.ShopDao;
 import com.example.project_machimo.Park_gi_hyeon.shop.Dto.*;
->>>>>>>> origin/Park-gi-Hyeon:src/main/java/com/example/project_machimo/Park_gi_hyeon/shop/Service/ShopServiceImpl.java
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;

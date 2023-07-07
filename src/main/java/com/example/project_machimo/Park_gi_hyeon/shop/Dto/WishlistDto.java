@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/java/com/example/project_machimo/jomuragi/shop/Dto/WishlistDto.java
-package com.example.project_machimo.jomuragi.shop.Dto;
-========
 package com.example.project_machimo.Park_gi_hyeon.shop.Dto;
->>>>>>>> origin/Park-gi-Hyeon:src/main/java/com/example/project_machimo/Park_gi_hyeon/shop/Dto/WishlistDto.java
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

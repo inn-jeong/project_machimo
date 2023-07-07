@@ -1,12 +1,6 @@
-<<<<<<<< HEAD:src/main/java/com/example/project_machimo/jomuragi/shop/Dao/ShopDao.java
-package com.example.project_machimo.jomuragi.shop.Dao;
-
-import com.example.project_machimo.jomuragi.shop.Dto.*;
-========
 package com.example.project_machimo.Park_gi_hyeon.shop.Dao;
 
 import com.example.project_machimo.Park_gi_hyeon.shop.Dto.*;
->>>>>>>> origin/Park-gi-Hyeon:src/main/java/com/example/project_machimo/Park_gi_hyeon/shop/Dao/ShopDao.java
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,12 +1,6 @@
-<<<<<<<< HEAD:src/main/java/com/example/project_machimo/jomuragi/shop/Service/ShopService.java
-package com.example.project_machimo.jomuragi.shop.Service;
-
-import com.example.project_machimo.jomuragi.shop.Dto.*;
-========
 package com.example.project_machimo.Park_gi_hyeon.shop.Service;
 
 import com.example.project_machimo.Park_gi_hyeon.shop.Dto.*;
->>>>>>>> origin/Park-gi-Hyeon:src/main/java/com/example/project_machimo/Park_gi_hyeon/shop/Service/ShopService.java
 
 import java.util.ArrayList;
 import java.util.List;
