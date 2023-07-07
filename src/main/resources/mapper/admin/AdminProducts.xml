@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.project_machimo.admin.dao.AdminProducts">
+
+    <update id="directSalesStatus">
+        update products set
+            p_sales_status= #{pSalesStatus},
+             p_created_at = sysdate
+        where product_id=#{productId}
+    </update>
+
+    <update id="auctionStatus">
+        update products set
+            p_sales_status= #{pSalesStatus},
+            p_created_at = sysdate,
+            p_dur = sysdate + p_dur_date
+        where product_id = #{productId}
+    </update>
+
+</mapper>
