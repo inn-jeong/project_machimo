@@ -55,6 +55,15 @@
         AL_COUNT = 0
         where alert_ID = #{0}
     </update>
+    <delete id="delete">
+        delete
+        from ALERTS
+        where ALERT_ID = #{param1}
+    </delete>
+    <delete id="deleteAll">
+        delete from alerts
+        where user_id = ${param1}
+    </delete>
 
     <select id="alertResult" resultType="java.lang.Integer">
         select nvl(sum(AL_COUNT),0)

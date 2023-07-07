@@ -1,7 +1,7 @@
 package com.example.project_machimo.gyuha.search.controller;
 
-import com.example.project_machimo.gyuha.search.dto.Criteria;
-import com.example.project_machimo.gyuha.search.dto.PageDTO;
+import com.example.project_machimo.gyuha.search.dto.SearchCriteria;
+import com.example.project_machimo.gyuha.search.dto.SearchPageDTO;
 import com.example.project_machimo.gyuha.search.dto.SearchVO;
 import com.example.project_machimo.gyuha.search.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class SearchController {
     @RequestMapping("/searchList")
     public String searchPage(
             Model model
-            , @ModelAttribute Criteria cri
+            , @ModelAttribute SearchCriteria cri
     ) {
 
         List<SearchVO> search = searchService.search(cri);
@@ -59,7 +59,7 @@ public class SearchController {
             model.addAttribute("message", keyword);
             model.addAttribute("search", search);
             model.addAttribute("option", cri.getSearchOption());
-            PageDTO pageDTO = new PageDTO(total, cri);
+            SearchPageDTO pageDTO = new SearchPageDTO(total, cri);
             log.info("isNext === >{}", pageDTO.isNext());
             log.info("isPrev === >{}", pageDTO.isPrev());
             model.addAttribute("pageMaker", pageDTO);

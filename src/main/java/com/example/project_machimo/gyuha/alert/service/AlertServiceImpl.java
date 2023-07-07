@@ -42,4 +42,15 @@ public class AlertServiceImpl implements AlertService {
     public Integer alertResult(int uId) {
         return alertDAO.alertResult(uId);
     }
+
+    @Override
+    public int delete(int id) {
+
+        return alertDAO.delete(id);
+    }
+
+    @Override
+    public int deleteAll(int userId) {
+        return alertDAO.deleteAll(userId);
+    }
 }

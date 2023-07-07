@@ -19,5 +19,10 @@ public interface AlertDAO {
     void checkedFlag(int alId);
     List<AlertVO> alAlList();
 
+    int delete(int id);
+
+    int deleteAll(int userId);
+
+
 
 }

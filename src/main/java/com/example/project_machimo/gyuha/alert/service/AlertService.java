@@ -14,4 +14,8 @@ public interface AlertService {
     List<AlertVO> alList(int uId);
 
     void checkedFlag(int alId);
+
+    int delete(int id);
+
+    int deleteAll(int userId);
 }

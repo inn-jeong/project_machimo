@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
+    <script>
+
+    </script>
     <title>Title</title>
+
 </head>
 <style>
     /*.test1{*/
@@ -34,12 +38,13 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
 <body>
 
 
 <th:block th:fragment="headerFragment">
     <!-- Dropdown - Alerts -->
-
 
 
     <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
@@ -62,10 +67,12 @@
                         <li class="nav-item"><a href="#" data-bs-toggle="modal"
                                                 data-bs-target="#exampleModal"
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">알림
-                            <th:block th:if="${alertResult != null && alertResult != 0}">
-                                <span class="test1" th:text="${alertResult}"></span>
+                            <span  th:if="${alertResult != null && alertResult != 0}" id="alerts">
+
+                                <span id="alNum" th:text="${alertResult > 9 ? '9+' : alertResult}"></span>
+                                <input hidden="hidden" th:value="${alertResult}" id="alertRes">
                                 <!--                                <span>erroer</span>-->
-                            </th:block>
+                            </span>
                         </a>
                         </li>
                         <li class="nav-item"><a href="/loginT/login" th:if="${hasSession}"
@@ -138,16 +145,26 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div th:each="alert : ${alList}">
-                        <a class="move_alert" th:href="@{/test23(alId=${alert.alId})}"
-                           th:text="${alert.alMessage} +'  '+${#dates.format(alert.alCreateAt, 'yyyy-MM-dd')+'   '}"
-                           th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''"></a>
-                        <a class="fs-6" th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''" href="#" id="selectRemove"><strong style="text-align: center">                  X</strong></a>
+                    <div id="al_All">
+                        <div th:each="alert : ${alList}">
+                            <a class="move_alert" th:href="@{/test23(alId=${alert.alertId})}"
+                               th:id="'alert'+${alert.alertId}"
+                               th:text="${alert.alMessage} +'  '+${#dates.format(alert.alCreateAt, 'yyyy-MM-dd')+'   '}"
+                               th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''"></a>
+                            <span id="alert">
+                            <a class="fs-6" th:id="'alert'+${alert.alertId}"
+                               th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''"
+                               th:attr="data-value=${alert.alertId}"
+                               href="#" id="selectRemove">
+                                <strong style="text-align: center"> X</strong>
+                            </a>
+                        </span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="remove_all" >전체 삭제</button>
+                    <button type="button" class="btn btn-primary" id="remove_all">전체 삭제</button>
                 </div>
             </div>
         </div>
@@ -156,11 +173,3 @@
 
 </body>
 </html>
-<script >
-    $(document).ready(function (){
-        $("#remove_all").on("click",function () {
-            console.log("시발시발시발")
-        }); //end of click
-    });//end of ready
-
-</script>
