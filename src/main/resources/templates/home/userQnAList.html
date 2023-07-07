@@ -1,34 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/admin/layout/layout}">
-
-    <th:block layout:fragment="admin-content">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>boardWrite</title>
+    <!--header-->
+    <div th:replace="fragments/header.html :: fragment-header"></div>
+</head>
+<body>
         <div class="container">
-            <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">게시글 관리</h5>
-            <div class="d-flex gap-2 justify-content-end py-3">
+            <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">문의사항</h5>
+            <!-- 공지사항 어드민, 유저계정 모두 사용 가능, 단 로그인했을때만 글쓰기 활성화-->
+            <div th:if="${session.user != null}" class="d-flex gap-2 justify-content-end py-3">
                 <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">
                     <a th:href="@{/home/boardWriteView}">글쓰기</a>
                 </button>
-            </div>
-
-            <!-- 검색기능 -->
-            <div>
-                <form id="searchForm" method="get">
-                    <label>
-                        <select name="type">
-                            <option value="C" th:selected="${pageMaker.cri.type eq 'C'?'selected':''}">유형</option>
-                            <option value="T" th:selected="${pageMaker.cri.type eq 'T'?'selected':''}">제목</option>
-                            <option value="W" th:selected="${pageMaker.cri.type eq 'W'?'selected':''}">작성자</option>
-                            <option value="TW" th:selected="${pageMaker.cri.type eq 'TW'?'selected':''}">제목+작성자</option>
-                            <option value="CTW" th:selected="${pageMaker.cri.type eq 'CTW'?'selected':''}">유형+제목+작성자</option>
-                        </select>
-                    </label>
-                    <label>
-                        <input type="text" name="keyword" th:value="${pageMaker.cri.keyword}">
-                    </label>
-                    <button type="submit">search</button>
-                </form>
             </div>
 
             <div class="row">
@@ -37,7 +22,6 @@
                         <col width="2%" />
                         <col width="5%" />
                         <col width="30%" />
-                        <col width="5%" />
                         <col width="5%" />
                         <col width="5%" />
                         <col width="5%" />
@@ -50,26 +34,22 @@
                         <th class="border-bottom-0">작성자</th>
                         <th class="border-bottom-0">등록일</th>
                         <th class="border-bottom-0">조회수</th>
-                        <th class="border-bottom-0">관리</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each="board: ${boardList}" th:if="${board != null}">
+                    <tbody th:if="${board.bCategory=='문의'}" th:each="board: ${boardList}">
+                    <tr  th:if="${board != null}">
                         <td th:text="${board.boardId}"></td>
                         <td th:text="${board.bCategory}"></td>
                         <td>
+    <!--                        <a class="move_link" th:data-id="${board.board_id}" th:href="/admin/boardView?">-->
                             <a class="move_link" th:data-id="${board.boardId}">
-                                <span th:text="${board.bTitle}"></span>
+                                <span th:text="${board.BTitle}"></span>
                             </a>
                         </td>
-                        <td th:text="${board.bWriter}"></td>
-                        <td th:text="${board.bDate}"></td>
-                        <td th:text="${board.bHit}"></td>
-                        <td>
-                            <button class="btn btn-sm btn-danger rounded-pill px-3" type="button" th:onclick="'boardDelete(\''+${board.boardId}+'\')'">
-                                삭제
-                            </button>
-                        </td>
+                        <td th:text="${board.BWriter}"></td>
+                        <td th:text="${board.BDate}"></td>
+    <!--                    <td th:text="${#dates.format(board.b_date, 'YYYY-MM-DD')}"></td>-->
+                        <td th:text="${board.BHit}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -104,13 +84,14 @@
                 </div>
         </div>
 
-        <form th:method="get" id="actionForm" th:action="@{home/boardView}">
+        <form th:method="get" id="actionForm">
             <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
             <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
-            <input type="hidden" name="type" th:value="${pageMaker.cri.type}">
-            <input type="hidden" name="keyword" th:value="${pageMaker.cri.keyword}">
         </form>
 
+
+</body>
+</html>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
             var actionForm = $("#actionForm");
@@ -122,9 +103,9 @@
                 console.log("click~!");
                 console.log("@# href ===>"+$(this).attr("href"));
                 // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-                var bno = actionForm.find("input[name='boardId']").val();
+                var bno = actionForm.find("input[name='userId']").val();
                 if(bno !== ''){
-                    actionForm.find("input[name='boardId']").remove();
+                    actionForm.find("input[name='userId']").remove();
                 }
                 actionForm.find("input[name='pageNum']").val($(this).attr("href"));
                 actionForm.submit();
@@ -135,19 +116,22 @@
                 var boardId = $(this).attr("data-id")
 
                 // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-                var bno = actionForm.find("input[name='user_id']").val();
+                var bno = actionForm.find("input[name='userId']").val();
                 if(bno !== ''){
-                    actionForm.find("input[name='user_id']").remove();
+                    actionForm.find("input[name='userId']").remove();
                 }
+
                 actionForm.append("<input type='hidden' name='boardId' value='"+boardId+"'>");
                 console.log("boardId= "+boardId);
                 actionForm.attr("action","/home/boardView").submit();
             });
+
             window.onpageshow = function (event){
                 if(event.persisted || (window.performance && window.performance.navigation.type==2)){
                     location.reload();
                 }
             }
+
             function boardDelete(boardId){
                 console.log("@# boardDelete")
 
@@ -174,25 +158,4 @@
                     });
                 }
             }
-            var searchForm = $("#searchForm");
-            $("#searchForm button").on("click", function () {
-                var selectedType = searchForm.find("select[name='type']").val();
-                var keyword = searchForm.find("input[name='keyword']").val();
-                console.log("@# selectedType "+selectedType);
-                console.log("@# keyword "+keyword);
-                if (!selectedType) {
-                    alert("검색종류를 선택하세요");
-                    return false;
-                }
-
-                if (!keyword) {
-                    alert("키워드를 입력하세요");
-                    return false;
-                }
-
-                searchForm.attr("action", "boardList").submit();
-            });
         </script>
-
-    </th:block>
-</html>

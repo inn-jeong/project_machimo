@@ -64,7 +64,11 @@
                     <td th:text="${list.cName}"></td>
 
                     <!-- 병합시 제품명 클릭하면 판매글로 이동-->
-                    <td th:text="${list.pName}">
+<!--                    <td th:text="${list.pName}">-->
+                    <td>
+                        <a th:href="@{/auction/action-list/{id}(id=${list.productId})}">
+                            <span th:text="${list.pName}"></span>
+                        </a>
 <!--                    <td>-->
 <!--                        <a class="move_link" th:data-id="${list.productId}">-->
 <!--                            <span th:text="${list.pName}"></span>-->
