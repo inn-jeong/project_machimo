@@ -85,7 +85,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-expression:5.3.10'
 
-//	기존에 있던 타임리프 스프링 스타터 버전으로 변경*/
+//	기존에 있던 타임리프 스프링 스타터 버전으로 변경
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 }
