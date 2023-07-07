@@ -280,6 +280,7 @@
                             <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
                         </tr>
                         <tr th:if="${item.pSalesStatus==2}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="table-active">
+                            <td></td>
                             <td>품절</td>
                             <td th:text="${item.iSubImg}"></td>
                             <td th:text="${item.productId}"></td>
@@ -292,14 +293,14 @@
                         <tfoot class="table-group-divider">
 <!--                        <tr class="table-light">-->
                         <tr>
-                            <td colspan="2" style="text-align: center">총 수량</td>
+                            <td colspan="3" style="text-align: center">총 수량</td>
                             <td colspan="3" style="text-align: right">
                                 <span id="total_amount"></span> 개
                             </td>
                             <td colspan="2"></td>
                         </tr>
                         <tr class="table-active">
-                            <td colspan="2" style="text-align: center">총 금액</td>
+                            <td colspan="3" style="text-align: center">총 금액</td>
                             <td colspan="3" style="text-align: right">
                                 <span id="total_price"></span> 원
                             </td>
@@ -307,8 +308,8 @@
                         </tr>
                         <tr>
                             <td style="text-align: center" colspan="7">
-<!--                                <button onclick="sendProductId()">결제하기</button>-->
-                                <input type="submit" value="결제하기">
+                                <button onclick="sendProductId()">결제하기</button>
+<!--                                <input type="submit" value="결제하기">-->
                             </td>
                         </tr>
                         </tfoot>
@@ -820,20 +821,21 @@
     }
 
     function sendProductId() {
-        const selectedItems = getSelectedItems(); // JSON 데이터 생성
+        // const selectedItems = getSelectedItems(); // JSON 데이터 생성
 
-        // const form = document.createElement('form');
-        // form.method = 'POST';
-        // form.action = '/loginT/test'; // 다음 페이지의 URL을 지정해야 합니다.
-        //
-        // const input = document.createElement('input');
-        // input.type = 'hidden';
-        // input.name = 'productList'; // JSON 데이터를 전송할 필드 이름
-        // input.value = selectedItems;
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/loginT/test'; // 다음 페이지의 URL을 지정해야 합니다.
+        $(".checkBoxItem:checked").each(function() {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'producId'; // JSON 데이터를 전송할 필드 이름
+            input.value = $(this).val();
+            form.appendChild(input);
+        });
 
-        // form.appendChild(input);
-        // document.body.appendChild(form);
-        // form.submit();
+        document.body.appendChild(form);
+        form.submit();
     }
 
 

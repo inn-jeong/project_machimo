@@ -275,11 +275,11 @@ public class LoginController {
 //    }
 
     @RequestMapping("/test")
-    public String test(HashMap<String,Integer> productList,Model model){
-        Integer number1 = productList.get("productId");
+    public String test(@RequestParam List<Integer> productId,Model model){
+        Integer number1 = productId.get(0);
 //        Integer number2 = Integer.parseInt(productList.get(1));
         log.info("@# num1===>" +number1);
-        log.info("@# map ===>"+productList);
+        log.info("@# list ===>"+productId);
         model.addAttribute("p1",number1);
 //        model.addAttribute("p2",number2);
         return "login/test";
