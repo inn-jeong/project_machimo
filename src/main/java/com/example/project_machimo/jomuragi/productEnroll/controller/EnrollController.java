@@ -1,6 +1,7 @@
 package com.example.project_machimo.jomuragi.productEnroll.controller;
 
 
+import com.example.project_machimo.jomuragi.productEnroll.dao.EnrollMapper;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO;
 import com.example.project_machimo.jomuragi.productEnroll.service.EnrollService;
 import com.example.project_machimo.jomuragi.review.dao.AttachMapper;
@@ -44,6 +45,13 @@ public class EnrollController {
     @Autowired
     private EnrollService service;
 
+
+    @RequestMapping("/check")
+    public String check_view(Model model){
+
+        return "productEnroll/check";
+    }
+
     @RequestMapping("/enroll_form")
     public String enroll_form(Model model){
         //        // 모든 카테고리와 그에 해당하는 하위 카테고리를 가져옴
@@ -76,7 +84,7 @@ public class EnrollController {
 
     @RequestMapping("/enroll")
     public String enroll(@RequestParam HashMap<String, String> param){
-        
+
 //        //        카테고리 값을 model에 저장 하고 넘어감
 //        model.addAttribute("categories", categories);
 //        model.addAttribute("subcategory", subcategory);
@@ -292,12 +300,11 @@ public class EnrollController {
     public ResponseEntity<List<byte[]>> getImages(@RequestParam("reviewId") int reviewId) {
 //    public ResponseEntity<List<byte[]>> getImages(@RequestParam("bno") int reviewId) {
 
-        AttachMapper mapper = sqlSession.getMapper(AttachMapper.class);
-        List<AttachImageVO> imageList = mapper.getAttachList(reviewId);
+        List<ProductImageVO> imageList = service.getAttachList(reviewId);
 
         List<byte[]> imageBytesList = new ArrayList<>();
 
-        for (AttachImageVO image : imageList) {
+        for (ProductImageVO image : imageList) {
             String imageUrl = image.getUrl();
 
             try {
@@ -326,4 +333,6 @@ public class EnrollController {
         // 이미지가 존재하지 않거나 오류가 발생한 경우 에러 응답
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+
 }
