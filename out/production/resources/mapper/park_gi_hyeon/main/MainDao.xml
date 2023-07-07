@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_machimo.Park_gi_hyeon.main.Dao.MainDao">
+    <select id="newestItem" resultType="com.example.project_machimo.Park_gi_hyeon.main.Dto.ItemDto">
+        select *
+        from (
+        select p.product_id, p.c_id,p.c_id2, p.user_id, u.u_nickname, p.p_name, p.p_direct, p.p_b_price,
+        p.p_created_at, p.p_hit, p.p_sales_status, p.p_sale_type, pi.i_sub_img, p.p_like
+        from products p
+        join users u on p.user_id = u.user_id
+        join product_images pi on pi.product_id = p.product_id
+        order by p.p_created_at desc
+        )
+        where rownum &lt; =4
+<!--        (less than)-->
+<!--        where <![CDATA[ rownum <= 4 ]]>-->
+    </select>
+    <select id="popularItem" resultType="com.example.project_machimo.Park_gi_hyeon.main.Dto.ItemDto">
+        select * from (
+        select p.product_id, p.c_id,p.c_id2, p.user_id, u.u_nickname, p.p_name, p.p_direct, p.p_b_price,
+        p.p_created_at, p.p_hit, p.p_sales_status, p.p_sale_type, pi.i_sub_img, p.p_like
+        from products p
+        join users u on p.user_id = u.user_id
+        join product_images pi on pi.product_id = p.product_id
+        order by p.p_hit desc
+        )
+        where rownum &lt; =4
+    </select>
+
+    <select id="figureItem" resultType="com.example.project_machimo.Park_gi_hyeon.main.Dto.ItemDto">
+        select * from (
+        select p.product_id, p.c_id,p.c_id2, p.user_id, u.u_nickname, p.p_name, p.p_direct, p.p_b_price,
+        p.p_created_at, p.p_hit, p.p_sales_status, p.p_sale_type, pi.i_sub_img, p.p_like
+        from products p
+        join users u on p.user_id = u.user_id
+        join product_images pi on pi.product_id = p.product_id
+        order by p.p_hit desc
+        )
+        where c_id2 = 100 and rownum &lt; =4
+    </select>
+
+    <select id="goodsItem" resultType="com.example.project_machimo.Park_gi_hyeon.main.Dto.ItemDto">
+        select * from (
+        select p.product_id, p.c_id,p.c_id2, p.user_id, u.u_nickname, p.p_name, p.p_direct, p.p_b_price,
+        p.p_created_at, p.p_hit, p.p_sales_status, p.p_sale_type, pi.i_sub_img, p.p_like
+        from products p
+        join users u on p.user_id = u.user_id
+        join product_images pi on pi.product_id = p.product_id
+        order by p.p_hit desc
+        )
+        where c_id2 = 500 and rownum &lt; =4
+    </select>
+</mapper>
