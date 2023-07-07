@@ -1,11 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+<!--</head>-->
+<!--<body>-->
+
+<!--</body>-->
+
+    <!-- Bootstrap CSS -->
+<!--    <link rel="stylesheet" href="/css/bootstrap.min.css">-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <style>
+        body {
+            min-height: 100vh;
+
+            /*background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));*/
+            /*background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);*/
+            /*background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);*/
+            /*background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);*/
+            /*background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);*/
+            #color: #1c7430;
+        }
+
+        .input-form {
+            max-width: 680px;
+
+            margin-top: 80px;
+            padding: 32px;
+
+            background: #fff;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+            -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+        }
+    </style>
 </head>
+
 <body>
+<div class="container">
+    <div class="input-form-backgroud row">
+        <div class="input-form col-md-12 mx-auto">
+            <h4 class="mb-3">
+                판매하시기 전에 꼭 확인하세요!
+            </h4>
+<!--            <form class="validation-form" novalidate>-->
+            <form id="joinForm" class="validation-form" novalidate>
 
+                <hr class="mb-4">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="2" required>
+                    <label class="custom-control-label" for="2">
+                        <span class="font-weight-bold">
+                            <span class="fs-5" style="color: #1c7430">MACHIMO</span>의 최신 이용정책을 모두 확인하였으며, 판매를 계속합니다.
+                        </span>
+                        <span class="font-weight-light">
+                        <br>
+                        건전하고 안전한 거래를 위해 반드시 숙지해야 할 미입고, 패널티, 부정거래 등의 이용정책을 확인했습니다.
+                        <br>
+                        </span>
+                        <a href="#" th:text="이용정책보기"></a>
+                    </label>
+                </div>
+                <div class="row">
+                </div>
+                <hr class="mb-4">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="3" required>
 
+                    <label class="custom-control-label" for="3">
+                         <span class="font-weight-bold">
+                        박스/패키지의 상태를 확인합니다.
+                        </span>
+                        <span class="font-weight-light">
+                        <br>
+                        박스/패키지 상태에 따른 검수 기준과 패키지(포장) 개봉 검수에 대한 주의사항을 확인했습니다.
+                        <br>
+                        </span>
+                        <a href="#" th:text="검수기준"></a>
+                    </label>
+                </div>
+                <div class="row">
+
+                </div>
+                <hr class="mb-4">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="4" required>
+                    <label class="custom-control-label" for="4">
+                         <span class="font-weight-bold" >
+                         이중 포장하여 선불 발송합니다.
+                        </span>
+                        <span class="font-weight-light">
+                        <br>
+                        반드시 이중 포장하여 택배 상자에 담아 선불발송합니다. 합배송은 권장하지 않으며 이로 인한 박스/패키지 훼손은 판매자의 책임입니다.
+                        <br>
+                        </span>
+                        <a href="#" th:text="이중포장방법"></a>
+                    </label>
+                </div>
+                <div class="mb-4"></div>
+                <button class="btn btn-primary btn-lg btn-block" id="enrollBtn">동의</button>
+                <button class="btn btn-dark btn-lg btn-block" id="cancelBtn">취소</button>
+            </form>
+        </div>
+    </div>
+    <footer class="my-3 text-center text-small">
+        <p class="mb-1">&copy; 2021 YD</p>
+    </footer>
+</div>
 </body>
+
+<script src="/js/jquery.js"></script>
+<script type="text/javascript"></script>
+
+<script>
+    var joinForm = $("#joinForm");
+    var checkBoxes = joinForm.find("input[type='checkbox']");
+
+    /* 취소 버튼 */
+    $("#cancelBtn").on("click",function(){
+        alert("취소되었습니다.");
+        history.back();
+    });
+
+    /* 상품 등록 버튼 */
+    $("#enrollBtn").on("click",function(e){
+        e.preventDefault();
+        if (!areAllCheckboxesChecked()) {
+            alert("동의하지 않으신 부분이 있어 판매 신청에 실패했습니다. 다시 선택해주세요.");
+        } else {
+            alert("모든 사항에 동의하셨습니다.");
+            window.location.href = "/productEnroll/enroll_form";
+        }
+    });
+
+    /* 모든 체크박스가 체크되었는지 확인 */
+    function areAllCheckboxesChecked() {
+        var allChecked = true;
+        checkBoxes.each(function() {
+            if (!this.checked) {
+                allChecked = false;
+                return false; // 반복문 종료
+            }
+        });
+        return allChecked;
+    }
+</script>
+
 </html>
