@@ -1,8 +1,14 @@
+<<<<<<<< HEAD:src/main/java/com/example/project_machimo/gyuha/search/dto/PageDTO.java
 package com.example.project_machimo.gyuha.search.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+========
+package com.example.project_machimo.jolocal.admin.dto;
+
+import lombok.Getter;
+>>>>>>>> origin/admin:src/main/java/com/example/project_machimo/jolocal/admin/dto/PageDto.java
 
 //페이징 DTO
 @Data
