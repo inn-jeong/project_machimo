@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .category-list {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .category-item {
+            margin-right: 10px;
+        }
+
+        .category-link {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .category-link:hover {
+            color: #ff0000;
+        }
+
+        .subcategory {
+            display: none;
+            margin-top: 5px;
+            padding: 0;
+        }
+
+        .category-item:hover .subcategory {
+            display: block;
+        }
+
+        .subcategory-item {
+            margin-bottom: 5px;
+        }
+
+        .subcategory-link {
+            color: #666;
+            text-decoration: none;
+        }
+        .subcategory-link:hover {
+            color: #0000ff;
+        }
+        .sort-form {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+        .sort-label {
+            margin-right: 5px;
+        }
+        .product-count {
+            font-size: 1.2rem;
+            align-self: flex-start;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="fragments/header"></th:block>
+<div class="container">
+    <h1>SHOP</h1>
+    <!-- 카테고리 목록 -->
+    <div>
+        <ul class="category-list">
+            <li class="category-item"><a href="/shop/allItemView" class="category-link">전체</a></li>
+            <!-- 상위카테고리 -->
+            <li th:each="category : ${categories}" id="category-[[${category.cId}]]" class="category-item">
+                <a th:href="@{'/shop/allItemView?category1=' + ${category.cId}}"
+                   th:text="${category.cName}" class="category-link"></a>
+                <!-- 하위카테고리 -->
+                <!-- 상위카테고리가 있다면 -->
+                <ul th:if="${subcategory.containsKey(category.cId)}" id="subcategory-[[${category.cId}]]" class="subcategory">
+                    <li th:each="subCategory : ${subcategory[category.cId]}" class="subcategory-item">
+                        <a th:href="@{'/shop/allItemView?category2=' + ${subCategory.cId}}"
+                           th:text="${subCategory.cName}" class="subcategory-link"></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sort-form">
+        <form action="/shop/allItemView" method="get" id="sortForm">
+            <label for="sort" class="sort-label"></label>
+            <select name="sort" id="sort">
+                <option value="">전체보기</option>
+                <!-- th:selct 속성으로 selectedSort 변수에 값을 확인하고 해당하는 옵션을 선택상태로 설정 -->
+                <option value="newest" th:selected="${selectedSort == 'newest'}">최신순</option>
+                <option value="popularity" th:selected="${selectedSort == 'popularity'}">인기순</option>
+                <option value="interest" th:selected="${selectedSort == 'interest'}">관심많은 순</option>
+                <option value="auction_p" th:selected="${selectedSort == 'auction_p'}">경매 상품</option>
+                <option value="auction_pp" th:selected="${selectedSort == 'auction_pp'}">경매 가격 낮은 순</option>
+                <option value="auction_ppd" th:selected="${selectedSort == 'auction_ppd'}">경매 가격 높은 순</option>
+                <option value="auction_n" th:selected="${selectedSort == 'auction_n'}">일반 상품</option>
+                <option value="auction_np" th:selected="${selectedSort == 'auction_np'}">일반 상품 낮은 순</option>
+                <option value="auction_npd" th:selected="${selectedSort == 'auction_npd'}">일반 상품 높은 순</option>
+            </select>
+            <input type="hidden" name="category2" th:value="${category1}" />
+            <input type="hidden" name="category1" th:value="${category2}" />
+            <button type="submit">정렬 적용</button>
+        </form>
+    </div>
+
+    <div class="product-count" style="align-self: flex-start;">
+        상품 수: <span th:text="${countProduct}"></span>
+    </div>
+
+    <div class="card_list row row-cols-1 row-cols-md-4 g-4">
+        <div class="col" th:each="item : ${itemList}">
+            <a th:href="@{/auction/action-list/{id}(id=${item.productId})}" style="text-decoration: none;">
+                <div class="card h-100">
+                    <div class="card-image">
+                        <img src="https://volcanoshop.net/web/product/medium/202209/45b31f29ff98e31f0547cc7923dbb8c7.jpg" class="card-img-top object-fit-cover border rounded">
+                    </div>
+                    <div class="info_box pt-1">
+                        <div class="item fs-6 fw-bold" th:text="${item.uNickname}">Stussy</div>
+                        <div class="item fs-6 fw-medium mb-2" th:text="${item.pName}">Stussy Diced Out T-Shirt Black</div>
+                        <div class="price fs-6 fw-bold">
+                            <!--                            92,000원-->
+                            <span th:if="${item.pSaleType ==0}" th:text="${#numbers.formatDecimal(item.pBPrice, 0, 'COMMA', 0, 'POINT')}+'원'"></span>
+                            <span th:if="${item.pSaleType ==1}" th:text="${#numbers.formatDecimal(item.pDirect, 0, 'COMMA', 0, 'POINT')}+'원'"></span>
+                        </div>
+                        <div class="fs-6 fw-light text-secondary">
+                            <!--                            즉시구매가-->
+                            <span th:if="${item.pSaleType ==0}">경매가</span>
+                            <span th:if="${item.pSaleType ==1}">즉시 구매가</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<th:block th:replace="fragments/footer"></th:block>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>

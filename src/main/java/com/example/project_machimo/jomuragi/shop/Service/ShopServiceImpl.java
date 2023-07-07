@@ -84,4 +84,11 @@ public class ShopServiceImpl implements ShopService{
         ArrayList<CategoryDto> getCategoryById = dao.getCategoryById(cId);
         return getCategoryById;
     }
+
+    @Override
+    public Integer countProduct() {
+        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        Integer countProduct = dao.countProduct();
+        return countProduct;
+    }
 }
