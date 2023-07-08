@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<span th:each="imagePath : ${imagePaths}">
+    <img th:src="@{'/upload/' + ${imagePath}}" style="width: 300px; height: 200px;">
+<script>
+    var imagePath
+    console.log("imagePath=========>"+)
+</script>
+</span>
+
+</body>
+</html>

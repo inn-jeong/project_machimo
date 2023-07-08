@@ -37,8 +37,12 @@
         delete from product_images where product_id = #{productId}
     </delete>
 
+<!--    <select id="getAttachList" parameterType="int" resultType="com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO">-->
+<!--        select * from product_images where product_id = #{productId}-->
+<!--    </select>-->
+
     <select id="getAttachList" parameterType="int" resultType="com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO">
-        select * from product_images where product_id = #{productId}
+        select * from product_images where product_id = 2
     </select>
 
     <select id="getProductId" resultType="java.lang.Integer">

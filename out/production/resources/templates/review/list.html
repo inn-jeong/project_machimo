@@ -67,7 +67,8 @@
         </tr>
         </tbody>
     </table>
-    <a href="/review/write_view" class="btn">글 쓰기</a>
+<!--    <a href="/review/write_view" class="btn">글 쓰기</a>-->
+    <a href="/review/write_view" class="btn" th:data-id="${session.user}">글 쓰기</a>
     <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
         showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
     </div>
@@ -130,6 +131,19 @@
         var reviewId = $(this).attr("data-id");
         actionForm.append("<input type='hidden' name='reviewId' value='" + reviewId + "'>");
         actionForm.attr("action", "/review/content_view").submit();
+    });
+
+
+    // ////////////////로그인체크////////////////
+    $(".btn").on("click", function (e) {
+        e.preventDefault();
+        var user = $(this).attr("data-id")
+        if (user != null){
+            location.href="/review/write_view";
+        }else{
+            alert("로그인이 필요한 기능입니다!")
+            location.reload();
+        }
     });
 
     // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
