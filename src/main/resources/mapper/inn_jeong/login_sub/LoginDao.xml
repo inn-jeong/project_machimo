@@ -46,7 +46,7 @@
             u_nickname,
             u_social
         ) values
-        (ser_seq.nextval,
+        (user_seq.nextval,
             #{uId},
             #{uPassword},
             #{uEmail},

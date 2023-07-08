@@ -72,7 +72,7 @@ public class AuctionController {
         System.out.println("@!#!@#$!@#@!#" + id);
 
 
-        AuctionVO aList = auctionService.aList(id);
+        AuctionVO aView = auctionService.aView(id);
         ProductsVO pView = productService.pView(id);
         List<BidsVO> bList = bidsService.bList(id);
         boolean hasBidHistory = bidsService.hasBidHistory(id);
@@ -82,11 +82,12 @@ public class AuctionController {
         log.info("@#첫 가격은  === > {}", pView.pBPrice());
         boolean saleEnded = auctionService.isSaleEnded(pView.pDur(), pView.pSalesStatus());
         boolean isLiked = integer != null;
+        auctionService.updateHit(id);
         int sellerId = auctionService.getUserId(pView.productsId());
         System.out.println("일러 아이디"+sellerId);
         model.addAttribute("sellerId",sellerId);
         model.addAttribute("isLiked", isLiked);
-        model.addAttribute("aList", aList);
+        model.addAttribute("aView", aView);
         model.addAttribute("pView", pView);
         model.addAttribute("isSaleEnded", saleEnded);
         model.addAttribute("hasBidHistory", hasBidHistory);

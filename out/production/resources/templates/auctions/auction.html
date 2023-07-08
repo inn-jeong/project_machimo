@@ -78,7 +78,7 @@
                 </div>
                 <div th:if="${pView.pSaleType() ==0}">
                     <p><strong id="test2" th:unless="${hasBidHistory}"
-                               data-th-text="${#numbers.formatInteger(aList.highestBid(), 3, 'COMMA') + '원'}">>최근 가격</b>
+                               data-th-text="${#numbers.formatInteger(aView.highestBid(), 3, 'COMMA') + '원'}">>최근 가격</b>
                     </strong></p>
                     <p><strong th:if="${hasBidHistory}"
                                data-th-text="${#numbers.formatInteger(pView.pBPrice(), 3, 'COMMA') + '원'}">>최근 가격</b>
@@ -113,7 +113,7 @@
 
                     <div class="heart-btn">
                         <input id="likebox" th:checked="${isLiked}"  type="checkbox" >
-                        <button  onclick="checkUserAndAct()" class="like" ><span>찜</span></button>
+                        <button  class="like" ><span>찜</span></button>
                     </div>
 
                 </div>

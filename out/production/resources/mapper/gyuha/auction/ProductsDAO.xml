@@ -68,7 +68,7 @@
         P_SALE_TYPE,
         replace(UPLOAD_PATH || '/' || UUID || '_' || I_IMAGE, '\', '/') AS urlImg
         from PRODUCTS p join PRODUCT_IMAGES i on p.PRODUCT_ID = i.PRODUCT_ID
-        where p.PRODUCT_ID = #{param1};
+        where p.PRODUCT_ID = #{param1}
     </select>
 
 
