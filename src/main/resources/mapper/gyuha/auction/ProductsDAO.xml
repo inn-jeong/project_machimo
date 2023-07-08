@@ -13,7 +13,8 @@
     <update id="failedSale">
         UPDATE PRODUCTS
         SET p_sales_status =5
-        where P_DUR  <![CDATA[<=]]>  #{param1} AND PRODUCT_id = #{param2} and p_sales_status != 2 and p_sales_status != 0
+        where P_DUR  <![CDATA[<=]]>  #{param1} AND PRODUCT_id = #{param2} and p_sales_status != 2 and p_sales_status !=
+        0
     </update>
     <update id="updatePrice">
         UPDATE PRODUCTS p
@@ -51,7 +52,23 @@
         select * from products
     </select>
     <select id="pView" resultType="com.example.project_machimo.gyuha.auction.vo.ProductsVO">
-        select * from products where product_id = #{0}
+        select p.PRODUCT_ID as productId,
+        C_ID,
+        C_ID2,
+        USER_ID,
+        P_NAME,
+        P_INFO,
+        P_DIRECT,
+        P_DUR,
+        P_B_PRICE,
+        P_CREATED_AT,
+        P_UPDATED_AT,
+        P_HIT,
+        P_SALES_STATUS,
+        P_SALE_TYPE,
+        replace(UPLOAD_PATH || '/' || UUID || '_' || I_IMAGE, '\', '/') AS urlImg
+        from PRODUCTS p join PRODUCT_IMAGES i on p.PRODUCT_ID = i.PRODUCT_ID
+        where p.PRODUCT_ID = #{param1};
     </select>
 
 

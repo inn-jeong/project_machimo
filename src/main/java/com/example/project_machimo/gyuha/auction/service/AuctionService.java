@@ -5,7 +5,7 @@ import com.example.project_machimo.gyuha.auction.vo.AuctionVO;
 import java.sql.Timestamp;
 
 public interface AuctionService {
-    public AuctionVO aList(int id);
+    public AuctionVO aView(int id);
 
     void highestBidUpdate(Long amount, int id, Integer userId);
 
@@ -13,5 +13,5 @@ public interface AuctionService {
 
     boolean isSaleEnded(Timestamp period, int productStatus);
 
-    void updateHit(Integer productId);
+
 }

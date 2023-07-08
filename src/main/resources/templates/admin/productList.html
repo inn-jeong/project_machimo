@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout/layout}">
+
+<th:block layout:fragment="admin-content">
+    <div class="container">
+        <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">제품 관리</h5>
+
+        <!-- 검색기능 -->
+        <div>
+            <form id="searchForm" method="get">
+                <label>
+                    <select name="type">
+                        <option value="C" th:selected="${pageMaker.cri.type eq 'C'?'selected':''}">카테고리</option>
+                        <option value="T" th:selected="${pageMaker.cri.type eq 'T'?'selected':''}">제품명</option>
+                        <option value="I" th:selected="${pageMaker.cri.type eq 'I'?'selected':''}">상품정보</option>
+                        <option value="Y" th:selected="${pageMaker.cri.type eq 'Y'?'selected':''}">판매유형</option>
+                        <option value="P" th:selected="${pageMaker.cri.type eq 'P'?'selected':''}">판매가</option>
+                        <option value="A" th:selected="${pageMaker.cri.type eq 'A'?'selected':''}">경매가</option>
+                        <option value="U" th:selected="${pageMaker.cri.type eq 'U'?'selected':''}">등록일자</option>
+                        <option value="S" th:selected="${pageMaker.cri.type eq 'S'?'selected':''}">판매상태</option>
+                    </select>
+                </label>
+                <label>
+                    <input type="text" name="keyword" th:value="${pageMaker.cri.keyword}">
+                </label>
+                <button type="submit">search</button>
+            </form>
+        </div>
+
+        <div class="row">
+            <table class="table table-hover table-responsive text-nowrap mb-0 align-middle">
+                <colgroup>
+                    <col width="2%" />
+                    <col width="5%" />
+                    <col width="30%" />
+                    <col width="5%" />
+                    <col width="5%" />
+                    <col width="5%" />
+                    <col width="5%" />
+                    <col width="5%" />
+                    <col width="10%" />
+                    <col width="5%" />
+                </colgroup>
+                <thead class="table-light text-dark fs-5">
+                <tr>
+                    <th class="border-bottom-0">No</th>
+                    <th class="border-bottom-0">카테고리</th>
+                    <th class="border-bottom-0">제품명</th>
+                    <th class="border-bottom-0">상품정보</th>
+                    <th class="border-bottom-0">판매유형</th>
+                    <th class="border-bottom-0">판매가</th>
+                    <th class="border-bottom-0">경매가</th>
+                    <th class="border-bottom-0">등록일자</th>
+                    <th class="border-bottom-0">수정일자</th>
+                    <th class="border-bottom-0">판매상태</th>
+                    <th class="border-bottom-0">관리</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="list: ${pList}" th:if="${list != null}">
+                    <td th:text="${list.productId}"></td>
+                    <td th:text="${list.cName}"></td>
+
+                    <!-- 병합시 제품명 클릭하면 판매글로 이동-->
+<!--                    <td th:text="${list.pName}">-->
+                    <td>
+                        <a th:href="@{/auction/action-list/{id}(id=${list.productId})}">
+                            <span th:text="${list.pName}"></span>
+                        </a>
+<!--                    <td>-->
+<!--                        <a class="move_link" th:data-id="${list.productId}">-->
+<!--                            <span th:text="${list.pName}"></span>-->
+<!--                        </a>-->
+<!--                    </td>-->
+                    </td>
+
+                    <td th:text="${list.pInfo}"></td>
+                    <!-- 판매유형) 경매:0 즉시판매:1-->
+                    <td th:switch="${list.pSaleType}">
+                        <span th:case=0 th:text="경매"></span>
+                        <span th:case=1 th:text="즉시판매"></span>
+                    </td>
+                    <!-- 판매가(즉시판매) -->
+                    <td th:text="${list.pDirect}"></td>
+                    <!-- 경매가 -->
+                    <td th:text="${list.pBPrice}"></td>
+                    <td th:text="${#dates.format(list.pCreatedAt, 'YYYY-MM-DD')}"></td>
+                    <td th:text="${#dates.format(list.pUpdatedAt, 'YYYY-MM-DD')}"></td>
+                    <!-- 판매상태) 대기중(판매승인전):0 , 판매중:1, 판매완료:2, 낙찰:3, 경매실패:4-->
+                    <td th:switch="${list.pSalesStatus}">
+                        <span th:case=0 >
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        th:onclick="'updateStatus(\''+${list.productId}+'\',\''+1+'\',\''+${list.pSaleType}+'\')'">승인</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        th:onclick="'updateStatus(\''+${list.productId}+'\',\''+5+'\',\''+${list.pSaleType}+'\')'">거절</button>
+                            </div>
+                        </span>
+                        <span th:case=1 >판매중</span>
+                        <span th:case=2 >판매완료</span>
+                        <span th:case=3 >낙찰</span>
+                        <span th:case=4 >낙찰실패</span>
+                        <span th:case=5 >판매반려</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-danger rounded-pill px-3" type="button" th:onclick="'productDelete(\''+${list.productId}+'\')'">
+                            삭제
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--페이징-->
+            <div class="row py-4">
+                <div class="col-sm-12 col-md-5">
+                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                        showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-7">
+                    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                        <ul class="pagination">
+                            <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
+                                <a th:href="@{'/page/'+${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
+                                    Previous
+                                </a>
+                            </li>
+                            <li class="paginate_button page-link" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                                <a th:href="${num}" th:text="${num}">
+                                </a>
+                            </li>
+                            <li th:if="${pageMaker.next}" class="paginate_button page-item next page-link" id="dataTable_next">
+                                <a th:href="@{${pageMaker.endPage + 1}}" th:text="'Next'" aria-controls="dataTable" data-dt-idx="7" tabindex="0">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <form th:method="get" id="actionForm" th:action="@{/admin/productList}">
+        <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+        <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+        <input type="hidden" name="type" th:value="${pageMaker.cri.type}">
+        <input type="hidden" name="keyword" th:value="${pageMaker.cri.keyword}">
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script th:inline="javascript">
+        var actionForm = $("#actionForm");
+        /////////////////페이지번호 처리/////////////////
+        $(".paginate_button a").on('click', function (e){
+            // 기본 동작 막음: 페이지 링크를 통해서 이동
+            e.preventDefault();
+            // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+            var bno = actionForm.find("input[name='user_id']").val();
+            if(bno !== ''){
+                actionForm.find("input[name='user_id']").remove();
+            }
+            actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+            actionForm.submit();
+        });
+        // /////////////////게시글 처리/////////////////
+        $(".move_link").on("click", function (e){
+            e.preventDefault();
+            var productId = $(this).attr("data-id")
+            // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+            var bno = actionForm.find("input[name='user_id']").val();
+            if(bno !== ''){
+                actionForm.find("input[name='user_id']").remove();
+            }
+            actionForm.append("<input type='hidden' name='productId' value='"+productId+"'>");
+            console.log("productId= "+productId);
+            actionForm.attr("action","productView").submit();
+        });
+        // 뒤로가기시 새로고침(조회수)
+        window.onpageshow = function (event){
+            if(event.persisted || (window.performance && window.performance.navigation.type==2)){
+                location.reload();
+            }
+        }
+        function updateStatus(productId, pSalesStatus, pSaleType) {
+            console.log("1");
+            console.log("pSaleType ==>"+pSaleType);
+            console.log("productId ==>"+productId);
+            console.log("pSalesStatus ==>"+pSalesStatus);
+            $.ajax({
+                url: '/admin/status',
+                method: 'POST',
+                contentType: 'application/json',
+                data:JSON.stringify({
+                    'productId': productId,
+                    'pSalesStatus': pSalesStatus,
+                    'pSaleType': pSaleType
+                }),
+                success: function(response) {
+                    alert('판매상태를 변경하였습니다.');
+                    location.href = '/admin/productList';
+                },
+                error: function(error) {
+                    alert(error.responseText);
+                }
+            });
+        }
+        function productDelete(ProductId) {
+            console.log("productDelete start")
+                $.ajax({
+                    url: '/admin/productDelete',
+                    method: 'POST',
+                    data: {
+                        'ProductId': ProductId
+                    },
+                    success: function(response) {
+                        if (response == "ok")
+                            alert("해당 글이 정상적으로 삭제되었습니다.");
+                            location.href='/admin/productList';
+                    },
+                    error: function(error) {
+                        alert('게시글 삭제에 실패했습니다.');
+                    }
+                });
+            }
+        var searchForm = $("#searchForm");
+        $("#searchForm button").on("click", function () {
+            var selectedType = searchForm.find("select[name='type']").val();
+            var keyword = searchForm.find("input[name='keyword']").val();
+            console.log("@# selectedType "+selectedType);
+            console.log("@# keyword "+keyword);
+            if (!selectedType) {
+                alert("검색종류를 선택하세요");
+                return false;
+            }
+            if (!keyword) {
+                alert("키워드를 입력하세요");
+                return false;
+            }
+            searchForm.attr("action", "productList").submit();
+        });
+    </script>
+</th:block>
+</html>

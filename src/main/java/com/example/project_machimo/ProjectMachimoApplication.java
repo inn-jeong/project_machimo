@@ -2,12 +2,18 @@ package com.example.project_machimo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+//@SpringBootApplication
+//@Configuration
 @EnableScheduling
-@EnableAspectJAutoProxy
 public class ProjectMachimoApplication {
 
 	public static void main(String[] args) {
@@ -15,20 +21,34 @@ public class ProjectMachimoApplication {
 	}
 
 
-//	@Bean //이 메서드를 객체생성해줘야 한다.
+//	@Bean
 //	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-//
-//		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-//		sessionFactory.setDataSource(dataSource); //의존성 주입 -servlet-context에서 해주는 작업
-//
-//		Resource[] res = new PathMatchingResourcePatternResolver()
-//				.getResources("classpath:mybatis/mapper/*.xml");//*를써서 여러개xml을 받아서 배열씀
-//
-//		sessionFactory.setMapperLocations(res);
-//
-//
-//		return sessionFactory.getObject();
-//		//.xml 형태의 모든 파일을 받기때문에 배열로 받는다.
-//		//만약 한가지만 받으면 배열로[] 받을 필요가 없다.
+//		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+//		sqlSessionFactoryBean.setDataSource(dataSource);
+//		sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper/**/*.xml"));
+//		sqlSessionFactoryBean.setConfiguration(mybatisConfig()); //추가
+//		return sqlSessionFactoryBean.getObject();
 //	}
+
+	@Bean
+	@ConfigurationProperties(prefix="mybatis.configuration")
+	public org.apache.ibatis.session.Configuration mybatisConfig() {
+		return new org.apache.ibatis.session.Configuration();
+	}
+
+
+//	파일 업로드 관련
+//	@Bean
+//	public CommonsMultipartResolver  multipartResolver() {
+//		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+//		multipartResolver.setDefaultEncoding("UTF-8"); // 파일 인코딩 설정
+//		multipartResolver.setMaxUploadSizePerFile(5 * 1024 * 1024); // 파일당 업로드 크기 제한 (5MB)
+//		return multipartResolver;
+//	}
+
+	// StandardServletMultipartResolver를 새로운 빈으로 등록합니다.
+	@Bean
+	public StandardServletMultipartResolver multipartResolver() {
+		return new StandardServletMultipartResolver();
+	}
 }

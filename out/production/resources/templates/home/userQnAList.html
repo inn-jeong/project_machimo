@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>boardWrite</title>
+    <!--header-->
+    <script src="/gyuha/js/header.js"></script>
+    <div th:replace="fragments/header.html :: fragment-header"></div>
+</head>
+<body>
+        <div class="container">
+            <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">문의사항</h5>
+            <!-- 공지사항 어드민, 유저계정 모두 사용 가능, 단 로그인했을때만 글쓰기 활성화-->
+            <div th:if="${session.user != null}" class="d-flex gap-2 justify-content-end py-3">
+                <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">
+                    <a th:href="@{/home/boardWriteView}">글쓰기</a>
+                </button>
+            </div>
+
+            <div class="row">
+                <table class="table table-hover table-responsive text-nowrap mb-0 align-middle">
+                    <colgroup>
+                        <col width="2%" />
+                        <col width="5%" />
+                        <col width="30%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                    </colgroup>
+                    <thead class="table-light text-dark fs-5">
+                    <tr>
+                        <th class="border-bottom-0">No</th>
+                        <th class="border-bottom-0">유형</th>
+                        <th class="border-bottom-0">제목</th>
+                        <th class="border-bottom-0">작성자</th>
+                        <th class="border-bottom-0">등록일</th>
+                        <th class="border-bottom-0">조회수</th>
+                    </tr>
+                    </thead>
+                    <tbody th:if="${board.bCategory=='문의'}" th:each="board: ${boardList}">
+                    <tr  th:if="${board != null}">
+                        <td th:text="${board.boardId}"></td>
+                        <td th:text="${board.bCategory}"></td>
+                        <td>
+    <!--                        <a class="move_link" th:data-id="${board.board_id}" th:href="/admin/boardView?">-->
+                            <a class="move_link" th:data-id="${board.boardId}">
+                                <span th:text="${board.BTitle}"></span>
+                            </a>
+                        </td>
+                        <td th:text="${board.BWriter}"></td>
+                        <td th:text="${board.BDate}"></td>
+    <!--                    <td th:text="${#dates.format(board.b_date, 'YYYY-MM-DD')}"></td>-->
+                        <td th:text="${board.BHit}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--페이징-->
+                <div class="row py-4">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                            showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                            <ul class="pagination">
+                                <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
+                                    <a th:href="@{${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
+                                        Previous
+                                    </a>
+                                </li>
+                                <li class="paginate_button page-link" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                                    <a th:href="${num}" th:text="${num}">
+                                    </a>
+                                </li>
+                                <li th:if="${pageMaker.next}" class="paginate_button page-item next page-link" id="dataTable_next">
+                                    <a th:href="@{${pageMaker.endPage + 1}}" th:text="'Next'" aria-controls="dataTable" data-dt-idx="7" tabindex="0">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <form th:method="get" id="actionForm">
+            <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+            <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+        </form>
+
+
+</body>
+</html>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            var actionForm = $("#actionForm");
+
+            /////////////////페이지번호 처리/////////////////
+            $(".paginate_button a").on('click', function (e){
+                // 기본 동작 막음: 페이지 링크를 통해서 이동
+                e.preventDefault();
+                console.log("click~!");
+                console.log("@# href ===>"+$(this).attr("href"));
+                // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+                var bno = actionForm.find("input[name='userId']").val();
+                if(bno !== ''){
+                    actionForm.find("input[name='userId']").remove();
+                }
+                actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+                actionForm.submit();
+            });
+            // /////////////////게시글 처리/////////////////
+            $(".move_link").on("click", function (e){
+                e.preventDefault();
+                var boardId = $(this).attr("data-id")
+
+                // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+                var bno = actionForm.find("input[name='userId']").val();
+                if(bno !== ''){
+                    actionForm.find("input[name='userId']").remove();
+                }
+
+                actionForm.append("<input type='hidden' name='boardId' value='"+boardId+"'>");
+                console.log("boardId= "+boardId);
+                actionForm.attr("action","/home/boardView").submit();
+            });
+
+            window.onpageshow = function (event){
+                if(event.persisted || (window.performance && window.performance.navigation.type==2)){
+                    location.reload();
+                }
+            }
+
+            function boardDelete(boardId){
+                console.log("@# boardDelete")
+
+                var chk = confirm("정말 삭제하시겠습니까?");
+                if(chk){
+                    $.ajax({
+                        url:'/admin/boardDelete',
+                        method: 'POST',
+                        data: {
+                            'boardId':boardId
+                        },
+                        success: function (response){
+                            if(response === "deleteOk"){
+                                alert("게시물이 삭제되었습니다.")
+                                location.href="/admin/boardList";
+                            }
+                            else{
+                                alert("게시물 삭제에 실패했습니다.")
+                            }
+                        },
+                        error: function (xhr, status, error){
+                            alert("에러 발생: "+error);
+                        }
+                    });
+                }
+            }
+        </script>

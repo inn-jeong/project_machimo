@@ -58,8 +58,6 @@ public class HeaderControllerAdvice {
     @ModelAttribute("hasSession")
     public boolean hasSession(HttpSession session) {
         return session.getAttribute("userId") != null;
-
-
     }
     @ModelAttribute("session")
     public Integer session(HttpSession session){

@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+/*
+-최규하
+주문페이지에 데이터를 뿌려주는 컨트롤러
+*/
 
 @Slf4j
 @Controller

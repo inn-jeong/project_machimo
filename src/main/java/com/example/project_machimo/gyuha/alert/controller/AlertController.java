@@ -3,6 +3,7 @@ package com.example.project_machimo.gyuha.alert.controller;
 import com.example.project_machimo.gyuha.alert.service.AlertService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

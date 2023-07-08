@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_machimo.inn_jeong.mypage.Dao.MypageDao">
+    <update id="updateUser">
+        update users
+        set u_password=#{uPassword},u_email=#{uEmail},u_phone=#{uPhone},
+            u_addr_postcode=#{uAddrPostcode},u_address=#{uAddress},
+            u_address_sub=#{uAddressSub},u_nickname=#{uNickname},
+            u_updated_at=sysdate
+        where u_id=#{uId}
+    </update>
+    <delete id="deleteItem">
+        delete from products where product_id = #{param1}
+    </delete>
+
+    <select id="getPurchaseItems" resultType="com.example.project_machimo.inn_jeong.mypage.Dto.PurchaseItem">
+        select a.order_id,a.user_id, e.product_id,to_char(a.created_at,'YYYY-MM-DD') created_at
+                ,b.p_name,b.p_direct,b.p_b_price,b.p_sale_type,c.order_status,d.i_sub_img,e.u_name
+        from orders a
+        join(select order_id,product_id from order_products) e on e.order_id = a.user_id
+        join(select product_id,p_name,p_direct,p_b_price,p_sale_type from products) b on b.product_id = e.product_id
+        join(select order_status_id,order_status from order_status) c on a.order_status_id = c.order_status_id
+        join(select product_id,i_sub_img from product_images) d on d.product_id = e.product_id
+        join(select user_id,u_name from users) e on a.user_id = e.user_id
+        where a.user_id = #{param1}
+    </select>
+    <select id="getSalesItems" resultType="com.example.project_machimo.inn_jeong.mypage.Dto.SalesItem">
+        select p.product_id, p.p_name, p.p_direct,p.p_b_price
+                , to_char(p.p_created_at,'YYYY-MM-DD HH24:MI') p_created_at
+                ,p.p_sales_status,p.p_sale_type,a.i_sub_img
+        from products p
+        join (select product_id, i_sub_img from product_images) a on a.product_id=p.product_id
+        where p.user_id = #{param1}
+    </select>
+    <select id="findUser" resultType="com.example.project_machimo.inn_jeong.login.Dto.UsersDto">
+        select * from users where u_id=#{param1}
+    </select>
+    <select id="getWishItem" resultType="com.example.project_machimo.inn_jeong.mypage.Dto.WishItem">
+        select a.wishlist_id,a.product_id,a.user_id,p.p_name,
+                p.p_direct,p.p_b_price,p.p_sale_type,p.p_sales_status,
+                i.i_sub_img,u.u_nickname
+        from wishlists a
+
+        join (select product_id,p_name,p_direct,p_b_price,
+            p_sale_type,p_sales_status from products) p
+        on p.product_id = a.product_id
+
+        join (select product_id, i_sub_img from product_images) i
+        on a.product_id = i.product_id
+
+        join (select user_id, u_nickname from users) u
+        on u.user_id = a.user_id
+
+        where a.user_id = #{param1}
+    </select>
+    <select id="getAuctionItems" resultType="com.example.project_machimo.inn_jeong.mypage.Dto.AuctionItem">
+        select b.auction_id,
+                a.product_id,
+                p.p_name,
+                a.user_id,
+                u.u_nickname,
+                p.p_dur,
+                b.bids_at,
+                a.amount,
+                p.p_b_price,
+                p.p_sales_status,
+                i.i_sub_img
+        from (select distinct b.product_id,b.user_id,b.amount
+            from (select max(amount) amount, product_id,user_id from bids group by product_id,user_id) b
+            where b.user_id=1) a
+        join bids b on b.product_id = a.product_id and b.user_id=a.user_id and b.amount=a.amount
+        join products p on p.product_id = a.product_id
+        join users u on u.user_id = p.user_id
+        join product_images i on i.product_id = a.product_id
+    </select>
+    <select id="getCurrentAmount" resultType="com.example.project_machimo.inn_jeong.mypage.Dto.AuctionItem">
+        select a.current_amount,a.user_bids_id, u.u_nickname u_bids_nickname
+        from (select amount current_amount, user_id user_bids_id
+            from bids
+            where product_id = #{param1}
+            and amount = (
+            select max(amount)
+            from bids
+            where product_id = #{param1}
+        )) a
+        join users u on u.user_id = a.user_bids_id
+    </select>
+    <select id="getBoards" resultType="com.example.project_machimo.inn_jeong.mypage.Dto.BoardItemDto">
+        select b.board_id,b.user_id,u.u_nickname,
+                b.b_category,b.inquiry_category,
+                b.b_title,b.b_writer,
+                to_char(b.b_date,'YYYY-MM-DD HH24:MI') b_date,
+                b.b_hit
+        from board b
+        join users u on u.user_id = b.user_id
+        where b.user_id = 1 and b.b_category='문의'
+    </select>
+
+</mapper>

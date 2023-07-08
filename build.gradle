@@ -1,64 +1,96 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.1.0'
-    id 'io.spring.dependency-management' version '1.1.0'
-    id 'org.jetbrains.kotlin.jvm' version '1.9.0-RC'
+	id 'java'
+	id 'org.springframework.boot' version '3.1.0'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.jetbrains.kotlin.jvm' version '1.9.0-RC'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = "17.PREVIEW"
+	sourceCompatibility = '17'
 }
 
 repositories {
-    mavenCentral()
-     maven { url 'https://jitpack.io' }
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.projectlombok:lombok:1.18.26'
+	implementation 'org.projectlombok:lombok:1.18.26'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'junit:junit:4.13.1'
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+//	implementation 'org.springframework.boot:spring-boot-starter'
 
-    implementation 'org.projectlombok:lombok:1.18.26'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 //	# lombok plugin
-    implementation('org.projectlombok:lombok')
-    annotationProcessor('org.projectlombok:lombok')
+	implementation('org.projectlombok:lombok')
+	annotationProcessor('org.projectlombok:lombok')
 
 //	# test 환경
-    testImplementation('org.projectlombok:lombok')
-    testAnnotationProcessor('org.projectlombok:lombok')
+	testImplementation('org.projectlombok:lombok')
+	testAnnotationProcessor('org.projectlombok:lombok')
 
-    // https://mvnrepository.com/artifact/org.mybatis/mybatis
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+	// https://mvnrepository.com/artifact/org.mybatis/mybatis
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
 
-    /*https://mvnrepository.com/artifact/com.boylesoftware.thyme/thyme
+	/*https://mvnrepository.com/artifact/com.boylesoftware.thyme/thyme
    implementation group: 'com.boylesoftware.thyme', name: 'thyme', version: '1.0.1'
    기존에 있던 타임리프 스프링 스타터 버전으로 변경*/
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
 
 //	sql에서 로그 가져오기 위한 의존성 추가 - 최규하
-    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
-
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
-//implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
+//	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 
-    //devtools 라이브리로드등 있음
-    implementation 'org.springframework.boot:spring-boot-starter'
-    //발리데이션
-      implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+	//devtools 라이브리로드등 있음
+	implementation 'org.springframework.boot:spring-boot-starter'
+	//발리데이션
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
 
 //    아임포트
-    implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
-//    AOP
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
+
+	//    AOP
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+
+	// thumbnailator
+	implementation 'net.coobird:thumbnailator:0.4.8'
+
+//	파일업로드
+	implementation 'commons-fileupload:commons-fileupload:1.4'
+	implementation 'commons-io:commons-io:2.11.0'
+
+//	스프링에서 자바의 객체데이터를 json타입으로 변환해 뷰로 전송해야함
+	// Jackson Core // 카테고리 리스트 출력 구현에도 쓴당
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.1'
+
+	// Jackson XML
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.1'
+
+//	댓글 구현 gson라이브러리
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
+
+
+//	json 의존성 추가 - 진영
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
+
+//	메일 전송을 위한 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-expression:5.3.10'
+
+//	기존에 있던 타임리프 스프링 스타터 버전으로 변경
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 }
-
-
-
