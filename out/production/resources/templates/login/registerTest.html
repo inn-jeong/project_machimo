@@ -94,7 +94,7 @@
     <tr height="60">
       <td colspan="2" align="center">
         <input type="submit" id="insert_mem" value="등록" disabled="disabled">
-        <input type="reset" value="다시입력">
+        <input type="reset" id="reset_btn" value="다시입력">
         <input type="button" value="가입안함" onclick="javascript:window.location='/loginT/login'">
       </td>
     </tr>
@@ -124,7 +124,7 @@
                     document.getElementById("check_btn").disabled = true;
                     document.getElementById("insert_mem").disabled = false;
                     document.getElementById("insert_mem").enabled = true;
-                    $("#uId").
+                    $("#uId").prop("readonly",true);
                 } else {
                     console.log(data);
                     $("#check_result").css("color", "red");
@@ -143,5 +143,7 @@
         if(naverMem == 'yes'){
             alert("가입된 계정이 없어 회원가입 절차를 진행합니다.");
         }
+
+        
     });
 </script>
