@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/java/com/example/project_machimo/Park_gi_hyeon/shop/Dto/UsersDto.java
-package com.example.project_machimo.Park_gi_hyeon.shop.Dto;
-========
 package com.example.project_machimo.jomuragi.productEnroll.dto;
->>>>>>>> origin/review:src/main/java/com/example/project_machimo/jomuragi/productEnroll/dto/UsersDto.java
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
