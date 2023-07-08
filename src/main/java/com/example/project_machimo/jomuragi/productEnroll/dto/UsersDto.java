@@ -1,4 +1,4 @@
-package com.example.project_machimo.jomuragi.shop.Dto;
+package com.example.project_machimo.jomuragi.productEnroll.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

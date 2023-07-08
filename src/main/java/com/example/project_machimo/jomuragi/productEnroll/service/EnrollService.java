@@ -1,11 +1,9 @@
 package com.example.project_machimo.jomuragi.productEnroll.service;
 
 import com.example.project_machimo.jomuragi.productEnroll.dao.EnrollMapper;
+import com.example.project_machimo.jomuragi.productEnroll.dto.CategoryDto;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductDto;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO;
-import com.example.project_machimo.jomuragi.review.dto.AttachImageVO;
-import com.example.project_machimo.jomuragi.shop.Dao.ShopDao;
-import com.example.project_machimo.jomuragi.shop.Dto.CategoryDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +31,7 @@ public class EnrollService {
     public ArrayList<CategoryDto> getCategories() {
         log.info("@# getCategories");
 //        ShopDao dao = sqlSession.getMapper(ShopDao.class);
-        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        EnrollMapper dao = sqlSession.getMapper(EnrollMapper.class);
         ArrayList<CategoryDto> categories = dao.getCategories();
         return categories;
     }
@@ -41,7 +39,7 @@ public class EnrollService {
     public ArrayList<CategoryDto> getSubCategories(Integer cId2) {
         log.info("@# getSubCategories");
 //        ShopDao dao = sqlSession.getMapper(ShopDao.class);
-        ShopDao dao = sqlSession.getMapper(ShopDao.class);
+        EnrollMapper dao = sqlSession.getMapper(EnrollMapper.class);
         ArrayList<CategoryDto> subCategories = dao.getSubCategories(cId2);
         return subCategories;
     }

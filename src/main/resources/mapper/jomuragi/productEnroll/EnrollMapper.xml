@@ -15,11 +15,11 @@
         )
     </insert>
 
-    <select id="getCategories" resultType="com.example.project_machimo.jomuragi.productEnroll.dto.CategoryVO">
+    <select id="getCategories" resultType="com.example.project_machimo.jomuragi.productEnroll.dto.CategoryDto">
         select c_id, c_name, c_id2 from category where c_id2 is null
     </select>
 
-    <select id="getSubCategories" resultType="com.example.project_machimo.jomuragi.productEnroll.dto.CategoryVO">
+    <select id="getSubCategories" resultType="com.example.project_machimo.jomuragi.productEnroll.dto.CategoryDto">
         select c_id, c_name, c_id2 from category where c_id2 = #{cId2}
     </select>
 

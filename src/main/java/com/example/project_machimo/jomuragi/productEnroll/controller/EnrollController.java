@@ -3,7 +3,7 @@ package com.example.project_machimo.jomuragi.productEnroll.controller;
 
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO;
 import com.example.project_machimo.jomuragi.productEnroll.service.EnrollService;
-import com.example.project_machimo.jomuragi.shop.Dto.CategoryDto;
+import com.example.project_machimo.jomuragi.productEnroll.dto.CategoryDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;

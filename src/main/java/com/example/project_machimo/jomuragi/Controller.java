@@ -25,8 +25,8 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @org.springframework.stereotype.Controller
+@Slf4j
 public class Controller {
 
     @Autowired
