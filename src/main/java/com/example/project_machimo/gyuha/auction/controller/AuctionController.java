@@ -8,6 +8,7 @@ import com.example.project_machimo.gyuha.auction.service.AuctionService;
 import com.example.project_machimo.gyuha.auction.service.BidsService;
 import com.example.project_machimo.gyuha.auction.service.ProductService;
 import com.example.project_machimo.gyuha.wishlists.dao.WishListsDAO;
+import com.example.project_machimo.gyuha.wishlists.service.WishListsService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,26 +32,27 @@ public class AuctionController {
 
     final private AuctionService auctionService;
 
-    final private ProductService productService;
+    private final ProductService productService;
 
-    final private BidsService bidsService;
+    private final BidsService bidsService;
 
-    final private WishListsDAO wishListsDAO;
 
+
+    private final WishListsService wishListsService;
 
     @Autowired
     public AuctionController(
             AuctionService auctionService
             , ProductService productService
             , BidsService bidsService
-            , WishListsDAO wishListsDAO
+            ,WishListsService wishListsService
 
 
     ) {
         this.auctionService = auctionService;
         this.productService = productService;
         this.bidsService = bidsService;
-        this.wishListsDAO = wishListsDAO;
+        this.wishListsService = wishListsService;
 
     }
 
@@ -72,21 +74,22 @@ public class AuctionController {
         System.out.println("@!#!@#$!@#@!#" + id);
 
 
-        AuctionVO aList = auctionService.aList(id);
+        AuctionVO aView = auctionService.aView(id);
         ProductsVO pView = productService.pView(id);
         List<BidsVO> bList = bidsService.bList(id);
         boolean hasBidHistory = bidsService.hasBidHistory(id);
         Long amount = bidsService.maxAmount(id);
-        Integer integer = wishListsDAO.likeCheck(userId, id);
+
 
         log.info("@#첫 가격은  === > {}", pView.pBPrice());
+        productService.updateHit(id);
         boolean saleEnded = auctionService.isSaleEnded(pView.pDur(), pView.pSalesStatus());
-        boolean isLiked = integer != null;
+        boolean isLiked = wishListsService.hasLike(userId,id);
         int sellerId = auctionService.getUserId(pView.productsId());
         System.out.println("일러 아이디"+sellerId);
         model.addAttribute("sellerId",sellerId);
         model.addAttribute("isLiked", isLiked);
-        model.addAttribute("aList", aList);
+        model.addAttribute("aView", aView);
         model.addAttribute("pView", pView);
         model.addAttribute("isSaleEnded", saleEnded);
         model.addAttribute("hasBidHistory", hasBidHistory);

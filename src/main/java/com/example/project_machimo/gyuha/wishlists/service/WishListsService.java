@@ -9,4 +9,5 @@ public interface WishListsService {
 
     int deleteWish(WishlistsDTO wishlistsDTO);
 
+    boolean hasLike(Integer userId, Integer productId);
 }

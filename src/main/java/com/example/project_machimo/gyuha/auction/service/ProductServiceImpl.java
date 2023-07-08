@@ -29,4 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
         return productsDAO.pList();
     }
+    public void updateHit(int id){
+        productsDAO.updateHit(id);
+    }
 }

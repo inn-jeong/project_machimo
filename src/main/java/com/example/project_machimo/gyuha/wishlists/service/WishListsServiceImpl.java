@@ -44,4 +44,9 @@ public class WishListsServiceImpl implements WishListsService{
         productsDAO.updateLikeDown(wishlistsDTO.getProductId());
         return wishListsDAO.deleteWish(wishlistsDTO);
     }
+
+    @Override
+    public boolean hasLike(Integer userId, Integer productId) {
+        return wishListsDAO.likeCheck(userId,productId)!=null;
+    }
 }
