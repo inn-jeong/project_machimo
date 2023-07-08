@@ -55,6 +55,9 @@
                 <div class="d-flex justify-content-end pt-1">
 
                     <ul class="top_list nav nav-pills">
+                        <li th:if="${session.user != null && session.user.userId == 1}" class="nav-item"><a href="/admin/adminList"
+                                                class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">관리자페이지</a>
+                        </li>
                         <li class="nav-item"><a href="/home/userBoardList"
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">고객센터</a>
                         </li>
@@ -100,13 +103,13 @@
 
                     </a>
                     <ul class="gnb_list nav nav-pills">
-                        <li class="nav-item"><a href="#"
+                        <li class="nav-item"><a href="/"
                                                 class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">HOME</a>
                         </li>
-                        <li class="nav-item"><a href="#"
+                        <li class="nav-item"><a href="/review/list"
                                                 class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">STYLE</a>
                         </li>
-                        <li class="nav-item"><a href="#"
+                        <li class="nav-item"><a href="/shop/allItemView"
                                                 class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">SHOP</a>
                         </li>
                         <li class="nav-item">

@@ -37,8 +37,8 @@ public class HomeController {
 //        user.setUserId(0);
 //        user.setUNickname("user");
 //        user.setUserId(106); // test용 임시 계정
-        UsersDto user = (UsersDto) session.getAttribute("user");
-        session.setAttribute("user",user);
+//        UsersDto user = (UsersDto) session.getAttribute("user");
+//        session.setAttribute("user",user);
 
         int total = service.getTotalCount();
         model.addAttribute("boardList",service.boardList(cri));
@@ -89,7 +89,7 @@ public class HomeController {
     public String boardWriteView(Criteria cri, Model model){
         System.out.println("@# boaradWriteView start");
 
-        UsersDto user = new UsersDto();
+//        UsersDto user = new UsersDto();
 //        user.setUserId(1); //admin
 //        user.setUNickname("admin");
 //        user.setUserId(0); //user

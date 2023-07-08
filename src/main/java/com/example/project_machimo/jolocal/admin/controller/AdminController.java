@@ -44,10 +44,10 @@ public class AdminController {
     public String adminList(Criteria cri, Model model){
         System.out.println("@# adminList start");
         //admin session
-        UsersDto user = new UsersDto();
-        user.setUserId(1); //admin
-        user.setUNickname("admin");
-        session.setAttribute("user",user);
+//        UsersDto user = new UsersDto();
+//        user.setUserId(1); //admin
+//        user.setUNickname("admin");
+//        session.setAttribute("user",user);
 
         model.addAttribute("adminList",service.adminList(cri));
         int total = service.getTotalCount();
@@ -98,10 +98,10 @@ public class AdminController {
     public String boardList(@RequestParam HashMap<String,Object>param, Criteria cri, Model model){
         System.out.println("@# controller boardList");
 
-        UsersDto user = new UsersDto();
-        user.setUserId(1); //admin
-        user.setUNickname("admin");
-        session.setAttribute("user",user);
+//        UsersDto user = new UsersDto();
+//        user.setUserId(1); //admin
+//        user.setUNickname("admin");
+//        session.setAttribute("user",user);
 
         model.addAttribute("boardList",service.boardList(cri));
         int total = service.getTotalCount();
