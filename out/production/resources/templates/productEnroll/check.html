@@ -32,6 +32,7 @@
             margin-top: 80px;
             padding: 32px;
 
+
             background: #fff;
             -webkit-border-radius: 10px;
             -moz-border-radius: 10px;
@@ -43,9 +44,10 @@
     </style>
 </head>
 
+<div th:replace="fragments/header :: fragment-header"></div>
 <body>
 
-<div class="container">
+<div class="container-sm">
     <div class="input-form-backgroud row">
         <div class="input-form col-md-12 mx-auto">
             <h4 class="mb-3">
@@ -116,6 +118,7 @@
     </footer>
 </div>
 </body>
+<div th:replace="fragments/footer.html :: fragment-footer"></div>
 
 <script src="/js/jquery.js"></script>
 <script type="text/javascript"></script>
