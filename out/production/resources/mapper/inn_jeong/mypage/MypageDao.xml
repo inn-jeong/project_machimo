@@ -57,7 +57,7 @@
     </select>
     <select id="getAuctionItems" resultType="com.example.project_machimo.inn_jeong.mypage.Dto.AuctionItem">
         select b.auction_id,
-                a.product_id,
+                a.products_id,
                 p.p_name,
                 a.user_id,
                 u.u_nickname,
@@ -67,19 +67,19 @@
                 p.p_b_price,
                 p.p_sales_status,
                 i.i_sub_img
-        from (select distinct b.product_id,b.user_id,b.amount
-            from (select max(amount) amount, product_id,user_id from bids group by product_id,user_id) b
+        from (select distinct b.products_id,b.user_id,b.amount
+            from (select max(amount) amount, products_id,user_id from bids group by products_id,user_id) b
             where b.user_id=1) a
-        join bids b on b.product_id = a.product_id and b.user_id=a.user_id and b.amount=a.amount
-        join products p on p.product_id = a.product_id
+        join bids b on b.products_id = a.products_id and b.user_id=a.user_id and b.amount=a.amount
+        join products p on p.product_id = a.products_id
         join users u on u.user_id = p.user_id
-        join product_images i on i.product_id = a.product_id
+        join product_images i on i.product_id = a.products_id
     </select>
     <select id="getCurrentAmount" resultType="com.example.project_machimo.inn_jeong.mypage.Dto.AuctionItem">
         select a.current_amount,a.user_bids_id, u.u_nickname u_bids_nickname
         from (select amount current_amount, user_id user_bids_id
             from bids
-            where product_id = #{param1}
+            where products_id = #{param1}
             and amount = (
             select max(amount)
             from bids
