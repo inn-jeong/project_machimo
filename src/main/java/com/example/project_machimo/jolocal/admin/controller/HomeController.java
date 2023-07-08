@@ -1,15 +1,16 @@
 package com.example.project_machimo.jolocal.admin.controller;
 
+import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
 import com.example.project_machimo.jolocal.admin.dto.LocalPageDto;
-import com.example.project_machimo.jolocal.admin.dto.UsersDto;
 import com.example.project_machimo.jolocal.admin.service.AdminService;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,13 +30,14 @@ public class HomeController {
     public String boardList(Criteria cri, Model model, HttpSession session){
         System.out.println("@# ==> home boardList start");
 
-        UsersDto user = new UsersDto();
-        user.setUserId(1); // admin 계정
-        user.setUNickname("admin");
+//        UsersDto user = new UsersDto();
+//        user.setUserId(1); // admin 계정
+//        user.setUNickname("admin");
 
 //        user.setUserId(0);
 //        user.setUNickname("user");
 //        user.setUserId(106); // test용 임시 계정
+        UsersDto user = (UsersDto) session.getAttribute("user");
         session.setAttribute("user",user);
 
         int total = service.getTotalCount();

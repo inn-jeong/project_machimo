@@ -84,7 +84,7 @@ public class LoginController {
                 return "redirect:/loginT/login?blur=yes&suspension="+checkBlur.getUSuspension();
             }
             session.setAttribute("user",dto);
-            session.setAttribute("user_id",dto.getUserId());
+            session.setAttribute("userId",dto.getUserId());
             str = "redirect:/loginT/login_ok";
         }else { //로그인 실패시 다시 로그인 화면으로 이동, 알림
             str = "redirect:/loginT/login?login_try=yes";
@@ -328,10 +328,12 @@ public class LoginController {
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request, Model model){
-        HttpSession session = request.getSession();
+    public String logout(HttpSession session, Model model){
+//        HttpSession session = request.getSession();
         session.invalidate();
-        return "login/loginTest";
+        model.addAttribute("logout","yes");
+//        return "login/loginTest";
+        return "index";
     }
 
     @RequestMapping("/jusoPopup")

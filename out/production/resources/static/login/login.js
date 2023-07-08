@@ -83,7 +83,7 @@ function logout() {
     setTimeout(function() {
         window.location.href="/loginT/logout";
     }, 500);
-    // window.location.href="/loginT/logout";
+    // window.location.href="/";
 }
 
 

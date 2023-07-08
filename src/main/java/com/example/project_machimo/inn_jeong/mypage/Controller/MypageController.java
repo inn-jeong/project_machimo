@@ -169,7 +169,7 @@ public class MypageController {
         if(user == null){
             return "redirect:/loginT/login?login_try=no";
         }
-        ArrayList<BoardDto> boards = service.getBoards(user.getUserId());
+        ArrayList<BoardItemDto> boards = service.getBoards(user.getUserId());
         model.addAttribute("type","board");
         model.addAttribute("boards",boards);
         return "mypage/mypage";

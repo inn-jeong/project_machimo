@@ -18,7 +18,7 @@
         join product_images pi on pi.product_id = p.product_id
         join category c on c.c_id=p.c_id
     </select>
-    <select id="findNickName" resultType="com.example.project_machimo.Park_gi_hyeon.shop.Dto.UsersDto">
+    <select id="findNickName" resultType="com.example.project_machimo.inn_jeong.login.Dto.UsersDto">
         select u_nickname,user_id from users where user_id = #{userId}
 <!--        select u_nickName,user_id from users-->
     </select>

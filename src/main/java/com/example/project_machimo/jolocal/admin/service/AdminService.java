@@ -1,9 +1,9 @@
 package com.example.project_machimo.jolocal.admin.service;
 
+import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
 import com.example.project_machimo.jolocal.admin.dto.ProductDto;
-import com.example.project_machimo.jolocal.admin.dto.UsersDto;
 
 import java.util.ArrayList;
 

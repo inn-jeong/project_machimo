@@ -1,10 +1,17 @@
 function t() {
     console.log("동작잘함")
-
 }
 
 $(document).ready(function () {
-    console.log("돔 준비됨")
+    if($("#logout").val() == 'yes'){
+        location.href="/";
+    }
+    console.log("돔 준비됨");
+    $("#logout_btn1").on("click",function (e){
+        e.preventDefault();
+        location.href="/loginT/logout";
+        // window.location.reload();
+    });
     $('.modal-body').on("click", '#alert a', function (e) {
         e.preventDefault();
         console.log('a태그가 클릭되었습니다.');
@@ -21,7 +28,6 @@ $(document).ready(function () {
 
 
         $.ajax({
-
             url: "/alert/delete",
             type: "post",
             data: {

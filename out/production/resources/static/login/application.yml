@@ -1,0 +1,15 @@
+jwt:
+  secret-key: uW2s3VKIFA2pQiZemAk9UgopIE14tb6T
+
+oauth:
+  kakao:
+    client-id: fb82a16d638c78bc7d08cfc444bcf1aa
+    url:
+      auth: https://kauth.kakao.com
+      api: https://kapi.kakao.com
+#  naver:
+#    secret: W_2DmcLfYU
+#    client-id: Y2i4SlApP7A1KZsUoott
+#    url:
+#      auth: https://nid.naver.com
+#      api: https://openapi.naver.com

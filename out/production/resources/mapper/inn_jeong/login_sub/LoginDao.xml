@@ -18,7 +18,7 @@
             u_address_sub,
             u_nickname
         ) values
-        ((select nvl(max(user_id),0) from users)+1,
+        (select user_seq.nextval,
             #{uId},
             #{uPassword},
             #{uEmail},
@@ -46,7 +46,7 @@
             u_nickname,
             u_social
         ) values
-        ((select nvl(max(user_id),0) from users)+1,
+        (ser_seq.nextval,
             #{uId},
             #{uPassword},
             #{uEmail},
@@ -76,14 +76,12 @@
     <delete id="initialReport">
         update report set report_count=0 where seller_user_id = #{param1}
     </delete>
-
     <select id="findUser" resultType="com.example.project_machimo.inn_jeong.login.Dto.UsersDto">
         select * from users where u_id=#{uId}
     </select>
     <select id="findUserId" resultType="com.example.project_machimo.inn_jeong.login.Dto.UsersDto">
         select * from users where u_social = #{uSocial}
     </select>
-
     <select id="findMemPhone" resultType="com.example.project_machimo.inn_jeong.login.Dto.UsersDto">
         select * from users where u_phone = #{uPhone}
     </select>

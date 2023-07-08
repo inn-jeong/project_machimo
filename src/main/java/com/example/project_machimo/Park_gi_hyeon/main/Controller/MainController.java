@@ -12,13 +12,13 @@ import java.util.ArrayList;
 
 @Slf4j
 @Controller
-@RequestMapping("/main")
+//@RequestMapping("/main")
 public class MainController {
     @Autowired
     private MainService service;
 
-    @RequestMapping("/page")
-    public String maiinPage(Model model){
+    @RequestMapping("/")
+    public String mainPage(Model model){
         log.info("@# MainPage");
 
         ArrayList<ItemDto> newest = service.newestItem();

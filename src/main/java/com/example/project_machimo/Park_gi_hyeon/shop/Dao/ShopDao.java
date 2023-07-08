@@ -1,6 +1,7 @@
 package com.example.project_machimo.Park_gi_hyeon.shop.Dao;
 
 import com.example.project_machimo.Park_gi_hyeon.shop.Dto.*;
+import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 
 import java.util.ArrayList;
 import java.util.List;

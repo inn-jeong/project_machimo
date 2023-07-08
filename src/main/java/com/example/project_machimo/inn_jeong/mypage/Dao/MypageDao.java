@@ -17,5 +17,5 @@ public interface MypageDao {
     public ArrayList<WishItem> getWishItem(Integer userId);
     public ArrayList<AuctionItem> getAuctionItems(Integer userId);
     public AuctionItem getCurrentAmount(Integer productId);
-    public ArrayList<BoardDto> getBoards(Integer userId);
+    public ArrayList<BoardItemDto> getBoards(Integer userId);
 }
