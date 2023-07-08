@@ -6,7 +6,6 @@ import com.example.project_machimo.jomuragi.review.dto.PageDTO;
 import com.example.project_machimo.jomuragi.review.dto.ReviewDto;
 import com.example.project_machimo.jomuragi.review.service.AttachImageService;
 import com.example.project_machimo.jomuragi.review.service.ReviewService;
-import com.example.project_machimo.jomuragi.shop.Dto.UsersDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -69,10 +68,10 @@ public class ReviewController {
         log.info("@#cri =======>"+cri);
         log.info("@#getPageNum() =======>"+cri.getPageNum());
 
-        UsersDto user = new UsersDto();
-        user.setUserId(1); //admin
-        user.setUNickname("admin");
-        session.setAttribute("user",user);
+//        UsersDto user = new UsersDto();
+//        user.setUserId(1); //admin
+//        user.setUNickname("admin");
+//        session.setAttribute("user",user);
 
 
 //        ArrayList<ReviewDto> list = service.list();

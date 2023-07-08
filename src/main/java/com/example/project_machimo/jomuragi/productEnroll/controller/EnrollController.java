@@ -1,9 +1,10 @@
 package com.example.project_machimo.jomuragi.productEnroll.controller;
 
 
+import com.example.project_machimo.Park_gi_hyeon.shop.Dto.CategoryDto;
+import com.example.project_machimo.jomuragi.productEnroll.dto.CategoryVO;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO;
 import com.example.project_machimo.jomuragi.productEnroll.service.EnrollService;
-import com.example.project_machimo.jomuragi.shop.Dto.CategoryDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -69,10 +70,10 @@ public class EnrollController {
     @RequestMapping("/enroll_form")
     public String enroll_form(Model model){
         //        // 모든 카테고리와 그에 해당하는 하위 카테고리를 가져옴
-        ArrayList<CategoryDto> categories = service.getCategories();
-        Map<Integer, ArrayList<CategoryDto>> subcategory = new HashMap<>();
-        for (CategoryDto category : categories) {
-            ArrayList<CategoryDto> subCategories = service.getSubCategories(category.getCId());
+        ArrayList<CategoryVO> categories = service.getCategories();
+        Map<Integer, ArrayList<CategoryVO>> subcategory = new HashMap<>();
+        for (CategoryVO category : categories) {
+            ArrayList<CategoryVO> subCategories = service.getSubCategories(category.getCId());
             subcategory.put(category.getCId(), subCategories);
         }
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Slf4j
-@Service("BasketService")
+@Service("BasketService1")
 public class BasketServiceImpl implements BasketService {
     @Autowired
     private SqlSession sqlSession;
