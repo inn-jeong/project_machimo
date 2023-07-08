@@ -91,6 +91,7 @@ public class MypageServiceImpl implements MypageService{
     public ArrayList<AuctionItem> getAuctionItems(Integer userId) {
         MypageDao dao = sqlSession.getMapper(MypageDao.class);
         ArrayList<AuctionItem> items = dao.getAuctionItems(userId);
+        System.out.println("정신나갈거가테" +   userId);
         if(!items.isEmpty()){
             for (AuctionItem item:items) {
                 AuctionItem currentItem = dao.getCurrentAmount(item.getProductsId());

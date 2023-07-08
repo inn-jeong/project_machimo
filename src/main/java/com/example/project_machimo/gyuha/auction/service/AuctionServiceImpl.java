@@ -51,4 +51,9 @@ public class AuctionServiceImpl implements AuctionService {
         return false;
 
     }
+
+    @Override
+    public void updateHit(Integer productId) {
+        auctionDAO.updateHit(productId);
+    }
 }

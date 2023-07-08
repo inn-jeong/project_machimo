@@ -62,7 +62,6 @@ $(document).ready(function () {
                 if (response.responseText == "로그인이 필요한 서비스입니다") {
                     alert(response.responseText);
                     document.getElementById("test1").click();
-                    window.location.href = '/login/login';
 
                 }
 

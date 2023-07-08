@@ -83,7 +83,7 @@
             and amount = (
             select max(amount)
             from bids
-            where product_id = #{param1}
+            where products_id = #{param1}
         )) a
         join users u on u.user_id = a.user_bids_id
     </select>

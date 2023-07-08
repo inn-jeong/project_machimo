@@ -1,5 +1,6 @@
 package com.example.project_machimo.jolocal.admin.controller;
 
+import com.example.project_machimo.gyuha.aop.OwnerCheck;
 import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.jolocal.admin.dto.*;
 import com.example.project_machimo.jolocal.admin.service.AdminService;

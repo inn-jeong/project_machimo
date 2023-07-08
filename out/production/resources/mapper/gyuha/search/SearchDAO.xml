@@ -121,13 +121,13 @@
     </select>
     <select id="searchListPage" resultType="com.example.project_machimo.gyuha.search.vo.SearchVO">
         <![CDATA[
-    SELECT *
+SELECT *
     FROM (
         SELECT
             p.PRODUCT_id as PRODUCT_id,
             u.USER_ID as user_id,
             u.U_NICKNAME as u_nickname,
-            i.i_ID as i_id,
+            i.uuid as uuid,
             i.I_IMAGE as i_image,
             i.i_sub_img as i_sub_img,
             p.P_NAME as p_name,
@@ -136,13 +136,14 @@
             p.p_sale_type as p_sale_type,
             p.p_direct as p_direct,
             p.p_b_price as p_b_price,
+            replace(i.UPLOAD_PATH || '/' || i.UUID || '_' || i.I_IMAGE, '\', '/') AS url,
             ROW_NUMBER() OVER (ORDER BY p.P_CREATED_AT) rn
         FROM USERS U
         JOIN PRODUCTS P ON U.USER_ID = P.USER_ID
         LEFT JOIN (
-            SELECT PRODUCT_ID, I_ID, MIN(I_IMAGE) AS I_IMAGE, MIN(i_sub_img) as i_sub_img
+            SELECT PRODUCT_ID, uuid, MIN(I_IMAGE) AS I_IMAGE, MIN(i_sub_img) as i_sub_img,UPLOAD_PATH
             FROM PRODUCT_IMAGES
-            GROUP BY PRODUCT_ID, I_ID
+            GROUP BY PRODUCT_ID, uuid,UPLOAD_PATH
         ) i ON P.PRODUCT_id = i.PRODUCT_ID
         WHERE
   ]]>

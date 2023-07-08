@@ -9,7 +9,7 @@
     </update>
     <update id="updateHit">
         update PRODUCTS set p_hit= p_hit +1
-        where PRODUCT_ID = #{param1};
+        where PRODUCT_ID = #{param1}
     </update>
     <select id="pView" resultType="com.example.project_machimo.gyuha.auction.vo.AuctionVO">
         select * from auctions where PRODUCTS_id = #{0}
