@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>boardWrite</title>
     <!--header-->
-    <script src="/gyuha/js/header.js"></script>
-    <div th:replace="fragments/header.html :: fragment-header"></div>
+<!--    <script src="/gyuha/js/header.js"></script>-->
+<!--    <th:div th:replace="fragments/header.html :: fragment-header"></th:div>-->
+<th:block th:replace="fragments/header"></th:block>
 </head>
 <body>
         <div class="container">
@@ -90,7 +91,7 @@
             <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
         </form>
 
-
+<th:block th:replace="fragments/footer"></th:block>
 </body>
 </html>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

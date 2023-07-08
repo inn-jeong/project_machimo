@@ -69,7 +69,7 @@
                 i.i_sub_img
         from (select distinct b.products_id,b.user_id,b.amount
             from (select max(amount) amount, products_id,user_id from bids group by products_id,user_id) b
-            where b.user_id=1) a
+            where b.user_id=#{param1}) a
         join bids b on b.products_id = a.products_id and b.user_id=a.user_id and b.amount=a.amount
         join products p on p.product_id = a.products_id
         join users u on u.user_id = p.user_id

@@ -138,12 +138,18 @@
         });
 
     }
+    $(document).ready(function (){
+        $("#uId").on("click",function (){
+            $("#uId").prop("readonly",false);
+            $("#check_btn").prop("disabled",false);
+            $("#insert_mem").prop("disabled",true);
+            $("#check_result").text('');
+        });
+    });
     $(function(){
         var naverMem = $("#naverMem").val();
         if(naverMem == 'yes'){
             alert("가입된 계정이 없어 회원가입 절차를 진행합니다.");
         }
-
-        
     });
 </script>

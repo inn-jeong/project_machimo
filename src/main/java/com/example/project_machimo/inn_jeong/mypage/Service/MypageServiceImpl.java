@@ -93,7 +93,7 @@ public class MypageServiceImpl implements MypageService{
         ArrayList<AuctionItem> items = dao.getAuctionItems(userId);
         if(!items.isEmpty()){
             for (AuctionItem item:items) {
-                AuctionItem currentItem = dao.getCurrentAmount(item.getProductId());
+                AuctionItem currentItem = dao.getCurrentAmount(item.getProductsId());
                 item.setUserBidsId(currentItem.getUserBidsId());
                 item.setUBidsNickname(currentItem.getUBidsNickname());
                 item.setCurrentAmount(currentItem.getCurrentAmount());

@@ -199,6 +199,7 @@ public class MypageController {
         }else{
             result = "denined";
         }
+        session.invalidate();
         return result;
     }
 }

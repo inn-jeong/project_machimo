@@ -19,4 +19,5 @@ public interface LoginDao {
     public int updateBlur(Integer userId);
     public UserSuspension checkBlur(Integer userId);
     public void initialReport(Integer userId);
+    public void secessionUser(Integer userId);
 }
