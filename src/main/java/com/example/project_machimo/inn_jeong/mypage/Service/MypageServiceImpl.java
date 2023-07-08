@@ -103,7 +103,7 @@ public class MypageServiceImpl implements MypageService{
     }
 
     @Override
-    public ArrayList<BoardDto> getBoards(Integer userId) {
+    public ArrayList<BoardItemDto> getBoards(Integer userId) {
         MypageDao dao = sqlSession.getMapper(MypageDao.class);
         return dao.getBoards(userId);
     }

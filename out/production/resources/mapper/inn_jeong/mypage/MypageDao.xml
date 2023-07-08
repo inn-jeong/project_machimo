@@ -86,7 +86,7 @@
         )) a
         join users u on u.user_id = a.user_bids_id
     </select>
-    <select id="getBoards" resultType="com.example.project_machimo.inn_jeong.mypage.Dto.BoardDto">
+    <select id="getBoards" resultType="com.example.project_machimo.inn_jeong.mypage.Dto.BoardItemDto">
         select b.board_id,b.user_id,u.u_nickname,
                 b.b_category,b.inquiry_category,
                 b.b_title,b.b_writer,
