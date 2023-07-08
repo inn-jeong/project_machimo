@@ -2,6 +2,7 @@ package com.example.project_machimo.Park_gi_hyeon.shop.Service;
 
 import com.example.project_machimo.Park_gi_hyeon.shop.Dao.ShopDao;
 import com.example.project_machimo.Park_gi_hyeon.shop.Dto.*;
+import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
