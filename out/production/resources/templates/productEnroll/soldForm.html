@@ -64,7 +64,8 @@
         <tr>
             <td><label for="category1">1차 카테고리:</label></td>
             <td>
-                <select id="category1" name="category1" onchange="selectSubcategory()">
+<!--                <select id="category1" name="category1" onchange="selectSubcategory()">-->
+                <select id="category1" name="category2" onchange="selectSubcategory()">
                     <option value="">전체</option>
                     <option class="catego1" th:each="category : ${categories}" th:value="${category.cId}" th:text="${category.cName}"></option>
 <!--                    <option class="category1" th:each="category : ${categories}" th:value="${category.cId}" th:text="${category.cName}"></option>-->
@@ -82,7 +83,9 @@
 <!--                ex : category2-100 으로 id가 생기는거  그냥 ${category.cId}만 사용할 시 사용자에게 숫자만 보이니까-->
 
 <!--                class는 중복 가능하므로 여러개의 옵션이 다 catego2라는 클래스 이름으로 지정되어있음.-->
-              <select class="catego2" th:id="'category2-'+${category.cId}" style="display: none" name="category2">
+<!--              <select class="catego2" th:id="'category2-'+${category.cId}" style="display: none" name="category2">-->
+<!--                  서브 카테고리가 존재한다면 cid1(100,200)은 cid2에 저장되므로 서브카테고리의 코드가 cId, 메인카테고리의 코드가 cId2에 저장되어야함-->
+              <select class="catego2" th:id="'category2-'+${category.cId}" style="display: none" name="category1">
                 <option value="">전체</option>
 <!--                  map을 불러올때는 대괄호를 사용함, 맵 안의 객체 배열이기 때문에 사용하기 위해 한번 더 꺼내는 과정 필요-->
                 <option  th:each="subcategory:${subcategory[category.cId]}" th:value="${subcategory.cId}" th:text="${subcategory.cName}"></option>

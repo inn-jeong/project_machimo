@@ -1,6 +1,6 @@
 package com.example.project_machimo.jomuragi.productEnroll.dao;
 
-import com.example.project_machimo.jomuragi.productEnroll.dto.CategoryVO;
+import com.example.project_machimo.jomuragi.productEnroll.dto.CategoryDto;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductDto;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,9 +11,9 @@ import java.util.List;
 @Mapper
 public interface EnrollMapper {
 
-    ArrayList<CategoryVO> getCategories();
+    ArrayList<CategoryDto> getCategories();
 
-    ArrayList<CategoryVO> getSubCategories(int cId2);
+    ArrayList<CategoryDto> getSubCategories(int cId2);
 
     void write(ProductDto dto);
 

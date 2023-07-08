@@ -1,7 +1,7 @@
 package com.example.project_machimo.jomuragi.productEnroll.service;
 
 import com.example.project_machimo.jomuragi.productEnroll.dao.EnrollMapper;
-import com.example.project_machimo.jomuragi.productEnroll.dto.CategoryVO;
+import com.example.project_machimo.jomuragi.productEnroll.dto.CategoryDto;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductDto;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO;
 import lombok.extern.slf4j.Slf4j;
@@ -20,25 +20,27 @@ public class EnrollService {
     @Autowired
     private SqlSession sqlSession;
 
+
+
     private final EnrollMapper mapper;
     @Autowired
     public EnrollService(EnrollMapper mapper) {
         this.mapper = mapper;
     }
 
-    public ArrayList<CategoryVO> getCategories() {
+    public ArrayList<CategoryDto> getCategories() {
         log.info("@# getCategories");
 //        ShopDao dao = sqlSession.getMapper(ShopDao.class);
         EnrollMapper dao = sqlSession.getMapper(EnrollMapper.class);
-        ArrayList<CategoryVO> categories = dao.getCategories();
+        ArrayList<CategoryDto> categories = dao.getCategories();
         return categories;
     }
 
-    public ArrayList<CategoryVO> getSubCategories(Integer cId2) {
+    public ArrayList<CategoryDto> getSubCategories(Integer cId2) {
         log.info("@# getSubCategories");
 //        ShopDao dao = sqlSession.getMapper(ShopDao.class);
         EnrollMapper dao = sqlSession.getMapper(EnrollMapper.class);
-        ArrayList<CategoryVO> subCategories = dao.getSubCategories(cId2);
+        ArrayList<CategoryDto> subCategories = dao.getSubCategories(cId2);
         return subCategories;
     }
 
