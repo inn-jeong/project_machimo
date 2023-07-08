@@ -104,6 +104,7 @@ public class ReviewController {
 
         //이미지 불러오기
         List<AttachImageVO> images = service.getAttachList(Integer.parseInt(param.get("reviewId")));
+//        List<AttachImageVO> images = service.getAttachList(Integer.parseInt(param.get("bno")));
         List<String> imagePaths = new ArrayList<>();
 
         for (AttachImageVO image : images) {

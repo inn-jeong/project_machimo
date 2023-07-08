@@ -102,7 +102,7 @@
             <img th:src="@{'/upload/' + ${imagePath}}" style="width: 300px; height: 200px;">
                <script th:inline="javascript">
                   /* imagePath의 값을 콘솔에 출력 */
-                  // console.log("@#@###################=>"+[[@{/upload/}]]);
+                  console.log("@#@###################=>"+[[@{imagePath}]]);
                 </script>
           </span>
     </tr>

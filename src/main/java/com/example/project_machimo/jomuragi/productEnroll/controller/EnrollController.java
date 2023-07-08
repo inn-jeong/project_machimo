@@ -45,7 +45,7 @@ public class EnrollController {
     @RequestMapping("/imageView")
     public String image_view( Model model){
         //이미지 불러오기
-        List<ProductImageVO> images = service.getAttachList(2);
+        List<ProductImageVO> images = service.getAttachList(3);
         List<String> imagePaths = new ArrayList<>();
 
         for (ProductImageVO image : images) {
