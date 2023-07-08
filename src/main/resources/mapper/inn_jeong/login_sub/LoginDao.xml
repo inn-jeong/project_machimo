@@ -4,33 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.project_machimo.inn_jeong.login.Dao.LoginDao">
-    <insert id="userInsert" parameterType="hashmap">
-        insert into users(
-            user_id,
-            u_id,
-            u_password,
-            u_email,
-            u_name,
-            u_jumin,
-            u_phone,
-            u_addr_postcode,
-            u_address,
-            u_address_sub,
-            u_nickname
-        ) values
-        (user_seq.nextval,
-            #{uId},
-            #{uPassword},
-            #{uEmail},
-            #{uName},
-            #{uJumin},
-            #{uPhone},
-            #{uAddrPostcode},
-            #{uAddress},
-            #{uAddressSub},
-            #{uNickname}
-        )
-    </insert>
+
     <insert id="socialUserInsert">
         insert into users(
             user_id,
@@ -91,5 +65,32 @@
     <select id="checkBlur" resultType="com.example.project_machimo.inn_jeong.login.Dto.UserSuspension">
         select user_id,to_char(u_suspension,'MM/DD HH24:MI') u_suspension from users where user_id=#{param1} and u_suspension > sysdate
     </select>
+    <insert id="userInsert">
+                insert into users(
+            user_id,
+            u_id,
+            u_password,
+            u_email,
+            u_name,
+            u_jumin,
+            u_phone,
+            u_addr_postcode,
+            u_address,
+            u_address_sub,
+            u_nickname
+        ) values
+        (user_seq.nextval,
+            #{uId},
+            #{uPassword},
+            #{uEmail},
+            #{uName},
+            #{uJumin},
+            #{uPhone},
+            #{uAddrPostcode},
+            #{uAddress},
+            #{uAddressSub},
+            #{uNickname}
+        )
+    </insert>
 
 </mapper>

@@ -20,10 +20,12 @@ public class OwnerCheckAspect {
 
         UsersDto user = (UsersDto) session.getAttribute("user");
         int uRole = user.getURole();
-        if (uRole != 1) {
+        if (uRole == 1) {
             return ResponseEntity.badRequest().body("관리자만 접근이 가능합니다");
+        }else {
+            return "/board/List";
         }
 
-        return joinPoint.proceed();
+
     }
 }

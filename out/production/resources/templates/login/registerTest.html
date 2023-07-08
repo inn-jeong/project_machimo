@@ -124,7 +124,7 @@
                     document.getElementById("check_btn").disabled = true;
                     document.getElementById("insert_mem").disabled = false;
                     document.getElementById("insert_mem").enabled = true;
-                    $("#uId").
+                    $("#uId").prop("readonly",true)
                 } else {
                     console.log(data);
                     $("#check_result").css("color", "red");

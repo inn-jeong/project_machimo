@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuctionItem {
     private Integer auctionId;
-    private Integer productId;
+    private Integer productsId;
     private String pName;
     private Integer userId;
     private String uNickname;
