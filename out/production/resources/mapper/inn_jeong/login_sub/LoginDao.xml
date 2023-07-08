@@ -84,7 +84,7 @@
         select * from users where u_social = #{uSocial}
     </select>
 
-        <select id="findMemPhone" resultType="com.example.project_machimo.inn_jeong.login.Dto.UsersDto">
+    <select id="findMemPhone" resultType="com.example.project_machimo.inn_jeong.login.Dto.UsersDto">
         select * from users where u_phone = #{uPhone}
     </select>
     <select id="findMemEmail" resultType="com.example.project_machimo.inn_jeong.login.Dto.UsersDto">
