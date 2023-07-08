@@ -5,6 +5,10 @@ import com.example.project_machimo.gyuha.order.vo.BuyerVO;
 import com.example.project_machimo.gyuha.order.dto.OrderDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+/*
+-최규하
+주문 테이블과 관련된 것들을 처리함
+*/
 
 @Mapper
 public interface OrderDAO {

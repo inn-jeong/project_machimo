@@ -36,6 +36,7 @@ public class ProjectMachimoApplication {
 		return new org.apache.ibatis.session.Configuration();
 	}
 
+
 //	파일 업로드 관련
 //	@Bean
 //	public CommonsMultipartResolver  multipartResolver() {
