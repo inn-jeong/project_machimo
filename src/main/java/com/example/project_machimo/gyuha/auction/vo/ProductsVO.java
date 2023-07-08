@@ -18,8 +18,6 @@ public record ProductsVO(
         ,Integer pHit
         ,Integer pSalesStatus
         ,Integer pSaleType
-        ,String pAccount
-        ,String pAddress
-        ,String pBank
+        ,String urlImg
         ) {
 }
