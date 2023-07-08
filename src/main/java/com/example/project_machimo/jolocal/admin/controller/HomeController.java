@@ -2,10 +2,9 @@ package com.example.project_machimo.jolocal.admin.controller;
 
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
-import com.example.project_machimo.jolocal.admin.dto.PageDto;
+import com.example.project_machimo.jolocal.admin.dto.LocalPageDto;
 import com.example.project_machimo.jolocal.admin.dto.UsersDto;
 import com.example.project_machimo.jolocal.admin.service.AdminService;
-import com.example.project_machimo.jomuragi.review.dto.PageDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,7 +40,7 @@ public class HomeController {
 
         int total = service.getTotalCount();
         model.addAttribute("boardList",service.boardList(cri));
-        model.addAttribute("pageMaker",new PageDTO(total, cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
         return "home/userBoardList";
     }
     @GetMapping("/userQnAList")
@@ -57,7 +56,7 @@ public class HomeController {
 
         int total = service.getTotalCount();
         model.addAttribute("boardList",service.boardList(cri));
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
         return "home/userQnAList";
     }
 
@@ -96,7 +95,7 @@ public class HomeController {
 //        session.setAttribute("user",user);
 
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
 
         return "home/boardWrite";
     }

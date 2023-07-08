@@ -49,7 +49,7 @@ public class AdminController {
 
         model.addAttribute("adminList",service.adminList(cri));
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDTO(total, cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
         return "admin/adminList";
     }
 
@@ -103,7 +103,7 @@ public class AdminController {
 
         model.addAttribute("boardList",service.boardList(cri));
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total,cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total,cri));
 
         return "admin/boardList";
     }
@@ -187,7 +187,7 @@ public class AdminController {
         ArrayList<ProductDto> dtos = service.pList(cri);
         model.addAttribute("pList",dtos);
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total,cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total,cri));
         return "admin/productList";
     }
 

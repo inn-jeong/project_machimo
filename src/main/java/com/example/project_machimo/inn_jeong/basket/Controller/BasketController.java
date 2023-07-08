@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 @Slf4j
 @Controller
-@RequestMapping("/basket")
+@RequestMapping("/basketView")
 public class BasketController {
     @Autowired
     private BasketService service;
