@@ -27,7 +27,6 @@
 
         .category-item {
             margin-right: 60px;
-            position: relative; /* 부모 요소의 position을 relative로 설정 */
         }
 
         .category-link {
@@ -41,16 +40,8 @@
 
         .subcategory {
             display: none;
-            position: absolute; /* 하위 카테고리의 position을 absolute로 설정 */
-            top: 100%; /* 상위 카테고리 아래로 위치 */
-            left: 0; /* 왼쪽 정렬 */
             margin-top: 5px;
             padding: 0;
-            list-style-type: none;
-            background-color: #fff; /* 배경색 추가 */
-            padding: 10px; /* 여백 추가 */
-            border-radius: 5px; /* 모서리 둥글게 */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
         }
 
         .category-item:hover .subcategory {

@@ -2,22 +2,22 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<<<<<<<< HEAD:out/production/resources/mapper/jomuragi/shop/ShopDao.xml
+<<<<<<<< HEAD:src/main/resources/mapper/jomuragi/shop/ShopDao.xml
 <mapper namespace="com.example.project_machimo.jomuragi.shop.Dao.ShopDao">
 ========
 <mapper namespace="com.example.project_machimo.Park_gi_hyeon.shop.Dao.ShopDao">
->>>>>>>> origin/Park-gi-Hyeon:src/main/resources/mapper/park_gi_hyeon/shop/ShopDao.xml
+>>>>>>>> origin/Park-gi-Hyeon:out/production/resources/mapper/park_gi_hyeon/shop/ShopDao.xml
 
 
 
 <!--    <select id="allItemView" resultType="com.example.project_machimo.jomuragi.shop.Dto.ProductDto">-->
 <!--        select * from products order by p_created_at desc-->
 <!--    </select>-->
-<<<<<<<< HEAD:out/production/resources/mapper/jomuragi/shop/ShopDao.xml
+<<<<<<<< HEAD:src/main/resources/mapper/jomuragi/shop/ShopDao.xml
     <select id="allItemView" resultType="com.example.project_machimo.jomuragi.shop.Dto.ItemDto">
 ========
     <select id="allItemView" resultType="com.example.project_machimo.Park_gi_hyeon.shop.Dto.ItemDto">
->>>>>>>> origin/Park-gi-Hyeon:src/main/resources/mapper/park_gi_hyeon/shop/ShopDao.xml
+>>>>>>>> origin/Park-gi-Hyeon:out/production/resources/mapper/park_gi_hyeon/shop/ShopDao.xml
 <!--        select * from products order by p_created_at desc-->
         select p.product_id,p.c_id,p.user_id,u.u_nickname,p.p_name,p.p_direct,p.p_b_price
         ,p.p_created_at,p.p_hit,p.p_sales_status,p.p_sale_type,pi.i_sub_img,p.p_like,
@@ -26,7 +26,7 @@
         join product_images pi on pi.product_id = p.product_id
         join category c on c.c_id=p.c_id
     </select>
-<<<<<<<< HEAD:out/production/resources/mapper/jomuragi/shop/ShopDao.xml
+<<<<<<<< HEAD:src/main/resources/mapper/jomuragi/shop/ShopDao.xml
     <select id="findNickName" resultType="com.example.project_machimo.jomuragi.shop.Dto.UsersDto">
         select u_nickname,user_id from users where user_id = #{userId}
 <!--        select u_nickName,user_id from users-->
@@ -38,21 +38,21 @@
 <!--        select u_nickName,user_id from users-->
     </select>
     <select id="viewImage" resultType="com.example.project_machimo.Park_gi_hyeon.shop.Dto.ImgDto">
->>>>>>>> origin/Park-gi-Hyeon:src/main/resources/mapper/park_gi_hyeon/shop/ShopDao.xml
+>>>>>>>> origin/Park-gi-Hyeon:out/production/resources/mapper/park_gi_hyeon/shop/ShopDao.xml
         select i_sub_img,product_id from product_images where product_id = #{productId}
 <!--        select i_id,i_sub_img,product_id from product_images-->
     </select>
 
-<<<<<<<< HEAD:out/production/resources/mapper/jomuragi/shop/ShopDao.xml
+<<<<<<<< HEAD:src/main/resources/mapper/jomuragi/shop/ShopDao.xml
     <select id="wishLike" resultType="com.example.project_machimo.jomuragi.shop.Dto.WishlistDto">
 ========
     <select id="wishLike" resultType="com.example.project_machimo.Park_gi_hyeon.shop.Dto.WishlistDto">
->>>>>>>> origin/Park-gi-Hyeon:src/main/resources/mapper/park_gi_hyeon/shop/ShopDao.xml
+>>>>>>>> origin/Park-gi-Hyeon:out/production/resources/mapper/park_gi_hyeon/shop/ShopDao.xml
 <!--        select wish_like,product_id from wishlists where product_id = #{product_id}-->
         <!--        select i_id,i_sub_img,product_id from product_images-->
         select count(*)"wish_like", product_id from wishlists group by product_id having product_id = #{productId}
     </select>
-<<<<<<<< HEAD:out/production/resources/mapper/jomuragi/shop/ShopDao.xml
+<<<<<<<< HEAD:src/main/resources/mapper/jomuragi/shop/ShopDao.xml
     <select id="getCategories" resultType="com.example.project_machimo.jomuragi.shop.Dto.CategoryDto">
         select c_id, c_name, c_id2 from category where c_id2 is null
     </select>
@@ -82,7 +82,7 @@
         select * from products where c_id2 = #{cId2}
     </select>
     <select id="getCategoryById" resultType="com.example.project_machimo.Park_gi_hyeon.shop.Dto.CategoryDto">
->>>>>>>> origin/Park-gi-Hyeon:src/main/resources/mapper/park_gi_hyeon/shop/ShopDao.xml
+>>>>>>>> origin/Park-gi-Hyeon:out/production/resources/mapper/park_gi_hyeon/shop/ShopDao.xml
         select c_id, c_name, c_id2 from category where c_id = #{cId}
     </select>
 
