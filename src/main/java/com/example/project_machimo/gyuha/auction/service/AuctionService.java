@@ -12,4 +12,6 @@ public interface AuctionService {
     int getUserId(Integer integer);
 
     boolean isSaleEnded(Timestamp period, int productStatus);
+
+    void updateHit(Integer productId);
 }

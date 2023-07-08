@@ -78,12 +78,14 @@ public class AuctionController {
         boolean hasBidHistory = bidsService.hasBidHistory(id);
         Long amount = bidsService.maxAmount(id);
         Integer integer = wishListsDAO.likeCheck(userId, id);
+        auctionService.updateHit(id);
 
         log.info("@#첫 가격은  === > {}", pView.pBPrice());
         boolean saleEnded = auctionService.isSaleEnded(pView.pDur(), pView.pSalesStatus());
         boolean isLiked = integer != null;
         int sellerId = auctionService.getUserId(pView.productsId());
         System.out.println("일러 아이디"+sellerId);
+
         model.addAttribute("sellerId",sellerId);
         model.addAttribute("isLiked", isLiked);
         model.addAttribute("aList", aList);
