@@ -18,7 +18,7 @@
             u_address_sub,
             u_nickname
         ) values
-        (select user_seq.nextval,
+        (user_seq.nextval,
             #{uId},
             #{uPassword},
             #{uEmail},
