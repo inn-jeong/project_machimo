@@ -311,16 +311,16 @@ public class EnrollController {
 
 
     @GetMapping("/display")
-    public ResponseEntity<List<byte[]>> getImages(@RequestParam("reviewId") int reviewId) {
-//    public ResponseEntity<List<byte[]>> getImages(@RequestParam("bno") int reviewId) {
+    public ResponseEntity<List<byte[]>> getImages(@RequestParam("productId") int reviewId) {
 
         List<ProductImageVO> imageList = service.getAttachList(reviewId);
 
         List<byte[]> imageBytesList = new ArrayList<>();
 
         for (ProductImageVO image : imageList) {
-            String imageUrl = image.getUrl();
-
+//            String imageUrl = image.getUrl();
+            String imageUrl = "/upload/"+image.getUploadPath() + "/s_" + image.getUuid() + "_" + image.getIImage();
+            log.info("imageUrl@@@@@@@@@@@@@@@@@@@@@@"+imageUrl);
             try {
                 URL url = new URL(imageUrl);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();

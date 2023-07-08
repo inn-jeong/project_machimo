@@ -55,11 +55,11 @@ public class Controller {
 
 
     @GetMapping("/display")
-    public ResponseEntity<List<byte[]>> getImages(@RequestParam("reviewId") int reviewId) {
+    public ResponseEntity<List<byte[]>> getImages(@RequestParam("productId") int productId) {
 //    public ResponseEntity<List<byte[]>> getImages(@RequestParam("bno") int reviewId) {
 
         AttachMapper mapper = sqlSession.getMapper(AttachMapper.class);
-        List<AttachImageVO> imageList = mapper.getAttachList(reviewId);
+        List<AttachImageVO> imageList = mapper.getAttachList(productId);
 
         List<byte[]> imageBytesList = new ArrayList<>();
 
