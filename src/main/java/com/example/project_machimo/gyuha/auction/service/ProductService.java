@@ -1,7 +1,7 @@
 package com.example.project_machimo.gyuha.auction.service;
 
 
-import com.example.project_machimo.gyuha.auction.dto.ProductsVO;
+import com.example.project_machimo.gyuha.auction.vo.ProductsVO;
 
 import java.util.List;
 

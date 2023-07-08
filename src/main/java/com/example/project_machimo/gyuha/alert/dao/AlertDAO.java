@@ -1,9 +1,8 @@
 package com.example.project_machimo.gyuha.alert.dao;
 
-import com.example.project_machimo.gyuha.alert.dto.AlertVO;
+import com.example.project_machimo.gyuha.alert.vo.AlertVO;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
 
@@ -18,6 +17,11 @@ public interface AlertDAO {
 
     void checkedFlag(int alId);
     List<AlertVO> alAlList();
+
+    int delete(int id);
+
+    int deleteAll(int userId);
+
 
 
 }

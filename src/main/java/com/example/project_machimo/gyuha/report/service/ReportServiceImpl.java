@@ -28,40 +28,17 @@ public class ReportServiceImpl  implements ReportService {
     }
 
 
-    /*
-    -최규하
-    이미 신고한적이 있으면 message에 이미 신고한 게시글입니다 body에 담아서 badrequest를 내림
-    인서트에 실패하면 저장중 문제가 발생하였습니다를 담에서 badrequset를 내림
-    */
+ 
+    
+// 현재 보고 있는 게시글을 신고한 이력이 있는지 없는지 확인하는 dao에 결과값을 받아오는 메소드
     @Override
-    public ResponseEntity<? extends Object> response(ReportDTO reportDTO) {
-        log.info("리폿 리스폰으로 들어온 제이슨 ===> {}",reportDTO);
-
-        boolean duplicateReporting = isDuplicateReporting(reportDTO);
-        String message;
-
-        if (isDuplicateReporting(reportDTO)){
-            message = "이미 신고한 게시글입니다.";
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
-        }
-
-        int i = insertReport(reportDTO);
-        if (i!=1){
-            message = "저장중 문제가 발생하였습니다.";
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
-        }
-
-
-
-        return ResponseEntity.ok().build();
-    }
-
     public boolean isDuplicateReporting(ReportDTO reportDTO) {
         Integer result = reportDAO.duplicateReportingCheck(reportDTO);
         return result != null;
     }
-
-
+    
+//    dao에 insert하는 결과값을 받는 메소드 메소드
+    @Override
     public int insertReport(ReportDTO reportDTO) {
         return reportDAO.insertReport(reportDTO);
 

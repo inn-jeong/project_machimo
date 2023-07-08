@@ -1,6 +1,6 @@
 package com.example.project_machimo.gyuha.auction.service;
 
-import com.example.project_machimo.gyuha.auction.dto.BidsVO;
+import com.example.project_machimo.gyuha.auction.vo.BidsVO;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.example.project_machimo.gyuha.alert.service;
 
 import com.example.project_machimo.gyuha.alert.dao.AlertDAO;
-import com.example.project_machimo.gyuha.alert.dto.AlertVO;
+import com.example.project_machimo.gyuha.alert.vo.AlertVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,5 +41,16 @@ public class AlertServiceImpl implements AlertService {
     @Override
     public Integer alertResult(int uId) {
         return alertDAO.alertResult(uId);
+    }
+
+    @Override
+    public int delete(int id) {
+
+        return alertDAO.delete(id);
+    }
+
+    @Override
+    public int deleteAll(int userId) {
+        return alertDAO.deleteAll(userId);
     }
 }

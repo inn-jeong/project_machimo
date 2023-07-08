@@ -2,13 +2,11 @@ package com.example.project_machimo.gyuha.search.dto;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
 
 //페이징 크리테리아
 @AllArgsConstructor
-public class Criteria {
+public class SearchCriteria {
     public int getPageNum() {
         return pageNum;
     }
@@ -46,11 +44,11 @@ public class Criteria {
 
     private String keyword;
     private String searchOption;
-    public Criteria(){
+    public SearchCriteria(){
         this(1,10);
     }
 
-    public Criteria(int pageNum,int amount){
+    public SearchCriteria(int pageNum, int amount){
         this.amount = amount;
         this.pageNum = pageNum;
 

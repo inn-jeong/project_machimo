@@ -1,4 +1,4 @@
-package com.example.project_machimo.gyuha.order.dto;
+package com.example.project_machimo.gyuha.order.vo;
 
 public record BuyerVO(
         Integer userId,

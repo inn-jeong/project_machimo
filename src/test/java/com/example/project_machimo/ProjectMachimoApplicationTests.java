@@ -1,8 +1,7 @@
 package com.example.project_machimo;
 
 import com.example.project_machimo.gyuha.auction.dao.AuctionDAO;
-import com.example.project_machimo.gyuha.auction.dao.BidsDAO;
-import com.example.project_machimo.gyuha.auction.dto.AuctionVO;
+import com.example.project_machimo.gyuha.auction.vo.AuctionVO;
 import com.example.project_machimo.gyuha.order.dao.OrderDAO;
 import com.example.project_machimo.gyuha.order.dto.OrderDTO;
 import com.example.project_machimo.gyuha.order.service.OrderService;

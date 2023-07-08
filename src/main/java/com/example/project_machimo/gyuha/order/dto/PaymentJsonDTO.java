@@ -8,6 +8,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/*
+ - 최규하
+아임포트에 값을 받기위한 DTO
+*/
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

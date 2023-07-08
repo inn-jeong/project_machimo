@@ -20,7 +20,7 @@
         where p.PRODUCT_id = #{param2}
     </update>
 
-    <select id="bList" resultType="com.example.project_machimo.gyuha.auction.dto.BidsVO">
+    <select id="bList" resultType="com.example.project_machimo.gyuha.auction.vo.BidsVO">
         SELECT * FROM
   (SELECT * FROM bids WHERE PRODUCTS_id = #{0} ORDER BY amount DESC)
 WHERE ROWNUM <![CDATA[<=]]> 5

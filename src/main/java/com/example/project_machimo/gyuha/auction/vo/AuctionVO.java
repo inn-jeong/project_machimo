@@ -1,4 +1,4 @@
-package com.example.project_machimo.gyuha.auction.dto;
+package com.example.project_machimo.gyuha.auction.vo;
 
 import java.sql.Timestamp;
 

@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
+    <script>
+
+    </script>
     <title>Title</title>
+
 </head>
 <style>
     /*.test1{*/
@@ -34,12 +38,13 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
 <body>
 
 
 <th:block th:fragment="headerFragment">
     <!-- Dropdown - Alerts -->
-
 
 
     <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
@@ -52,20 +57,23 @@
                         <li class="nav-item"><a href="/admin/boardList "
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">고객센터</a>
                         </li>
-                        <li class="nav-item"><a href="/mypage/mypage_page"
+
+                        <li th:if="${hasSession}" class="nav-item"><a href="/mypage/mypage_page"
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">마이페이지</a>
                         </li>
-                        <li class="nav-item"><a href="/mypage/wishlist"
+                        <li class="nav-item"><a href="#"
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">관심상품</a>
                         </li>
 
                         <li class="nav-item"><a href="#" data-bs-toggle="modal"
                                                 data-bs-target="#exampleModal"
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">알림
-                            <th:block th:if="${alertResult != null && alertResult != 0}">
-                                <span class="test1" th:text="${alertResult}"></span>
+                            <span  th:if="${alertResult != null && alertResult != 0}" id="alerts">
+
+                                <span id="alNum" th:text="${alertResult > 9 ? '9+' : alertResult}"></span>
+                                <input hidden="hidden" th:value="${alertResult}" id="alertRes">
                                 <!--                                <span>erroer</span>-->
-                            </th:block>
+                            </span>
                         </a>
                         </li>
                         <li class="nav-item"><a href="/loginT/login" th:if="${hasSession}"
@@ -84,19 +92,20 @@
         <header>
             <div class="container">
                 <div class="main_inner d-flex flex-wrap justify-content-center mb-1">
-                    <a href="/main/page" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto"
+                    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto"
                        style="text-decoration: none;">
                         <svg class="bi me-2" width="5" height="32"></svg>
                         <span class="text-dark fs-2 fw-bold">MACHIMMO</span>
+
                     </a>
                     <ul class="gnb_list nav nav-pills">
-                        <li class="nav-item"><a href="/main/page"
+                        <li class="nav-item"><a href="#"
                                                 class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">HOME</a>
                         </li>
-                        <li class="nav-item"><a href="/review/list"
+                        <li class="nav-item"><a href="#"
                                                 class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">STYLE</a>
                         </li>
-                        <li class="nav-item"><a href="/shop/allItemView"
+                        <li class="nav-item"><a href="#"
                                                 class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">SHOP</a>
                         </li>
                         <li class="nav-item">
@@ -156,7 +165,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="remove_all" >전체 삭제</button>
+                    <button type="button" class="btn btn-primary" id="remove_all">전체 삭제</button>
                 </div>
             </div>
         </div>
@@ -165,11 +174,3 @@
 
 </body>
 </html>
-<script >
-    $(document).ready(function (){
-        $("#remove_all").on("click",function () {
-            console.log("시발시발시발");
-        }); //end of click
-    });//end of ready
-
-</script>

@@ -1,7 +1,7 @@
 package com.example.project_machimo.gyuha.order.dao;
 
-import com.example.project_machimo.gyuha.order.dto.BuyProductVO;
-import com.example.project_machimo.gyuha.order.dto.BuyerVO;
+import com.example.project_machimo.gyuha.order.vo.BuyProductVO;
+import com.example.project_machimo.gyuha.order.vo.BuyerVO;
 import com.example.project_machimo.gyuha.order.dto.OrderDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

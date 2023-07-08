@@ -13,7 +13,7 @@ public interface ReportDAO {
     Integer duplicateReportingCheck(ReportDTO reportDTO);
     /*
     -최규하
-    신고한 내용을 DB에 Insert하는 DAO
+    신고한 내용을 DB에 Insert하는 DAO 인서트에 성공하면 1를 리턴해줌
     */
     int insertReport(ReportDTO reportDTO);
 

@@ -1,5 +1,6 @@
 package com.example.project_machimo.gyuha.order.controller;
 
+import com.example.project_machimo.gyuha.aop.LoginCheck;
 import com.example.project_machimo.gyuha.order.dto.OrderDTO;
 import com.example.project_machimo.gyuha.order.dto.PaymentJsonDTO;
 import com.example.project_machimo.gyuha.order.service.OrderService;
@@ -48,14 +49,9 @@ public class OrderRestController {
     
     //세션 체크
     @PostMapping("/checkSession")
+    @LoginCheck
     public ResponseEntity<?> request(HttpSession session){
 
-
-        Integer user =(Integer) session.getAttribute("userId");
-        System.out.println("유저 세션 ==> "+user );
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
 
         return ResponseEntity.ok().build();
     }
@@ -92,11 +88,11 @@ public class OrderRestController {
         int orderPrice = orderDTO.getOrderPrice();
 
         int orderTotalPrice = amountResult-usedPointResult;
-        int response =0;
+
 
         log.info("어먼트 리절트 = "+amountResult+"주문값 = "+orderPrice);
         log.info("유저 포인트 = "+userPoint+"사용한 포인트"+usedPointResult);
-        
+        int response =orderService.response(orderDTO);
         if (response!=2){
             return ResponseEntity.badRequest().build();
         }

@@ -1,7 +1,7 @@
 package com.example.project_machimo.gyuha.order.controller;
 
-import com.example.project_machimo.gyuha.order.dto.BuyProductVO;
-import com.example.project_machimo.gyuha.order.dto.BuyerVO;
+import com.example.project_machimo.gyuha.order.vo.BuyProductVO;
+import com.example.project_machimo.gyuha.order.vo.BuyerVO;
 import com.example.project_machimo.gyuha.order.service.OrderService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -60,11 +60,6 @@ public class OrderController {
         model.addAttribute("orderId",orderService.getOrderId());
         return "order/payment";
     }
-
-
-
-
-
 
     @GetMapping("/complete")
     public String orderDone(
