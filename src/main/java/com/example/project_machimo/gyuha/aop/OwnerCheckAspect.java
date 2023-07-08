@@ -14,18 +14,19 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Component
 public class OwnerCheckAspect {
     @Around("@annotation(OwnerCheck)")
-    public Object userSessionCheck(ProceedingJoinPoint joinPoint) throws Throwable {
+    public ResponseEntity<?> userSessionCheck(ProceedingJoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpSession session = attr.getRequest().getSession(false);
-
+        System.out.println("test1@#");
         UsersDto user = (UsersDto) session.getAttribute("user");
+        if(user ==null){
+            return ResponseEntity.ok().body("관리자만 접근이 가능합니다");
+        }
         int uRole = user.getURole();
         if (uRole == 1) {
-            return ResponseEntity.badRequest().body("관리자만 접근이 가능합니다");
+            return ResponseEntity.ok().body("관리자만 접근이 가능합니다");
         }else {
-            return "/board/List";
+            return ResponseEntity.ok().build();
         }
-
-
     }
 }

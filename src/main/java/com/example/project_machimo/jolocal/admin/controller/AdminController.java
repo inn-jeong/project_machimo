@@ -41,8 +41,12 @@ public class AdminController {
     }
 
     @RequestMapping("/adminList")
-    public String adminList(Criteria cri, Model model){
+    public String adminList(Criteria cri,HttpSession session, Model model){
         System.out.println("@# adminList start");
+        UsersDto user = (UsersDto) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/loginT/login?login_try=no";
+        }
         //admin session
 //        UsersDto user = new UsersDto();
 //        user.setUserId(1); //admin
@@ -102,6 +106,10 @@ public class AdminController {
 //        user.setUserId(1); //admin
 //        user.setUNickname("admin");
 //        session.setAttribute("user",user);
+        UsersDto user = (UsersDto) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/loginT/login?login_try=no";
+        }
 
         model.addAttribute("boardList",service.boardList(cri));
         int total = service.getTotalCount();
