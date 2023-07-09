@@ -42,7 +42,7 @@
 <!--    </select>-->
 
     <select id="getAttachList" parameterType="int" resultType="com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO">
-        select * from product_images where product_id = 3
+        select * from product_images where product_id = #{productId}
     </select>
 
     <select id="getProductId" resultType="java.lang.Integer">

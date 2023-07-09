@@ -48,7 +48,10 @@ public class EnrollService {
     public void write(HashMap<String, String> param) {
         log.info("@# EnrollService.write() start");
         ProductDto dto = new ProductDto();
+        log.info("param.get(\"category1\")"+param.get("category1"));
+        log.info("param.get(\"category2\")"+param.get("category2"));
         dto.setCId(Integer.parseInt(param.get("category1")));
+
         dto.setCId2(Integer.parseInt(param.get("category2")));
         dto.setUserId(Integer.parseInt(param.get("userId")));
         dto.setPName(param.get("pName"));

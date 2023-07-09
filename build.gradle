@@ -65,7 +65,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.1'
 
 	// Jackson XML
-	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.1'
+//	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.1'
 
 //	댓글 구현 gson라이브러리
 	implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
