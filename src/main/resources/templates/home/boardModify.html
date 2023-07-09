@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>boardWrite</title>
     <!--header-->
-    <div th:replace="fragments/header.html :: fragment-header"></div>
+    <th:block th:replace="fragments/header.html :: fragment-header"></th:block>
 </head>
 <body>
     <!--관리자 or 게시글쓴 사용자만-->
@@ -76,7 +76,7 @@
     </div>
 
     <!--footer-->
-    <div th:replace="fragments/footer.html :: fragment-footer"></div>
+    <th:block th:replace="fragments/footer.html :: fragment-footer"></th:block>
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

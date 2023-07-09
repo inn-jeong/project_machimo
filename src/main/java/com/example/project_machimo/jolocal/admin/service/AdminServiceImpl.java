@@ -1,10 +1,11 @@
 package com.example.project_machimo.jolocal.admin.service;
 
 import com.example.project_machimo.jolocal.admin.dao.AdminDao;
+import com.example.project_machimo.jolocal.admin.dao.HomeDao;
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
 import com.example.project_machimo.jolocal.admin.dto.ProductDto;
-import com.example.project_machimo.jolocal.admin.dto.UsersDto;
+import com.example.project_machimo.jolocal.admin.dto.UsersDto1;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class AdminServiceImpl implements AdminService  {
     private SqlSession sqlSession;
 
     @Override
-    public ArrayList<UsersDto> adminList(Criteria cri) {
+    public ArrayList<UsersDto1> adminList(Criteria cri) {
         log.info("@# AdminServiceImpl adminList start");
         log.info("@# cri.pageNum" + cri.getPageNum() +"@# cri.getAmount" + cri.getAmount());
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
@@ -33,13 +34,13 @@ public class AdminServiceImpl implements AdminService  {
     }
 
     @Override
-    public UsersDto userView(int userId) {
+    public UsersDto1 userView(int userId) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         return dao.userView(userId);
     }
 
     @Override
-    public UsersDto reportView(int userId) {
+    public UsersDto1 reportView(int userId) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
         return dao.reportView(userId);
     }
@@ -87,8 +88,8 @@ public class AdminServiceImpl implements AdminService  {
 
     @Override
     public ArrayList<BoardDto> boardList(Criteria cri) {
-        AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        return dao.BoardList(cri);
+        HomeDao dao = sqlSession.getMapper(HomeDao.class);
+        return dao.boardList(cri);
     }
     @Override
     public BoardDto boardView(int boardId) {

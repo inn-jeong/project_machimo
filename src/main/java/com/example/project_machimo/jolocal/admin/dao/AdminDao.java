@@ -12,19 +12,19 @@ public interface AdminDao {
 
 
     //user//
-    ArrayList<UsersDto> adminList(Criteria cri);
+    ArrayList<UsersDto1> adminList(Criteria cri);
 
-    UsersDto userView(int userId);
+    UsersDto1 userView(int userId);
 
     public void adminDelete(int userId);
 
     void Authorization(int userId);
 
-    UsersDto reportView(int userId);
+    UsersDto1 reportView(int userId);
 
 
     //공지,문의//
-    ArrayList<BoardDto> BoardList(Criteria cri);
+//    ArrayList<BoardDto> BoardList(Criteria cri);
 
     BoardDto boardView(int boardId);
 

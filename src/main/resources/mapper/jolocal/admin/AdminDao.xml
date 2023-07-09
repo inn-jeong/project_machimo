@@ -33,7 +33,7 @@
     </sql>
 
     <!--/////////유저 관리/////////-->
-    <select id="adminList" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto">
+    <select id="adminList" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto1">
         <![CDATA[
             SELECT *
             FROM (
@@ -43,7 +43,7 @@
                     r.report_id, r.products_id, r.report_content, r.report_date,
                     (SELECT MAX(report_count) FROM report) AS max_report_count
                     FROM users u
-                    JOIN report r ON u.user_id = r.user_id
+                    LEFT JOIN report r ON u.user_id = r.user_id
                     WHERE u.u_signout = 'N'
             ]]>
                  <where>
@@ -59,7 +59,7 @@
         ]]>
     </select>
 
-    <select id="userView" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto">
+    <select id="userView" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto1">
         SELECT u.user_id, u_id, u_nickname, u_password, u_name, u_jumin, u_phone, u_address,
         r.report_id, r.products_id, r.report_content, r.report_date, r.report_count
         FROM users u
@@ -79,7 +79,7 @@
         update users set u_role=1 where user_id=#{userId}
     </update>
 
-    <select id="reportView" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto">
+    <select id="reportView" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto1">
         select report_id, seller_user_id, products_id, report_content, report_date, (SELECT MAX(report_count) FROM report where seller_user_id=#{sellerUserId} )
         from report where user_id = #{userId}
     </select>
@@ -89,47 +89,47 @@
     </delete>
 
     <!--/////////문의,공지/////////-->
-    <sql id="bcriteria">
-        <trim prefix="(" suffix=")" prefixOverrides="OR">
-            <foreach item="type" collection="typeArr">
-                <trim prefix="OR">
-                    <choose>
-                        <when test="type == 'C'.toString()">
-                            b_category like '%'||#{keyword}||'%'
-                        </when>
-                        <when test="type == 'T'.toString()">
-                            b_title like '%'||#{keyword}||'%'
-                        </when>
-                        <when test="type == 'W'.toString()">
-                            b_writer like '%'||#{keyword}||'%'
-                        </when>
-                    </choose>
-                </trim>
-            </foreach>
-        </trim>
-    </sql>
+<!--    <sql id="bcriteria">-->
+<!--        <trim prefix="(" suffix=")" prefixOverrides="OR">-->
+<!--            <foreach item="type" collection="typeArr">-->
+<!--                <trim prefix="OR">-->
+<!--                    <choose>-->
+<!--                        <when test="type == 'C'.toString()">-->
+<!--                            b_category like '%'||#{keyword}||'%'-->
+<!--                        </when>-->
+<!--                        <when test="type == 'T'.toString()">-->
+<!--                            b_title like '%'||#{keyword}||'%'-->
+<!--                        </when>-->
+<!--                        <when test="type == 'W'.toString()">-->
+<!--                            b_writer like '%'||#{keyword}||'%'-->
+<!--                        </when>-->
+<!--                    </choose>-->
+<!--                </trim>-->
+<!--            </foreach>-->
+<!--        </trim>-->
+<!--    </sql>-->
 
-    <select id="BoardList" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">
-        <![CDATA[
-                select * from (
-                select rownum rn, temp.*
-                from(
-                select
-                board_id, b_category, b_title, b_writer, b_date, b_hit
-                from board
-        ]]>
-            <where>
-                <include refid="bcriteria"></include>
-            </where>
-        <![CDATA[
-                order by board_id desc
-                ) temp
-                where
-                rownum <= ( #{pageNum} * #{amount})
-                )
-                where rn > (#{pageNum} -1) * #{amount}
-        ]]>
-    </select>
+<!--    <select id="BoardList" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">-->
+<!--        <![CDATA[-->
+<!--                select * from (-->
+<!--                select rownum rn, temp.*-->
+<!--                from(-->
+<!--                select-->
+<!--                board_id, b_category, b_title, b_writer, b_date, b_hit-->
+<!--                from board-->
+<!--        ]]>-->
+<!--            <where>-->
+<!--                <include refid="bcriteria"></include>-->
+<!--            </where>-->
+<!--        <![CDATA[-->
+<!--                order by board_id desc-->
+<!--                ) temp-->
+<!--                where-->
+<!--                rownum <= ( #{pageNum} * #{amount})-->
+<!--                )-->
+<!--                where rn > (#{pageNum} -1) * #{amount}-->
+<!--        ]]>-->
+<!--    </select>-->
 
 
     <select id="boardView" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">
@@ -217,12 +217,12 @@
         ]]>
     </select>
 
-<!--    <update id="updateStatus">-->
-<!--        update products set-->
-<!--        p_sales_status= #{param2}-->
-<!--        and p_created_at = sysdate-->
-<!--        where product_id=#{param1}-->
-<!--    </update>-->
+    <update id="updateStatus">
+        update products set
+        p_sales_status= #{param2}
+        and p_created_at = sysdate
+        where product_id=#{param1}
+    </update>
 
 <!-- 컬렉션타입이나 객체를 넘겨줄때 값들은 이름을 적을 수 있음,-->
 <!--    나머지는 param을 순서대로 사용-->

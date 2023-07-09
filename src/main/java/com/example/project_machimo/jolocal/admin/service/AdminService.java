@@ -3,16 +3,16 @@ package com.example.project_machimo.jolocal.admin.service;
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
 import com.example.project_machimo.jolocal.admin.dto.ProductDto;
-import com.example.project_machimo.jolocal.admin.dto.UsersDto;
+import com.example.project_machimo.jolocal.admin.dto.UsersDto1;
 
 import java.util.ArrayList;
 
 public interface AdminService {
-    ArrayList<UsersDto> adminList(Criteria cri);
+    ArrayList<UsersDto1> adminList(Criteria cri);
     public int getTotalCount();
     public void adminDelete(int param );
-    UsersDto userView(int userId);
-    UsersDto reportView(int userId);
+    UsersDto1 userView(int userId);
+    UsersDto1 reportView(int userId);
 
 //    public void removeReport(int reportId, int userId, int productId);
 

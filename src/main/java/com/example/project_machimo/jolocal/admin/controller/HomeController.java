@@ -3,7 +3,7 @@ package com.example.project_machimo.jolocal.admin.controller;
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
 import com.example.project_machimo.jolocal.admin.dto.PageDto;
-import com.example.project_machimo.jolocal.admin.dto.UsersDto;
+import com.example.project_machimo.jolocal.admin.dto.UsersDto1;
 import com.example.project_machimo.jolocal.admin.service.AdminService;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -24,35 +24,21 @@ public class HomeController {
     @Autowired
     private AdminService service;
 
-
+    //유저가보는 공지//
     @GetMapping("/userBoardList")
-    public String boardList(Criteria cri, Model model, HttpSession session){
+    public String boardList(Criteria cri, Model model){
         System.out.println("@# ==> home boardList start");
-
-        UsersDto user = new UsersDto();
-        user.setUserId(1); // admin 계정
-        user.setUNickname("admin");
-
-//        user.setUserId(0);
-//        user.setUNickname("user");
-//        user.setUserId(106); // test용 임시 계정
-        session.setAttribute("user",user);
 
         int total = service.getTotalCount();
         model.addAttribute("boardList",service.boardList(cri));
         model.addAttribute("pageMaker",new PageDto(total, cri));
         return "home/userBoardList";
     }
+
+    //유저가보는 문의//
     @GetMapping("/userQnAList")
     public String userQnaAList(Criteria cri, Model model){
         System.out.println("@# ==> home boardList start");
-
-//        UsersDto user = new UsersDto();
-//        user.setUserId(125);
-//        user.setUNickname("user");
-//        session.setAttribute("user",user);
-//        user.setUserId(1); // admin 계정
-//        user.setUserId(106); // test용 임시 계정
 
         int total = service.getTotalCount();
         model.addAttribute("boardList",service.boardList(cri));
@@ -65,11 +51,9 @@ public class HomeController {
     public String boardView(@RequestParam int boardId, Model model){
         System.out.println("@# home boardView start");
 
-//        UsersDto user = new UsersDto();
-//        user.setUserId(1); //admin
-//        session.setAttribute("user",user);
         service.updateHits(boardId);
         int userId = service.loginUser(boardId);
+
         //로그인한 user 체크
         model.addAttribute("loginUser", service.loginUser(boardId));
         System.out.println("@# ===> 게시글작성자"+userId);
@@ -81,32 +65,17 @@ public class HomeController {
         return "home/boardView";
     }
 
-
     //게시글 작성 뷰
     @RequestMapping(value = "/boardWrite", method = RequestMethod.GET)
     public String boardWrite(Criteria cri, Model model){
         System.out.println("@# boaradWriteView start");
-
-        UsersDto user = new UsersDto();
-//        user.setUserId(1); //admin
-//        user.setUNickname("admin");
-//        user.setUserId(0); //user
-//        user.setUNickname("user");
-//        session.setAttribute("user",user);
 
         int total = service.getTotalCount();
         model.addAttribute("pageMaker",new PageDto(total, cri));
 
         return "home/boardWrite";
     }
-//    //게시글 작성
-//    @GetMapping("/boardWrite")
-//    public String adminBoardWrite(){
-//        System.out.println("@# ==> adminBoardWrite ");
-//        UsersDto dto = new UsersDto();
-//        session.setAttribute("user",dto);
-//        return "home/adminBoardWrite";
-//    }
+
     //게시글 작성
     @PostMapping("/boardWrite")
     @ResponseBody
@@ -131,36 +100,12 @@ public class HomeController {
         model.addAttribute("boardView",service.boardView(boardId));
         return "home/boardModify";
     }
-//    @PostMapping("/boardModify/{boardId}")
-//    public String boardModify(@PathVariable int boardId, @ModelAttribute BoardDto dto){
-//        System.out.println("@# Controller boardModify");
-//        UsersDto user = new UsersDto();
-//
-//        dto.setBoardId(boardId);
-//        service.boardModify(dto);
-//        String bCategory = dto.getBCategory();
-//        int userId = (int) session.getAttribute("userId");
-//        System.out.println("@#@# ==> userId "+ userId);
-//        System.out.println("@#@# ==> bCategory "+ bCategory);
-//        if(userId == 1){ //admin
-//            if (bCategory.equals("공지")){
-//                return "/home/userBoardList";
-//            }else{
-//                return "/home/userQnAList";
-//            }
-//        }else { //사용자
-//            return "/home/userQnAList";
-//        }
-//    }
-//
 
     @PostMapping("/boardModify")
     public ResponseEntity<? extends Object> boardModify(BoardDto dto, HttpSession session){
         CustomRes cRes = new CustomRes();
 
-
         System.out.println("@# Controller boardModify");
-
 
         //게시글 수정
         service.boardModify(dto);
@@ -168,7 +113,7 @@ public class HomeController {
         String category = dto.getBCategory();
         System.out.println("카테고리" + category);
         int userId = dto.getUserId();
-        UsersDto userId1 = (UsersDto) session.getAttribute("user");
+        UsersDto1 userId1 = (UsersDto1) session.getAttribute("user");
 
         log.info("유우우우저 {}",userId);
         String page;
@@ -191,8 +136,4 @@ public class HomeController {
         private String message;
     }
 
-    @GetMapping("/규리지앵")
-    public String 규리지앵(){
-        return "home/규리지앵";
-    }
 }
