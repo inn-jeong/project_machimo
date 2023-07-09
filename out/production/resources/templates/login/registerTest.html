@@ -12,20 +12,21 @@
 <th:block th:replace="fragments/header"></th:block>
 <input type="hidden" id="naverMem" th:value="${naverMem}">
 <input type="hidden" id="kakaoMem" th:value="${kakaoMem}">
+<div class="container-sm mb-4">
 <form name="reg_frm" id="reg_frm" class="table-primary" method="post" action="/loginT/joinProc">
     <input type="hidden" name="uSocial" th:value="${userDto.uSocial}">
 <!--    <input type="text" name="u_social" th:value="${userDto.getU_social()}">-->
   <table align="center">
     <tr height="60" width="120">
       <td colspan="2" align="center">
-        <h1>회원 가입 신청</h1>
+        <h1 class="fw-bold text-center text-success mb-4">회원 가입 신청</h1>
       </td>
     </tr>
     <tr height="60">
       <td style="width: 100px">User ID</td>
       <td>
         <input name="uId" id="uId" type="text" th:value="${userDto.uId}" size="20">
-          <button type="button" id="check_btn" onclick="sendRequest()">중복 체크</button>
+          <button type="button" id="check_btn" class="btn btn-secondary" onclick="sendRequest()">중복 체크</button>
           <span id="check_result"></span>
           <span class="fs-6 text-danger" th:text="${valid_uId}"></span>
 
@@ -100,6 +101,7 @@
     </tr>
   </table>
   </form>
+</div>
 <th:block th:replace="fragments/footer"></th:block>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
