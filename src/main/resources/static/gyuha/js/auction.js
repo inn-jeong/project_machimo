@@ -186,7 +186,6 @@ function add_basket() {
         },
         error: function (response) {
             alert(response.responseText)
-            window.location.href = '/loginT/login';
         }
     })
 }
