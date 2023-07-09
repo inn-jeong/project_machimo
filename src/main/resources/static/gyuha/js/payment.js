@@ -200,8 +200,24 @@ function requestPay() {
 
                             })
                             , success: function () {
-                                alert("결제 성공")
-                                location.href = "/order/complete?user_id=" + user_id + "&order_id=" + order_id;
+
+
+                                $.ajax({
+                                    type: "post",
+                                    url:"order/complete",
+                                    contentType: "application/json",
+                                    data:JSON.stringify({
+                                        user_id : user_id,
+                                        order_id:order_id,
+                                        product_id_list: product_id_list
+                                    }),
+                                    success: function (){
+                                        alert("결제 성공")
+                                        window.location.href = '/mypage/orderlist';
+                                    }
+
+
+                                })
 
                             }
                             , error: function () {

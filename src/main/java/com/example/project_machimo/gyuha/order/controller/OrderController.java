@@ -1,11 +1,14 @@
 package com.example.project_machimo.gyuha.order.controller;
 
+import com.example.project_machimo.gyuha.aop.LoginCheck;
+import com.example.project_machimo.gyuha.basket.service.BasketService;
 import com.example.project_machimo.gyuha.order.vo.BuyProductVO;
 import com.example.project_machimo.gyuha.order.vo.BuyerVO;
 import com.example.project_machimo.gyuha.order.service.OrderService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,21 +26,23 @@ import java.util.Objects;
 public class OrderController {
 
     private final OrderService orderService;
+    public final BasketService basketService;
 
-    @Autowired
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, BasketService basketService) {
         this.orderService = orderService;
+        this.basketService = basketService;
     }
 
-/*
+    /*
 
-    -최규하
-    제품 상세 페이지 및 장바구니에서 구매 버튼을 누를시 동작하는 컨트롤러 매소드
-    제품 아이디를 List를 활용해서 디비에서 제품의 정보를 조회함 조회한 결과를
-    뿌려줌
+        -최규하
+        제품 상세 페이지 및 장바구니에서 구매 버튼을 누를시 동작하는 컨트롤러 매소드
+        제품 아이디를 List를 활용해서 디비에서 제품의 정보를 조회함 조회한 결과를
+        뿌려줌
 
-    */
+        */
     @PostMapping("/buyDirect")
+    @LoginCheck
     public String payment(
              Model model
             ,@RequestParam
@@ -65,32 +70,25 @@ public class OrderController {
         return "order/realPayment";
     }
 
+    @LoginCheck
     @GetMapping("/complete")
-    public String orderDone(
+    public ResponseEntity<? extends Object> orderDone(
              HttpSession session
             ,Model model
             ,@RequestParam(name = "user_id") Integer userId
             ,@RequestParam(name = "order_id") Integer orderId
+            ,@RequestParam(name ="product_id_list") List<Integer> productIdList
             ){
 
-        Integer user;
-        if (session.getAttribute("userId")!=null){
 
-             user=(Integer) session.getAttribute("userId");
-        }else {
-            user = 0;
-        }
-        if (!Objects.equals(user, userId)){
-            return "fail";
+        int i = basketService.deleteBasketList(productIdList);
+
+        if (i != productIdList.size()){
+            return ResponseEntity.badRequest().build();
         }
 
-        int orderProductTotal = orderService.getOrderProductTotal(orderId);
 
-        model.addAttribute("total",orderProductTotal);
-
-
-
-        return "order/complete";
+        return ResponseEntity.ok().build();
 
     }
 }
