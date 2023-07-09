@@ -1,5 +1,6 @@
 package com.example.project_machimo.inn_jeong.mypage.Controller;
 
+import com.example.project_machimo.gyuha.basket.service.BasketService;
 import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.inn_jeong.mypage.Dto.*;
 import com.example.project_machimo.inn_jeong.mypage.Service.MypageService;
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +27,9 @@ import java.util.Map;
 public class MypageController {
     @Autowired
     private MypageService service;
+
+    @Autowired
+    private BasketService service2;
 
     @RequestMapping("/mypage_page")
     public String mypage(HttpServletRequest request, Model model){
@@ -201,5 +207,12 @@ public class MypageController {
         }
         session.invalidate();
         return result;
+    }
+
+    @RequestMapping("/wishTobasket")
+    public String wishTobasket(@RequestParam List<Integer> productId, Model model, HttpSession session){
+//        service2.addBasket();
+        model.addAttribute("type","wishlist");
+        return "redirect:/mypage/mypage";
     }
 }
