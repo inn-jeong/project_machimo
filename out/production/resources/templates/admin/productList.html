@@ -4,6 +4,8 @@
       layout:decorate="~{/admin/layout/layout}">
 
 <th:block layout:fragment="admin-content">
+    <!-- 관리자일경우 활성화 -->
+<!--    <div class="container" th:if="${session.user.uRole == 1}">-->
     <div class="container">
         <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">제품 관리</h5>
 

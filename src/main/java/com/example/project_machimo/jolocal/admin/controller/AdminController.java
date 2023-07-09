@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 @Controller
@@ -55,6 +56,7 @@ public class AdminController {
 
     @GetMapping("/adminDelete/{userId}")
     public String adminDelete(@PathVariable int userId){
+        log.info("------------adminDelete controller------------");
         service.adminDelete(userId);
         return "redirect:/admin/adminList";
     }
@@ -136,7 +138,7 @@ public class AdminController {
 //        System.out.println("@# ==> adminBoardWrite ");
 //        UsersDto dto = new UsersDto();
 //        session.setAttribute("user",dto);
-//        return "admin/adminBoardWrite";
+//        return "redirect:home/boardWrite";
 //    }
 
 //    //게시글 작성
@@ -182,8 +184,8 @@ public class AdminController {
     /////////제품관리/////////
     @RequestMapping(value = "productList", method = RequestMethod.GET)
     public String productList(Criteria cri, Model model, HttpSession session){
-
         System.out.println("@# pL start");
+
         ArrayList<ProductDto> dtos = service.pList(cri);
         model.addAttribute("pList",dtos);
         int total = service.getTotalCount();

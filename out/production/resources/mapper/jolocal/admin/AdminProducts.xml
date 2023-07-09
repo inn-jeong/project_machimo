@@ -17,4 +17,6 @@
         where product_id = #{productId}
     </update>
 
+
+
 </mapper>

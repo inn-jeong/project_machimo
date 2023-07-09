@@ -8,18 +8,15 @@
 </head>
 <body>
 <div>
+    <!-- 관리자 or 로그인한 유저만 활성화-->
+<!--    <div class="container p-5 mb-4" th:if="${session.user.uRole == 1 || session.user.userId != null }">-->
     <div class="container p-5 mb-4">
 
         <div class="row py-3 mb-5 border-bottom m-3">
             <h2 class="m-0 fw-bold text-secondary">게시물 등록</h2>
         </div>
 
-        <form id="frm" action="/admin/boardWrite" method="post">
-            <input type="hidden" name="userId" th:value="${session.user.userId}"/>
-
-<!--            <input type="hidden" name="userId" th:value="${pageMaker.cri.boardId}"/>-->
-<!--            <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">-->
-<!--            <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">-->
+        <form class="needs-validation" novalidate id="frm" action="/admin/boardWrite" method="post">
 
             <div class="m-3 py-3">
                 <label class="form-label fw-semibold">항목을 선택해주세요.</label>
@@ -61,11 +58,12 @@
             <div class="m-3">
                 <label for="bWriter" class="form-label fw-semibold">작성자</label>
                 <input name="bWriter" th:value="${session.user.UNickname}" class="form-control" id="bWriter" readonly>
+                <input type="hidden" name="userId" th:value="${session.user.userId}"/>
             </div>
 
             <div class="m-3 py-3">
-                <label for="bContent" class="form-label fw-semibold">설명</label>
-                <input name="bContent" type="text" class="form-control" id="bContent">
+                <label for="bContent" class="form-label fw-semibold text-break">내용</label>
+                <input name="bContent" type="text" class="form-control" id="bContent" style="height: 15rem" placeholder="내용을 입력해주세요.">
             </div>
 
             <div class="d-flex gap-2 justify-content-center py-5">

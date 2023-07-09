@@ -4,45 +4,81 @@
       layout:decorate="~{/admin/layout/layout}">
 
 <th:block layout:fragment="admin-content">
-  <div class="bg-light rounded-4 py-5 px-4 px-md-5">
-    <div class="text-center mb-5">
-      <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-3 mb-3"></div>
-      <h1 class="fw-bolder">신고 내역</h1>
-      <p class="lead fw-normal text-muted mb-0">MACHIMO MEMBER&PRODUCTS MANAGEMNET</p>
-    </div>
+<!--    <div class="justify-content-center mx-5" th:if="${session.user.uRole == 1}">-->
+    <div class="justify-content-center mx-5">
 
-    <div class="row gx-5 justify-content-center">
-      <div class="col-lg-8 col-xl-6">
-          <div class="form-floating mb-3">
-            <label for="reportId">신고코드</label>
-            <p th:text="${report.reportId}" id="reportId"></p>
-          </div>
-          <div class="form-floating mb-3">
-            <label for="userId">신고자코드</label>
-            <p th:text="${report.userId}" id="userId"></p>
-          </div>
-          <div class="form-floating mb-3">
-            <label for="sellerUserId">판매자</label>
-            <p th:text="${report.sellerUserId}" id="sellerUserId"></p>
-          </div>
-          <div class="form-floating mb-3">
-            <label for="reportDate">신고생성일자</label>
-            <p th:text="${report.reportDate}" id="reportDate"></p>
-          </div>
-        <div class="form-floating mb-3">
-          <label for="reportCount">신고횟수</label>
-          <p th:text="${report.reportCount}" id="reportCount"></p>
-        </div>
-        <div class="form-floating mb-3">
-          <label for="reportContent">신고내용</label>
-          <p th:text="${report.reportContent}" id="reportContent"></p>
-        </div>
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800 py-3">신고 내역</h1>
 
-        <div class="container gap-2 col-6 mx-auto justify-content-center">
-          <button th:onclick="|location.href='@{/admin/removeReport/(userId=${userId})}'|" class="btn btn-primary" type="button">신고반려</button>
-          <button class="btn btn-primary" type="button">회원정지</button>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">reportCode: <span th:text="${report.reportId}"></span></h6>
+            </div>
+
+            <div class="userInfo_group" >
+                <div class="container py-5 px-5">
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            신고자 :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${report.userId}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            판매자 :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${report.sellerUserId}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            신고생성일자 :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <td th:text="${#dates.format(report.reportDate, 'yyyy-MM-dd')}"></td>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            신고횟수 :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${report.reportCount}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            신고내용 :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${report.reportContent}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-grid d-md-flex justify-content-md-center pb-5">
+                <button th:onclick="|location.href='@{/admin/removeReport/(userId=${userId})}'|" class="btn btn-primary" type="button">신고반려</button>
+                <button class="btn btn-primary mx-2" type="button">회원정지</button>
+            </div>
         </div>
-      </div>
     </div>
 
 </th:block>
