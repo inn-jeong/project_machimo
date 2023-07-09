@@ -97,7 +97,7 @@
 
                     </th:block>
                     <div class="d-flex">
-                        <button th:if="${pView.pSaleType()==1}" class="btn btn-outline-dark flex-shrink-0" type="button"
+                        <button th:if="${pView.pSaleType()==1 && pView.pSalesStatus() != 0 && pView.pSalesStatus() != 2 }" class="btn btn-outline-dark flex-shrink-0" type="button"
                                 onclick="add_basket()">
                             <i class="bi-cart-fill me-1"></i>
                             장바구니

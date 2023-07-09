@@ -26,11 +26,10 @@ import java.util.Objects;
 public class OrderController {
 
     private final OrderService orderService;
-    public final BasketService basketService;
+    ;
 
     public OrderController(OrderService orderService, BasketService basketService) {
         this.orderService = orderService;
-        this.basketService = basketService;
     }
 
     /*
