@@ -30,15 +30,16 @@ public class LoginController {
     //로그인 화면
     //1. 로그인 시도 후 진입 시 알림
     //2. 회원가입 성공 후 진입 시 알림
+    //3. 로그인 시도한 사람이 정지된 유저일 경우
     @RequestMapping("/login")
     public String login(HttpServletRequest request, Model model) {
-        log.info("login");
+        log.info("@# login start");
 
-//        HttpSession session = request.getSession();
         String login_try = request.getParameter("login_try");
         String register = request.getParameter("register");
         String blur = request.getParameter("blur");
         String suspension = request.getParameter("suspension");
+
         //로그인 화면 진입 시 실패 후 진입인지 처음 진입인지 알기 위한 처리
         if (login_try != null) {
             if (login_try.equals("yes")) {
@@ -48,10 +49,12 @@ public class LoginController {
                 model.addAttribute("login_try", "no");
             }
         }
+        //회원가입 성공 후 접근일 경우
         if (register != null && register.equals("ok")) {
             log.info("@# register===>"+register);
             model.addAttribute("register", "ok");
         }
+        //로그인 시도한 유저가 정지유저일 경우
         if(blur != null && blur.equals("yes")){
             log.info("@# blur===>"+blur);
             model.addAttribute("blur", "yes");
@@ -61,9 +64,7 @@ public class LoginController {
             model.addAttribute("suspension", suspension);
         }
 
-//        return "login/loginTest2";
         return "login/loginTest";
-//        return "login/main";
     }
 
     //로그인 기능 수행
@@ -72,32 +73,38 @@ public class LoginController {
         log.info("@# login_process start");
         HttpSession session = request.getSession();
 
+        //로그인 결과를 저장
+        //성공 : 1
         int re = service.loginYn(param);
-        String str;
+        //이동할 페이지
+        String page;
 
         if(re == 1) { //로그인 성공시 메인 페이지로 이동
             UsersDto dto = service.findUser(param);
             log.info("@# login_process user set ===>"+dto);
+
+            //유저 신고기록 조회 후 정지여부 결정
             UserSuspension checkBlur = service.checkBlur(dto.getUserId());
             log.info("@# checkBlur ===>"+checkBlur);
             if(checkBlur != null){
                 return "redirect:/loginT/login?blur=yes&suspension="+checkBlur.getUSuspension();
             }
+            //여기까지 오면 로그인 성공이므로 model에 담아 넘김
             session.setAttribute("user",dto);
             session.setAttribute("userId",dto.getUserId());
-//            str = "redirect:/loginT/login_ok";
-            str = "redirect:/";
+            page = "redirect:/"; //메인 페이지
         }else { //로그인 실패시 다시 로그인 화면으로 이동, 알림
-            str = "redirect:/loginT/login?login_try=yes";
+            page = "redirect:/loginT/login?login_try=yes";
         }
         log.info("@# login_process end");
-        return str;
+        return page;
     }
 
     //로그인 성공시 화면(메인화면으로 수정해야 함)
     @RequestMapping("/login_ok")
     public String login_ok(HttpSession session,Model model) {
         log.info("login_ok");
+        //세션을 확인하여 로그인 여부 판단, 보안 기능 역할
         UsersDto user = (UsersDto) session.getAttribute("user");
         if(user == null){
             return "redirect:/loginT/login?login_try=no";
@@ -105,10 +112,12 @@ public class LoginController {
         return "login/login_ok";
     }
 
+    //회원가입 폼으로 이동
     @RequestMapping("/register_page")
     public String register_jsp(@SessionAttribute(value ="naverUser" ,required = false) UsersDto naverUser,
                                @SessionAttribute(value ="kakaoUser" ,required = false) UsersDto kakaoUser,
                                HttpServletRequest request, Model model) {
+        //네이버나 카카오 로그인을 통해 넘어올 시 개인정보를 불러오기 위해 저장
         String naverMem = request.getParameter("naverMem");
         String kakaoMem = request.getParameter("kakaoMem");
 //        log.info("@# register mem u_email ===>" + kakaoUser.getU_email());
@@ -142,9 +151,10 @@ public class LoginController {
     public String register(@RequestParam HashMap<String, String> param,HttpSession session,Model model) {
         log.info("@# id ===>"+param.get("uId"));
         log.info("@# register naverUser ====>"+session.getAttribute("naverUser"));
+        //일반 회원가입 유저일 경우 social_id 값이 없으므로 일반 삽입
         if(session.getAttribute("naverUser") == null && session.getAttribute("kakaoUser") == null){
             service.userInsert(param);
-        }else{
+        }else{//소셜 로그인 유저는 social_id 가 있으므로 소셜 로그인 삽입
             service.socialUserInsert(param);
         }
         //logion 페이지에 register 값을 넘김으로 회원가입 후 넘어감을 알림
@@ -157,30 +167,33 @@ public class LoginController {
         return "login/callback";
     }
 
+    //naver 로그인 시
     @RequestMapping("/naverLogin_ok")
     public String naverLogin(@SessionAttribute(name = "naverUser",required = false) UsersDto usersDto,HttpServletRequest request, Model model){
-        String page;
+        String page; // 이동할 페이지
         HttpSession session = request.getSession();
         model.addAttribute("naverMem", usersDto);
         log.info("@# naver_ok u_social ===>"+ usersDto.getUSocial());
-        UsersDto dto = service.findUserId(usersDto.getUSocial());
-        if(dto == null){
+        UsersDto dto = service.findUserId(usersDto.getUSocial()); //유저 정보 조회
+        if(dto == null){//아이디가 없을 경우 회원가입 폼으로 이동
             page = "redirect:/loginT/register_page?naverMem=yes";
-        }else{
+        }else{//아이디가 있을 경우 정지여부 조회
             UserSuspension checkBlur = service.checkBlur(dto.getUserId());
             log.info("@# checkBlur ===>"+checkBlur);
             if(checkBlur != null){
                 return "redirect:/loginT/login?blur=yes&suspension="+checkBlur.getUSuspension();
             }
+            //정지계정이 아니라면 로그인 진행
             session.setAttribute("user",dto);
             session.setAttribute("userId",dto.getUserId());
-//            page = "login/login_ok";
+
             page = "redirect:/";
         }
 
         return page;
     }
 
+    //naver 로그인 처리
     @RequestMapping("/naverLogin_process")
 //    public String naverLogin_ok(@RequestParam HashMap<String,String> param, HttpServletRequest request, Model model) {
     public String naverLogin_ok(HttpServletRequest request, Model model) {
@@ -207,14 +220,16 @@ public class LoginController {
         dto.setUJumin(uJumin);
         dto.setUPhone(request.getParameter("phone"));
         session.setAttribute("naverUser",dto);
-//        model.addAttribute("loginType","naver");
+
+        //팝업 창 내에서 이동할 페이지
         return "login/childWin";
     }
 
+    //유효성 검사
     @PostMapping("/joinProc")
     public String joinProc(@Valid UserRequestDto userDto, Errors errors, HttpSession session, Model model) {
 
-        if (errors.hasErrors()) {
+        if (errors.hasErrors()) {// 유효성 통과 못 했을 경우
             model.addAttribute("userDto", userDto);
             /* 회원가입 실패시 입력 데이터 값을 유지 */
             log.info("@# check address ===>"+userDto.getUAddress());
@@ -241,12 +256,11 @@ public class LoginController {
         }else{
             service.socialUserInsert(service.switchRequestToUser(userDto));
         }
-//        service.userInsert(service.switchRequestToUser(userDto));
-//        return "redirect:/loginT/login";
         log.info("@# register success=============");
         return "redirect:/loginT/login?register=ok";
     }
 
+    //ajax에서 중복 아이디를 확인하기 위한 처리
     @RequestMapping("/checkUser")
     @ResponseBody
     public String checkMamber(@RequestParam("uId") String uId, Model model){
@@ -256,24 +270,18 @@ public class LoginController {
         log.info("@# checkUser u_id ====>"+uId);
         param.put("uId",uId);
 
+        // 입력된 아이디가 중복되는지 확인
         UsersDto User = service.findUser(param);
-        if(User != null){
+        if(User != null){// 중복된 아이디 있음
             result = "denined";
-        }else{
+        }else{// 중복된 아이디 없음
             result = "confirm";
         }
         log.info("@# checkUser end====");
         return result;
     }
 
-//    @RequestMapping("kakao/callback")
-//    public String kakaoLogin(@RequestParam("code")String code,Model model){
-//    public String kakaoLogin(@RequestParam(value = "response",required = false)Map<String, Objects> parameters, HttpServletRequest request, Model model){
-//        String json = parameters.get("response").toString();
-//
-//        return "login/kakaoCallback";
-//    }
-
+    //테스트용
     @RequestMapping("/test")
     public String test(@RequestParam List<Integer> productId,Model model){
         Integer number1 = productId.get(0);
@@ -285,6 +293,7 @@ public class LoginController {
         return "login/test";
     }
 
+    //ajax로 카카오 로그인 처리
     @RequestMapping("/kakaoLogin_process")
     @ResponseBody
 //    public String naverLogin_ok(@RequestParam HashMap<String,String> param, HttpServletRequest request, Model model) {
@@ -296,8 +305,9 @@ public class LoginController {
         log.info("@# kakaoLogin_ok email ===> "+ usersDto.getUEmail());
         log.info("@# kakaoLogin_ok social ===> "+ usersDto.getUSocial());
 
+        //가져온 정보 kakaoUser 로 세션에 저장
         session.setAttribute("kakaoUser", usersDto);
-//        model.addAttribute("loginType","kakao");
+        //해당
         UsersDto kakaoDto = service.findUserId(usersDto.getUSocial());
         if(kakaoDto == null){
             result= "denined";

@@ -707,28 +707,7 @@
 </body>
 </html>
 <script>
-    // function deleteItem(itemId){
-    //     console.log("delete: "+itemId);
-    //     $.ajax({
-    //         url:'/basket/deleteItem',
-    //         type:'POST',
-    //         data:{
-    //             'product_id':itemId
-    //         },
-    //         success:function(result){
-    //             console.log("success");
-    //             if(result == 'success'){
-    //                 alert('삭제성공');
-    //                 $('#'+itemId).remove();
-    //             }else{
-    //                 alert('오류');
-    //             }
-    //         },
-    //         error: function (result){
-    //             alert('삭제실패');
-    //         }
-    //     });
-    // }
+
     $(document).ready(function() {
         $("#selectAllCheckBox").change(function() {
             $(".checkBoxItem").prop('checked', $(this).is(':checked'));
@@ -894,8 +873,5 @@
         document.body.appendChild(form);
         form.submit();
     }
-
-
-
 
 </script>
