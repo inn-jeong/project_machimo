@@ -11,9 +11,10 @@
             -webkit-appearance: none;
 
         }
-            a {
-        text-decoration-line: none;
-    }
+
+        a {
+            text-decoration-line: none;
+        }
     </style>
     <th:block th:replace="fragments/header :: headerFragment"></th:block>
 
@@ -52,12 +53,12 @@
                 <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
                                            src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..."/></div>
                 <div class="col-md-6">
-
                     <p th:if="${pView.pSaleType()==0}"><strong>경매 종료일:</strong> <span th:text="${endDate}"></span></p>
                     <h1 class="display-5 fw-bolder" onclick="clip()" th:text="${pView.pName()}">Shop item template</h1>
                     <div class="fs-5 mb-5">
                         <th:block th:switch="${pView.pSaleType()}">
                             <th:block th:case="${0}">
+
                                 <p><strong id="test2" th:unless="${hasBidHistory}"
                                            data-th-text="${#numbers.formatInteger(aView.highestBid(), 3, 'COMMA') + '원'}">>최근
                                     가격</b>
@@ -76,20 +77,26 @@
                         Praesentium at dolorem
                         quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis
                         delectus ipsam minima ea iste laborum vero?</p>
-                    <form action="/order/buyDirect" method="post">
-                        <input th:if="${pView.pSaleType()==1}" type="submit"
-                               class="btn btn-success btn-lg mb-3" style="width: 28.7%" value="즉시구매" id="buyDirect">
-                        <input hidden id="pid" th:value="${pView.productsId()}" name=productId>
+                    <th:block th:if="${pView.pSalesStatus() != 0 && pView.pSalesStatus() != 2}">
+                        <form action="/order/buyDirect" method="post">
+                            <input th:if="${pView.pSaleType()==1}" type="submit"
+                                   class="btn btn-success btn-lg mb-3" style="width: 28.7%" value="즉시구매" id="buyDirect">
+                            <input hidden id="pid" th:value="${pView.productsId()}" name=productId>
 
-                    </form>
-                    <button th:if="${pView.pSaleType()==0}" type="button" class="btn btn-outline-primary btn-lg mb-3"
-                            style="width: 28.7%"
-                            data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">
-                        입찰하기
-                    </button>
+                        </form>
+                        <button th:if="${pView.pSaleType()==0}" type="button"
+                                class="btn btn-outline-primary btn-lg mb-3"
+                                style="width: 28.7%"
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop">
+                            입찰하기
+                        </button>
+                    </th:block>
+                    <h4 th:if="${pView.pSalesStatus() == 0 && pView.pSalesStatus() == 2}">판매가 종료된 상품입니다</h4>
+                    <th:block>
 
-
+                    </th:block>
+                    <h4 th:if=""></h4>
                     <div class="d-flex">
                         <button th:if="${pView.pSaleType()==1}" class="btn btn-outline-dark flex-shrink-0" type="button"
                                 onclick="add_basket()">
@@ -129,25 +136,26 @@
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 <th:block th:each="test:${cataPList}">
                     <div class="col mb-5">
-                         <a th:href="@{/auction/action-list/{id}(id=${test.productId()})}">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder" th:text="${test.pName()}">제품이름</h5>
-                                    <!-- Product price-->
-                                    <span th:text="${test.pBPrice()}" th:if="${test.pSaleType() ==0}"></span>
-                                    <span th:text="${test.pDirect()}" th:if="${test.pSaleType() ==1}"></span>
+                        <a th:href="@{/auction/action-list/{id}(id=${test.productId()})}">
+                            <div class="card h-100">
+                                <!-- Product image-->
+                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
+                                     alt="..."/>
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                        <h5 class="fw-bolder" th:text="${test.pName()}">제품이름</h5>
+                                        <!-- Product price-->
+                                        <span th:text="${test.pBPrice()}" th:if="${test.pSaleType() ==0}"></span>
+                                        <span th:text="${test.pDirect()}" th:if="${test.pSaleType() ==1}"></span>
+                                    </div>
+                                </div>
+                                <!-- Product actions-->
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 </div>
                             </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            </div>
-                        </div>
-                         </a>
+                        </a>
                     </div>
                 </th:block>
             </div>
