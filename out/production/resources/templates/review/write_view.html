@@ -71,74 +71,86 @@
             font-size: 16px;
             resize: none;
         }
+        .container-sm {
+            width: 500px;
+            margin: 0 auto;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
 
     </style>
+    <div th:replace="fragments/header :: fragment-header"></div>
+
 </head>
 <body>
-<h1>리뷰 작성</h1>
-<form id="frm" action="write" method="post" enctype="multipart/form-data">
-    <table width="500" border="1">
-<!--<form id="frm" action="/review/write" method="post" enctype="multipart/form-data">-->
-        <tr>
-            <div class="form_section">
-                <div class="form_section_title">
-                    <label>상품 이미지</label>
-                </div>
-                <div class="form_section_content">
-                    <input type="file" id ="fileItem" name="uploadFile" style="height: 30px;" th:multiple="true">
-                    <div id="uploadResult">
-                    </div>
-                </div>
+<div class="container-sm mb-4">
+    <h1 class="fw-bold text-center mb-4">리뷰 작성</h1>
+    <form id="frm" action="write" method="post" enctype="multipart/form-data">
+        <div class="row mb-3">
+            <label for="fileItem" class="col-sm-2 col-form-label">상품 이미지</label>
+            <div class="col-sm-10">
+                <input type="file" id="fileItem" name="uploadFile" class="form-control">
+                <div id="uploadResult"></div>
             </div>
-        </tr>
-        <tr>
-            <td><label for="productId">상품 ID:</label></td>
-            <td><input type="number" id="productId" name="productId" required /></td>
-        </tr>
-        <tr>
-            <td><label for="reviewWritter">작성자:</label></td>
-            <td><input type="text" id="reviewWritter" name="reviewWritter" required /></td>
-        </tr>
-        <tr>
-            <td><label for="reviewTitle">제목:</label></td>
-            <td><input type="text" id="reviewTitle" name="reviewTitle" required /></td>
-        </tr>
-        <tr>
-            <td><label for="reviewContent">내용:</label></td>
-            <td><textarea id="reviewContent" name="reviewContent"
-                          placeholder="좋은 리뷰를 남겨주시면 machimo에 큰 힘이 됩니다! 포인트 500p도 지급!!" required></textarea></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <span class="myform">
-                <fieldset>
-                    <span class="text-bold">별점을 선택해주세요</span>
-                    <input type="radio" name="reviewStar" value="5" id="rate1"><label
-                        for="rate1">★</label>
-                    <input type="radio" name="reviewStar" value="4" id="rate2"><label
-                        for="rate2">★</label>
-                    <input type="radio" name="reviewStar" value="3" id="rate3"><label
-                        for="rate3">★</label>
-                    <input type="radio" name="reviewStar" value="2" id="rate4"><label
-                        for="rate4">★</label>
-                    <input type="radio" name="reviewStar" value="1" id="rate5"><label
-                        for="rate5">★</label>
-                </fieldset>
-        </span>
-            </td>
-            <input type="hidden" id="reviewId1" th:value="${getReviewId}"/>
-<!--            <span th:text="${getReviewId}"></span>-->
-        </tr>
-        <tr>
-            <td colspan="2">
-<!--                <input type="button" onclick="fn_submit()" value="글 작성" />-->
-                <input type="submit" value="글 작성" />
-                <a href="list">목록보기</a>
-            </td>
-        </tr>
-    </table>
+        </div>
+        <div class="row mb-3">
+            <label for="productId" class="col-sm-2 col-form-label">상품 ID</label>
+            <div class="col-sm-10">
+                <input type="number" id="productId" name="productId" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="reviewWritter" class="col-sm-2 col-form-label">작성자</label>
+            <div class="col-sm-10">
+                <input type="text" id="reviewWritter" name="reviewWritter" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="reviewTitle" class="col-sm-2 col-form-label">제목</label>
+            <div class="col-sm-10">
+                <input type="text" id="reviewTitle" name="reviewTitle" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="reviewContent" class="col-sm-2 col-form-label">내용</label>
+            <div class="col-sm-10">
+                    <textarea id="reviewContent" name="reviewContent" class="form-control"
+                              placeholder="좋은 리뷰를 남겨주시면 machimo에 큰 힘이 됩니다! 포인트 500p도 지급!!" required></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-2">별점</div>
+                <div class="col-sm-10">
+                   <span class="myform">
+                    <fieldset>
+                        <span class="text-bold">별점을 선택해주세요</span>
+                        <input type="radio" name="reviewStar" value="5" id="rate1"><label
+                            for="rate1">★</label>
+                        <input type="radio" name="reviewStar" value="4" id="rate2"><label
+                            for="rate2">★</label>
+                        <input type="radio" name="reviewStar" value="3" id="rate3"><label
+                            for="rate3">★</label>
+                        <input type="radio" name="reviewStar" value="2" id="rate4"><label
+                            for="rate4">★</label>
+                        <input type="radio" name="reviewStar" value="1" id="rate5"><label
+                            for="rate5">★</label>
+                    </fieldset>
+                 </span>
+                </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-12">
+                <input type="hidden" id="reviewId1" th:value="${getReviewId}">
+                <button type="submit" class="btn btn-primary">글 작성</button>
+                <a href="list" class="btn btn-secondary">목록보기</a>
+            </div>
+        </div>
     </form>
+</div>
 </body>
+<div th:replace="fragments/footer.html :: fragment-footer"></div>
+
 <script src="/js/jquery.js"></script>
 
 <script>
