@@ -4,10 +4,12 @@
                 layout:decorate="~{/admin/layout/layout}">
 
     <th:block layout:fragment="admin-content">
+        <!--관리자일 경우 활성화-->
+<!--        <div class="justify-content-center mx-5" th:if="${session.user.uRole == 1}">-->
+        <div class="justify-content-center mx-5">
 
-        <div class="container-fluid">
-        <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">사용자 관리</h1>
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800 py-2 mb-3">사용자 관리</h1>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -15,38 +17,41 @@
                 <h6 class="m-0 font-weight-bold text-primary">MACHIMO USER LIST</h6>
             </div>
             <!-- 검색기능 -->
-            <div>
-                <form id="searchForm" method="get">
-                    <label>
-                        <select name="type">
-                            <option value="U" th:selected="${pageMaker.cri.type eq 'N'?'selected':''}">회원번호</option>
-                            <option value="I" th:selected="${pageMaker.cri.type eq 'I'?'selected':''}">ID</option>
-                            <option value="N" th:selected="${pageMaker.cri.type eq 'N'?'selected':''}">닉네임</option>
-                            <option value="E" th:selected="${pageMaker.cri.type eq 'E'?'selected':''}">이메일</option>
-                            <option value="R" th:selected="${pageMaker.cri.type eq 'R'?'selected':''}">회원권한</option>
-                        </select>
-                    </label>
-                    <label>
-                        <input type="text" name="keyword" th:value="${pageMaker.cri.keyword}">
-                    </label>
-                    <button type="submit">search</button>
-                </form>
-            </div>
-
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                <div class="table">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <form id="searchForm" method="get">
+                            <div class="row float-right pr-3 py-2">
+                                <div class="col">
+                                    <label>
+                                        <select name="type" class="form-select form-select-sm form-control form-control-sm">
+                                            <option value="U" th:selected="${pageMaker.cri.type eq 'N'?'selected':''}" selected>회원번호</option>
+                                            <option value="I" th:selected="${pageMaker.cri.type eq 'I'?'selected':''}">ID</option>
+                                            <option value="N" th:selected="${pageMaker.cri.type eq 'N'?'selected':''}">닉네임</option>
+                                            <option value="E" th:selected="${pageMaker.cri.type eq 'E'?'selected':''}">이메일</option>
+                                            <option value="R" th:selected="${pageMaker.cri.type eq 'R'?'selected':''}">회원권한</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div id="dataTable_filter" class="dataTables_filter">
+                                    <label>
+                                        <input type="text" class="form-control form-control-sm" placeholder="search" name="keyword" th:value="${pageMaker.cri.keyword}">
+                                    </label>
+                                    <button class="btn-sm btn-outline-secondary d-inline-flex align-items-center" type="submit">search</button>
+                                </div>
+                            </div>
+                        </form>
                         <thead>
                             <tr>
-                                <th scope="col">회원번호</th>
-                                <th scope="col">ID</th>
-                                <th scope="col">닉네임</th>
-                                <th scope="col">이메일</th>
-                                <th scope="col">적립금</th>
-                                <th scope="col">가입일</th>
-                                <th scope="col">회원권한</th>
-                                <th scope="col">신고횟수</th>
-                                <th scope="col">회원탈퇴</th>
+                                <th scope="col" >No</th>
+                                <th scope="col" >ID</th>
+                                <th scope="col" >닉네임</th>
+                                <th scope="col" >회원권한</th>
+                                <th scope="col" >이메일</th>
+                                <th scope="col" >가입일</th>
+                                <th scope="col" >적립금</th>
+                                <th scope="col" >신고</th>
+                                <th scope="col" >멤버관리</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,24 +63,24 @@
                                     </a>
                                 </td>
                                 <td th:text="${user.uNickname}"></td>
-                                <td th:text="${user.uEmail}"></td>
-                                <td th:text="${user.uPoint}"></td>
-                                <td th:text="${user.uCreatedAt}"></td>
                                 <td>
-                                   <span th:if="${user.uRole == 0}">USER</span>
-                                   <span th:if="${user.uRole == 1}">ADMIN</span>
-                                   <button type="submit" class="confirmAdmin" th:data-userId="${user.userId}" th:data-uId="${user.uId}">
-                                       <span th:text="권한부여"></span>
-                                   </button>
+                                   <span th:if="${user.uRole == 0}">멤버</span>
+                                   <span th:if="${user.uRole == 1}">관리자</span>
                                 </td>
+                                <td th:text="${user.uEmail}"></td>
+                                <td th:text="${#dates.format(user.uCreatedAt, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${user.uPoint}"></td>
                                 <td>
-                                    <a th:href="@{/admin/reportView(userId=${user.userId})}" data-target="reportView" data-bs-toggle="modal">
+                                    <a th:href="@{/admin/reportView(userId=${user.userId})}">
                                        <span th:text="${user.reportCount}"></span>
                                     </a>
                                 </td>
                                 <td>
-                                    <button type="submit">
-                                        <a th:href="@{|/admin/adminDelete/${user.userId}}">회원탈퇴</a>
+                                    <form th:action="@{/admin/adminDelete/{userId}(userId=${user.userId})}" method="GET" class="d-inline" onsubmit="return confirm('정말로 탈퇴하시겠습니까?');">
+                                        <button type="submit" class="btn btn-sm btn-primary rounded-pill px-3 mx-1">탈퇴</button>
+                                    </form>
+                                    <button type="submit" class="confirmAdmin btn btn-sm btn-primary rounded-pill px-3 " th:data-userId="${user.userId}" th:data-uId="${user.uId}">
+                                        <span th:text="권한"></span>
                                     </button>
                                 </td>
                             </tr>
@@ -83,7 +88,7 @@
                     </table>
                 </div>
 
-                <div class="row justify-content-center py-5">
+                <div class="row justify-content-center">
                     <div class="col-sm-12 col-md-5">
                         <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
                             showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
@@ -93,7 +98,7 @@
                         <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                             <ul class="pagination">
                                 <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
-                                    <a th:href="@{'/page/'+${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
+                                    <a th:href="@{${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
                                         Previous
                                     </a>
                                 </li>
@@ -112,8 +117,8 @@
             </div>
         </div>
 
-        <div>
 
+        <div>
             <form th:method="get" id="actionForm">
                 <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
                 <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">

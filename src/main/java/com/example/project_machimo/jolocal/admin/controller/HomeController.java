@@ -85,8 +85,8 @@ public class HomeController {
 
 
     //게시글 작성 뷰
-    @RequestMapping(value = "/boardWriteView", method = RequestMethod.GET)
-    public String boardWriteView(Criteria cri, Model model){
+    @RequestMapping(value = "/boardWrite", method = RequestMethod.GET)
+    public String boardWrite(Criteria cri, Model model){
         System.out.println("@# boaradWriteView start");
 
 //        UsersDto user = new UsersDto();
@@ -116,8 +116,9 @@ public class HomeController {
         System.out.println("@# controller boardWrite"+ dto.getBCategory());
         System.out.println("@# boardWrite start");
         service.boardWrite(dto);
+
+        //관리자인지 유저인지 확인후 분기처리
         Integer userId = dto.getUserId();
-        String bCategory = dto.getBCategory();
         String page;
         if(userId==1){
             page="admin";
@@ -192,4 +193,8 @@ public class HomeController {
         private String message;
     }
 
+    @GetMapping("/규리지앵")
+    public String 규리지앵(){
+        return "home/규리지앵";
+    }
 }

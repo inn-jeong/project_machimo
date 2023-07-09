@@ -39,11 +39,12 @@
             FROM (
                 SELECT ROWNUM AS rn, temp.*
                 FROM (
-                    SELECT u.user_id, u.u_id, u.u_nickname, u.u_email, u.u_point, u.u_created_at, u.u_role,
+                    SELECT u.user_id, u.u_id, u.u_nickname, u.u_email, u.u_point, u.u_created_at, u.u_role, u.u_signout,
                     r.report_id, r.products_id, r.report_content, r.report_date,
                     (SELECT MAX(report_count) FROM report) AS max_report_count
                     FROM users u
                     JOIN report r ON u.user_id = r.user_id
+                    WHERE u.u_signout = 'N'
             ]]>
                  <where>
                      <include refid="criteria"></include>
@@ -216,12 +217,12 @@
         ]]>
     </select>
 
-    <update id="updateStatus">
-        update products set
-        p_sales_status= #{param2}
-        and p_created_at = sysdate
-        where product_id=#{param1}
-    </update>
+<!--    <update id="updateStatus">-->
+<!--        update products set-->
+<!--        p_sales_status= #{param2}-->
+<!--        and p_created_at = sysdate-->
+<!--        where product_id=#{param1}-->
+<!--    </update>-->
 
 <!-- 컬렉션타입이나 객체를 넘겨줄때 값들은 이름을 적을 수 있음,-->
 <!--    나머지는 param을 순서대로 사용-->
