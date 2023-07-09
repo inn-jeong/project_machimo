@@ -13,12 +13,12 @@ function all_use_point() {
         document.getElementById('used_point').innerText = Number(result - 1);
         document.getElementById('result').innerText = 1;
     } else {
-        document.getElementById('user_point').innerText = 0
         document.getElementById('used_point').innerText = document.getElementById("u_point").value
         document.getElementById('result').innerText = Number(result - use_point);
-        document.getElementById('result2').innerText = result.toLocaleString('ko-kr') + "원"
-        document.getElementById('result3').innerText = result.toLocaleString('ko-kr') + "원"
-        document.getElementById('result4').innerText = result.toLocaleString('ko-kr') + "원"
+        document.getElementById('result2').innerText = Number(result - use_point).toLocaleString('ko-kr') + "원"
+
+        document.getElementById('result4').innerText = Number(result - use_point).toLocaleString('ko-kr') + "원"
+        document.getElementById('user_point').innerText = 0
     }
     console.log(result)
 }
@@ -55,6 +55,8 @@ window.onload = function () {
     document.getElementById('result2').innerText = result.toLocaleString('ko-kr') + "원"
     document.getElementById('result3').innerText = result.toLocaleString('ko-kr') + "원"
     document.getElementById('result4').innerText = result.toLocaleString('ko-kr') + "원"
+
+
 };
 var used_point = 0;
 
@@ -80,10 +82,11 @@ function points() {
         return;
     }
 
-    document.getElementById('result').innerText = Number(result - point).toString().toLocaleString('ko-kr');
-    document.getElementById('result2').innerText = result.toLocaleString('ko-kr') + "원"
-    document.getElementById('result3').innerText = result.toLocaleString('ko-kr') + "원"
-    document.getElementById('result4').innerText = result.toLocaleString('ko-kr') + "원"
+    let innerText = Number(result - point).toString().toLocaleString('ko-kr');
+    console.log(innerText+"값")
+    document.getElementById('result').innerText = innerText;
+    document.getElementById('result2').innerText = Number(result - point).toLocaleString('ko-kr') + "원"
+    document.getElementById('result4').innerText = Number(result - point).toLocaleString('ko-kr') + "원"
     document.getElementById("user_point").innerText = Number(user_point - point)
 
     used_point = (used_point + Number(point))
@@ -200,24 +203,8 @@ function requestPay() {
 
                             })
                             , success: function () {
-
-
-                                $.ajax({
-                                    type: "post",
-                                    url:"payment/complete",
-                                    contentType: "application/json",
-                                    data:JSON.stringify({
-                                        user_id : user_id,
-                                        order_id:order_id,
-                                        product_id_list: product_id_list
-                                    }),
-                                    success: function (){
-                                        alert("결제 성공")
-                                        window.location.href = '/mypage/orderlist';
-                                    }
-
-
-                                })
+                                alert("결제 성공")
+                                window.location.href = '/mypage/orderlist';
 
                             }
                             , error: function () {
