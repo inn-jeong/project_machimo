@@ -85,7 +85,8 @@ public class LoginController {
             }
             session.setAttribute("user",dto);
             session.setAttribute("userId",dto.getUserId());
-            str = "redirect:/loginT/login_ok";
+//            str = "redirect:/loginT/login_ok";
+            str = "redirect:/";
         }else { //로그인 실패시 다시 로그인 화면으로 이동, 알림
             str = "redirect:/loginT/login?login_try=yes";
         }
@@ -172,7 +173,9 @@ public class LoginController {
                 return "redirect:/loginT/login?blur=yes&suspension="+checkBlur.getUSuspension();
             }
             session.setAttribute("user",dto);
-            page = "login/login_ok";
+            session.setAttribute("userId",dto.getUserId());
+//            page = "login/login_ok";
+            page = "redirect:/";
         }
 
         return page;
@@ -312,7 +315,8 @@ public class LoginController {
         HttpSession session = request.getSession();
         UsersDto kakaoUser = (UsersDto)session.getAttribute("kakaoUser");
         if (login_ok.equals("yes")){
-            page = "login/login_ok";
+//            page = "login/login_ok";
+            page = "redirect:/";
             UsersDto user = service.findUserId(kakaoUser.getUSocial());
             UserSuspension checkBlur = service.checkBlur(user.getUserId());
             log.info("@# checkBlur ===>"+checkBlur);
@@ -320,6 +324,7 @@ public class LoginController {
                 return "redirect:/loginT/login?blur=yes&suspension="+checkBlur.getUSuspension();
             }
             session.setAttribute("user",user);
+            session.setAttribute("userId",user.getUserId());
         }else{
             page = "redirect:/loginT/register_page?kakaoMem=yes";
         }

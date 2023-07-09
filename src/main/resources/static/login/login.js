@@ -60,25 +60,25 @@ function kakaoLogin() {
 function logout() {
     //카카오 SDK의 함수를 이용하여 토큰 삭제하여 로그아웃
     //다음 로그인 시에도 개인정보 제공 동의가 필요함
-    if (Kakao.Auth.getAccessToken()) {
-        Kakao.API.request({
-            url: '/v1/user/unlink',
-            success: function (response) {
-                console.log(response);
-                console.log("카카오 로그아웃");
-                // alert("로그아웃 하였습니다.");
-            },
-            fail: function (error) {
-                console.log(error);
-            }
-        })
-        Kakao.Auth.setAccessToken(undefined);
-    }
-    //네이버는 로그아웃 url 호출하여 로그아웃
-    //다음 로그인 시 개인정보 동의가 필요하지 않음
-    if($("#naverUser").val() != null){
-        naverLogout();
-    }
+    // if (Kakao.Auth.getAccessToken()) {
+    //     Kakao.API.request({
+    //         url: '/v1/user/unlink',
+    //         success: function (response) {
+    //             console.log(response);
+    //             console.log("카카오 로그아웃");
+    //             // alert("로그아웃 하였습니다.");
+    //         },
+    //         fail: function (error) {
+    //             console.log(error);
+    //         }
+    //     })
+    //     Kakao.Auth.setAccessToken(undefined);
+    // }
+    // //네이버는 로그아웃 url 호출하여 로그아웃
+    // //다음 로그인 시 개인정보 동의가 필요하지 않음
+    // if($("#naverUser").val() != null){
+    //     naverLogout();
+    // }
     //바로 이동하면 closePopup 함수가 씹혀서 0.5초 뒤 이동
     setTimeout(function() {
         window.location.href="/loginT/logout";

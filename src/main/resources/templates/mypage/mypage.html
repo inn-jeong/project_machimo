@@ -135,7 +135,7 @@
                             <td th:if="${item.pSaleType == 1}" rowspan="3" style="width: 100px" class="align-middle">즉시구매가<br><span th:text="${item.pDirect}"></span>원</td>
                             <td th:if="${item.pSaleType == 0}" rowspan="3" style="width: 100px" class="align-middle">낙찰가<br><span th:text="${item.pBPrice}"></span>원</td>
                             <td th:text="${item.orderStatus}" rowspan="3" style="width: 80px" class="align-middle"></td>
-                            <td rowspan="3" style="width: 80px" class="align-middle"><button>후기작성</button></td>
+                            <td rowspan="3" style="width: 80px" class="align-middle"><button onclick="">후기작성</button></td>
                         </tr>
                         <tr>
                             <td th:text="${item.uName}" style="text-align: left"></td>
@@ -181,7 +181,11 @@
                             <td th:if="${item.pSaleType == 1}" rowspan="3" style="width: 100px" class="align-middle">즉시구매가<br><span th:text="${item.pDirect}"></span>원</td>
                             <td th:if="${item.pSaleType == 0}" rowspan="3" style="width: 100px" class="align-middle">낙찰가<br><span th:text="${item.pBPrice}"></span>원</td>
                             <td th:text="${item.orderStatus}" rowspan="3" style="width: 80px" class="align-middle"></td>
-                            <td rowspan="3" style="width: 80px" class="align-middle"><button>후기작성</button></td>
+                            <td rowspan="3" style="width: 80px" class="align-middle">
+                                <a th:href="@{/review/write_view/{productId}(productId=${item.productId})}">
+                                    <button>후기작성</button>
+                                </a>
+                            </td>
                         </tr>
                         <tr>
                             <td th:text="'판매자:'+${item.uName}" style="text-align: left"></td>
@@ -890,6 +894,7 @@
         document.body.appendChild(form);
         form.submit();
     }
+
 
 
 
