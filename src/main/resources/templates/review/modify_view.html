@@ -2,92 +2,154 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>리뷰 작성</title>
-    <script src="/js/jquery.js"></script>
+    <title>리뷰 수정하기</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
         function fn_submit() {
-            // form 요소 자체
-            var formData =$("#frm").serialize();
+            var formData = $("#frm").serialize();
 
             $.ajax({
-                type:"post"
-                ,data:formData
-                ,url:"modify"
-                ,success: function (data) {
+                type: "post",
+                data: formData,
+                url: "modify",
+                success: function (data) {
                     alert("저장완료");
-                    location.href="list";
-                }
-                ,error: function () {
+                    location.href = "list";
+                },
+                error: function () {
                     alert("오류발생");
                     // location.href="modify_view";
                 }
             });
         }
     </script>
+    <style>
+        /*star.css*/
+        .myform fieldset{
+            display: inline-block;
+            direction: rtl;
+            border:0;
+        }
+        .myform fieldset legend{
+            text-align: right;
+        }
+        .myform input[type=radio]{
+            display: none;
+        }
+        .myform label{
+            font-size: 3em;
+            color: transparent;
+            text-shadow: 0 0 0 #f0f0f0;
+        }
+        .myform label:hover{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+        .myform label:hover ~ label{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+        .myform input[type=radio]:checked ~ label{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 24px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+    </style>
 </head>
+<div th:replace="fragments/header :: fragment-header"></div>
+
 <body>
-<h1>리뷰 작성</h1>
-<form id="frm" action="modify" method="post">
-<!--    <a class="btn" th:href="'delete?reviewId='+${content_view.reviewId}">삭제</a>-->
-    <input type="hidden" th:name="reviewId" th:value="${content_view.reviewId}" />
-<!--    <input type="hidden" name="pageNum" th:value="${pageMaker.pageNum}">-->
-<!--    <input type="hidden" name="amount" th:value="${pageMaker.amount}">-->
-    <table class="board_detail">
-        <tr>
-            <td>리뷰 ID:</td>
-            <td><span th:text="${content_view.reviewId}"></span></td>
-        </tr>
-        <tr>
-            <td>상품 ID:</td>
-            <td><span th:text="${content_view.productId}"></span></td>
-        </tr>
-        <tr>
-            <td>작성일:</td>
-            <td><span th:text="${content_view.reviewDate}"></span></td>
-        </tr>
-        <tr>
-            <td>조회수:</td>
-            <td><span th:text="${content_view.reviewHit}"></span></td>
-        </tr>
-        <tr>
-            <td>작성자:</td>
-            <td><span th:text="${content_view.reviewWritter}"></span></td>
-        </tr>
-        <tr>
-            <td><label for="reviewTitle">제목:</label></td>
-            <td><input type="text" id="reviewTitle" name="reviewTitle" th:value="${content_view.reviewTitle}" required /></td>
-        </tr>
-        <tr>
-            <td><label for="reviewStar">별점:</label></td>
-            <td><input type="number" id="reviewStar" name="reviewStar" th:value="${content_view.reviewStar}" min="1" max="5" required /></td>
-        </tr>
-<!--        <tr>-->
-<!--            <td><label for="reviewImg">이미지:</label></td>-->
-<!--            <td><input type="text" id="reviewImg" th:value="${content_view.reviewImg}" name="reviewImg" required /></td>-->
-<!--        </tr>-->
-        <tr>
-            <td><label for="reviewContent">내용:</label></td>
-            <td><textarea id="reviewContent" th:value="${content_view.reviewContent}" name="reviewContent" required></textarea></td>
-        </tr>
-        <tr>
+<div class="container py-4">
+    <div class="card border-success shadow" style="max-width: 700px; margin: 0 auto;">
+        <div class="card-body">
+            <h1 class="card-title text-center text-success font-weight-bold">리뷰 수정하기</h1>
+            <form id="frm" action="modify" method="post">
+                <input type="hidden" th:name="reviewId" th:value="${content_view.reviewId}" />
+                <div class="row mb-3">
+                    <label for="reviewId" class="col-sm-2 col-form-label">리뷰 ID:</label>
+                    <div class="col-sm-10">
+                        <span th:text="${content_view.reviewId}" class="form-control-static" id="reviewId"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="productId" class="col-sm-2 col-form-label">상품 ID:</label>
+                    <div class="col-sm-10">
+                        <span th:text="${content_view.productId}" class="form-control-static" id="productId"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="reviewDate" class="col-sm-2 col-form-label">작성일:</label>
+                    <div class="col-sm-10">
+                        <span th:text="${content_view.reviewDate}" class="form-control-static" id="reviewDate"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="reviewHit" class="col-sm-2 col-form-label">조회수:</label>
+                    <div class="col-sm-10">
+                        <span th:text="${content_view.reviewHit}" class="form-control-static" id="reviewHit"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="reviewWritter" class="col-sm-2 col-form-label">작성자:</label>
+                    <div class="col-sm-10">
+                        <span th:text="${content_view.reviewWritter}" class="form-control-static" id="reviewWritter"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="reviewTitle" class="col-sm-2 col-form-label">제목:</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="reviewTitle" name="reviewTitle" th:value="${content_view.reviewTitle}" required class="form-control" />
+                    </div>
+                </div>
+<!--                <div class="row mb-3">-->
+<!--                    <label for="reviewStar" class="col-sm-2 col-form-label">별점:</label>-->
+<!--                    <div class="col-sm-10">-->
+<!--                        <input type="number" id="reviewStar" name="reviewStar" th:value="${content_view.reviewStar}" min="1" max="5" required class="form-control" />-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="row mb-3">
+                    <div class="col-sm-2">별점:</div>
+                    <div class="col-sm-10">
+                   <span class="myform">
+                    <fieldset>
+                        <span class="text-bold">별점을 선택해주세요</span>
+                        <input type="radio" name="reviewStar" value="5" id="rate1"><label
+                            for="rate1">★</label>
+                        <input type="radio" name="reviewStar" value="4" id="rate2"><label
+                            for="rate2">★</label>
+                        <input type="radio" name="reviewStar" value="3" id="rate3"><label
+                            for="rate3">★</label>
+                        <input type="radio" name="reviewStar" value="2" id="rate4"><label
+                            for="rate4">★</label>
+                        <input type="radio" name="reviewStar" value="1" id="rate5"><label
+                            for="rate5">★</label>
+                    </fieldset>
+                 </span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="reviewContent" class="col-sm-2 col-form-label">내용:</label>
+                    <div class="col-sm-10">
+                        <textarea id="reviewContent" name="reviewContent" required class="form-control" rows="5" th:text="${content_view.reviewContent}"></textarea>
+                    </div>
+                </div>
 
-<!--        <tr>-->
-<!--            <td colspan="2">-->
-<!--                <input type="button" onclick="fn_submit()" value="글 작성" />-->
-<!--                &nbsp;&nbsp;&nbsp;-->
-<!--                <a href="list">목록보기</a>-->
-<!--            </td>-->
-<!--        </tr>-->
-        <tr>
-            <td colspan="3">
-                <input type="button" onclick="fn_submit()" value="수정" class="btn">
-                &nbsp;&nbsp;<a class="btn" href="list">목록보기</a>
-            </td>
-        </tr>
-
-    </table>
-</form>
+                <div class="text-center">
+                    <input type="button" onclick="fn_submit()" value="수정" class="btn btn-primary">
+                    <a class="btn btn-secondary" href="list">목록보기</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
+<div th:replace="fragments/footer.html :: fragment-footer"></div>
+
 <script>
     // function showAlert() {
     //     alert("글 작성을 완료했습니다.");
