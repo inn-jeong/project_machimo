@@ -260,7 +260,7 @@
                     <div class="list_subtitle">
                         <h4>장바구니</h4>
                     </div>
-                    <form id="basketForm" method="post" action="/order/buyDirect">
+                    <form id="basketForm" method="post">
                     <table th:unless="${basketItems.isEmpty()}" class="table table-hover mx-auto text-center" style="width: 1000px">
                         <thead>
                         <tr class="table-active">
@@ -292,7 +292,7 @@
                             </td>
                             <td th:text="${item.uName}"></td>
                             <td class="price" th:text="${item.pDirect}"></td>
-                            <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
+                            <td><button th:inline="javascript" class="btn btn-secondary" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
                         </tr>
                         <tr th:if="${item.pSalesStatus==2}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="table-active">
                             <td></td>
@@ -306,7 +306,7 @@
                             </td>
                             <td th:text="${item.uName}"></td>
                             <td th:text="${item.pDirect}"></td>
-                            <td><button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
+                            <td><button th:inline="javascript" class="btn btn-secondary" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
                         </tr>
                         </tbody>
                         <tfoot class="table-group-divider">
@@ -327,7 +327,8 @@
                         </tr>
                         <tr>
                             <td style="text-align: center" colspan="8">
-                                <button onclick="purchase()">결제하기</button>
+<!--                                <button onclick="purchase()">결제하기</button>-->
+                                <button class="btn btn-success" id="purchase">결제하기</button>
 <!--                                <input type="submit" value="결제하기">-->
                             </td>
                         </tr>
@@ -383,7 +384,7 @@
 <!--                                    <span th:case="5">판매보류</span>-->
                                 </div>
                             </td>
-                            <td rowspan="3" style="width: 80px" class="align-middle"><button>삭제</button></td>
+                            <td rowspan="3" style="width: 80px" class="align-middle"><button class="btn btn-secondary">삭제</button></td>
                         </tr>
                         <tr>
                             <td th:text="'판매자:'+${item.uNickname}" style="text-align: left" class="item-show"></td>
@@ -424,7 +425,7 @@
                                     <!--                                    <span th:case="5">판매보류</span>-->
                                 </div>
                             </td>
-                            <td rowspan="3" style="width: 80px" class="align-middle"><button>삭제</button></td>
+                            <td rowspan="3" style="width: 80px" class="align-middle"><button class="btn btn-secondary">삭제</button></td>
                         </tr>
                         <tr>
                             <td th:text="'판매자:'+${item.uNickname}" style="text-align: left"></td>
@@ -439,7 +440,7 @@
                         </tbody>
                         <tr>
                             <td style="text-align: center" colspan="8">
-                                <button>장바구니 담기</button>
+                                <button class="btn btn-success">장바구니 담기</button>
                             </td>
                         </tr>
 
@@ -484,7 +485,7 @@
                                         <span th:case="4">경매실패</span>
                                         <span th:case="5">판매보류</span>
                                     </div>
-                                    <button th:if="${item.pSalesStatus==3 && item.userBidsId.equals(session.user.userId)}">결제하기</button>
+                                    <button th:if="${item.pSalesStatus==3 && item.userBidsId.equals(session.user.userId)}" class="btn btn-success">결제하기</button>
     <!--                                <button th:inline="javascript" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button>-->
                                 </td>
                             </tr>
@@ -783,6 +784,7 @@
         <input type="hidden" name="pageNum" value="1">
         <input type="hidden" name="amount" value="10">
     </form>
+    <form th:method="post" id="purcahaseForm" action="/order/buyDirect"></form>
 <!--    <form method="post" action="#" id="frm_show_item">-->
 <!--        <input type="hidden" id="productId" value="">-->
 <!--    </form>-->
@@ -859,7 +861,7 @@
     function deleteItem(itemId){
         console.log("delete: "+itemId);
         $.ajax({
-            url:'/basket/deleteItem',
+            url:'/basketView/deleteItem',
             type:'POST',
             data:{
                 'product_id':itemId
@@ -941,22 +943,32 @@
         return JSON.stringify(selectedItems);
     }
 
-    function purchase() {
-        // const selectedItems = getSelectedItems(); // JSON 데이터 생성
+    var form = $("#purcahaseForm");
+    $("#purchase").on("click", function (e){
+        e.preventDefault();
 
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/order/buyDirect'; // 다음 페이지의 URL을 지정해야 합니다.
         $(".checkBoxItem:checked").each(function() {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'producId'; // JSON 데이터를 전송할 필드 이름
-            input.value = $(this).val();
-            form.appendChild(input);
+            var value = $(this).val();
+            console.log("test:"+$(this).val());
+            form.append("<input type='hidden' name='productId' value='"+value+"'>");
         });
 
-        document.body.appendChild(form);
-        form.submit();
-    }
+        form.attr("action","/order/buyDirect").submit();
+    });
+
+    // function purchase() {
+    //     // const selectedItems = getSelectedItems(); // JSON 데이터 생성
+    //
+    //     var form = $("#purcahaseForm");
+    //     // form.action = '/order/buyDirect'; // 다음 페이지의 URL을 지정해야 합니다.
+    //     $(".checkBoxItem:checked").each(function() {
+    //         var value = $(this).val();
+    //         console.log("test:"+$(this).val());
+    //         form.append("<input type='hidden' name='productId' value='"+value+"'>");
+    //     });
+    //
+    //     form.attr("action","/order/buyDirect").submit();
+    //
+    // }
 
 </script>
