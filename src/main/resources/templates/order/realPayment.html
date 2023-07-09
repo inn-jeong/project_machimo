@@ -4,10 +4,33 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <!--header-->
-    <th:block th:replace="fragments/header"></th:block>
+    <th:block th:replace="fragments/header :: headerFragment"></th:block>
+
     <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
             crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
+    <script
+            type="text/javascript"
+            src="https://code.jquery.com/jquery-1.12.4.min.js"
+    ></script>
+    <!-- iamport.payment.js -->
+    <script
+            type="text/javascript"
+            src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"
+    ></script>
+
+    <script src="/gyuha/js/payment.js"></script>
+
+       <style> input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+
+    </style>
 </head>
 <body>
 <div class="container">
@@ -62,7 +85,7 @@
                     </li>
                     <li class="my-2">
                         <div>배송주소&nbsp&nbsp&nbsp&nbsp
-                            <span th:text:="${user.uAddress()}+' ' + ${user.uAddress_sub()}">부산 부산진구 중앙대로 어쩌고 저쩌고</span>
+                            <span th:text="${user.uAddress()}+ ' '+ (${user.uAddress_sub() == null ? '' : user.uAddress_sub()})">부산 부산진구 중앙대로 어쩌고 저쩌고</span>
                         </div>
                     </li>
                 </div>
@@ -71,12 +94,12 @@
             </div>
             <div class="row">
                 <div class="COL button_shipping_memo_wrap py-4">
-                    <select onclick="test()" id="req" class="form-select form-select-lg"
-                            aria-label="Default select example">
-                        <option value="0"><b>요청사항없음</b></option>
-                        <option value="1">문 앞에 놓아주세요</option>
-                        <option value="2">경비실에 맡겨주세요</option>
-                        <option value="3">파손 위험 상품입니다. 배송 시 주의해주세요.</option>
+                    <select onclick="test()" id="order_req" class="form-select form-select-lg"
+                            aria-label="Default select example" >
+                        <option value="요청사항없음"><b>요청사항없음</b></option>
+                        <option value="문 앞에 놓아주세요">문 앞에 놓아주세요</option>
+                        <option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
+                        <option value="파손 위험 상품입니다. 배송 시 주의해주세요.">파손 위험 상품입니다. 배송 시 주의해주세요.</option>
                     </select>
                 </div>
             </div>
@@ -102,7 +125,7 @@
             </div>
             <div class="row">
                 <div class="col info-box">
-                    <dt class="fw-light">보유포인트 <span th:text="${user.uPoint()}+'p'" id="user_point"></span></dt>
+                    <dt class="fw-light">보유포인트 <span th:text="${user.uPoint()}" id="user_point"></span></dt>
                 </div>
             </div>
         </div>
@@ -123,7 +146,7 @@
                 </div>
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <h2 class="text-danger">144,000원</h2>
+                        <h2 class="text-danger "id='result4'>144,000원</h2>
                     </div>
                     <div class="border-bottom py-3"></div>
                 </div>
@@ -136,7 +159,7 @@
 
                     </div>
                     <div class="col my-3">
-                        <div class="d-flex justify-content-end my-2">144,000원</div>
+                        <div class="d-flex justify-content-end my-2" id='result3'>144,000원</div>
                         <div class="d-flex justify-content-end my-2" id="used_point">0</div>
                         <div class="d-flex justify-content-end my-2">무료</div>
                     </div>
@@ -212,7 +235,7 @@
             <div class="row">
                 <ul class="list-group">
                     <li class="list-group-item pb-5">
-                        <input class="form-check-input me-1" type="checkbox" name="listGroupRadio" value=""
+                        <input class="form-check-input me-1" type="checkbox" name="listGroupRadio"
                                id="firstRadio"
                                checked>
                         <label class="form-check-label" for="firstRadio">
@@ -221,7 +244,7 @@
                         <span class="d-block small opacity-50">앱 알림 해제, 알림톡 차단, 전화번호 변경 후 미등록 시에는 거래 진행 상태 알림을 받을 수 없습니다.</span>
                     </li>
                     <li class="list-group-item pb-5">
-                        <input class="form-check-input me-1" type="checkbox" name="listGroupRadio" value=""
+                        <input class="form-check-input me-1" type="checkbox" name="listGroupRadio"
                                id="secondRadio">
                         <label class="form-check-label" for="secondRadio">
                             <h5 class="font-weight-bolder">‘바로 결제하기’ 를 선택하시면 즉시 결제가 진행되며, 단순 변심이나 실수에 따른 구매 결정 후 취소는
@@ -230,7 +253,7 @@
                         <span class="d-block small opacity-50">본 거래는 개인간 거래로 전자상거래법(제17조)에 따른 청약철회(환불, 교환) 규정이 적용되지 않습니다. 단, 조작 실수 등을 고려하여 계정당 하루 1회 구매를 거부할 수 있습니다.</span>
                     </li>
                     <li class="list-group-item pb-5">
-                        <input class="form-check-input me-1" type="checkbox" name="listGroupRadio2" value=""
+                        <input class="form-check-input me-1" type="checkbox" name="listGroupRadio2"
                                id="thirdRadio">
                         <label class="form-check-label" for="thirdRadio">
                             <h3 class="font-weight-bolder">구매 조건을 모두 확인하였으며, 거래 진행에 동의합니다.</h3>
@@ -245,7 +268,7 @@
                     <b hidden="hidden" id='result'></b>
                 </div>
                 <div class="col">
-                    <h2 id='result2' class="add_more_btn d-flex justify-content-end text-danger">144,000</h2>
+                    <h2 id='result2' class="add_more_btn d-flex justify-content-end text-danger"></h2>
                 </div>
             </div>
             <div class="d-grid py-5">
@@ -256,12 +279,7 @@
         </div>
     </div>
 
-
-</div>
-
-<!--footer-->
-<th:block th:replace="fragments/footer :: footerFragment"></th:block>
-<div hidden="hidden" class="u">
+    <div hidden="hidden" class="u">
     <input type="hidden" id="u_phone" th:value="${user.uPhone()}">
     <input type="hidden" id="u_full_address" th:value="${user.uAddress()}+' '+${user.uAddress_sub()}">
     <input type="hidden" id="u_address" th:value="${user.uAddress()}">
@@ -272,25 +290,13 @@
     <input type="hidden" id="u_id" th:value="${user.userId()}">
     <input type="hidden" id="u_point" th:value="${user.uPoint()}">
 </div>
+</div>
+
+<!--footer-->
+
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
 </body>
+</html>
 <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
-<script>
-    $(document).ready(function () {
-        // "thirdRadio"를 클릭하면 "firstRadio"와 "secondRadio"를 함께 체크
-        $('#thirdRadio').click(function () {
-            $('#firstRadio, #secondRadio').prop('checked', true);
-        });
-
-        // "buy" 버튼 클릭 시 유효성 검사
-        $('#buy').click(function () {
-            if (!$('#firstRadio').is(':checked') || !$('#secondRadio').is(':checked')) {
-                alert('먼저 구매 조건을 선택해 주세요!');
-                return false; // form submission을 방지함
-            }
-            // 이후 처리를 계속하려면, 여기에 코드를 추가하십시오.
-        });
-    });
-</script>
-</html>

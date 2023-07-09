@@ -24,7 +24,7 @@ $(document).ready(function () {
             },
             error: function (response) {
                 alert(response.responseText)
-                window.location.href = '/login/login';
+                window.location.href = '/loginT/login';
             }
         })
 
@@ -63,7 +63,7 @@ $(document).ready(function () {
                 if (response.responseText == "로그인이 필요한 서비스입니다") {
                     alert(response.responseText);
                     document.getElementById("test1").click();
-                    window.location.replace('http://localhost:8090/login');
+                    window.location.replace('http://localhost:8090/loginT/login');
                 } else {
                     try {
                         var parsedResponse = JSON.parse(response.responseText);
@@ -186,7 +186,7 @@ function add_basket() {
         },
         error: function (response) {
             alert(response.responseText)
-            window.location.href = '/login/login';
+            window.location.href = '/loginT/login';
         }
     })
 }
