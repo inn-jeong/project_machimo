@@ -88,8 +88,8 @@ public class AdminServiceImpl implements AdminService  {
 
     @Override
     public ArrayList<BoardDto> boardList(Criteria cri) {
-        HomeDao dao = sqlSession.getMapper(HomeDao.class);
-        return dao.boardList(cri);
+        AdminDao dao = sqlSession.getMapper(AdminDao.class);
+        return dao.adminboardList(cri);
     }
     @Override
     public BoardDto boardView(int boardId) {

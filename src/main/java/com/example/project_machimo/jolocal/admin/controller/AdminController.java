@@ -70,6 +70,11 @@ public class AdminController {
     @GetMapping("/userView")
     public String userView(@RequestParam int userId, Model model){
         System.out.println("@# adminList userView");
+        UsersDto1 user = new UsersDto1();
+        user.setUserId(1);
+        user.setURole(1);
+        user.setUNickname("ADMIN");
+        session.setAttribute("user",user);
 
         model.addAttribute("userView",service.userView(userId));
 //        model.addAttribute("pageMaker",param);
@@ -103,6 +108,14 @@ public class AdminController {
         model.addAttribute("pageMaker",new PageDto(total,cri));
 
         return "admin/boardList";
+    }
+    @PostMapping("/boardDelete")
+    @ResponseBody
+    public String boardDelete(@RequestParam String boardId){
+        System.out.println("@# controller boardDelete start");
+        int bId = Integer.parseInt(boardId);
+        service.boardDelete(bId);
+        return "deleteOk";
     }
 
 //    @RequestMapping(value = "/boardView", method = RequestMethod.GET)
@@ -166,14 +179,6 @@ public class AdminController {
 //        return "redirect:/admin/boardList";
 //    }
 
-    @PostMapping("/boardDelete")
-    @ResponseBody
-    public String boardDelete(@RequestParam String boardId){
-        System.out.println("@# controller boardDelete start");
-        int bId = Integer.parseInt(boardId);
-        service.boardDelete(bId);
-        return "deleteOk";
-    }
 
     /////////제품관리/////////
     @RequestMapping(value = "productList", method = RequestMethod.GET)

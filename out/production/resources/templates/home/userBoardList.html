@@ -8,58 +8,46 @@
 </head>
 <body>
         <!--관리자 or 유저일경우 활성화-->
-<!--        <div class="container" th:if="${session.user.uRole == 1 || session.user.userId != null }">-->
+        <div class="container" th:if="${session.user.uRole == 1 || session.user.userId != null }">
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h5 class="mb-4 py-3 fw-bold fs-4">공지사항</h5>
+                    <h5 class="fw-bold fs-4">고객센터</h5>
                 </div>
             </div>
 
-            <div class="border-bottom mb-3" style="width: 65rem"></div>
+            <div class="border-bottom mb-5" style="width: 65rem"></div>
 
-<!--            <div class="container-box d-flex">-->
-<!--                <div class="row g-3 py-2">-->
-<!--                    <div class="col-auto">-->
-<!--                        <div th:if="${session.user.uRole == 1}">-->
-<!--                            <form th:action="@{/home/boardWrite}" method="GET" class="d-inline">-->
-<!--                                <button type="submit" class="btn btn-sm btn-outline-primary mx-1">글쓰기</button>-->
-<!--                            </form>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col">-->
-<!--                        <div class="d-flex justify-content-end">-->
-<!--                            <form id="searchForm" method="get" class="d-flex align-items-center ms-auto">-->
-<!--                                <label class="mb-0 me-2">-->
-<!--                                    <select name="type" class="form-select form-select-sm form-control form-control-sm">-->
-<!--                                        <option selected value="C" th:selected="${pageMaker.cri.type eq 'C'?'selected':''}">유형</option>-->
-<!--                                        <option value="T" th:selected="${pageMaker.cri.type eq 'T'?'selected':''}">제목</option>-->
-<!--                                        <option value="W" th:selected="${pageMaker.cri.type eq 'W'?'selected':''}">작성자</option>-->
-<!--                                        <option value="TW" th:selected="${pageMaker.cri.type eq 'TW'?'selected':''}">제목+작성자</option>-->
-<!--                                        <option value="CTW" th:selected="${pageMaker.cri.type eq 'CTW'?'selected':''}">유형+제목+작성자</option>-->
-<!--                                    </select>-->
-<!--                                </label>-->
-<!--                                <label class="mb-0 me-2">-->
-<!--                                    <input type="text" class="form-control form-control-sm" placeholder="search" name="keyword" th:value="${pageMaker.cri.keyword}">-->
-<!--                                </label>-->
-<!--                                <div id="dataTable_filter" class="col dataTables_filter">-->
-<!--                                    <button class="btn btn-sm btn-outline-primary" type="submit">search</button>-->
-<!--                                </div>-->
-<!--                            </form>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="input1">Input 1</label>
-                        <input type="text" class="form-control" id="input1">
+            <div class="container-box d-flex pb-3">
+                <div class="row g-3 py-2">
+                    <div class="col-auto">
+                        <!-- admin일때만 -->
+                        <div th:if="${session.user.uRole == 1}">
+                            <form th:action="@{/home/boardWrite}" method="GET" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-primary mx-1">글쓰기</button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <label for="input2">Input 2</label>
-                        <input type="text" class="form-control" id="input2">
+                    <div class="col">
+                        <div class="d-flex justify-content-end">
+                            <form id="searchForm" method="get" class="d-flex align-items-center ms-auto">
+                                <label class="mb-0 me-2">
+                                    <select name="type" class="form-select form-select-sm form-control form-control-sm">
+                                        <option selected value="C" th:selected="${pageMaker.cri.type eq 'C'?'selected':''}">유형</option>
+                                        <option value="T" th:selected="${pageMaker.cri.type eq 'T'?'selected':''}">제목</option>
+                                        <option value="W" th:selected="${pageMaker.cri.type eq 'W'?'selected':''}">작성자</option>
+                                        <option value="TW" th:selected="${pageMaker.cri.type eq 'TW'?'selected':''}">제목+작성자</option>
+                                        <option value="CTW" th:selected="${pageMaker.cri.type eq 'CTW'?'selected':''}">유형+제목+작성자</option>
+                                    </select>
+                                </label>
+                                <label class="mb-0 me-2">
+                                    <input type="text" class="form-control form-control-sm" placeholder="search" name="keyword" th:value="${pageMaker.cri.keyword}">
+                                </label>
+                                <div id="dataTable_filter" class="col dataTables_filter">
+                                    <button class="btn btn-sm btn-outline-primary" type="submit">search</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,10 +71,11 @@
                         <th class="border-bottom-0">작성자</th>
                         <th class="border-bottom-0">등록일</th>
                         <th class="border-bottom-0">조회수</th>
+                        <!-- admin일때만 -->
                         <th th:if="${session.user.uRole == 1}" class="border-bottom-0">관리</th>
                     </tr>
                     </thead>
-                    <tbody th:if="${board.bCategory=='공지'}" th:each="board: ${boardList}">
+                    <tbody th:each="board: ${boardList}">
                     <tr  th:if="${board != null}">
                         <td th:text="${board.boardId}"></td>
                         <td th:text="${board.bCategory}"></td>
@@ -98,6 +87,8 @@
                         <td th:text="${board.BWriter}"></td>
                         <td th:text="${#dates.format(board.BDate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${board.BHit}"></td>
+
+                        <!-- admin일때만 -->
                         <td th:if="${session.user.uRole == 1}">
                             <button class="btn btn-sm btn-danger rounded-pill px-3" type="button" th:onclick="'boardDelete(\''+${board.boardId}+'\')'">
                                 삭제
@@ -212,90 +203,5 @@
                     });
                 }
             }
-
-            //댓글 목록
-            function commentList(){
-                $.ajax({
-                    url : '/comment/list',
-                    type : 'get',
-                    data : {'bno':bno},
-                    // data : bno,
-                    success : function(data){
-                        var a ='';
-                        $.each(data, function(key, value){
-                            a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
-                            // a += '<div class="commentInfo'+value.cno+'">'+'댓글번호 : '+value.cno+' / 작성자 : '+value.writer;
-                            a += '<div class="commentInfo'+value.cno+'">'+' 작성자 : '+value.writer;
-                            a += '<a onclick="commentUpdate('+value.cno+',\''+value.content+'\');"> 수정 </a>';
-                            a += '<a onclick="commentDelete('+value.cno+');"> 삭제 </a> </div>';
-                            a += '<div class="commentContent'+value.cno+'"> <p> 내용 : '+value.content +'</p>';
-                            a += '</div></div>';
-                        });
-
-                        $(".commentList").html(a);
-                    }
-                });
-            }
-
-
-            //댓글 등록
-            function commentInsert(insertData){
-                $.ajax({
-                    url : '/comment/insert',
-                    type : 'post',
-                    data : insertData,
-                    success : function(data){
-                        if(data == 1) {
-                            // commentList(); //댓글 작성 후 댓글 목록 reload
-                            commentList(bno); //댓글 작성 후 댓글 목록 reload // 인서트후에 새로고침 없이도 업데이트됨
-                            $('[name=content]').val('');
-                        }
-                    }
-                });
-            }
-
-            //댓글 수정 - 댓글 내용 출력을 input 폼으로 변경
-            function commentUpdate(cno, content){
-                var a ='';
-
-                a += '<div class="input-group">';
-                a += '<input type="text" class="form-control" name="content_'+cno+'" value="'+content+'"/>';
-                a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
-                a += '</div>';
-
-                $('.commentContent'+cno).html(a);
-
-            }
-
-            //댓글 수정
-            function commentUpdateProc(cno){
-                var updateContent = $('[name=content_'+cno+']').val();
-
-                $.ajax({
-                    url : '/comment/update',
-                    type : 'post',
-                    data : {'content' : updateContent, 'cno' : cno},
-                    success : function(data){
-                        if(data == 1) commentList(bno); //댓글 수정후 목록 출력
-                    }
-                });
-            }
-
-            //댓글 삭제
-            function commentDelete(cno){
-                $.ajax({
-                    url : '/comment/delete/'+cno,
-                    type : 'post',
-                    success : function(data){
-                        if(data == 1) commentList(bno); //댓글 삭제후 목록 출력
-                    }
-                });
-            }
-
-            $(document).ready(function(){
-                // commentList(); //페이지 로딩시 댓글 목록 출력
-                commentList(bno); //페이지 로딩시 댓글 목록 출력
-
-            });
 
         </script>
