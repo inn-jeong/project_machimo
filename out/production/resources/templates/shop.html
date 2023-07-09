@@ -51,6 +51,8 @@
             padding: 10px; /* 여백 추가 */
             border-radius: 5px; /* 모서리 둥글게 */
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+            z-index: 1; /* 상위로 표시되도록 설정 */
+            white-space: nowrap; /* 줄 바꿈 방지 */
         }
 
         .category-item:hover .subcategory {
@@ -99,8 +101,35 @@
         /*    color: white;*/
         /*    background-color: skyblue;*/
         /*}*/
-
     </style>
+<!--    이벤트 변경: mouseover와 mouseout 이벤트 대신 mouseenter와 mouseleave 이벤트를 사용하는 것이 더 좋을 수 있습니다.-->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var categoryItems = document.querySelectorAll(".category-item");
+
+            categoryItems.forEach(function(item) {
+                var subcategory = item.querySelector(".subcategory");
+
+                item.addEventListener("mouseenter", function() {
+                    // 딜레이를 줄 시간 (밀리초)
+                    var delayTime = 100;
+
+                    // 딜레이 후에 하위 카테고리 표시
+                    setTimeout(function() {
+                        if (subcategory) {
+                            subcategory.style.display = "block";
+                        }
+                    }, delayTime);
+                });
+
+                item.addEventListener("mouseleave", function() {
+                    if (subcategory) {
+                        subcategory.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
 <th:block th:replace="fragments/header"></th:block>
