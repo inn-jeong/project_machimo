@@ -1,21 +1,22 @@
 package com.example.project_machimo.jolocal.admin.controller;
 
-import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
 import com.example.project_machimo.jolocal.admin.dto.LocalPageDto;
+import com.example.project_machimo.jolocal.admin.dto.UsersDto1;
 import com.example.project_machimo.jolocal.admin.service.AdminService;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @Slf4j
 @Controller
@@ -30,15 +31,14 @@ public class HomeController {
     public String boardList(Criteria cri, Model model, HttpSession session){
         System.out.println("@# ==> home boardList start");
 
-//        UsersDto user = new UsersDto();
+//        UsersDto1 user = new UsersDto1();
 //        user.setUserId(1); // admin 계정
 //        user.setUNickname("admin");
 
 //        user.setUserId(0);
 //        user.setUNickname("user");
 //        user.setUserId(106); // test용 임시 계정
-        UsersDto user = (UsersDto) session.getAttribute("user");
-        session.setAttribute("user",user);
+//        session.setAttribute("user",user);
 
         int total = service.getTotalCount();
         model.addAttribute("boardList",service.boardList(cri));
@@ -57,7 +57,9 @@ public class HomeController {
 //        user.setUserId(106); // test용 임시 계정
 
         int total = service.getTotalCount();
-        model.addAttribute("boardList",service.boardList(cri));
+        ArrayList<BoardDto> boardList = service.boardList(cri);
+        log.info("@#@# list 0 =====>" + boardList.get(0).getBDate());
+        model.addAttribute("boardList",boardList);
         model.addAttribute("pageMaker",new LocalPageDto(total, cri));
         return "home/userQnAList";
     }
@@ -85,11 +87,11 @@ public class HomeController {
 
 
     //게시글 작성 뷰
-    @RequestMapping(value = "/boardWriteView", method = RequestMethod.GET)
-    public String boardWriteView(Criteria cri, Model model){
+    @RequestMapping(value = "/boardWrite", method = RequestMethod.GET)
+    public String boardWrite(Criteria cri, Model model){
         System.out.println("@# boaradWriteView start");
 
-        UsersDto user = new UsersDto();
+        UsersDto1 user = new UsersDto1();
 //        user.setUserId(1); //admin
 //        user.setUNickname("admin");
 //        user.setUserId(0); //user
@@ -116,8 +118,9 @@ public class HomeController {
         System.out.println("@# controller boardWrite"+ dto.getBCategory());
         System.out.println("@# boardWrite start");
         service.boardWrite(dto);
+
+        //관리자인지 유저인지 확인후 분기처리
         Integer userId = dto.getUserId();
-        String bCategory = dto.getBCategory();
         String page;
         if(userId==1){
             page="admin";
@@ -169,7 +172,7 @@ public class HomeController {
         String category = dto.getBCategory();
         System.out.println("카테고리" + category);
         int userId = dto.getUserId();
-        UsersDto userId1 = (UsersDto) session.getAttribute("user");
+        UsersDto1 userId1 = (UsersDto1) session.getAttribute("user");
 
         log.info("유우우우저 {}",userId);
         String page;
@@ -192,4 +195,8 @@ public class HomeController {
         private String message;
     }
 
+    @GetMapping("/규리지앵")
+    public String 규리지앵(){
+        return "home/규리지앵";
+    }
 }

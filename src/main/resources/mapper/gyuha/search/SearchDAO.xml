@@ -91,43 +91,39 @@
 
         <if test="searchOption == 'productName'">
             products
-        </if>
-        <if test="searchOption == 'userNickName'">
-            users
-        </if>
-        <if test="searchOption == 'productInfo'">
-            products
-        </if>
-        <if test="searchOption == 'proNameOrProInfo'">
-            products
-        </if>
-        <![CDATA[
-
-        where   ]]>
-        <!--    <include refid="criteria"></include>-->
-        <if test="searchOption == 'productName'">
+            where
             P_NAME LIKE '%'||#{keyword}||'%'
+            and (P_SALES_STATUS != 0 and P_SALES_STATUS != 5)
         </if>
         <if test="searchOption == 'userNickName'">
+            users u join products p on p.user_id = u.user_id
+            where
             U_NICKNAME LIKE '%'||#{keyword}||'%'
+            and (p.P_SALES_STATUS != 0 and p.P_SALES_STATUS != 5)
         </if>
         <if test="searchOption == 'productInfo'">
+            products
+            where
             P_INFO LIKE '%'||#{keyword}||'%'
+            and (P_SALES_STATUS != 0 and P_SALES_STATUS != 5)
         </if>
         <if test="searchOption == 'proNameOrProInfo'">
-            P_NAME LIKE '%'||#{keyword}||'%' OR P_INFO LIKE '%'||#{keyword}||'%'
+            products
+            where
+            (P_NAME LIKE '%'||#{keyword}||'%' OR P_INFO LIKE '%'||#{keyword}||'%')
+            and (P_SALES_STATUS != 0 and P_SALES_STATUS != 5)
         </if>
 
     </select>
     <select id="searchListPage" resultType="com.example.project_machimo.gyuha.search.vo.SearchVO">
         <![CDATA[
-    SELECT *
+SELECT *
     FROM (
         SELECT
             p.PRODUCT_id as PRODUCT_id,
             u.USER_ID as user_id,
             u.U_NICKNAME as u_nickname,
-            i.i_ID as i_id,
+            i.uuid as uuid,
             i.I_IMAGE as i_image,
             i.i_sub_img as i_sub_img,
             p.P_NAME as p_name,
@@ -136,28 +132,33 @@
             p.p_sale_type as p_sale_type,
             p.p_direct as p_direct,
             p.p_b_price as p_b_price,
+            replace(i.UPLOAD_PATH || '/' || i.UUID || '_' || i.I_IMAGE, '\', '/') AS img_url,
             ROW_NUMBER() OVER (ORDER BY p.P_CREATED_AT) rn
         FROM USERS U
         JOIN PRODUCTS P ON U.USER_ID = P.USER_ID
         LEFT JOIN (
-            SELECT PRODUCT_ID, I_ID, MIN(I_IMAGE) AS I_IMAGE, MIN(i_sub_img) as i_sub_img
+            SELECT PRODUCT_ID, uuid, MIN(I_IMAGE) AS I_IMAGE, MIN(i_sub_img) as i_sub_img,UPLOAD_PATH
             FROM PRODUCT_IMAGES
-            GROUP BY PRODUCT_ID, I_ID
+            GROUP BY PRODUCT_ID, uuid,UPLOAD_PATH
         ) i ON P.PRODUCT_id = i.PRODUCT_ID
         WHERE
   ]]>
         <!--    <include refid="criteria"></include>-->
         <if test="searchOption == 'productName'">
             p.P_NAME LIKE '%'||#{keyword}||'%'
+            and (p.P_SALES_STATUS != 0 and p.P_SALES_STATUS != 5)
         </if>
         <if test="searchOption == 'userNickName'">
             u.U_NICKNAME LIKE '%'||#{keyword}||'%'
+            and (p.P_SALES_STATUS != 0 and p.P_SALES_STATUS != 5)
         </if>
         <if test="searchOption == 'productInfo'">
             p.P_INFO LIKE '%'||#{keyword}||'%'
+            and (p.P_SALES_STATUS != 0 and p.P_SALES_STATUS != 5)
         </if>
         <if test="searchOption == 'proNameOrProInfo'">
-            p.P_NAME LIKE '%'||#{keyword}||'%' OR p.P_INFO LIKE '%'||#{keyword}||'%'
+            (p.P_NAME LIKE '%'||#{keyword}||'%' OR p.P_INFO LIKE '%'||#{keyword}||'%')
+            and (p.P_SALES_STATUS != 0 and p.P_SALES_STATUS != 5)
         </if>
         <![CDATA[
     )

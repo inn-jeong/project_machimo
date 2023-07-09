@@ -14,4 +14,6 @@ public interface AuctionDAO {
 
     public List<AuctionVO> endList(Timestamp timestamp);
 
+
+    void updateHit(Integer productId);
 }

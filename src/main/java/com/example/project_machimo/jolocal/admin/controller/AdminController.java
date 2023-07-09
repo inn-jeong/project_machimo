@@ -40,14 +40,17 @@ public class AdminController {
     }
 
     @RequestMapping("/adminList")
-    public String adminList(Criteria cri, Model model){
+    public String adminList(Criteria cri, Model model,HttpSession session){
         System.out.println("@# adminList start");
         //admin session
-        UsersDto user = new UsersDto();
-        user.setUserId(1); //admin
-        user.setUNickname("admin");
-        session.setAttribute("user",user);
-
+//        UsersDto1 user = new UsersDto1();
+//        user.setUserId(1); //admin
+//        user.setUNickname("admin");
+//        session.setAttribute("user",user);
+        UsersDto user = (UsersDto)session.getAttribute("user");
+        if(user == null){
+            return "redirect:/loginT/login?login_try=no";
+        }
         model.addAttribute("adminList",service.adminList(cri));
         int total = service.getTotalCount();
         model.addAttribute("pageMaker",new LocalPageDto(total, cri));
@@ -56,6 +59,7 @@ public class AdminController {
 
     @GetMapping("/adminDelete/{userId}")
     public String adminDelete(@PathVariable int userId){
+        log.info("------------adminDelete controller------------");
         service.adminDelete(userId);
         return "redirect:/admin/adminList";
     }
@@ -97,10 +101,10 @@ public class AdminController {
     public String boardList(@RequestParam HashMap<String,Object>param, Criteria cri, Model model){
         System.out.println("@# controller boardList");
 
-        UsersDto user = new UsersDto();
-        user.setUserId(1); //admin
-        user.setUNickname("admin");
-        session.setAttribute("user",user);
+//        UsersDto1 user = new UsersDto1();
+//        user.setUserId(1); //admin
+//        user.setUNickname("admin");
+//        session.setAttribute("user",user);
 
         model.addAttribute("boardList",service.boardList(cri));
         int total = service.getTotalCount();
@@ -137,7 +141,7 @@ public class AdminController {
 //        System.out.println("@# ==> adminBoardWrite ");
 //        UsersDto dto = new UsersDto();
 //        session.setAttribute("user",dto);
-//        return "admin/adminBoardWrite";
+//        return "redirect:home/boardWrite";
 //    }
 
 //    //게시글 작성
@@ -183,8 +187,8 @@ public class AdminController {
     /////////제품관리/////////
     @RequestMapping(value = "productList", method = RequestMethod.GET)
     public String productList(Criteria cri, Model model, HttpSession session){
-
         System.out.println("@# pL start");
+
         ArrayList<ProductDto> dtos = service.pList(cri);
         model.addAttribute("pList",dtos);
         int total = service.getTotalCount();

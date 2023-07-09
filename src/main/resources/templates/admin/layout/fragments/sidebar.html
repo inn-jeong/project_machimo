@@ -6,22 +6,15 @@
         <ul class="navbar-nav bg-gradient-primary  sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">MACHIMO</div>
             </a>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/static/startbootstrap-sb-admin-2-gh-pages/startbootstrap-sb-admin-2-gh-pages/index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Admin Home</span></a>
-            </li>
+
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -65,13 +58,22 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">MACHIMO BOARD:</h6>
                         <a class="collapse-item" href="http://localhost:8090/admin/boardList">게시글 목록</a>
-                        <a class="collapse-item" href="http://localhost:8090/admin/boardWrite">공지/문의 등록</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">MACHIMO PRODUCTS:</h6>
-                        <a class="collapse-item" href="http://localhost:8090/admin/productList">제품관리</a>
+                        <a class="collapse-item" href="http://localhost:8090/home/boardWrite">게시글 작성</a>
+                        <a class="collapse-item" href="http://localhost:8090/home/userBoardList">공지사항</a>
+                        <a class="collapse-item" href="http://localhost:8090/home/userQnAList">문의사항</a>
                     </div>
                 </div>
             </li>
+
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8090/admin/productList">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>제품 관리</span></a>
+            </li>
+
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">

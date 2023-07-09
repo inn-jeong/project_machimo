@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 
 @Data
 @AllArgsConstructor
@@ -17,7 +19,7 @@ public class BoardDto {
     private String bTitle;
     private String bWriter;
     private String bContent;
-    private String bDate;
+    private Timestamp bDate;
     private Integer bHit;
     private Integer bPwd;
 }

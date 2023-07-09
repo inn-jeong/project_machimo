@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<th:block th:replace="fragments/header :: headerFragment"></th:block>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -10,15 +9,21 @@
             appearance: none;
             -moz-appearance: none;
             -webkit-appearance: none;
+
+        }
+
+        a {
+            text-decoration-line: none;
         }
     </style>
+    <th:block th:replace="fragments/header :: headerFragment"></th:block>
 
     <script>
 
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<script src="/gyuha/js/header.js"></script>
+    <script src="/gyuha/js/header.js"></script>
     <script src="/gyuha/js/auction.js">
 
 
@@ -42,106 +47,124 @@
         </button> -->
 <main>
 
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
 
-    <div class="container">
-        <div class="row justify-content-center ">
-            <div class="col-lg-8 mb-4">
-                <div id="carouselExampleFade" class="carousel slide carousel-fade">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="/gyuha/img/3.jpg" class="d-block w-100" alt="...">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
+                                           src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..."/></div>
+                <div class="col-md-6">
+                    <h4 th:text="${pView.urlImg()}"></h4>
+                    <p th:if="${pView.pSaleType()==0}"><strong>경매 종료일:</strong> <span th:text="${endDate}"></span></p>
+                    <h1 class="display-5 fw-bolder" onclick="clip()" th:text="${pView.pName()}">Shop item template</h1>
+                    <div class="fs-5 mb-5">
+                        <th:block th:switch="${pView.pSaleType()}">
+                            <th:block th:case="${0}">
 
-                        </div>
-                        <div class="carousel-item active-table-tab">
-                            <img src="/gyuha/img/2.jpg" class="d-block w-100" alt="...">
-                        </div>
+                                <p><strong id="test2" th:unless="${hasBidHistory}"
+                                           data-th-text="${#numbers.formatInteger(aView.highestBid(), 3, 'COMMA') + '원'}">>최근
+                                    가격</b>
+                                </strong></p>
+                                <p><strong th:if="${hasBidHistory}"
+                                           data-th-text="${#numbers.formatInteger(pView.pBPrice(), 3, 'COMMA') + '원'}">>최근
+                                    가격</b>
+                                </strong></p>
+                            </th:block>
+                            <span th:case="${1}"
+                                  data-th-text="${#numbers.formatInteger(pView.pDirect(), 3, 'COMMA') + '원'}"> $40.00</span>
+                        </th:block>
+
                     </div>
-                    <button class="carousel-control-prev" type="button"
-                            data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-                            data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </div>
+                    <p class="lead" th:text="${pView.pInfo()}">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Praesentium at dolorem
+                        quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis
+                        delectus ipsam minima ea iste laborum vero?</p>
+                    <th:block th:if="${pView.pSalesStatus() != 0 && pView.pSalesStatus() != 2}">
+                        <form action="/order/buyDirect" method="post">
+                            <input th:if="${pView.pSaleType()==1}" type="submit"
+                                   class="btn btn-success btn-lg mb-3" style="width: 28.7%" value="즉시구매" id="buyDirect">
+                            <input hidden id="pid" th:value="${pView.productsId()}" name=productId>
 
-            <div class="col-lg-4 border p-4">
-                <h2 class="mb-3">제품 제목</h2>
+                        </form>
+                        <button th:if="${pView.pSaleType()==0}" type="button"
+                                class="btn btn-outline-primary btn-lg mb-3"
+                                style="width: 28.7%"
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop">
+                            입찰하기
+                        </button>
+                    </th:block>
+                    <h4 th:if="${pView.pSalesStatus() == 0 && pView.pSalesStatus() == 2}">판매가 종료된 상품입니다</h4>
+                    <th:block>
 
-                <p><strong>경매 종료일:</strong> <span th:text="${endDate}"></span></p>
-                <div>
-                    <br>
-                </div>
-                <div th:if="${pView.pSaleType() ==0}">
-                    <p><strong id="test2" th:unless="${hasBidHistory}"
-                               data-th-text="${#numbers.formatInteger(aList.highestBid(), 3, 'COMMA') + '원'}">>최근 가격</b>
-                    </strong></p>
-                    <p><strong th:if="${hasBidHistory}"
-                               data-th-text="${#numbers.formatInteger(pView.pBPrice(), 3, 'COMMA') + '원'}">>최근 가격</b>
-                    </strong></p>
-                </div>
-                <div th:if="${pView.pSaleType() ==1}">
-                    <b class="h4"
-                       data-th-text="${#numbers.formatInteger(pView.pDirect(), 3, 'COMMA') + '원'}">즉시 판매 가격</b>
-                </div>
+                    </th:block>
+                    <div class="d-flex">
+                        <button th:if="${pView.pSaleType()==1 && pView.pSalesStatus() != 0 && pView.pSalesStatus() != 2 }" class="btn btn-outline-dark flex-shrink-0" type="button"
+                                onclick="add_basket()">
+                            <i class="bi-cart-fill me-1"></i>
+                            장바구니
+                        </button>
 
-                <div>
-                    <span th:text="${pView.pInfo()}">제품 설명</span>
-                </div>
+                        &nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                data-bs-target="#test"
+                                data-bs-whatever="@getbootstrap">신고
+                        </button>
 
-                <div th:unless="${isSaleEnded}">
-                    <button th:if="${pView.pSaleType()==0}" type="button" class="btn btn-success btn-lg mb-3 w-100"
-                            data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">
-                        입찰하기
-                    </button>
-
-                    <form action="/order/buyDirect" method="post">
-                        <input th:if="${pView.pSaleType()==1}" type="submit"
-                               class="btn btn-success btn-lg mb-3 w-100" value="즉시구매" id="buyDirect">
-                        <input hidden id="pid" th:value="${pView.productsId()}" name=productId>
-
-                    </form>
-
-                    <button type="button" class="btn btn-secondary btn-lg mb-3 w-100" onclick="add_basket()">
-                        장바구니
-                    </button>
-
+                    </div>
                     <div class="heart-btn">
-                        <input id="likebox" th:checked="${isLiked}"  type="checkbox" >
-                        <button  onclick="checkUserAndAct()" class="like" ><span>찜</span></button>
+                        <input id="likebox" th:checked="${isLiked}" type="checkbox">
+                        <button class="like"><span>찜</span></button>
                     </div>
-
-                </div>
-
-                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#test"
-                        data-bs-whatever="@getbootstrap">신고
-                </button>
-
-
-                <button type="button" onclick="clip()" class="btn btn-link">공유</button>
-                <div th:if="${isSaleEnded}" class="flex-box">
-                    <h5 align="center" style="color: aquamarine">SOLD OUT</h5>
                 </div>
             </div>
-        </div>
-        <div th:if="${pView.pSaleType()==0}" class="row mt-4">
-            <div class="col">
-                <h2 class="mb-3">입찰 내역</h2>
-                <div id="test3" th:each="bShow:${bList}">
+            <aside th:if="${pView.pSaleType()==0}" class="row mt-4">
+                <div class="col">
+                    <h2 class="mb-3">입찰 내역</h2>
+                    <div id="test3" th:each="bShow:${bList}">
                     <span th:unless="${hasBidHistory}"
                           th:text="${#numbers.formatInteger(bShow.amount(), 3, 'COMMA') + '원'}"></span>
+                    </div>
                 </div>
+            </aside>
+        </div>
+
+    </section>
+    <section class="py-5 bg-light">
+        <div class="container px-4 px-lg-5 mt-5">
+
+            <h2 class="fw-bolder mb-4">Related products</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <th:block th:each="test:${cataPList}">
+                    <div class="col mb-5">
+                        <a th:href="@{/auction/action-list/{id}(id=${test.productId()})}">
+                            <div class="card h-100">
+                                <!-- Product image-->
+                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
+                                     alt="..."/>
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                        <h5 class="fw-bolder" th:text="${test.pName()}">제품이름</h5>
+                                        <!-- Product price-->
+                                        <span th:text="${test.pBPrice()}" th:if="${test.pSaleType() ==0}"></span>
+                                        <span th:text="${test.pDirect()}" th:if="${test.pSaleType() ==1}"></span>
+                                    </div>
+                                </div>
+                                <!-- Product actions-->
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </th:block>
             </div>
         </div>
-    </div>
+    </section>
 </main>
 
-<div hidden="hidden" >
+<div hidden="hidden">
     <input type="hidden" th:value="${sellerId}" id="seller">
 </div>
 <!--&#45;&#45;                모달 -->

@@ -5,6 +5,8 @@ import com.example.project_machimo.gyuha.basket.dto.BasketDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BasketServiceImpl implements BasketService {
 
@@ -24,5 +26,17 @@ public class BasketServiceImpl implements BasketService {
     @Override
     public Integer checkBasket(BasketDTO basketDTO) {
         return basketDAO.checkBasket(basketDTO);
+    }
+
+    @Override
+    public int deleteBasketList(List<Integer> productId) {
+        int result = 0;
+
+        for (Integer integer : productId) {
+            result +=basketDAO.deleteBasketList(integer);
+
+        }
+
+        return result;
     }
 }

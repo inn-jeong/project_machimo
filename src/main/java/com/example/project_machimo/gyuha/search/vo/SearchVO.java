@@ -7,7 +7,7 @@ public record SearchVO(
           Long productId
         , Long userId
         , String uNickName
-        , Long iId
+        , Long uuId
         , String iImage
         , String iSubImage
         ,String pName
@@ -16,5 +16,6 @@ public record SearchVO(
         ,Integer pSaleType
         ,Long pDirect
         ,Long pBPrice
+        ,String url
 ) {
 }

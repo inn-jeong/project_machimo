@@ -3,13 +3,13 @@ function t() {
 }
 
 $(document).ready(function () {
-    if($("#logout").val() == 'yes'){
-        location.href="/";
+    if ($("#logout").val() == 'yes') {
+        location.href = "/";
     }
     console.log("돔 준비됨");
-    $("#logout_btn1").on("click",function (e){
+    $("#logout_btn1").on("click", function (e) {
         e.preventDefault();
-        location.href="/loginT/logout";
+        location.href = "/loginT/logout";
         // window.location.reload();
     });
     $('.modal-body').on("click", '#alert a', function (e) {
@@ -21,10 +21,9 @@ $(document).ready(function () {
         let val = $("#alertRes").val();
         console.log(val)
 
-        let text = Number($("#alNum").text().replaceAll('+',''));
+        let text = Number($("#alNum").text().replaceAll('+', ''));
 
         console.log("text val == >" + text);
-
 
 
         $.ajax({
@@ -74,4 +73,16 @@ $(document).ready(function () {
             }
         })
     });
+
+    $("#search").on('click', function () {
+        let keyword = $("#keyword").val();
+
+        if (keyword) {
+            $("#frm").submit();
+        } else {
+            return;
+        }
+
+
+    })
 });

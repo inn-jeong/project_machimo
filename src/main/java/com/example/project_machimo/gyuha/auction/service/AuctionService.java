@@ -13,5 +13,5 @@ public interface AuctionService {
 
     boolean isSaleEnded(Timestamp period, int productStatus);
 
-
+    void updateHit(Integer productId);
 }

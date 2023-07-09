@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>boardWrite</title>
     <!--header-->
-    <div th:replace="fragments/header.html :: fragment-header"></div>
-    <script src="/gyuha/js/header.js"></script>
+    <th:block th:replace="fragments/header.html :: fragment-header"></th:block>
 </head>
 <body>
-
+    <!--관리자 or 게시글쓴 사용자만-->
+<!--    <div class="container p-5 mb-4" th:if="${session.user.uRole == 1 || ession.user.userId == loginUser }">-->
     <div class="container p-5 mb-4">
 
         <div class="row py-3 mb-5 border-bottom m-3">
@@ -59,8 +59,8 @@
             <div class="m-3">
                 <!--ession값으로 uNickname이 작성자로 고정-->
                 <label for="bWriter" class="form-label fw-semibold">작성자</label>
-                <input name=bWriter type="text" value="admin"  class="form-control" id="bWriter">
-<!--                <input name="bTitle" type="text" th:value="${session.user.uNickname}" class="form-control" id="formGroupExampleInput2">-->
+                <input name=bWriter type="text" th:value="${session.user.uNickname}"  class="form-control" id="bWriter">
+                <input type="hidden" th:value="${boardView.boardId}" name="boardId">
             </div>
 
             <div class="m-3 py-3">
@@ -72,12 +72,11 @@
                 수정
             </button>
 
-            <input type="hidden" th:value="${boardView.boardId}" name="boardId">
         </form>
     </div>
 
     <!--footer-->
-    <div th:replace="fragments/footer.html :: fragment-footer"></div>
+    <th:block th:replace="fragments/footer.html :: fragment-footer"></th:block>
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

@@ -76,7 +76,7 @@
 </head>
 <body>
 <h1>리뷰 작성</h1>
-<form id="frm" action="write" method="post" enctype="multipart/form-data">
+<form id="frm" action="/review/write" method="post" enctype="multipart/form-data">
     <table width="500" border="1">
 <!--<form id="frm" action="/review/write" method="post" enctype="multipart/form-data">-->
         <tr>
@@ -93,11 +93,11 @@
         </tr>
         <tr>
             <td><label for="productId">상품 ID:</label></td>
-            <td><input type="number" id="productId" name="productId" required /></td>
+            <td><input type="number" id="productId" name="productId" th:value="${productId}" required  readonly/></td>
         </tr>
         <tr>
             <td><label for="reviewWritter">작성자:</label></td>
-            <td><input type="text" id="reviewWritter" name="reviewWritter" required /></td>
+            <td><input type="text" id="reviewWritter" name="reviewWritter" th:value="${session.user.uNickname}" required readonly/></td>
         </tr>
         <tr>
             <td><label for="reviewTitle">제목:</label></td>
@@ -191,11 +191,13 @@
 
     });
 
-    // 파일 사이즈, 타입 제한하는 변수
     let regex = new RegExp("(.*?)\.(jpg|png)$");
     let maxSize = 10485760; //10MB
 
     function fileCheck(fileName, fileSize){
+    // 파일 사이즈, 타입 제한하는 변수
+
+        console.log(maxSize);
 
         if(fileSize >= maxSize){
             alert("파일 사이즈 초과");

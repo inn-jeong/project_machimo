@@ -13,10 +13,12 @@ function all_use_point() {
         document.getElementById('used_point').innerText = Number(result - 1);
         document.getElementById('result').innerText = 1;
     } else {
-        document.getElementById('user_point').innerText = 0
         document.getElementById('used_point').innerText = document.getElementById("u_point").value
         document.getElementById('result').innerText = Number(result - use_point);
-        document.getElementById('result2').innerText = result.toLocaleString('ko-kr') + "원"
+        document.getElementById('result2').innerText = Number(result - use_point).toLocaleString('ko-kr') + "원"
+
+        document.getElementById('result4').innerText = Number(result - use_point).toLocaleString('ko-kr') + "원"
+        document.getElementById('user_point').innerText = 0
     }
     console.log(result)
 }
@@ -35,6 +37,8 @@ function onClickCheckboxValue() {
 
     document.getElementById('result').innerText = result;
     document.getElementById('result2').innerText = result.toLocaleString('ko-kr') + "원"
+    document.getElementById('result3').innerText = result.toLocaleString('ko-kr') + "원"
+    document.getElementById('result4').innerText = result.toLocaleString('ko-kr') + "원"
 
 }
 
@@ -49,6 +53,10 @@ window.onload = function () {
 
     document.getElementById('result').innerText = result;
     document.getElementById('result2').innerText = result.toLocaleString('ko-kr') + "원"
+    document.getElementById('result3').innerText = result.toLocaleString('ko-kr') + "원"
+    document.getElementById('result4').innerText = result.toLocaleString('ko-kr') + "원"
+
+
 };
 var used_point = 0;
 
@@ -74,8 +82,11 @@ function points() {
         return;
     }
 
-    document.getElementById('result').innerText = Number(result - point).toString().toLocaleString('ko-kr');
-    document.getElementById('result2').innerText = result.toLocaleString('ko-kr') + "원"
+    let innerText = Number(result - point).toString().toLocaleString('ko-kr');
+    console.log(innerText+"값")
+    document.getElementById('result').innerText = innerText;
+    document.getElementById('result2').innerText = Number(result - point).toLocaleString('ko-kr') + "원"
+    document.getElementById('result4').innerText = Number(result - point).toLocaleString('ko-kr') + "원"
     document.getElementById("user_point").innerText = Number(user_point - point)
 
     used_point = (used_point + Number(point))
@@ -83,10 +94,16 @@ function points() {
     document.getElementById("used_point").innerText = used_point;
 }
 
-var IMP = window.IMP;
-IMP.init("imp67282556");
 
 function requestPay() {
+    var IMP = window.IMP;
+    IMP.init("imp67282556");
+
+    if (!document.getElementById('firstRadio').checked || !document.getElementById('secondRadio').checked || !document.getElementById('thirdRadio').checked) {
+        alert('먼저 구매 조건을 선택해 주세요!');
+        return false; // form submission을 방지함
+    }
+
     var radioVal = $('input[name="payWith"]:checked').val();
     var amount = Number(document.getElementById("result").innerText)
     console.log(amount)
@@ -187,7 +204,7 @@ function requestPay() {
                             })
                             , success: function () {
                                 alert("결제 성공")
-                                location.href = "/order/complete?user_id=" + user_id + "&order_id=" + order_id;
+                                window.location.href = '/mypage/orderlist';
 
                             }
                             , error: function () {

@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <title>boardWrite</title>
     <!--header-->
-    <script src="/gyuha/js/header.js"></script>
-    <div th:replace="fragments/header.html :: fragment-header"></div>
 </head>
+    <th:block th:replace="fragments/header.html :: headerFragment"></th:block>
 <body>
+        <!--관리자or유저일경우 활성화-->
+<!--        <div class="container" th:if="${session.user.uRole == 1 || ession.user.userId != null }">-->
         <div class="container">
+
             <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">문의사항</h5>
+
             <!-- 공지사항 어드민, 유저계정 모두 사용 가능, 단 로그인했을때만 글쓰기 활성화-->
             <div th:if="${session.user != null}" class="d-flex gap-2 justify-content-end py-3">
                 <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">
-                    <a th:href="@{/home/boardWriteView}">글쓰기</a>
+                    <a th:href="@{/home/boardWrite}">글쓰기</a>
                 </button>
             </div>
 
@@ -48,8 +51,7 @@
                             </a>
                         </td>
                         <td th:text="${board.BWriter}"></td>
-                        <td th:text="${board.BDate}"></td>
-    <!--                    <td th:text="${#dates.format(board.b_date, 'YYYY-MM-DD')}"></td>-->
+                        <td th:text="${#dates.format(board.BDate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${board.BHit}"></td>
                     </tr>
                     </tbody>
@@ -90,7 +92,8 @@
             <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
         </form>
 
-
+        <!--footer-->
+        <th:block th:replace="fragments/footer.html :: footerFragment"></th:block>
 </body>
 </html>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

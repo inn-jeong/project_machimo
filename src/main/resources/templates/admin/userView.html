@@ -1,40 +1,87 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>userView</title>
-</head>
-<body>
-    <table border="1">
-        <tr>
-            <td>로그인ID</td>
-            <td>닉네임</td>
-            <td>비밀번호</td>
-        </tr>
-        <tr>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout/layout}">
 
-            <td th:text="${userView.UId}"></td>
-            <td th:text="${userView.UNickname}"></td>
-            <td th:text="${userView.UPassword}"></td>
-        </tr>
-        <tr>
-            <td>이름</td>
-            <td>주민번호</td>
-            <td>전화번호</td>
-            <td>주소</td>
-        </tr>
-        <tr>
-            <td th:text="${userView.UName}"></td>
-            <td th:text="${userView.UJumin}"></td>
-            <td th:text="${userView.UPhone}"></td>
-            <td th:text="${userView.UAddress}"></td>
-        </tr>
-<!--        <button class="btn btn-outline-secondary d-inline-flex align-items-center" type="button">-->
-<!--            <a th:href="@{/admin/boardModifyView/{boardId}(boardId=${boardView.boardId})}">수정</a>-->
-<!--        </button>-->
-<!--        <button class="btn btn-danger rounded-pill px-3" type="button" th:onclick="'boardDelete(\''+${boardView.boardId}+'\')'">-->
-<!--            삭제-->
-<!--        </button>-->
-    </table>
-</body>
+<th:block layout:fragment="admin-content">
+
+<!--    <div class="justify-content-center mx-5" th:if="${session.user.uRole == 1}">-->
+    <div class="justify-content-center mx-5">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800 py-3">회원 정보</h1>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">memberCode: <span th:text="${userView.userId}"></span></h6>
+            </div>
+
+            <div class="userInfo_group" >
+                <div class="container py-5 px-5">
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            login ID :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${userView.UId}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            nickName :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${userView.UNickname}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            name :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${userView.UName}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            phone :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${userView.UPhone}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            Address :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${userView.UAddress}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-grid d-md-flex justify-content-md-center pb-5">
+                <button class="btn btn-primary mx-2" type="button">수정</button>
+                <button class="btn btn-primary mx-2" type="button">확인</button>
+            </div>
+        </div>
+    </div>
+
+</th:block>
 </html>
