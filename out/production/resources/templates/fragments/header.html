@@ -9,6 +9,9 @@
     <title>Title</title>
 
 </head>
+<script>
+
+</script>
 <style>
     /*.test1{*/
     /*        background-color: orange;*/
@@ -113,7 +116,7 @@
                                                 class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">SHOP</a>
                         </li>
                         <li class="nav-item">
-                            <form action="/search/searchList" method="get" class="d-flex" role="search">
+                            <form action="/search/searchList" method="get" class="d-flex" role="search" id="frm">
                                 <label>
                                     <select name="searchOption" style="height: 32px" th:value="${session.searchOption}">
                                         <option value="userNickName"
@@ -130,10 +133,10 @@
                                         </option>
                                     </select>
                                 </label>
-                                <input type="text" name="keyword" th:value="${session.keyword}" />
+                                <input type="text" id="keyword" name="keyword" th:value="${session.keyword}" />
                                 <input type="hidden" name="pageNum" value="1">
                                 <input type="hidden" name="amount" value="12">
-                                <button id="search" type="submit" style="border: none" class="bg-body-tertiary">
+                                <button id="search" type="button" style="border: none" class="bg-body-tertiary">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                                          class="bi bi-search" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>

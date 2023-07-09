@@ -6,7 +6,7 @@
 
 
     <insert id="insertOrder">
-        INSERT INTO ORDERS values (order_id_seq.nextval, #{userId}, 0, #{createdAt}, null,#{orderReq},
+        INSERT INTO ORDERS values (order_id_seq.nextval, #{userId},0, #{createdAt}, null,#{orderReq},
         #{orderAddress}, #{orderAddressSub},
          #{orderPrice},#{usedPointResult})
     </insert>

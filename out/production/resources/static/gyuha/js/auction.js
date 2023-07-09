@@ -59,13 +59,23 @@ $(document).ready(function () {
 
             },
             error: function (response) {
+
                 if (response.responseText == "로그인이 필요한 서비스입니다") {
                     alert(response.responseText);
                     document.getElementById("test1").click();
-
+                    window.location.replace('http://localhost:8090/login');
+                } else {
+                    try {
+                        var parsedResponse = JSON.parse(response.responseText);
+                        if (parsedResponse.message) {
+                            alert(parsedResponse.message);
+                        } else {
+                            alert(response.responseText);
+                        }
+                    } catch (e) {
+                        alert("Error parsing response: " + e.toString());
+                    }
                 }
-
-                window.location.replace('http://localhost:8090/login');
             }
         });
     });
@@ -74,9 +84,9 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#report_btn").click(function () {
         let report_content = $("#report_content").val();
-        if (report_content == null || report_content ==  ''){
+        if (report_content == null || report_content == '') {
             alert("내용을 입력해주세요")
-            return 
+            return
         }
 
         let pid = $("#pid").val();
@@ -149,7 +159,7 @@ $(document).ready(function () {
                     user_id: user_id,
                     product_id: pid
                 })
-                ,success:function (){
+                , success: function () {
                     checkbox.prop('checked', false);
                 }
             });

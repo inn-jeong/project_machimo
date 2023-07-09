@@ -76,10 +76,11 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.1'
 
 	// Jackson XML
-//	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.1'
+
+
 
 //	댓글 구현 gson라이브러리
-//	implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
 
 
 //	json 의존성 추가 - 진영
@@ -91,6 +92,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-expression:5.3.10'
 
 //	기존에 있던 타임리프 스프링 스타터 버전으로 변경
-//	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+
+
 }

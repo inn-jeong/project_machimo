@@ -7,6 +7,7 @@ import com.example.project_machimo.gyuha.auction.vo.ProductsVO;
 import com.example.project_machimo.gyuha.auction.service.AuctionService;
 import com.example.project_machimo.gyuha.auction.service.BidsService;
 import com.example.project_machimo.gyuha.auction.service.ProductService;
+import com.example.project_machimo.gyuha.auction.vo.Test;
 import com.example.project_machimo.gyuha.wishlists.dao.WishListsDAO;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -85,6 +86,10 @@ public class AuctionController {
         auctionService.updateHit(id);
         int sellerId = auctionService.getUserId(pView.productsId());
         System.out.println("일러 아이디"+sellerId);
+        List<Test> productsVOS = productService.cataPList(pView.cId());
+
+
+        model.addAttribute("cataPList",productsVOS);
         model.addAttribute("sellerId",sellerId);
         model.addAttribute("isLiked", isLiked);
         model.addAttribute("aView", aView);

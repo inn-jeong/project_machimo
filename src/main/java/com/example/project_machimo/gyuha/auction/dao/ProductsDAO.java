@@ -1,6 +1,7 @@
 package com.example.project_machimo.gyuha.auction.dao;
 
 import com.example.project_machimo.gyuha.auction.vo.ProductsVO;
+import com.example.project_machimo.gyuha.auction.vo.Test;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.Timestamp;
@@ -26,4 +27,6 @@ public interface ProductsDAO {
     void updateHit(int id);
 
     void updateBPrice(int id,Long price);
+
+    List<Test> cataPList(int cid);
 }
