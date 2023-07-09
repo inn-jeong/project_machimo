@@ -191,11 +191,13 @@
 
     });
 
-    // 파일 사이즈, 타입 제한하는 변수
     let regex = new RegExp("(.*?)\.(jpg|png)$");
     let maxSize = 10485760; //10MB
 
     function fileCheck(fileName, fileSize){
+    // 파일 사이즈, 타입 제한하는 변수
+
+        console.log(maxSize);
 
         if(fileSize >= maxSize){
             alert("파일 사이즈 초과");

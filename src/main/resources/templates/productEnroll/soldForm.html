@@ -1,406 +1,253 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>제품 정보 입력</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="/js/jusoPopup.js" ></script>
-    <script src="/gyuha/js/header.js"></script>
-   <div th:replace="fragments/header :: fragment-header"></div>
+    <meta charset="UTF-8">
+    <title>제품 정보 입력</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/js/jusoPopup.js"></script>
+
+    <div th:replace="fragments/header :: fragment-header"></div>
 
 </head>
 
 <body>
-<!--<form action="/action_page.php" class="was-validated">-->
-
-<!--    <div class="mb-3 mt-3">-->
-
-<!--        <label for="name" class="form-label">Name:</label>-->
-
-<!--        <input type="text" class="form-control" id="name" placeholder="Name 입력" name="name" required>-->
-
-<!--        <div class="valid-feedback">유효 O</div>-->
-
-<!--        <div class="invalid-feedback">이름 입력</div>-->
-
-<!--    </div>-->
 
 
-<!--    <div class="form-check mb-3">-->
+    <form class="was-validated" action="/productEnroll/enroll" method="post" id="enrollForm" name="enrollForm" enctype="multipart/form-data">
+        <input type="hidden" name="userId" value="11" />
+        <input type="hidden" id="getProductId" th:value="${getProductId}" />
 
-<!--        <input class="form-check-input" type="checkbox" id="agree"  name="agree" required>-->
-
-<!--        <label class="form-check-label" for="agree">약관 동의</label>-->
-
-<!--        <div class="valid-feedback">유효 O</div>-->
-
-<!--        <div class="invalid-feedback">체크 필수</div>-->
-
-<!--    </div>-->
-
-<!--</form>-->
-
-  <form action="/productEnroll/enroll" method="post" id="enrollForm" name="enrollForm" enctype="multipart/form-data" class="was-validated">
-    <input type="hidden" name="userId" th:value='11' />
-      <input type="hidden" id="getProductId" th:value="${getProductId}"/>
+        <div class="mb-3">
+            <label for="category1" class="form-label">1차 카테고리:</label>
+            <select id="category1" name="category2" onchange="selectSubcategory()" class="form-select" required>
+                <option value="1">전체</option>
+                <option class="catego1" th:each="category : ${categories}" th:value="${category.cId}" th:text="${category.cName}"></option>
+            </select>
+            <div class="invalid-feedback">Please select a category.</div>
+        </div>
 
 
-      <table th:border="1">
-      <tr>
-        <td colspan="2" th:align="center"><h1>판매 신청 폼</h1></td>
-      </tr>
-        <tr>
-            <div class="form_section">
-                <div class="form_section_title">
-                    <label>상품 이미지</label>
-                </div>
-                <div class="form_section_content">
-                    <input type="file" id ="fileItem" name="uploadFile" style="height: 30px;" th:multiple="true">
-                    <div id="uploadResult">
-                    </div>
-                </div>
-            </div>
-        </tr>
-        <tr>
-            <td><label for="category1">1차 카테고리:</label></td>
-            <td>
-<!--                <select id="category1" name="category1" onchange="selectSubcategory()">-->
-                <select id="category1" name="category2" onchange="selectSubcategory()">
-                    <option value="">전체</option>
-                    <option class="catego1" th:each="category : ${categories}" th:value="${category.cId}" th:text="${category.cName}"></option>
-<!--                    <option class="category1" th:each="category : ${categories}" th:value="${category.cId}" th:text="${category.cName}"></option>-->
-                </select>
-            </td>
-        </tr>
-
-      <tr>
-<!--        <td><label for="category2">2차 카테고리:</label></td>-->
-        <td>2차 카테고리:</td>
-        <td>
-<!--            맵 형태라서 2차카테고리만으로는 for-each를 적용할 수 없어서 div에 for-each를 써서 1차 카테고리를 먼저 반복시켜줌-->
+        <div class="mb-3">
+            <label id="cid2" class="form-label"></label>
             <div th:each="category:${categories}">
-<!--              <div th:id="'catego2-'+${category.cId}" th:each="subcategory:${subcategory[category.cId]}">-->
-<!--                ex : category2-100 으로 id가 생기는거  그냥 ${category.cId}만 사용할 시 사용자에게 숫자만 보이니까-->
-
-<!--                class는 중복 가능하므로 여러개의 옵션이 다 catego2라는 클래스 이름으로 지정되어있음.-->
-<!--              <select class="catego2" th:id="'category2-'+${category.cId}" style="display: none" name="category2">-->
-<!--                  서브 카테고리가 존재한다면 cid1(100,200)은 cid2에 저장되므로 서브카테고리의 코드가 cId, 메인카테고리의 코드가 cId2에 저장되어야함-->
-              <select class="catego2" th:id="'category2-'+${category.cId}" style="display: none" name="category1">
-                <option value="">전체</option>
-<!--                  map을 불러올때는 대괄호를 사용함, 맵 안의 객체 배열이기 때문에 사용하기 위해 한번 더 꺼내는 과정 필요-->
-                <option  th:each="subcategory:${subcategory[category.cId]}" th:value="${subcategory.cId}" th:text="${subcategory.cName}"></option>
-
-              </select>
+                <select class="catego2 form-select" th:id="'category2-'+${category.cId}" style="display: none" name="category1" id="'category2-'+${category.cId}">
+                    <option value="">전체</option>
+                    <option th:each="subcategory:${subcategory[category.cId]}" th:value="${subcategory.cId}" th:text="${subcategory.cName}"></option>
+                </select>
             </div>
-        </td>
-      </tr>
-<!--          <div class="mb-3 mt-3">-->
+        </div>
 
-<!--              <label for="pName" class="form-label">Name:</label>-->
-
-<!--              <input type="text" class="form-control" id="pName" placeholder="Name 입력" name="name" required>-->
-
-<!--              <div class="valid-feedback">유효 O</div>-->
-
-<!--              <div class="invalid-feedback">이름 입력</div>-->
-
-<!--          </div>-->
-<!--          <div class="mb-3 mt-3">-->
-
-<!--              <label for="pInfo" class="form-label">제품 정보:</label>-->
-
-<!--              <textarea class="form-control" id="pInfo" placeholder="색, 상태, 구입일 등을 입력" name="pInfo" required></textarea>-->
-
-<!--              <div class="valid-feedback">유효 O</div>-->
-
-<!--              <div class="invalid-feedback">제품 정보는 비워둘 수 없습니다.</div>-->
-
-<!--          </div>-->
-<!--          <div class="col-md-3">-->
-<!--              <label for="pSaleType" class="form-label">제품 정보:</label>-->
-<!--              <select id="pSaleType" name="pSaleType" class="form-select" required>-->
-<!--                  <option selected disabled value="">전체</option>-->
-<!--                  <option value="0">경매</option>-->
-<!--                  <option value="1">즉시 판매</option>-->
-<!--                  <div class="valid-feedback">유효 O</div>-->
-<!--                  <div class="invalid-feedback">제품 정보는 비워둘 수 없습니다.</div>-->
-<!--              </select>-->
-<!--          </div>-->
-
-<!--          <tr id="auctionFields" style="display: none;">-->
-<!--              <div class="col-md-3">-->
-<!--                  <label for="pSaleType" class="form-label">제품 정보:</label>-->
-<!--                  <select id="pSaleType" name="pSaleType" class="form-select" required>-->
-<!--                      <option selected disabled value="">전체</option>-->
-<!--                      <option value="0">경매</option>-->
-<!--                      <option value="1">즉시 판매</option>-->
-<!--                      <div class="valid-feedback">유효 O</div>-->
-<!--                      <div class="invalid-feedback">제품 정보는 비워둘 수 없습니다.</div>-->
-<!--                  </select>-->
-<!--              </div>-->
-<!--          </tr>-->
-<!--              <td><label for="pDurDate">판매 기간:</label></td>-->
-<!--              <td>-->
-<!--                  <select id="pDurDate" name="pDurDate" >-->
-<!--                      <option value="">전체</option>-->
-<!--                      <option value="7">7</option>-->
-<!--                      <option value="14">14</option>-->
-<!--                      <option value="21">21</option>-->
-<!--                  </select>-->
-<!--              </td>-->
-
-        <tr>
-        <td><label for="pName">제품명:</label></td>
-        <td><input type="text" id="pName" name="pName" required /></td>
-      </tr>
-      <tr>
-        <td><label for="pInfo">제품 정보:</label></td>
-        <td><textarea id="pInfo" name="pInfo" required></textarea></td>
-      </tr>
-      <tr>
-        <td><label for="pSaleType">판매 형태:</label></td>
-        <td>
-          <select id="pSaleType" name="pSaleType" required>
-              <option value="">전체</option>
-            <option value="0">경매</option>
-            <option value="1">즉시 판매</option>
-          </select>
-        </td>
-      </tr>
-
-       Fields for Auction Sale Type
-      <tr id="auctionFields" style="display: none;">
-        <td><label for="pDurDate">판매 기간:</label></td>
-        <td>
-          <select id="pDurDate" name="pDurDate" >
-              <option value="">전체</option>
-            <option value="7">7</option>
-            <option value="14">14</option>
-            <option value="21">21</option>
-          </select>
-        </td>
-      </tr>
-      <tr id="auctionStartPrice" style="display: none;">
-        <td><label for="pBPrice">경매 시작 가격:</label></td>
-        <td><input type="number" id="pBPrice" name="pBPrice" min="100" placeholder="최소 100원 이상부터 입력 가능합니다." /></td>
-      </tr>
-
-      <!-- Fields for Immediate Sale Type -->
-      <tr id="immediateSaleFields" style="display: none;">
-        <td><label for="pDirect">즉시 판매 가격:</label></td>
-        <td><input type="number" id="pDirect" name="pDirect" min="100" placeholder="최소 100원 이상부터 입력 가능합니다."/></td>
-      </tr>
-      <tr>
-        <td><label for="pAccount">정산 계좌번호:</label></td>
-        <td><input type="text" id="pAccount" name="pAccount" required /></td>
-      </tr>
-      <tr>
-        <td><label for="pBank">은행명:</label></td>
-        <td><input type="text" id="pBank" name="pBank" required /></td>
-      </tr>
-
-      <tr>
-      <td>주    소</td>
-      <td>
-        <input name="pAddrPostcode" id="pAddrPostcode" type="text"  size="10" readonly placeholder="우편번호"> <br>
-        <input name="pAddress" id="pAddress" type="text"  size="40" readonly>
-        <input type="button"  value="주소검색" onclick="goPopup();"> <br>
-        <input name="pAddressSub" id="pAddressSub" type="text" size="20" placeholder="상세 주소">
-        <div><span class="fs-6 text-danger"></span> <br></div>
-      </td>
-    </tr>
-      <tr>
-        <td colspan="2" th:align="right" >
-          <div class="btn_section">
-            <button id="cancelBtn" class="btn">취 소</button>
-            <!--      <button id="enrollBtn" class="btn enroll_btn">등 록</button>-->
-<!--            <input type="submit" value="등록">-->
-              <button id="enrollBtn" class="btn">등 록</button>
-          </div>
-        </td>
-      </tr>
-  </table>
-  </form>
-  </div>
+        <div class="mb-3">
+            <label for="pName" class="form-label">제품명:</label>
+            <input type="text" id="pName" name="pName" class="form-control" required>
+            <div class="invalid-feedback">제품명을 입력해주세요.</div>
+        </div>
+        <div class="mb-3">
+            <label for="pInfo" class="form-label">제품 정보:</label>
+            <textarea id="pInfo" name="pInfo" class="form-control" required></textarea>
+            <div class="invalid-feedback">제품 정보를 입력해주세요.</div>
+        </div>
+        <div class="mb-3">
+            <label for="pSaleType" class="form-label">판매 형태:</label>
+            <select id="pSaleType" name="pSaleType" class="form-select" required>
+                <option value="">전체</option>
+                <option value="0">경매</option>
+                <option value="1">즉시 판매</option>
+            </select>
+            <div class="invalid-feedback">판매 형태를 선택해주세요.</div>
+        </div>
+        <div id="auctionFields" style="display: none;">
+            <div class="mb-3">
+                <label for="pDurDate" class="form-label">판매 기간:</label>
+                <select id="pDurDate" name="pDurDate" class="form-select">
+                    <option value="">전체</option>
+                    <option value="7">7</option>
+                    <option value="14">14</option>
+                    <option value="21">21</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="pBPrice" class="form-label">경매 시작 가격:</label>
+                <input type="number" id="pBPrice" name="pBPrice" min="100" class="form-control" placeholder="최소 100원 이상부터 입력 가능합니다.">
+            </div>
+        </div>
+        <div id="immediateSaleFields" style="display: none;">
+            <div class="mb-3">
+                <label for="pDirect" class="form-label">즉시 판매 가격:</label>
+                <input type="number" id="pDirect" name="pDirect" min="100" class="form-control" placeholder="최소 100원 이상부터 입력 가능합니다.">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="pAccount" class="form-label">정산 계좌번호:</label>
+            <input type="text" id="pAccount" name="pAccount" class="form-control" required>
+            <div class="invalid-feedback">정산 계좌번호를 입력해주세요.</div>
+        </div>
+        <div class="mb-3">
+            <label for="pBank" class="form-label">은행명:</label>
+            <input type="text" id="pBank" name="pBank" class="form-control" required>
+            <div class="invalid-feedback">은행명을 입력해주세요.</div>
+        </div>
+        <div class="mb-3">
+            <label for="pAddrPostcode" class="form-label">주소:</label>
+            <input type="text" id="pAddrPostcode" name="pAddrPostcode" class="form-control" size="10" readonly placeholder="우편번호" required>
+            <input type="text" id="pAddress" name="pAddress" class="form-control" size="40" readonly required>
+            <input type="button" value="주소검색" onclick="goPopup();" class="btn btn-primary mt-2">
+            <input type="text" id="pAddressSub" name="pAddressSub" class="form-control mt-2" size="20" placeholder="상세 주소">
+            <div><span class="fs-6 text-danger"></span><br></div>
+        </div>
+        <div class="mb-3">
+            <label for="uploadFile" class="form-label">상품 이미지:</label>
+            <input type="file" id="uploadFile" name="uploadFile" class="form-control" style="height: 30px;" required>
+            <div class="invalid-feedback">상품 이미지를 선택해주세요.</div>
+        </div>
+        <div id="uploadResult"></div>
+        <div class="mb-3">
+            <button id="cancelBtn" class="btn btn-secondary me-2" type="button">취소</button>
+            <button id="enrollBtn" class="btn btn-primary" type="submit" >등록</button>
+        </div>
+    </form>
+<input type="hidden" th:value="${getProductId}">
 
 <!--footer-->
 <div th:replace="fragments/footer.html :: fragment-footer"></div>
 </body>
 
-
 <script>
-  // 1차 카테고리 선택 항목이 변경될 때 호출되는 함수
-  function selectSubcategory() {
-      // var catego = $(".category1").val();
-      var catego = $(".catego1").filter(":selected").val();
-      console.log("cate:"+catego);
-      // selectSubcategory()가 실행될때 일단 여러 개 떠있을 catego2의 옵션을 가려주고
-      $(".catego2").css("display","none");
-      // 그 중 category2에 변수 catego가 연결된 값 = 즉 2차카테고리로서 존재할 수 있는 값 만 다시 디스플레이로 보여줌
-      $("#category2-"+catego).css("display","inline-block");
-  }
+    function selectSubcategory() {
+        var catego = $(".catego1").filter(":selected").val();
+        $(".catego2").css("display","none");
+        $("#category2-"+catego).css("display","inline-block");
 
-</script>
-<script>
+        console.log(catego);
 
-
-  // $("option:selected", this).each(function () {
-  //   var selectVal = $(this).val();
-  //   cate2Select.append("<option value='" + selectVal + "'>전체</option>");
-  //
-  //   for(var i= 0; i < cate2Arr.length; i++){
-  //     if (selectVal == cate2Arr[i].cateCodeRef){
-  //       cate2Select.append("<option value='" + cate2Arr[i].cateCode + "'>"
-  //                 + cate2Arr[i].cateName + "</option>");
-  //     }
-  //   }
-  // })
-  function toggleFields() {
-    var saleType = $("#pSaleType").val();
-
-    if (saleType === "0") {
-      $("#auctionFields").show();
-      $("#auctionStartPrice").show();
-      $("#immediateSaleFields").hide();
-    } else if (saleType === "1") {
-      $("#auctionFields").hide();
-      $("#auctionStartPrice").hide();
-      $("#immediateSaleFields").show();
-    } else {
-      $("#auctionFields").hide();
-      $("#auctionStartPrice").hide();
-      $("#immediateSaleFields").hide();
+        if (catego == null){
+             $("#cid2").text("");
+        }else{
+            $("#cid2").text("2차 카테고리:");
+        }
     }
-  }
 
-  // Event listener for sale type change
-  $("#pSaleType").on("change", toggleFields);
+    function toggleFields() {
+        var saleType = $("#pSaleType").val();
 
-  // Initial invocation of toggleFields on page load (in case there's a pre-selected value)
-  toggleFields();
+        if (saleType === "0") {
+            $("#auctionFields").show();
+            $("#auctionStartPrice").show();
+            $("#immediateSaleFields").hide();
+        } else if (saleType === "1") {
+            $("#auctionFields").hide();
+            $("#auctionStartPrice").hide();
+            $("#immediateSaleFields").show();
+        } else {
+            $("#auctionFields").hide();
+            $("#auctionStartPrice").hide();
+            $("#immediateSaleFields").hide();
+        }
+    }
 
+    // Event listener for sale type change
+    $("#pSaleType").on("change", toggleFields);
 
+    // Initial invocation of toggleFields on page load (in case there's a pre-selected value)
+    toggleFields();
 
+    let enrollForm = $("#enrollForm");
 
+    /* 취소 버튼 */
+    $("#cancelBtn").click(function(){
+        alert("등록 취소되었습니다.");
+        history.back();
+    });
 
-  let enrollForm = $("#enrollForm")
-
-  /* 취소 버튼 */
-  $("#cancelBtn").click(function(){
-    alert("등록 취소되었습니다.")
-    history.back();
-  });
-
-  /* 상품 등록 버튼 */
-  $("#enrollBtn").on("click",function(e){
-
-    e.preventDefault();
-    alert("등록 성공하였습니다.")
-    enrollForm.submit();
-
-  });
-
+    /* 상품 등록 버튼 */
+    $("#enrollBtn").on("click", function(e){
+        e.preventDefault();
+        if (enrollForm[0].checkValidity()) {
+            alert("등록 성공하였습니다.");
+            enrollForm.submit();
+        } else {
+            enrollForm[0].reportValidity();
+        }
+    });
 </script>
 
-
-<script src="/js/jquery.js"></script>
-
 <script>
+
+    let regex = new RegExp("(.*?)\.(jpg|png)$");
+    let maxSize = 10485760; //10MB
+    function fileCheck(fileName, fileSize){
+        if(fileSize >= maxSize){
+            alert("파일 사이즈 초과");
+            return false;
+        }
+        if(!regex.test(fileName)){
+            alert("해당 종류의 파일은 업로드할 수 없습니다.");
+            return false;
+        }
+        return true;
+    }
+
     /* 이미지 업로드 */
     $("input[type='file']").on("change", function(e){
-        /* 이미지 존재시 삭제 */
-        // 미리보기 태그가 존재한다면 이미지가 이미 저장된거임
+        // Delete existing image
         if($(".imgDeleteBtn").length > 0){
             deleteFile();
         }
 
-        // formData 객체를 인스턴스화 해서 주소를 변수에 저장
         let formData = new FormData();
-
         let fileInput = $("input[name='uploadFile']");
         let fileList = fileInput[0].files;
         let fileObj = fileList[0];
 
-        // view단에서 이미지 파일인지 아닌지 체크
         if(!fileCheck(fileObj.name, fileObj.size)){
             return false;
         }
 
-        //multiple 속성으로 사용자가 여러 개의 파일을 선택할 수 있으므로 반복문
         for(let i = 0; i < fileList.length; i++){
-            // 사용자가 선택한 파일을 FormData 에 uploadFile이란 이름으로 추가, (기존 값 집합의 끝에 새로운 값 추가)
             formData.append("uploadFile", fileList[i]);
         }
 
         $.ajax({
-            // 서버로 요청을 보낼 url
             url: '/productEnroll/uploadAjaxAction',
-            // false로 해야 첨부파일이 서버로 전송됨
-            processData : false,
-            contentType : false,
-            data : formData,
-            type : 'POST',
-            dataType : 'json',
-            // 뷰에서 서버에서 전송한 이미지 정보를 전달 받기 위함. 속성값으로 콜백함수를 부여, 전달받은 객체 데이터 = result
-            success : function(result){
+            processData: false,
+            contentType: false,
+            data: formData,
+            type: 'POST',
+            dataType: 'json',
+            success: function(result){
                 console.log(result);
                 showUploadImage(result);
             },
-            error : function(result){
+            error: function(result){
                 alert("이미지 파일이 아닙니다.");
             }
         });
 
         alert("통과");
-
     });
-
-    // 파일 사이즈, 타입 제한하는 변수
-    let regex = new RegExp("(.*?)\.(jpg|png)$");
-    let maxSize = 10485760; //10MB
-
-    function fileCheck(fileName, fileSize){
-
-        if(fileSize >= maxSize){
-            alert("파일 사이즈 초과");
-            return false;
-        }
-
-        if(!regex.test(fileName)){
-            alert("해당 종류의 파일은 업로드할 수 없습니다.");
-            return false;
-        }
-
-        return true;
-
-    }
 
     /* 이미지 출력 */
     function showUploadImage(uploadResultArr){
+        console.log("uploadResultArr:"+JSON.stringify(uploadResultArr));
 
-        /* 전달받은 데이터 검증 */
-        if(!uploadResultArr || uploadResultArr.length == 0){return}
+        if(!uploadResultArr || uploadResultArr.length === 0){
+            return;
+        }
 
-        // id 속성이 uploadResult인 div 태그 요소에 쉽게 접근하기 위해 변수 선언
         let uploadResult = $("#uploadResult");
-
-        // 이미지 한개만 전달받을때
         let obj = uploadResultArr[0];
-
         let str = "";
 
-        // let fileCallPath = encodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.fileName);
-        let fileCallPath = encodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.iImage);
-        // var decodeCallPath = (obj.url+"/s_" + obj.uuid + "_" + obj.fileName);
+        // let fileCallPath = encodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.iimage);
+        console.log("obj.iimage"+obj.iimage);
+        // let fileCallPath = encodeURIComponent((obj.url + "/s_" + obj.uuid + "_" + obj.iimage).replaceAll("\\","/"));
+        let fileCallPath = encodeURIComponent(("/upload/"+obj.uploadPath + "/s_" + obj.uuid + "_" + obj.iimage).replaceAll("\\","/"));
+        console.log("fileCallPath"+fileCallPath);
 
-
-        // test에서 했던 태그를 이제 js를 통해 동적으로 추가되도록 해줌
         str += "<div id='result_card'>";
-        str += "<img src='/display?fileName=" + fileCallPath +"'>";
-
+        str += "<img src='/display?fileName=" + fileCallPath + "'>";
         str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
-        // 이미지 한개만 출력
-        str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.iImage +"'>";
+        str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.iimage +"'>";
         str += "<input type='hidden' name='imageList[0].uuid' value='"+ obj.uuid +"'>";
         str += "<input type='hidden' name='imageList[0].uploadPath' value='"+ obj.uploadPath +"'>";
         str += "<input type='hidden' name='imageList[0].url' value='"+ obj.url +"'>";
@@ -409,45 +256,33 @@
         uploadResult.append(str);
     }
 
-
     /* 이미지 삭제 버튼 동작 */
-    // div태그는 웹페이지 렌더링 이후 js코드를 통해 동적으로 출력된 코드이므로 그냥 click으로 작동 x
-    // $(".imgDeletBtn").click(function(){
     $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
         deleteFile();
     });
 
     /* 파일 삭제 메서드 */
     function deleteFile(){
-
         let targetFile = $(".imgDeleteBtn").data("file");
-
         let targetDiv = $("#result_card");
-
         var productId =  $("#getProductId").val();
 
         $.ajax({
-            // url: '/admin/deleteFile',
             url: '/productEnroll/deleteFile',
-            // data : {fileName : targetFile},
             data : {fileName : targetFile, productId: productId},
             dataType : 'text',
             type : 'POST',
             success : function(result){
                 console.log(result);
-
                 targetDiv.remove();
                 $("input[type='file']").val("");
-
             },
             error : function(result){
                 console.log(result);
-
-                alert("파일을 삭제하지 못하였습니다.")
+                alert("파일을 삭제하지 못하였습니다.");
             }
         });
     }
-
 </script>
-<script type="text/javascript"></script>
+
 </html>
