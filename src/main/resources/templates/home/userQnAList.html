@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <title>boardWrite</title>
     <!--header-->
-<!--    <script src="/gyuha/js/header.js"></script>-->
-<!--    <th:div th:replace="fragments/header.html :: fragment-header"></th:div>-->
-<th:block th:replace="fragments/header"></th:block>
+    <th:block th:replace="fragments/header.html :: fragment-header"></th:block>
 </head>
 <body>
         <!--관리자or유저일경우 활성화-->
@@ -94,7 +92,8 @@
             <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
         </form>
 
-<th:block th:replace="fragments/footer"></th:block>
+        <!--footer-->
+        <th:block th:replace="fragments/footer.html :: fragment-footer"></th:block>
 </body>
 </html>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

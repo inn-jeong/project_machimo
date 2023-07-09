@@ -9,7 +9,11 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+<<<<<<<< HEAD:src/main/java/com/example/project_machimo/gyuha/TestUsersDto.java
 public class TestUsersDto {
+========
+public class UsersDto1 {
+>>>>>>>> origin/admin:src/main/java/com/example/project_machimo/jolocal/admin/dto/UsersDto1.java
     private int userId;
     private String uId;
     private String uPassword;
