@@ -3,7 +3,7 @@ package com.example.project_machimo.jolocal.admin.controller;
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
 import com.example.project_machimo.jolocal.admin.dto.PageDto;
-import com.example.project_machimo.jolocal.admin.dto.UsersDto;
+import com.example.project_machimo.jolocal.admin.dto.UsersDto1;
 import com.example.project_machimo.jolocal.admin.service.AdminService;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ public class HomeController {
     public String boardList(Criteria cri, Model model, HttpSession session){
         System.out.println("@# ==> home boardList start");
 
-        UsersDto user = new UsersDto();
+        UsersDto1 user = new UsersDto1();
         user.setUserId(1); // admin 계정
         user.setUNickname("admin");
 
@@ -87,7 +87,7 @@ public class HomeController {
     public String boardWrite(Criteria cri, Model model){
         System.out.println("@# boaradWriteView start");
 
-        UsersDto user = new UsersDto();
+        UsersDto1 user = new UsersDto1();
 //        user.setUserId(1); //admin
 //        user.setUNickname("admin");
 //        user.setUserId(0); //user
@@ -168,7 +168,7 @@ public class HomeController {
         String category = dto.getBCategory();
         System.out.println("카테고리" + category);
         int userId = dto.getUserId();
-        UsersDto userId1 = (UsersDto) session.getAttribute("user");
+        UsersDto1 userId1 = (UsersDto1) session.getAttribute("user");
 
         log.info("유우우우저 {}",userId);
         String page;

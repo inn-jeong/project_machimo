@@ -33,7 +33,7 @@
     </sql>
 
     <!--/////////유저 관리/////////-->
-    <select id="adminList" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto">
+    <select id="adminList" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto1">
         <![CDATA[
             SELECT *
             FROM (
@@ -59,7 +59,7 @@
         ]]>
     </select>
 
-    <select id="userView" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto">
+    <select id="userView" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto1">
         SELECT u.user_id, u_id, u_nickname, u_password, u_name, u_jumin, u_phone, u_address,
         r.report_id, r.products_id, r.report_content, r.report_date, r.report_count
         FROM users u
@@ -79,7 +79,7 @@
         update users set u_role=1 where user_id=#{userId}
     </update>
 
-    <select id="reportView" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto">
+    <select id="reportView" resultType="com.example.project_machimo.jolocal.admin.dto.UsersDto1">
         select report_id, seller_user_id, products_id, report_content, report_date, (SELECT MAX(report_count) FROM report where seller_user_id=#{sellerUserId} )
         from report where user_id = #{userId}
     </select>

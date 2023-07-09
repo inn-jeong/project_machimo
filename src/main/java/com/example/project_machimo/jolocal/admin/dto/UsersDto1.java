@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsersDto {
+public class UsersDto1 {
     private int userId;
     private String uId;
     private String uPassword;

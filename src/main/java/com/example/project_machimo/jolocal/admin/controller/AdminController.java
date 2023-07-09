@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 @Controller
@@ -43,7 +42,7 @@ public class AdminController {
     public String adminList(Criteria cri, Model model){
         System.out.println("@# adminList start");
         //admin session
-        UsersDto user = new UsersDto();
+        UsersDto1 user = new UsersDto1();
         user.setUserId(1); //admin
         user.setUNickname("admin");
         session.setAttribute("user",user);
@@ -98,7 +97,7 @@ public class AdminController {
     public String boardList(@RequestParam HashMap<String,Object>param, Criteria cri, Model model){
         System.out.println("@# controller boardList");
 
-        UsersDto user = new UsersDto();
+        UsersDto1 user = new UsersDto1();
         user.setUserId(1); //admin
         user.setUNickname("admin");
         session.setAttribute("user",user);

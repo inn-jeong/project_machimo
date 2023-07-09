@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <title>boardWrite</title>
     <!--header-->
-    <div th:replace="fragments/header.html :: fragment-header"></div>
+    <th:block th:replace="fragments/header.html :: fragment-header"></th:block>
 </head>
 <body>
-<div>
     <!-- 관리자 or 로그인한 유저만 활성화-->
 <!--    <div class="container p-5 mb-4" th:if="${session.user.uRole == 1 || session.user.userId != null }">-->
     <div class="container p-5 mb-4">
@@ -71,9 +70,8 @@
             </div>
         </form>
     </div>
-
     <!--footer-->
-    <div th:replace="fragments/footer.html :: fragment-footer"></div>
+    <th:block th:replace="fragments/footer.html :: fragment-footer"></th:block>
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
