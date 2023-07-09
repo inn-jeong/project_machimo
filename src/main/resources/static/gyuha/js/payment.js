@@ -200,17 +200,19 @@ function requestPay() {
 
                             })
                             , success: function () {
-
+                                console.log("userId:"+user_id);
+                                console.log("orderId:"+order_id);
+                                console.log("pid:"+product_id_list);
 
                                 $.ajax({
                                     type: "post",
-                                    url:"order/complete",
-                                    contentType: "application/json",
-                                    data:JSON.stringify({
+                                    url:"/payment/complete",
+                                    // contentType: "application/json",
+                                    data:{
                                         user_id : user_id,
                                         order_id:order_id,
                                         product_id_list: product_id_list
-                                    }),
+                                    },
                                     success: function (){
                                         alert("결제 성공")
                                         window.location.href = '/mypage/orderlist';

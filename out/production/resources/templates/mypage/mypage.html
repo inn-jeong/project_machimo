@@ -574,90 +574,175 @@
                     <div class="order_list_subtitle">
                         <h4>나의 정보수정</h4>
                     </div>
-                    <form name="frm_update" id="frm_update" class="table-primary" method="post" action="/mypage/joinProc">
-                        <input th:if="${user}" type="hidden" name="uSocial" th:value="${user.uSocial}">
-                        <!--    <input type="text" name="u_social" th:value="${user.getU_social()}">-->
-                        <table align="center">
-                            <tr height="60">
-                                <td style="width: 100px">User ID</td>
-                                <td>
-                                    <input name="uId" id="uId" type="text" th:value="${user.uId}" size="20" readonly>
-<!--                                    <button type="button" id="check_btn" onclick="sendRequest()">중복 체크</button>-->
-<!--                                    <span id="check_result"></span>-->
-<!--                                    <span class="fs-6 text-danger" th:text="${valid_uId}"></span>-->
+                    <div class="container-sm mb-4">
+                        <form name="reg_frm" id="reg_frm" class="table-primary" method="post" action="/loginT/joinProc">
+                            <input th:if="${user}" type="hidden" name="uSocial" th:value="${user.uSocial}">
+                            <!--    <input type="text" name="u_social" th:value="${userDto.getU_social()}">-->
+                            <table align="center">
+                                <tr height="60">
+                                    <td style="width: 100px">User ID</td>
+                                    <td>
+                                        <input name="uId" id="uId" type="text" class="form-control" th:value="${user.uId}" size="20" style="width: 250px; display: inline" readonly>
+<!--                                        <button type="button" id="check_btn" class="btn btn-secondary" onclick="sendRequest()" style="display: inline">중복 체크</button>-->
+<!--                                        <span id="check_result"></span>-->
+<!--                                        <span class="fs-6 text-danger" th:text="${valid_uId}"></span>-->
 
-                                </td>
-                            </tr>
-                            <tr height="60">
-                                <td>암    호</td>
-                                <td>
-                                    <input name="uPassword" type="password" size="20">
-                                    <div><span class="fs-6 text-danger" th:text="${valid_uPassword}"></span></div>
-                                </td>
-                            </tr>
-                            <tr height="60">
-                                <td>암호 확인</td>
-                                <td>
-                                    <input name="uPwdCheck" type="password" size="20">
-                                    <div><span class="fs-6 text-danger" th:text="${valid_uPwdCheck}"></span></div>
-                                </td>
-                            </tr>
-                            <tr height="60">
-                                <td>이   름</td>
-                                <td>
-                                    <input name="uName" type="text" th:value="${user.uName}" size="20" readonly>
-                                    <!--        <input name="u_name" type="text" size="20">*-->
-                                    <div><span class="fs-6 text-danger" th:text="${valid_uName}"></span></div>
-                                </td>
-                            </tr>
-                            <tr height="60">
-                                <td>생년월일</td>
-                                <td>
-                                    <input name="uJumin" type="text" th:value="${user.uJumin}" size="20" placeholder="예) 960429" readonly>
-                                    <div><span class="fs-6 text-danger" th:text="${valid_uJumin}"></span></div>
-                                </td>
-                            </tr>
-                            <tr height="60">
-                                <td>전화번호</td>
-                                <td>
-                                    <input name="uPhone" type="text" th:value="${user.uPhone}" size="20" placeholder="예) 01x-xxxx-xxxx">
-                                    <div><span class="fs-6 text-danger" th:text="${valid_uPhone}"></span></div>
-                                </td>
-                            </tr>
-                            <tr height="60">
-                                <td>닉네임</td>
-                                <td>
-                                    <input name="uNickname" type="text" th:value="${user.uNickname}" size="20">
-                                    <div><span class="fs-6 text-danger" th:text="${valid_uNickname}"></span></div>
-                                </td>
-                            </tr>
-                            <tr height="60">
-                                <td>E-mail</td>
-                                <td>
-                                    <input name="uEmail" type="text" th:value="${user.uEmail}" size="60">
-                                    <div><span class="fs-6 text-danger" th:text="${valid_uEmail}"></span></div>
-                                </td>
-                            </tr>
-                            <tr height="60">
-                                <td>주    소</td>
-                                <td>
-                                    <input name="uAddrPostcode" id="uAddrPostcode" type="text" th:value="${user.uAddrPostcode}" size="10" readonly placeholder="우편번호"> <br>
-                                    <input name="uAddress" id="uAddress" type="text" th:value="${user.uAddress}" size="40" readonly>
-                                    <input type="button"  value="주소검색" onclick="goPopup();"> <br>
-                                    <input name="uAddressSub" id="uAddressSub" type="text" th:value="${user.uAddressSub}" size="20" placeholder="상세 주소">
-                                    <div><span class="fs-6 text-danger" th:text="${valid_uAddress}"></span> <br></div>
-                                </td>
-                            </tr>
-                            <tr height="60">
-                                <td colspan="2" align="center">
-<!--                                    <button onclick="updateUser()">수정</button>-->
-                                    <input type="submit" id="insert_mem" value="수정">
-                                    <input type="reset" value="다시입력">
-                                    <input type="button" value="취소" onclick="javascript:window.location='/mypage/mypage_page'">
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
+                                    </td>
+                                </tr>
+                                <tr height="60">
+                                    <td>암    호</td>
+                                    <td>
+                                        <input name="uPassword" class="form-control" type="password" size="20">
+                                        <div><span class="fs-6 text-danger" th:text="${valid_uPassword}"></span></div>
+                                    </td>
+                                </tr>
+                                <tr height="60">
+                                    <td>암호 확인</td>
+                                    <td>
+                                        <input name="uPwdCheck" class="form-control" type="password" size="20">
+                                        <div><span class="fs-6 text-danger" th:text="${valid_uPwdCheck}"></span></div>
+                                    </td>
+                                </tr>
+                                <tr height="60">
+                                    <td>이   름</td>
+                                    <td>
+                                        <input name="uName" class="form-control" type="text" th:value="${user.uName}" size="20" readonly>
+                                        <!--        <input name="u_name" type="text" size="20">*-->
+<!--                                        <div><span class="fs-6 text-danger" th:text="${valid_uName}"></span></div>-->
+                                    </td>
+                                </tr>
+                                <tr height="60">
+                                    <td>생년월일</td>
+                                    <td>
+                                        <input name="uJumin" class="form-control" type="text" th:value="${user.uJumin}" size="20" placeholder="예) 960429">
+                                        <div><span class="fs-6 text-danger" th:text="${valid_uJumin}"></span></div>
+                                    </td>
+                                </tr>
+                                <tr height="60">
+                                    <td>전화번호</td>
+                                    <td>
+                                        <input name="uPhone" class="form-control" type="text" th:value="${user.uPhone}" size="20" placeholder="예) 01x-xxxx-xxxx">
+                                        <div><span class="fs-6 text-danger" th:text="${valid_uPhone}"></span></div>
+                                    </td>
+                                </tr>
+                                <tr height="60">
+                                    <td>닉네임</td>
+                                    <td>
+                                        <input name="uNickname" class="form-control" type="text" th:value="${user.uNickname}" size="20">
+                                        <div><span class="fs-6 text-danger" th:text="${valid_uNickname}"></span></div>
+                                    </td>
+                                </tr>
+                                <tr height="60">
+                                    <td>E-mail</td>
+                                    <td>
+                                        <input name="uEmail" class="form-control" type="text" th:value="${user.uEmail}" size="60">
+                                        <div><span class="fs-6 text-danger" th:text="${valid_uEmail}"></span></div>
+                                    </td>
+                                </tr>
+                                <tr height="60">
+                                    <td>주    소</td>
+                                    <td>
+                                        <input name="uAddrPostcode" class="form-control" id="uAddrPostcode" type="text" th:value="${user.uAddrPostcode}" style="width: 150px" readonly placeholder="우편번호">
+                                        <input name="uAddress" class="form-control" id="uAddress" type="text" th:value="${user.uAddress}" style="width: 400px; display: inline" size="40" readonly>
+                                        <input type="button" class="btn btn-secondary" value="주소검색" style="display: inline" onclick="goPopup();">
+                                        <input name="uAddressSub" class="form-control" id="uAddressSub" type="text" th:value="${user.uAddressSub}" style="width: 200px;" size="20" placeholder="상세 주소">
+                                        <div><span class="fs-6 text-danger" th:text="${valid_uAddress}"></span> <br></div>
+                                    </td>
+                                </tr>
+                                <tr height="60">
+                                    <td colspan="2" align="center">
+                                        <input type="submit" id="insert_mem" class="btn btn-success" value="수정" disabled="disabled">
+                                        <input type="reset" value="다시입력" class="btn btn-secondary">
+                                        <input type="button" value="취소" class="btn btn-secondary" onclick="javascript:window.location='/mypage/mypage_page'">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+<!--                    <form name="frm_update" id="frm_update" class="table-primary" method="post" action="/mypage/joinProc">-->
+<!--                        <input th:if="${user}" type="hidden" name="uSocial" th:value="${user.uSocial}">-->
+<!--                        &lt;!&ndash;    <input type="text" name="u_social" th:value="${user.getU_social()}">&ndash;&gt;-->
+<!--                        <table align="center">-->
+<!--                            <tr height="60">-->
+<!--                                <td style="width: 100px">User ID</td>-->
+<!--                                <td>-->
+<!--                                    <input name="uId" id="uId" type="text" th:value="${user.uId}" size="20" readonly>-->
+<!--&lt;!&ndash;                                    <button type="button" id="check_btn" onclick="sendRequest()">중복 체크</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span id="check_result"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span class="fs-6 text-danger" th:text="${valid_uId}"></span>&ndash;&gt;-->
+
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            <tr height="60">-->
+<!--                                <td>암    호</td>-->
+<!--                                <td>-->
+<!--                                    <input name="uPassword" type="password" size="20">-->
+<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uPassword}"></span></div>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            <tr height="60">-->
+<!--                                <td>암호 확인</td>-->
+<!--                                <td>-->
+<!--                                    <input name="uPwdCheck" type="password" size="20">-->
+<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uPwdCheck}"></span></div>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            <tr height="60">-->
+<!--                                <td>이   름</td>-->
+<!--                                <td>-->
+<!--                                    <input name="uName" type="text" th:value="${user.uName}" size="20" readonly>-->
+<!--                                    &lt;!&ndash;        <input name="u_name" type="text" size="20">*&ndash;&gt;-->
+<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uName}"></span></div>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            <tr height="60">-->
+<!--                                <td>생년월일</td>-->
+<!--                                <td>-->
+<!--                                    <input name="uJumin" type="text" th:value="${user.uJumin}" size="20" placeholder="예) 960429" readonly>-->
+<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uJumin}"></span></div>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            <tr height="60">-->
+<!--                                <td>전화번호</td>-->
+<!--                                <td>-->
+<!--                                    <input name="uPhone" type="text" th:value="${user.uPhone}" size="20" placeholder="예) 01x-xxxx-xxxx">-->
+<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uPhone}"></span></div>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            <tr height="60">-->
+<!--                                <td>닉네임</td>-->
+<!--                                <td>-->
+<!--                                    <input name="uNickname" type="text" th:value="${user.uNickname}" size="20">-->
+<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uNickname}"></span></div>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            <tr height="60">-->
+<!--                                <td>E-mail</td>-->
+<!--                                <td>-->
+<!--                                    <input name="uEmail" type="text" th:value="${user.uEmail}" size="60">-->
+<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uEmail}"></span></div>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            <tr height="60">-->
+<!--                                <td>주    소</td>-->
+<!--                                <td>-->
+<!--                                    <input name="uAddrPostcode" id="uAddrPostcode" type="text" th:value="${user.uAddrPostcode}" size="10" readonly placeholder="우편번호"> <br>-->
+<!--                                    <input name="uAddress" id="uAddress" type="text" th:value="${user.uAddress}" size="40" readonly>-->
+<!--                                    <input type="button"  value="주소검색" onclick="goPopup();"> <br>-->
+<!--                                    <input name="uAddressSub" id="uAddressSub" type="text" th:value="${user.uAddressSub}" size="20" placeholder="상세 주소">-->
+<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uAddress}"></span> <br></div>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            <tr height="60">-->
+<!--                                <td colspan="2" align="center">-->
+<!--&lt;!&ndash;                                    <button onclick="updateUser()">수정</button>&ndash;&gt;-->
+<!--                                    <input type="submit" id="insert_mem" value="수정">-->
+<!--                                    <input type="reset" value="다시입력">-->
+<!--                                    <input type="button" value="취소" onclick="javascript:window.location='/mypage/mypage_page'">-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+<!--                    </form>-->
                 </div>
                 <div th:if="${type.equals('withdrawal')}" class="order_list">
                     <div class="list_subtitle">
@@ -675,19 +760,19 @@
                         <tbody>
                         <tr>
                             <td>
-                                <input type="password" id="uPassword" placeholder="비밀번호" style="width: 400px">
+                                <input type="password" id="uPassword" class="form-control" placeholder="비밀번호" style="width: 400px; margin: 0 auto">
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" id="checkWith" placeholder="'탈퇴하겠습니다'를 입력해주세요." style="width: 400px">
+                                <input type="text" id="checkWith" class="form-control" placeholder="'탈퇴하겠습니다'를 입력해주세요." style="width: 400px; margin: 0 auto">
                             </td>
                         </tr>
 
                         </tbody>
                     </table>
                     <div style="text-align: center">
-                        <button onclick="user_withdrawal()" class="btn btn-light" style="width: 150px; height: 60px">확인</button>
+                        <button onclick="user_withdrawal()" class="btn btn-light mr-3" style="width: 150px; height: 60px">확인</button>
                         <button class="btn btn-dark" style="width: 150px; height: 60px" onclick="javascript:location.href='/mypage/mypage_page'">취소</button>
                     </div>
                 </div>
