@@ -204,7 +204,7 @@ function requestPay() {
 
                                 $.ajax({
                                     type: "post",
-                                    url:"order/complete",
+                                    url:"payment/complete",
                                     contentType: "application/json",
                                     data:JSON.stringify({
                                         user_id : user_id,

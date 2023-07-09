@@ -1,6 +1,7 @@
 package com.example.project_machimo.gyuha.order.controller;
 
 import com.example.project_machimo.gyuha.aop.LoginCheck;
+import com.example.project_machimo.gyuha.basket.service.BasketService;
 import com.example.project_machimo.gyuha.order.dto.OrderDTO;
 import com.example.project_machimo.gyuha.order.dto.PaymentJsonDTO;
 import com.example.project_machimo.gyuha.order.service.OrderService;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -38,6 +40,8 @@ public class OrderRestController {
 
     @Autowired
     private  OrderService orderService;
+    @Autowired
+    private BasketService basketService;
 
 
 
@@ -130,7 +134,29 @@ public class OrderRestController {
         }
 
     }
+    @LoginCheck
+    @PostMapping("/complete")
+    public ResponseEntity<? extends Object> orderDone(
+            HttpSession session
+            , Model model
+            , @RequestParam(name = "user_id") Integer userId
+            , @RequestParam(name = "order_id") Integer orderId
+            , @RequestParam(name ="product_id_list") List<Integer> productIdList
+            ){
 
+
+        int i = basketService.deleteBasketList(productIdList);
+
+        System.out.println("i의 값"+i);
+        System.out.println("리스트이 값"+productIdList.size());
+        if (i != productIdList.size()){
+            return ResponseEntity.badRequest().build();
+        }
+
+
+        return ResponseEntity.ok().build();
+
+    }
 
 }
 

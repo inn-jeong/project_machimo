@@ -26,11 +26,10 @@ import java.util.Objects;
 public class OrderController {
 
     private final OrderService orderService;
-    public final BasketService basketService;
+    ;
 
     public OrderController(OrderService orderService, BasketService basketService) {
         this.orderService = orderService;
-        this.basketService = basketService;
     }
 
     /*
@@ -70,25 +69,5 @@ public class OrderController {
         return "order/realPayment";
     }
 
-    @LoginCheck
-    @GetMapping("/complete")
-    public ResponseEntity<? extends Object> orderDone(
-             HttpSession session
-            ,Model model
-            ,@RequestParam(name = "user_id") Integer userId
-            ,@RequestParam(name = "order_id") Integer orderId
-            ,@RequestParam(name ="product_id_list") List<Integer> productIdList
-            ){
 
-
-        int i = basketService.deleteBasketList(productIdList);
-
-        if (i != productIdList.size()){
-            return ResponseEntity.badRequest().build();
-        }
-
-
-        return ResponseEntity.ok().build();
-
-    }
 }
