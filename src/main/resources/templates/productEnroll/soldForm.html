@@ -8,11 +8,24 @@
 
     <div th:replace="fragments/header :: fragment-header"></div>
 
+    <style>
+        /* Center align the container */
+        .container-sm {
+            width: 700px;
+            margin: 0 auto;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-
+<div class="container-sm mb-4">
+        <h1 class="fw-bold text-center text-success mb-4">판매 신청 폼</h1>
     <form class="was-validated" action="/productEnroll/enroll" method="post" id="enrollForm" name="enrollForm" enctype="multipart/form-data">
         <input type="hidden" name="userId" value="11" />
         <input type="hidden" id="getProductId" th:value="${getProductId}" />
@@ -79,13 +92,23 @@
         </div>
         <div class="mb-3">
             <label for="pAccount" class="form-label">정산 계좌번호:</label>
-            <input type="text" id="pAccount" name="pAccount" class="form-control" required>
+            <input type="text" id="pAccount" name="pAccount" class="form-control" placeholder="0000-0000-0000의 양식으로 입력해주세요." required>
             <div class="invalid-feedback">정산 계좌번호를 입력해주세요.</div>
         </div>
+<!--        <div class="mb-3">-->
+<!--            <label for="pBank" class="form-label">은행명:</label>-->
+<!--            <input type="text" id="pBank" name="pBank" class="form-control" required>-->
+<!--            <div class="invalid-feedback">은행명을 입력해주세요.</div>-->
+<!--        </div>-->
         <div class="mb-3">
             <label for="pBank" class="form-label">은행명:</label>
-            <input type="text" id="pBank" name="pBank" class="form-control" required>
-            <div class="invalid-feedback">은행명을 입력해주세요.</div>
+            <select id="pBank" name="pBank" class="form-select" required>
+                <option value="">전체</option>
+                <option value="국민">국민</option>
+                <option value="신한">신한</option>
+                <option value="농협">농협</option>
+                <div class="invalid-feedback">은행명을 입력해주세요.</div>
+            </select>
         </div>
         <div class="mb-3">
             <label for="pAddrPostcode" class="form-label">주소:</label>
@@ -106,6 +129,7 @@
             <button id="enrollBtn" class="btn btn-primary" type="submit" >등록</button>
         </div>
     </form>
+</div>
 <input type="hidden" th:value="${getProductId}">
 
 <!--footer-->
