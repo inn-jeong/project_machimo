@@ -66,9 +66,31 @@
         P_HIT,
         P_SALES_STATUS,
         P_SALE_TYPE,
-        replace(UPLOAD_PATH || '/' || UUID || '_' || I_IMAGE, '\', '/') AS urlImg
+        replace(UPLOAD_PATH || '/' || UUID || '_' || I_IMAGE, '\', '/') AS url_img
         from PRODUCTS p join PRODUCT_IMAGES i on p.PRODUCT_ID = i.PRODUCT_ID
         where p.PRODUCT_ID = #{param1}
+    </select>
+    <select id="cataPList" resultType="com.example.project_machimo.gyuha.auction.vo.Test">
+        SELECT *
+        FROM (
+        SELECT p.PRODUCT_ID,
+        C_ID,
+        C_ID2,
+        P_NAME,
+        P_INFO,
+        P_DIRECT,
+        P_B_PRICE,
+        P_SALE_TYPE,
+        P_SALES_STATUS,
+        replace(UPLOAD_PATH || '/' || UUID || 's_' || I_IMAGE, '\', '/') AS url_img,
+        ROW_NUMBER() OVER (ORDER BY p.PRODUCT_ID) rnum
+        FROM PRODUCTS p
+        JOIN PRODUCT_IMAGES p2
+        ON p.PRODUCT_ID = p2.PRODUCT_ID
+        WHERE C_ID =#{param1} or C_ID2 = #{param1} and ( P_SALES_STATUS = 0 and P_SALES_STATUS =5)
+        ORDER BY DBMS_RANDOM.VALUE
+        )
+        WHERE 5> rnum
     </select>
 
 

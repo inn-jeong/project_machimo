@@ -52,9 +52,9 @@
                                     <img src="https://volcanoshop.net/web/product/medium/202207/2246137a254cc292520136388d752dd5.jpg"
                                          class="card-img-top object-fit-cover border rounded">
                                     <th:block th:switch="${result.pSalesStatus()}">
-                                        <small th:case="1">판매중</small>
-                                        <small th:case="2">판매완료</small>
-                                        <small th:case="4">판매종료</small>
+                                        <small th:case="${1}">판매중</small>
+                                        <small th:case="${2}">판매완료</small>
+                                        <small th:case="${4}">판매종료</small>
                                     </th:block>
                                 </div>
                                 <div class="info_box pt-1">

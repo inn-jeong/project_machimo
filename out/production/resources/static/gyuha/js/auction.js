@@ -59,7 +59,7 @@ $(document).ready(function () {
 
             },
             error: function (response) {
-                
+
                 if (response.responseText == "로그인이 필요한 서비스입니다") {
                     alert(response.responseText);
                     document.getElementById("test1").click();

@@ -2,6 +2,7 @@ package com.example.project_machimo.gyuha.auction.service;
 
 import com.example.project_machimo.gyuha.auction.dao.ProductsDAO;
 import com.example.project_machimo.gyuha.auction.vo.ProductsVO;
+import com.example.project_machimo.gyuha.auction.vo.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,10 @@ public class ProductServiceImpl implements ProductService {
     }
     public void updateHit(int id){
         productsDAO.updateHit(id);
+    }
+
+    @Override
+    public List<Test> cataPList(int cid) {
+        return productsDAO.cataPList(cid);
     }
 }

@@ -62,7 +62,7 @@ public class OrderController {
         model.addAttribute("getBuyList",orderService.getBuyList(productId));
         model.addAttribute("user",user);
         model.addAttribute("orderId",orderService.getOrderId());
-        return "order/payment";
+        return "규리지앵";
     }
 
     @GetMapping("/complete")
