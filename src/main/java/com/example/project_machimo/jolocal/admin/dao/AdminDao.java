@@ -1,6 +1,5 @@
 package com.example.project_machimo.jolocal.admin.dao;
 
-import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.jolocal.admin.dto.*;
 
 import java.util.ArrayList;

@@ -2,7 +2,7 @@ package com.example.project_machimo.jolocal.admin.controller;
 
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
-import com.example.project_machimo.jolocal.admin.dto.PageDto;
+import com.example.project_machimo.jolocal.admin.dto.LocalPageDto;
 import com.example.project_machimo.jolocal.admin.dto.UsersDto1;
 import com.example.project_machimo.jolocal.admin.service.AdminService;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @Slf4j
 @Controller
@@ -29,18 +31,18 @@ public class HomeController {
     public String boardList(Criteria cri, Model model, HttpSession session){
         System.out.println("@# ==> home boardList start");
 
-        UsersDto1 user = new UsersDto1();
-        user.setUserId(1); // admin 계정
-        user.setUNickname("admin");
+//        UsersDto1 user = new UsersDto1();
+//        user.setUserId(1); // admin 계정
+//        user.setUNickname("admin");
 
 //        user.setUserId(0);
 //        user.setUNickname("user");
 //        user.setUserId(106); // test용 임시 계정
-        session.setAttribute("user",user);
+//        session.setAttribute("user",user);
 
         int total = service.getTotalCount();
         model.addAttribute("boardList",service.boardList(cri));
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
         return "home/userBoardList";
     }
     @GetMapping("/userQnAList")
@@ -55,8 +57,10 @@ public class HomeController {
 //        user.setUserId(106); // test용 임시 계정
 
         int total = service.getTotalCount();
-        model.addAttribute("boardList",service.boardList(cri));
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        ArrayList<BoardDto> boardList = service.boardList(cri);
+        log.info("@#@# list 0 =====>" + boardList.get(0).getBDate());
+        model.addAttribute("boardList",boardList);
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
         return "home/userQnAList";
     }
 
@@ -95,7 +99,7 @@ public class HomeController {
 //        session.setAttribute("user",user);
 
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
 
         return "home/boardWrite";
     }

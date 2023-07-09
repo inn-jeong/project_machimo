@@ -43,7 +43,7 @@
                     r.report_id, r.products_id, r.report_content, r.report_date,
                     (SELECT MAX(report_count) FROM report) AS max_report_count
                     FROM users u
-                    JOIN report r ON u.user_id = r.user_id
+                    LEFT JOIN report r ON u.user_id = r.user_id
                     WHERE u.u_signout = 'N'
             ]]>
                  <where>

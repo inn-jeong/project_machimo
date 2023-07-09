@@ -6,7 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="/js/jusoPopup.js"></script>
 
-    <div th:replace="fragments/header :: fragment-header"></div>
+    <div th:replace="fragments/header :: headerFragment"></div>
 
     <style>
         /* Center align the container */
@@ -133,7 +133,7 @@
 <input type="hidden" th:value="${getProductId}">
 
 <!--footer-->
-<div th:replace="fragments/footer.html :: fragment-footer"></div>
+<div th:replace="fragments/footer.html :: footerFragment"></div>
 </body>
 
 <script>

@@ -1,5 +1,6 @@
 package com.example.project_machimo.jolocal.admin.controller;
 
+import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.jolocal.admin.dto.*;
 import com.example.project_machimo.jolocal.admin.service.AdminService;
 import com.example.project_machimo.jolocal.admin.service.ProductStatusService;
@@ -39,17 +40,20 @@ public class AdminController {
     }
 
     @RequestMapping("/adminList")
-    public String adminList(Criteria cri, Model model){
+    public String adminList(Criteria cri, Model model,HttpSession session){
         System.out.println("@# adminList start");
         //admin session
-        UsersDto1 user = new UsersDto1();
-        user.setUserId(1); //admin
-        user.setUNickname("admin");
-        session.setAttribute("user",user);
-
+//        UsersDto1 user = new UsersDto1();
+//        user.setUserId(1); //admin
+//        user.setUNickname("admin");
+//        session.setAttribute("user",user);
+        UsersDto user = (UsersDto)session.getAttribute("user");
+        if(user == null){
+            return "redirect:/loginT/login?login_try=no";
+        }
         model.addAttribute("adminList",service.adminList(cri));
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
         return "admin/adminList";
     }
 
@@ -97,14 +101,14 @@ public class AdminController {
     public String boardList(@RequestParam HashMap<String,Object>param, Criteria cri, Model model){
         System.out.println("@# controller boardList");
 
-        UsersDto1 user = new UsersDto1();
-        user.setUserId(1); //admin
-        user.setUNickname("admin");
-        session.setAttribute("user",user);
+//        UsersDto1 user = new UsersDto1();
+//        user.setUserId(1); //admin
+//        user.setUNickname("admin");
+//        session.setAttribute("user",user);
 
         model.addAttribute("boardList",service.boardList(cri));
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total,cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total,cri));
 
         return "admin/boardList";
     }
@@ -188,7 +192,7 @@ public class AdminController {
         ArrayList<ProductDto> dtos = service.pList(cri);
         model.addAttribute("pList",dtos);
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total,cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total,cri));
         return "admin/productList";
     }
 
