@@ -41,9 +41,10 @@
                 FROM (
                     SELECT u.user_id, u.u_id, u.u_nickname, u.u_email, u.u_point, u.u_created_at, u.u_role, u.u_signout,
                     r.report_id, r.products_id, r.report_content, r.report_date,
-                    (SELECT MAX(report_count) FROM report) AS max_report_count
+                    r2.report_count
                     FROM users u
                     LEFT JOIN report r ON u.user_id = r.user_id
+                    left join (select max(report_count) report_count,user_id from report group by user_id) r2 on r2.user_id = u.user_id
                     WHERE u.u_signout = 'N'
             ]]>
                  <where>
@@ -63,7 +64,7 @@
         SELECT u.user_id, u_id, u_nickname, u_password, u_name, u_jumin, u_phone, u_address,
         r.report_id, r.products_id, r.report_content, r.report_date, r.report_count
         FROM users u
-        JOIN report r ON u.user_id = r.user_id
+        left JOIN report r ON u.user_id = r.user_id
         where u.user_id = #{userId}
     </select>
 
@@ -89,47 +90,47 @@
     </delete>
 
     <!--/////////문의,공지/////////-->
-<!--    <sql id="bcriteria">-->
-<!--        <trim prefix="(" suffix=")" prefixOverrides="OR">-->
-<!--            <foreach item="type" collection="typeArr">-->
-<!--                <trim prefix="OR">-->
-<!--                    <choose>-->
-<!--                        <when test="type == 'C'.toString()">-->
-<!--                            b_category like '%'||#{keyword}||'%'-->
-<!--                        </when>-->
-<!--                        <when test="type == 'T'.toString()">-->
-<!--                            b_title like '%'||#{keyword}||'%'-->
-<!--                        </when>-->
-<!--                        <when test="type == 'W'.toString()">-->
-<!--                            b_writer like '%'||#{keyword}||'%'-->
-<!--                        </when>-->
-<!--                    </choose>-->
-<!--                </trim>-->
-<!--            </foreach>-->
-<!--        </trim>-->
-<!--    </sql>-->
+    <sql id="bcriteria">
+        <trim prefix="(" suffix=")" prefixOverrides="OR">
+            <foreach item="type" collection="typeArr">
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'C'.toString()">
+                            b_category like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'T'.toString()">
+                            b_title like '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            b_writer like '%'||#{keyword}||'%'
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    </sql>
 
-<!--    <select id="BoardList" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">-->
-<!--        <![CDATA[-->
-<!--                select * from (-->
-<!--                select rownum rn, temp.*-->
-<!--                from(-->
-<!--                select-->
-<!--                board_id, b_category, b_title, b_writer, b_date, b_hit-->
-<!--                from board-->
-<!--        ]]>-->
-<!--            <where>-->
-<!--                <include refid="bcriteria"></include>-->
-<!--            </where>-->
-<!--        <![CDATA[-->
-<!--                order by board_id desc-->
-<!--                ) temp-->
-<!--                where-->
-<!--                rownum <= ( #{pageNum} * #{amount})-->
-<!--                )-->
-<!--                where rn > (#{pageNum} -1) * #{amount}-->
-<!--        ]]>-->
-<!--    </select>-->
+    <select id="adminboardList" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">
+        <![CDATA[
+                select * from (
+                select rownum rn, temp.*
+                from(
+                select
+                board_id, b_category, b_title, b_writer, b_date, b_hit
+                from board
+        ]]>
+            <where>
+                <include refid="bcriteria"></include>
+            </where>
+        <![CDATA[
+                order by board_id desc
+                ) temp
+                where
+                rownum <= ( #{pageNum} * #{amount})
+                )
+                where rn > (#{pageNum} -1) * #{amount}
+        ]]>
+    </select>
 
 
     <select id="boardView" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">

@@ -24,51 +24,6 @@
         </trim>
     </sql>
 
-    <select id="boardList" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">
-        <![CDATA[
-                select * from (
-                select rownum rn, temp.*
-                from(
-                select
-                board_id, b_category, b_title, b_writer, b_date, b_hit
-                from board
-        ]]>
-        <where>
-            <include refid="bcriteria"></include>
-        </where>
-        <![CDATA[
-                order by board_id desc
-                ) temp
-                where
-                rownum <= ( #{pageNum} * #{amount})
-                )
-                where rn > (#{pageNum} -1) * #{amount}
-        ]]>
-    </select>
-
-    <select id="userQnAList" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">
-        <![CDATA[
-                select * from (
-                select rownum rn, temp.*
-                from(
-                select
-                board_id, b_category, b_title, b_writer, b_date, b_hit
-                from board
-                where b_category='문의'
-        ]]>
-        <where>
-            <include refid="bcriteria"></include>
-        </where>
-        <![CDATA[
-                order by board_id desc
-                ) temp
-                where
-                rownum <= ( #{pageNum} * #{amount})
-                )
-                where rn > (#{pageNum} -1) * #{amount}
-        ]]>
-    </select>
-
     <select id="userBoardList" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">
         <![CDATA[
                 select * from (
@@ -77,7 +32,6 @@
                 select
                 board_id, b_category, b_title, b_writer, b_date, b_hit
                 from board
-                where b_category='공지'
         ]]>
         <where>
             <include refid="bcriteria"></include>
@@ -96,4 +50,52 @@
         select count(*) from users
     </select>
 
+    <update id="updateHits">
+        update board set b_hit = b_hit+1 where board_id = #{boardId}
+    </update>
+
+<!--    <select id="boardList" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">-->
+<!--        <![CDATA[-->
+<!--                select * from (-->
+<!--                select rownum rn, temp.*-->
+<!--                from(-->
+<!--                select-->
+<!--                board_id, b_category, b_title, b_writer, b_date, b_hit-->
+<!--                from board-->
+<!--        ]]>-->
+<!--        <where>-->
+<!--            <include refid="bcriteria"></include>-->
+<!--        </where>-->
+<!--        <![CDATA[-->
+<!--                order by board_id desc-->
+<!--                ) temp-->
+<!--                where-->
+<!--                rownum <= ( #{pageNum} * #{amount})-->
+<!--                )-->
+<!--                where rn > (#{pageNum} -1) * #{amount}-->
+<!--        ]]>-->
+<!--    </select>-->
+
+<!--    <select id="userQnAList" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">-->
+<!--        <![CDATA[-->
+<!--                select * from (-->
+<!--                select rownum rn, temp.*-->
+<!--                from(-->
+<!--                select-->
+<!--                board_id, b_category, b_title, b_writer, b_date, b_hit-->
+<!--                from board-->
+<!--                where b_category='문의'-->
+<!--        ]]>-->
+<!--        <where>-->
+<!--            <include refid="bcriteria"></include>-->
+<!--        </where>-->
+<!--        <![CDATA[-->
+<!--                order by board_id desc-->
+<!--                ) temp-->
+<!--                where-->
+<!--                rownum <= ( #{pageNum} * #{amount})-->
+<!--                )-->
+<!--                where rn > (#{pageNum} -1) * #{amount}-->
+<!--        ]]>-->
+<!--    </select>-->
 </mapper>
