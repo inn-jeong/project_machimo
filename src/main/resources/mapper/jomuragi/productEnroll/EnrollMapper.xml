@@ -10,7 +10,8 @@
         INSERT INTO products
         (product_id, c_id, c_id2, user_id, p_name, p_info, p_created_at, p_sale_type, p_account, p_bank, p_address, p_address_sub, p_addr_postcode)
         VALUES (
-        (SELECT COALESCE(MAX(product_id), 0) + 1 FROM products),
+<!--        (SELECT COALESCE(MAX(product_id), 0) + 1 FROM products),-->
+        PRODUCTS_SEQ.NEXTVAL,
         #{cId}, #{cId2}, #{userId}, #{pName}, #{pInfo}, SYSDATE, #{pSaleType}, #{pAccount},  #{pBank}, #{pAddress}, #{pAddressSub}, #{pAddrPostcode}
         )
     </insert>

@@ -96,10 +96,9 @@ public class ReviewController {
 
 
     @RequestMapping("/content_view")
-    public String contentView(@RequestParam HashMap<String, String> param, Model model) {
+    public String contentView(@RequestParam HashMap<String, String> param, Model model, HttpSession session) {
         log.info("@# contentView");
         ReviewDto dto = service.contentView(param);
-
 
         //이미지 불러오기
         List<AttachImageVO> images = service.getAttachList(Integer.parseInt(param.get("reviewId")));

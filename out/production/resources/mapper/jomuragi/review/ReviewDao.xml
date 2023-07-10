@@ -74,7 +74,8 @@
 
         INSERT INTO review (review_id, product_id, review_writter, review_title, review_content, review_star)
 <!--        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})-->
-        VALUES ((SELECT count(*)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})
+<!--        VALUES ((SELECT count(*)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})-->
+        VALUES (review_seq.NEXTVAL, #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})
     </insert>
 
 
