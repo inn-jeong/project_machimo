@@ -14,7 +14,7 @@
             <h2 class="m-0 fw-bold text-secondary">게시물 등록</h2>
         </div>
 
-        <form id="frm" action="/admin/boardWrite" method="post">
+        <form id="modify-form1" action="/admin/boardWrite" method="post">
 
             <div class="m-3 py-3">
                 <label class="form-label fw-semibold">항목을 선택해주세요.</label>
@@ -78,12 +78,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:inline="javascript">
     function fn_submit(){
-        console.log("boardWrite start")
+        console.log("boardWrite start");
+        var formData = $("#modify-form1").serialize();
         // form 요소 자체
-        var formData = $("#frm").serialize();
-        console.log("tset:"+$("#문의").val())
+        console.log("tset:"+$("#문의").val());
+        console.log("bWriter:"+$("#bWriter").val());
         $.ajax({
-            url: "/home/boardWrite",
+            url: "/home/boardWrite1",
             type: 'POST',
             data: formData,
             success: function (response){

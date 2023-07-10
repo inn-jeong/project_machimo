@@ -15,7 +15,7 @@
                 <h2 class="m-0 fw-bold text-secondary">게시글 수정</h2>
             </div>
 
-            <form id="frm" method="post" action="/home/boardModify">
+            <form id="modify_form2" method="post" action="/home/boardModify">
                 <input type="hidden" name="userId" th:value="${session.user.userId}"/>
 
                 <label class="form-label fw-semibold">항목을 선택해주세요.</label>
@@ -100,7 +100,7 @@
 
     function fn_submit(){
         console.log("boardModify start")
-        var formData = $("#frm").serialize();
+        var formData = $("#modify_form2").serialize();
         $.ajax({
             url: "/home/boardModify",
             type: 'POST',

@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @Slf4j
 @Controller
 @RequestMapping("/home")
@@ -76,7 +78,7 @@ public class HomeController {
     }
 
     //게시글 작성
-    @PostMapping("/boardWrite")
+    @PostMapping("/boardWrite1")
     @ResponseBody
     public ResponseEntity<? extends Object> boardWrite(BoardDto dto, Model model){
         System.out.println("@# controller boardWrite"+ dto.getBCategory());
