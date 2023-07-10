@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>boardWrite</title>
     <!--header-->
-    <th:block th:replace="fragments/header.html :: fragment-header"></th:block>
+    <th:block th:replace="fragments/header"></th:block>
 </head>
 <body>
         <!--관리자 or 유저일경우 활성화-->
@@ -21,12 +21,9 @@
             <div class="container-box d-flex pb-3">
                 <div class="row g-3 py-2">
                     <div class="col-auto">
-                        <!-- admin일때만 -->
-                        <div th:if="${session.user.uRole == 1}">
-                            <form th:action="@{/home/boardWrite}" method="GET" class="d-inline">
-                                <button type="submit" class="btn btn-sm btn-primary mx-1">글쓰기</button>
-                            </form>
-                        </div>
+                        <form th:action="@{/home/boardWrite}" method="GET" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-primary mx-1">글쓰기</button>
+                        </form>
                     </div>
                     <div class="col">
                         <div class="d-flex justify-content-end">
@@ -126,6 +123,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
 
         <form th:method="get" id="actionForm">
@@ -134,7 +132,7 @@
         </form>
 
         <!--footer-->
-        <th:block th:replace="fragments/footer.html :: fragment-footer"></th:block>
+        <th:block th:replace="fragments/footer"></th:block>
 </body>
 </html>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
