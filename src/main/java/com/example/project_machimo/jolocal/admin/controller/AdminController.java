@@ -50,7 +50,7 @@ public class AdminController {
 
         model.addAttribute("adminList",service.adminList(cri));
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
         return "admin/adminList";
     }
 
@@ -63,7 +63,8 @@ public class AdminController {
 //    @RequestMapping("/Authorization/{userId}")
 //    public ResponseEntity<?> Authorization(@PathVariable Integer userId){
     @RequestMapping("/Authorization")
-    public ResponseEntity<?> Authorization(@RequestBody Integer userId){
+    @ResponseBody
+    public ResponseEntity<?> Authorization(@RequestParam(value = "userId") Integer userId){
         log.info("------------Authorization controller------------");
         service.Authorization(userId);
         return ResponseEntity.ok().build();
@@ -106,7 +107,7 @@ public class AdminController {
 
         model.addAttribute("boardList",service.boardList(cri));
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total,cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total,cri));
 
         return "admin/boardList";
     }
@@ -189,7 +190,7 @@ public class AdminController {
         ArrayList<ProductDto> dtos = service.pList(cri);
         model.addAttribute("pList",dtos);
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total,cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total,cri));
         return "admin/productList";
     }
 

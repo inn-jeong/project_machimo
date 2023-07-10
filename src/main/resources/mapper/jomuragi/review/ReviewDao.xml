@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_machimo.jomuragi.review.dao.ReviewDao">
+
+    <select id="list" resultType="com.example.project_machimo.jomuragi.review.dto.ReviewDto">
+        SELECT *
+        FROM review
+        order by review_id desc
+    </select>
+
+<!--    <select id="listWithPaging" resultType="com.example.project_machimo.jomuragi.review.dto.ReviewDto">-->
+<!--&lt;!&ndash;        (select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit&ndash;&gt;-->
+
+<!--        <![CDATA[-->
+<!--                select * from (-->
+<!--                select rownum rn, temp.* from-->
+<!--                (select *-->
+<!--                from review-->
+<!--                order by review_id desc ) temp-->
+<!--                where rownum <= ( #{pageNum} * #{amount}))-->
+<!--                where rn > (#{pageNum} -1) * #{amount}-->
+<!--                ]]>-->
+<!--    </select>-->
+    <sql id = "criteria">
+<!--        <trim prefix="(" suffix=") AND" prefixOverrides="AND | OR">-->
+        <trim prefix="(" suffix=") " prefixOverrides="OR">
+<!--            item="type" : 분기처리 기준-->
+<!--            collection="typeArr": type 값을 처리(mybatis에서getTypeArr() 메소드 호출 )-->
+            <foreach item="type" collection="typeArr">
+<!--                조건 2개 이상일때 or 추가-->
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'T'.toString()">
+                            review_title like '%' || #{keyword} || '%'
+                        </when>
+                        <when test="type == 'C'.toString()">
+                            review_content like '%' || #{keyword} || '%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            review_writter like '%' || #{keyword} || '%'
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    </sql>
+<!--    //prefix: 쿼리 내용 시작할 때 추가-->
+<!--    //suffix: 쿼리 내용 마지막에 추가-->
+    <select id="listWithPaging" resultType="com.example.project_machimo.jomuragi.review.dto.ReviewDto">
+        <!--        (select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit-->
+        <![CDATA[
+            select * from (
+                select rownum rn, temp.* from (
+                    select *
+                    from review
+                    ]]>
+                    <where>
+                        <include refid="criteria"></include>
+                    </where>
+        <![CDATA[
+                    order by review_id desc
+                ) temp
+                where rownum <= (#{pageNum} * #{amount})
+            )
+            where rn > (#{pageNum} - 1) * #{amount}
+        ]]>
+
+    </select>
+
+
+    <insert id="write" parameterType="hashmap">
+
+        INSERT INTO review (review_id, product_id, review_writter, review_title, review_content, review_star)
+<!--        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})-->
+<!--        VALUES ((SELECT count(*)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})-->
+        VALUES (review_seq.NEXTVAL, #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})
+    </insert>
+
+
+
+
+    <select id="contentView" resultType="com.example.project_machimo.jomuragi.review.dto.ReviewDto" parameterType="HashMap">
+        SELECT
+        *
+        FROM review
+        WHERE review_id = #{reviewId}
+    </select>
+    <select id="getTotalCount" resultType="int">
+        select count(*) from review
+    </select>
+
+    <update id="modify" parameterType="HashMap">
+        UPDATE review
+        SET review_title = #{reviewTitle},
+        review_star = #{reviewStar},
+        review_content = #{reviewContent}
+        WHERE review_id = #{reviewId}
+    </update>
+    <update id="updateCount">
+        update review
+<!--        set review_hit = #{reviewHit} + 1-->
+        set review_hit = review_hit + 1
+        WHERE review_id = #{reviewId}
+    </update>
+    <select id="modify_view" resultType="com.example.project_machimo.jomuragi.review.dto.ReviewDto">
+        SELECT *
+        FROM review
+        WHERE review_id = #{reviewId}
+    </select>
+
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM review
+        WHERE review_id = #{reviewId}
+    </delete>
+
+    <select id="getReviewById" resultType="com.example.project_machimo.jomuragi.review.dto.ReviewDto">
+        SELECT * FROM review WHERE review_id = #{reviewId}
+    </select>
+
+<!--    이미지-->
+
+    <select id="getAttachList" parameterType="int" resultType="com.example.project_machimo.jomuragi.review.dto.AttachImageVO">
+        select * from review_image where review_id = #{reviewId}
+    </select>
+
+    <insert id="imageEnroll" parameterType="com.example.project_machimo.jomuragi.review.dto.AttachImageVO">
+        insert into review_image(review_id, file_name, upload_path, uuid, url)
+        values ((SELECT count(*)+1 FROM review), #{fileName}, #{uploadPath}, #{uuid}, #{url})
+    </insert>
+    <!--    useGeneratedKeys 옵션을 true로 설정하면 생성된 게시글의 PK가 parameterType에 선언된 요청 객체(params)에 저장되며, keyProperty에 선언된 id에 값이 매핑(바인딩)됩니다.-->
+<!--    <insert id="save" parameterType="com.study.domain.post.PostRequest" useGeneratedKeys="true" keyProperty="id">-->
+    
+
+
+</mapper>

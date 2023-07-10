@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>boardWrite</title>
-    <!--header-->
-    <th:block th:replace="fragments/header.html :: fragment-header"></th:block>
 </head>
+    <!--header-->
+    <th:block th:replace="fragments/header"></th:block>
 <body>
     <!-- 관리자 or 로그인한 유저만 활성화-->
     <div class="container p-5 mb-4" th:if="${session.user.uRole == 1 || session.user.userId != null }">
-<!--    <div class="container p-5 mb-4">-->
 
         <div class="row py-3 mb-5 border-bottom m-3">
             <h2 class="m-0 fw-bold text-secondary">게시물 등록</h2>
         </div>
 
-        <form class="needs-validation" novalidate id="frm" action="/admin/boardWrite" method="post">
+        <form id="modify-form1" action="/admin/boardWrite" method="post">
 
             <div class="m-3 py-3">
                 <label class="form-label fw-semibold">항목을 선택해주세요.</label>
@@ -33,7 +32,7 @@
                     </label>
                 </div>
 
-                <div id="addCheckBox" style="display: none;">
+                <div id="addCheckBox">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="inquiryCategory" value="상품문의" id="상품문의" checked>
                         <label class="form-check-label" for="상품문의">
@@ -70,19 +69,22 @@
             </div>
         </form>
     </div>
+
     <!--footer-->
-    <th:block th:replace="fragments/footer.html :: fragment-footer"></th:block>
+    <th:block th:replace="fragments/footer"></th:block>
+
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:inline="javascript">
     function fn_submit(){
-        console.log("boardWrite start")
+        console.log("boardWrite start");
+        var formData = $("#modify-form1").serialize();
         // form 요소 자체
-        var formData = $("#frm").serialize();
-
+        console.log("tset:"+$("#문의").val());
+        console.log("bWriter:"+$("#bWriter").val());
         $.ajax({
-            url: "/home/boardWrite",
+            url: "/home/boardWrite1",
             type: 'POST',
             data: formData,
             success: function (response){

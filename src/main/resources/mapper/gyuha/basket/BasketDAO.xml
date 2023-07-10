@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.project_machimo.gyuha.basket.dao.BasketDAO">
+
+    <insert id="addBasket">
+        insert into BASKET values (bas_id_sqe.nextval,#{userId},#{productId})
+    </insert>
+    <delete id="deleteBasketList">
+        delete from BASKET where PRODUCT_ID = #{param1}
+    </delete>
+    <select id="checkBasket" resultType="java.lang.Integer">
+    select 1 from basket where user_id =#{userId} and product_id = #{productId}
+    </select>
+
+</mapper>

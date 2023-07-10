@@ -5,8 +5,7 @@
 
     <th:block layout:fragment="admin-content">
         <!--관리자일 경우 활성화-->
-<!--        <div class="justify-content-center mx-5" th:if="${session.user.uRole == 1}"  >-->
-        <div class="justify-content-center mx-5">
+        <div class="justify-content-center mx-5" th:if="${session.user.uRole == 1}"  >
 
             <!-- Page Heading -->
             <h1 class="h3 mb-2 text-gray-800 py-2 mb-3">게시글 관리</h1>
@@ -113,7 +112,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
+        </div>
 
         <form th:method="get" id="actionForm">
             <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">

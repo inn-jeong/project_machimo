@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">-->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+  <script src="/gyuha/js/header.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <style type="text/css">
+    #result_card img{
+      max-width: 100%;
+      height: auto;
+      display: block;
+      padding: 5px;
+      margin-top: 10px;
+      margin: auto;
+    }
+
+  </style>
+  <script>
+
+   var id = getQueryStringObject().reviewId;
+
+   console.log("  var id@@@@@@@@@@@@@@@@@@@@@"+id);
+   function getQueryStringObject() {
+     var a = window.location.search.substr(1).split('&');
+     if (a == "") return {};
+     var b = {};
+     for (var i = 0; i < a.length; ++i) {
+       var p = a[i].split('=', 2);
+       if (p.length == 1)
+         b[p[0]] = "";
+       else
+         b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+     }
+     return b;
+   }
+  </script>
+
+  <title>리뷰 내용</title>
+  <link rel="stylesheet" th:href="@{/css/board.css}" />
+  <div th:replace="fragments/header :: headerFragment"></div>
+
+</head>
+
+<body>
+<div class="container">
+<h1>리뷰 내용</h1>
+<table class="board_detail">
+  <form method="post" action="modify_view">
+    <input type="hidden" name="pageNum" th:value="${pageMaker.pageNum}">
+    <input type="hidden" name="amount" th:value="${pageMaker.amount}">
+    <input type="hidden" name="reviewId" th:value="${pageMaker.reviewId}">
+  <tr>
+    <td>리뷰 ID:</td>
+    <td><span th:text="${content_view.reviewId}"></span></td>
+  </tr>
+  <tr>
+    <td>상품 ID:</td>
+    <td><span th:text="${content_view.productId}"></span></td>
+  </tr>
+  <tr>
+    <td>작성일:</td>
+    <td><span th:text="${content_view.reviewDate}"></span></td>
+  </tr>
+  <tr>
+    <td>조회수:</td>
+    <td><span th:text="${content_view.reviewHit}"></span></td>
+<!--    <td><span th:text="${hit}"></span></td>-->
+  </tr>
+  <tr>
+    <td>작성자:</td>
+    <td><span th:text="${content_view.reviewWritter}"></span></td>
+  </tr>
+  <tr>
+    <td>제목:</td>
+    <td><span th:text="${content_view.reviewTitle}"></span></td>
+  </tr>
+    <tr>
+      <td>별점:</td>
+      <td>
+        <div class="star-rating">
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+        </div>
+      </td>
+      <input type="hidden" id="reviewStar" th:value="${content_view.reviewStar}">
+    </tr>
+    <tr th:unless="${imagePaths.isEmpty()}">
+      <td colspan="2">
+        <!-- 이미지 표시 -->
+        <span th:each="imagePath : ${imagePaths}">
+            <img th:src="@{'/upload/' + ${imagePath}}" style="width: 300px; height: 200px;">
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+    <td>내용:</td>
+    <td><span th:text="${content_view.reviewContent}"></span></td>
+  </tr>
+
+  <tr>
+    <td colspan="3">
+      <input th:if="${content_view.reviewWritter == session.user.getUNickname() || session.user.getURole() == 1}" class="btn btn-primary rounded-pill" type="submit" value="수정" formaction="modify_view" style="width: 100px; height: 30px;">
+      <input class="btn btn-secondary rounded-pill" type="submit" value="목록보기" formaction="list" style="width: 100px; height: 30px;">
+      <input th:if="${content_view.reviewWritter == session.user.getUNickname() || session.user.getURole() == 1}" class="btn btn-danger rounded-pill" type="submit" value="삭제" formaction="delete" style="width: 100px; height: 30px;">
+    </td>
+  </tr>
+  </form>
+
+    <tr>
+      <td colspan="3">
+      <!--  댓글  -->
+      <div class="container">
+        <label for="content">comment</label>
+        <form name="commentInsertForm">
+          <div class="input-group">
+            <input type="hidden" name="bno" th:value="${content_view.reviewId}"/>
+            <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요.">
+            <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" name="commentInsertBtn">등록</button>
+               </span>
+          </div>
+        </form>
+      </div>
+
+      <div class="container">
+        <div class="commentList">
+          <!-- 댓글 목록 출력 -->
+          <div th:each="comment : ${comment}">
+            <p th:text="${comment.content}"></p>
+            <!-- 댓글 수정 버튼 -->
+            <button class="btn btn-primary" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
+            <!-- 댓글 삭제 버튼 -->
+            <button class="btn btn-danger" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
+          </div>
+        </div>
+      </div>
+      </td>
+    </tr>
+</table>
+</div>
+<div th:replace="fragments/footer.html :: footerFragment"></div>
+
+<script>
+  // 별점 값을 가져와서 해당 별점까지 별을 색칠하는 함수
+  function fillStarRating(starRating) {
+    const stars = document.querySelectorAll('.star-rating .fa-star');
+    for (let i = 0; i < starRating; i++) {
+      stars[i].classList.remove('far');
+      stars[i].classList.add('fas');
+    }
+  }
+
+  // 페이지 로드 시 별점 값을 가져와서 별을 색칠합니다
+  const reviewStar = $("#reviewStar").val();
+  fillStarRating(reviewStar);
+</script>
+<script>
+  // var bno = '${content_view.reviewId}'; //게시글 번호
+  // content_view?pageNum=1&amount=10&reviewId=139 를 다 받아와야 그 페이지가 보이므로 그냥 reviewId만 불러오면 댓글이안보인다
+  var bno = id;
+  $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시
+    var insertData = $('[name=commentInsertForm]').serialize(); //commentInsertForm의 내용을 가져옴
+    commentInsert(insertData); //Insert 함수호출(아래)
+  });
+
+
+
+  //댓글 목록
+  function commentList(){
+    $.ajax({
+      url : '/comment/list',
+      type : 'get',
+      data : {'bno':bno},
+      // data : bno,
+      success : function(data){
+        var a ='';
+        $.each(data, function(key, value){
+          a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+          // a += '<div class="commentInfo'+value.cno+'">'+'댓글번호 : '+value.cno+' / 작성자 : '+value.writer;
+          a += '<div class="commentInfo'+value.cno+'">'+' 작성자 : '+value.writer;
+          a += '<a onclick="commentUpdate('+value.cno+',\''+value.content+'\');"> 수정 </a>';
+          a += '<a onclick="commentDelete('+value.cno+');"> 삭제 </a> </div>';
+          a += '<div class="commentContent'+value.cno+'"> <p> 내용 : '+value.content +'</p>';
+          a += '</div></div>';
+        });
+
+        $(".commentList").html(a);
+      }
+    });
+  }
+
+
+  //댓글 등록
+  function commentInsert(insertData){
+    $.ajax({
+      url : '/comment/insert',
+      type : 'post',
+      data : insertData,
+      success : function(data){
+        if(data == 1) {
+          // commentList(); //댓글 작성 후 댓글 목록 reload
+          commentList(bno); //댓글 작성 후 댓글 목록 reload // 인서트후에 새로고침 없이도 업데이트됨
+          $('[name=content]').val('');
+        }
+      }
+    });
+  }
+
+  //댓글 수정 - 댓글 내용 출력을 input 폼으로 변경
+  function commentUpdate(cno, content){
+    var a ='';
+
+    a += '<div class="input-group">';
+    a += '<input type="text" class="form-control" name="content_'+cno+'" value="'+content+'"/>';
+    a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
+    a += '</div>';
+
+    $('.commentContent'+cno).html(a);
+
+  }
+
+  //댓글 수정
+  function commentUpdateProc(cno){
+    var updateContent = $('[name=content_'+cno+']').val();
+
+    $.ajax({
+      url : '/comment/update',
+      type : 'post',
+      data : {'content' : updateContent, 'cno' : cno},
+      success : function(data){
+        if(data == 1) commentList(bno); //댓글 수정후 목록 출력
+      }
+    });
+  }
+
+  //댓글 삭제
+  function commentDelete(cno){
+    $.ajax({
+      url : '/comment/delete/'+cno,
+      type : 'post',
+      success : function(data){
+        if(data == 1) commentList(bno); //댓글 삭제후 목록 출력
+      }
+    });
+  }
+
+  $(document).ready(function(){
+    // commentList(); //페이지 로딩시 댓글 목록 출력
+    commentList(bno); //페이지 로딩시 댓글 목록 출력
+
+  });
+
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

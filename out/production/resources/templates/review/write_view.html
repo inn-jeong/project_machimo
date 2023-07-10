@@ -1,0 +1,318 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰 작성</title>
+
+
+<!--    파일 업로드 css-->
+    <style type="text/css">
+        #result_card img{
+            max-width: 100%;
+            height: auto;
+            display: block;
+            padding: 5px;
+            margin-top: 10px;
+            margin: auto;
+        }
+        #result_card {
+            position: relative;
+        }
+        .imgDeleteBtn{
+            position: absolute;
+            top: 0;
+            right: 5%;
+            background-color: #ef7d7d;
+            color: wheat;
+            font-weight: 900;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            line-height: 26px;
+            text-align: center;
+            border: none;
+            display: block;
+            cursor: pointer;
+        }
+
+        /*star.css*/
+        .myform fieldset{
+            display: inline-block;
+            direction: rtl;
+            border:0;
+        }
+        .myform fieldset legend{
+            text-align: right;
+        }
+        .myform input[type=radio]{
+            display: none;
+        }
+        .myform label{
+            font-size: 3em;
+            color: transparent;
+            text-shadow: 0 0 0 #f0f0f0;
+        }
+        .myform label:hover{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+        .myform label:hover ~ label{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+        .myform input[type=radio]:checked ~ label{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+        #reviewContent {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: solid 1.5px #D3D3D3;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: none;
+        }
+        .container-sm {
+            width: 500px;
+            margin: 0 auto;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+    </style>
+    <div th:replace="fragments/header :: headerFragment"></div>
+
+</head>
+<body>
+<div class="container-sm mb-4" style="padding: 60px;">
+    <h1 class="fw-bold text-center mb-4" style="padding: 20px;">리뷰 작성</h1>
+    <form id="frm" action="write" method="post" enctype="multipart/form-data">
+        <div class="row mb-3">
+            <label for="fileItem" class="col-sm-2 col-form-label">상품 이미지</label>
+            <div class="col-sm-10">
+                <input type="file" id="fileItem" name="uploadFile" class="form-control">
+                <div id="uploadResult"></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="productId" class="col-sm-2 col-form-label">상품 ID</label>
+            <div class="col-sm-10">
+                <input type="number" id="productId" name="productId" class="form-control"
+                       th:value="${productId}" required readonly>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="reviewWritter" class="col-sm-2 col-form-label">작성자</label>
+            <div class="col-sm-10">
+                <input type="text" id="reviewWritter" name="reviewWritter" class="form-control"
+                       th:value="${session.user.getUNickname()}" required readonly>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="reviewTitle" class="col-sm-2 col-form-label">제목</label>
+            <div class="col-sm-10">
+                <input type="text" id="reviewTitle" name="reviewTitle" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="reviewContent" class="col-sm-2 col-form-label">내용</label>
+            <div class="col-sm-10">
+                    <textarea id="reviewContent" name="reviewContent" class="form-control"
+                              placeholder="좋은 리뷰를 남겨주시면 machimo에 큰 힘이 됩니다! 포인트 500p도 지급!!" required></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-2">별점</div>
+                <div class="col-sm-10">
+                   <span class="myform">
+                    <fieldset>
+                        <span class="text-bold">별점을 선택해주세요</span>
+                        <input type="radio" name="reviewStar" value="5" id="rate1"><label
+                            for="rate1">★</label>
+                        <input type="radio" name="reviewStar" value="4" id="rate2"><label
+                            for="rate2">★</label>
+                        <input type="radio" name="reviewStar" value="3" id="rate3"><label
+                            for="rate3">★</label>
+                        <input type="radio" name="reviewStar" value="2" id="rate4"><label
+                            for="rate4">★</label>
+                        <input type="radio" name="reviewStar" value="1" id="rate5"><label
+                            for="rate5">★</label>
+                    </fieldset>
+                 </span>
+                </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-12">
+                <input type="hidden" id="reviewId1" th:value="${getReviewId}">
+                <button type="submit" class="btn btn-primary">글 작성</button>
+                <a href="list" class="btn btn-secondary">목록보기</a>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<div th:replace="fragments/footer.html :: footerFragment"></div>
+
+<script src="/js/jquery.js"></script>
+
+<script>
+    /* 이미지 업로드 */
+    $("input[type='file']").on("change", function(e){
+        /* 이미지 존재시 삭제 */
+        // 미리보기 태그가 존재한다면 이미지가 이미 저장된거임
+        if($(".imgDeleteBtn").length > 0){
+            deleteFile();
+        }
+
+        // formData 객체를 인스턴스화 해서 주소를 변수에 저장
+        let formData = new FormData();
+
+        let fileInput = $("input[name='uploadFile']");
+        let fileList = fileInput[0].files;
+        let fileObj = fileList[0];
+
+        // view단에서 이미지 파일인지 아닌지 체크
+        if(!fileCheck(fileObj.name, fileObj.size)){
+            return false;
+        }
+
+        //multiple 속성으로 사용자가 여러 개의 파일을 선택할 수 있으므로 반복문
+        for(let i = 0; i < fileList.length; i++){
+        // 사용자가 선택한 파일을 FormData 에 uploadFile이란 이름으로 추가, (기존 값 집합의 끝에 새로운 값 추가)
+            formData.append("uploadFile", fileList[i]);
+        }
+
+        $.ajax({
+            // 서버로 요청을 보낼 url
+            url: '/review/uploadAjaxAction',
+            // false로 해야 첨부파일이 서버로 전송됨
+            processData : false,
+            contentType : false,
+            data : formData,
+            type : 'POST',
+            dataType : 'json',
+            // 뷰에서 서버에서 전송한 이미지 정보를 전달 받기 위함. 속성값으로 콜백함수를 부여, 전달받은 객체 데이터 = result
+            success : function(result){
+                console.log(result);
+                showUploadImage(result);
+            },
+            error : function(result){
+                alert("이미지 파일이 아닙니다.");
+            }
+        });
+
+        alert("통과");
+
+    });
+
+    let regex = new RegExp("(.*?)\.(jpg|png)$");
+    let maxSize = 10485760; //10MB
+
+    function fileCheck(fileName, fileSize){
+    // 파일 사이즈, 타입 제한하는 변수
+
+        console.log(maxSize);
+
+        if(fileSize >= maxSize){
+            alert("파일 사이즈 초과");
+            return false;
+        }
+
+        if(!regex.test(fileName)){
+            alert("해당 종류의 파일은 업로드할 수 없습니다.");
+            return false;
+        }
+
+        return true;
+
+    }
+
+    /* 이미지 출력 */
+    function showUploadImage(uploadResultArr){
+
+        /* 전달받은 데이터 검증 */
+        if(!uploadResultArr || uploadResultArr.length == 0){return}
+
+        // id 속성이 uploadResult인 div 태그 요소에 쉽게 접근하기 위해 변수 선언
+        let uploadResult = $("#uploadResult");
+
+        // 이미지 한개만 전달받을때
+        let obj = uploadResultArr[0];
+
+        let str = "";
+
+        // replace(/\\/g, '/') : 대상 String의 모든 '\'를 '/'로 변경해줌
+        // let fileCallPath = obj.uploadPath.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName;
+
+        // 이미지 출력을 요청하는 url 매핑 메서드("/display")에 전달해줄 파일의 경로와 이름을 포함하는 값을 저장하기 위한 변수
+        // 이미지 출력 url은  파라미터 값의 구분자로서 '/' 사용해야함 not \
+        // encodeURIComponent(): '/'와 '\'문자 또한 인코딩을 하기 때문에 replace() 메서드를 사용 안 해도 해당 URI로 동작됨
+        // + utf-8 인코딩 안되는 웹브라우저에서도 자동 인코딩해줌
+        // let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+        let fileCallPath = encodeURIComponent(obj.url + "/s_" + obj.uuid + "_" + obj.fileName);
+        // var decodeCallPath = (obj.url+"/s_" + obj.uuid + "_" + obj.fileName);
+
+
+        // test에서 했던 태그를 이제 js를 통해 동적으로 추가되도록 해줌
+        str += "<div id='result_card'>";
+        // str += "<img src='/display?fileName=" + fileCallPath +"'>";
+        // str += "<img src='" + decodeCallPath +"'>";
+        // str += "<img data-file='" + decodeCallPath +"'>";
+
+        // str += "<div class='imgDeleteBtn'>x</div>";
+        str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
+        // 이미지 한개만 출력
+        str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.fileName +"'>";
+        str += "<input type='hidden' name='imageList[0].uuid' value='"+ obj.uuid +"'>";
+        str += "<input type='hidden' name='imageList[0].uploadPath' value='"+ obj.uploadPath +"'>";
+        str += "<input type='hidden' name='imageList[0].url' value='"+ obj.url +"'>";
+        str += "</div>";
+
+        uploadResult.append(str);
+    }
+
+
+    /* 이미지 삭제 버튼 동작 */
+    // div태그는 웹페이지 렌더링 이후 js코드를 통해 동적으로 출력된 코드이므로 그냥 click으로 작동 x
+    // $(".imgDeletBtn").click(function(){
+    $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
+        deleteFile();
+    });
+
+    /* 파일 삭제 메서드 */
+    function deleteFile(){
+
+        let targetFile = $(".imgDeleteBtn").data("file");
+
+        let targetDiv = $("#result_card");
+
+        var reviewId =  $("#reviewId1").val();
+
+        $.ajax({
+            // url: '/admin/deleteFile',
+            url: '/deleteFile',
+            // data : {fileName : targetFile},
+            data : {fileName : targetFile, reviewId: reviewId},
+            dataType : 'text',
+            type : 'POST',
+            success : function(result){
+                console.log(result);
+
+                targetDiv.remove();
+                $("input[type='file']").val("");
+
+            },
+            error : function(result){
+                console.log(result);
+
+                alert("파일을 삭제하지 못하였습니다.")
+            }
+        });
+    }
+
+</script>
+<script type="text/javascript">
+
+</script>
+
+</html>

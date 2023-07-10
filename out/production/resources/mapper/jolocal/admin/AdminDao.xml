@@ -144,7 +144,8 @@
 
     <insert id="boardWrite" parameterType="com.example.project_machimo.jolocal.admin.dto.BoardDto">
         insert into board (board_id, b_category, inquiry_category, b_writer, b_title, b_content, b_date, user_id)
-        VALUES ((select max(board_id)+1 from board), #{bCategory}, #{inquiryCategory}, #{bWriter}, #{bTitle}, #{bContent}, SYSDATE, #{userId})
+<!--        VALUES ((select max(board_id)+1 from board), #{bCategory}, #{inquiryCategory}, #{bWriter}, #{bTitle}, #{bContent}, SYSDATE, #{userId})-->
+        VALUES (BOARD_ID_SEQ.nextval, #{bCategory}, #{inquiryCategory}, #{bWriter}, #{bTitle}, #{bContent}, SYSDATE, #{userId})
     </insert>
 
     <select id="boardModifyView" resultType="com.example.project_machimo.jolocal.admin.dto.BoardDto">

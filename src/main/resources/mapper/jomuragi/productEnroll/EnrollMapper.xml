@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--<mapper namespace="com.example.project_machimo.productEnroll.dao.EnrollMapper">-->
+<mapper namespace="com.example.project_machimo.jomuragi.productEnroll.dao.EnrollMapper">
+
+
+    <insert id="write" parameterType="com.example.project_machimo.jomuragi.productEnroll.dto.ProductDto" >
+        INSERT INTO products
+        (product_id, c_id, c_id2, user_id, p_name, p_info, p_created_at, p_sale_type, p_account, p_bank, p_address, p_address_sub, p_addr_postcode)
+        VALUES (
+<!--        (SELECT COALESCE(MAX(product_id), 0) + 1 FROM products),-->
+        PRODUCTS_SEQ.NEXTVAL,
+        #{cId}, #{cId2}, #{userId}, #{pName}, #{pInfo}, SYSDATE, #{pSaleType}, #{pAccount},  #{pBank}, #{pAddress}, #{pAddressSub}, #{pAddrPostcode}
+        )
+    </insert>
+
+    <select id="getCategories" resultType="com.example.project_machimo.jomuragi.productEnroll.dto.CategoryDto">
+        select c_id, c_name, c_id2 from category where c_id2 is null
+    </select>
+
+    <select id="getSubCategories" resultType="com.example.project_machimo.jomuragi.productEnroll.dto.CategoryDto">
+        select c_id, c_name, c_id2 from category where c_id2 = #{cId2}
+    </select>
+
+    <!--    이미지-->
+
+    <insert id="imageEnroll" parameterType="com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO">
+<!--        insert into product_images(uuid, product_id, i_image, i_sub_img, upload_path, url)-->
+<!--        values (#{uuid}, (SELECT count(*)+1 FROM products), #{iImage}, #{iSubImg}, #{uploadPath}, #{url})-->
+
+        insert into product_images(uuid, product_id, i_image, upload_path, url)
+        values (#{uuid}, (SELECT count(*)+1 FROM products), #{iImage},  #{uploadPath}, #{url})
+    </insert>
+
+    <delete id="deleteFile">
+        delete from product_images where product_id = #{productId}
+    </delete>
+
+<!--    <select id="getAttachList" parameterType="int" resultType="com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO">-->
+<!--        select * from product_images where product_id = #{productId}-->
+<!--    </select>-->
+
+    <select id="getAttachList" parameterType="int" resultType="com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO">
+        select * from product_images where product_id = #{productId}
+    </select>
+
+    <select id="getProductId" resultType="java.lang.Integer">
+        select count(*)+1 from products
+    </select>
+</mapper>
