@@ -1,12 +1,12 @@
 package com.example.project_machimo.jomuragi.review.controller;
 
+import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.jomuragi.review.dto.AttachImageVO;
 import com.example.project_machimo.jomuragi.review.dto.Criteria;
 import com.example.project_machimo.jomuragi.review.dto.PageDTO;
 import com.example.project_machimo.jomuragi.review.dto.ReviewDto;
 import com.example.project_machimo.jomuragi.review.service.AttachImageService;
 import com.example.project_machimo.jomuragi.review.service.ReviewService;
-import com.example.project_machimo.jomuragi.productEnroll.dto.UsersDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -69,10 +70,10 @@ public class ReviewController {
         log.info("@#cri =======>"+cri);
         log.info("@#getPageNum() =======>"+cri.getPageNum());
 
-        UsersDto user = new UsersDto();
-        user.setUserId(1); //admin
-        user.setUNickname("admin");
-        session.setAttribute("user",user);
+//        UsersDto user = new UsersDto();
+//        user.setUserId(1); //admin
+//        user.setUNickname("admin");
+//        session.setAttribute("user",user);
 
 //        ArrayList<ReviewDto> list = service.list();
         model.addAttribute("list",service.list(cri));
@@ -80,9 +81,10 @@ public class ReviewController {
         model.addAttribute("pageMaker", new PageDTO(total, cri));
         return "review/list";
     }
-    @RequestMapping("/write_view")
-    public String writeView(Model model) {
+    @RequestMapping("/write_view/{productId}")
+    public String writeView(@PathVariable int productId, Model model) {
         log.info("@# writeView");
+        model.addAttribute("productId",productId);
         model.addAttribute("getReviewId",imageService.getReviewId());
         return "review/write_view";
     }
@@ -90,6 +92,7 @@ public class ReviewController {
     @RequestMapping("/write")
     public String write(@RequestParam HashMap<String, String> param, Model model) {
         log.info("@# write");
+
         service.write(param);
         return "redirect:list";
     }

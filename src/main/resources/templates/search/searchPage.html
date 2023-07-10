@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">-->
+
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"-->
+<!--        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">-->
+<!--</script>-->
+<!--<script src="/gyuha/js/header.js"></script>-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+
+<style>
+    .div_page ul {
+        display: flex;
+        list-style: none;
+    }
+
+    a {
+        text-decoration-line: none;
+    }
+</style>
+<body>
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<div class="container">
+    <div class="row">
+        <section class="new_in container">
+            <!-- title -->
+            <div class="product_title py-3">
+                <div class="title fs-4 fw-bold -4" th:text="${message+'에 대한 검색결과'}"></div>
+                <div class="sub_title fs-8 fw-light fs-3" th:text="${pageMaker.total+'개'}"></div>
+
+            </div>
+            <div class="col-sm-12 col-md-5 py-3 ms-auto" style="text-align: right;">
+                <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                    showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span
+                        th:text="${pageMaker.getCri().getAmount()}"></span> of <span
+                        th:text="${pageMaker.getTotal()}"></span> entries
+                </div>
+            </div>
+
+            <!-- card -->
+            <div class="card_list row row-cols-1 row-cols-md-4 g-4">
+                <th:block th:each="result:${search}">
+                    <div class="col">
+                        <a th:href="@{/auction/action-list/{id}(id=${result.productId()})}">
+                            <div class="card h-100">
+                                <div class="card-image">
+                                    <img src="https://volcanoshop.net/web/product/medium/202207/2246137a254cc292520136388d752dd5.jpg"
+                                         class="card-img-top object-fit-cover border rounded">
+                                    <th:block th:switch="${result.pSalesStatus()}">
+                                        <small th:case="${1}">판매중</small>
+                                        <small th:case="${2}">판매완료</small>
+                                        <small th:case="${4}">판매종료</small>
+                                    </th:block>
+                                </div>
+                                <div class="info_box pt-1">
+                                    <div class="item fs-6 fw-bold" th:text="${result.pName()}">Stussy</div>
+                                    <div class="item fs-6 fw-medium mb-2" th:text="${result.pInfo()}">Stussy Diced Out
+                                        T-Shirt Black
+                                    </div>
+                                    <th:block th:if="${result.pSaleType()==0}">
+                                        <div class="price fs-6 fw-bold"
+                                             data-th-text="${#numbers.formatInteger(result.pBPrice(), 3, 'COMMA') + '원'}">
+                                            92,000원
+                                        </div>
+                                        <div class="fs-6 fw-light text-secondary">최고입찰가</div>
+                                    </th:block>
+                                    <th:block th:if="${result.pSaleType()==1}">
+                                        <div class="price fs-6 fw-bold"
+                                             data-th-text="${#numbers.formatInteger(result.pDirect(), 3, 'COMMA') + '원'}">
+                                            92,000원
+                                        </div>
+                                        <div class="fs-6 fw-light text-secondary">즉시구매가</div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </th:block>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center py-5">
+        <div class="col-sm-12 col-md-6">
+            <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                <ul class="pagination">
+                    <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
+                        <a th:href="@{${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0"
+                           tabindex="0">
+                            Previous
+                        </a>
+                    </li>
+                    <li class="paginate_button page-link"
+                        th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                        <a th:href="${num}" th:text="${num}">
+                        </a>
+                    </li>
+                    <li th:if="${pageMaker.next}" class="paginate_button page-item next page-link" id="dataTable_next">
+                        <a th:href="@{${pageMaker.endPage + 1}}" th:text="'Next'" aria-controls="dataTable"
+                           data-dt-idx="7" tabindex="0">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<span id="option" hidden="hidden" th:text="${option}"></span>
+<form method="get" id="actionForm" action="searchList">
+    <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+    <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+    <input type="hidden" name="keyword" th:value="${message}">
+    <input type="hidden" name="searchOption" th:value="${option}">
+</form>
+
+<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</body>
+</html>
+<script>
+    var actionForm = $("#actionForm");
+    var option = $("#option").val();
+    /////////////////페이지번호 처리/////////////////
+    $(".paginate_button a").on("click", function (e) {
+
+        // 기본 동작 막음: 페이지 링크를 통해서 이동
+        e.preventDefault();
+        console.log("click~!");
+        console.log("@# href ===>" + $(this).attr("href"));
+        actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+
+        actionForm.submit();
+    });
+    /////////////////게시글 처리/////////////////
+
+</script>

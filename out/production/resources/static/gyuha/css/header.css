@@ -1,0 +1,37 @@
+@charset "utf-8";
+#alNum {
+    background-color: orange;
+    width: 20px; /* 원의 너비를 50px로 고정합니다. */
+    height: 20px; /* 원의 높이를 50px로 고정합니다. */
+    border-radius: 50%; /* 원 모양을 만들기 위해 너비/높이의 50%로 설정합니다. */
+    justify-content: center; /* 가로 방향으로 아이템을 중앙에 배치합니다. */
+    align-items: center; /* 세로 방향으로 아이템을 중앙에 배치합니다. */
+    font-size: 12px; /* 원 안의 글자 크기를 설정합니다. */
+    display: inline-flex;
+}
+
+.modal-body {
+    height: 250px;
+    overflow-y: auto;
+}
+
+.move_alert {
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}

@@ -11,6 +11,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+  <script src="/gyuha/js/header.js"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
   <style type="text/css">
@@ -46,7 +47,7 @@
 
   <title>리뷰 내용</title>
   <link rel="stylesheet" th:href="@{/css/board.css}" />
-  <div th:replace="fragments/header :: fragment-header"></div>
+  <div th:replace="fragments/header :: headerFragment"></div>
 
 </head>
 
@@ -112,9 +113,9 @@
 
   <tr>
     <td colspan="3">
-      <input class="btn btn-primary rounded-pill" type="submit" value="수정" formaction="modify_view" style="width: 100px; height: 30px;">
+      <input th:if="${content_view.reviewWritter == session.user.getUNickname() || session.user.getURole() == 1}" class="btn btn-primary rounded-pill" type="submit" value="수정" formaction="modify_view" style="width: 100px; height: 30px;">
       <input class="btn btn-secondary rounded-pill" type="submit" value="목록보기" formaction="list" style="width: 100px; height: 30px;">
-      <input class="btn btn-danger rounded-pill" type="submit" value="삭제" formaction="delete" style="width: 100px; height: 30px;">
+      <input th:if="${content_view.reviewWritter == session.user.getUNickname() || session.user.getURole() == 1}" class="btn btn-danger rounded-pill" type="submit" value="삭제" formaction="delete" style="width: 100px; height: 30px;">
     </td>
   </tr>
   </form>
@@ -144,7 +145,7 @@
 <!--            <button class="btn btn-primary" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>-->
             <button class="btn btn-primary" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
             <!-- 댓글 삭제 버튼 -->
-            <button class="btn btn-danger" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
+            <button class="btn btn-danger" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
           </div>
         </div>
       </div>
@@ -152,7 +153,7 @@
     </tr>
 </table>
 </div>
-<div th:replace="fragments/footer.html :: fragment-footer"></div>
+<div th:replace="fragments/footer.html :: footerFragment"></div>
 
 <script>
   // 별점 값을 가져와서 해당 별점까지 별을 색칠하는 함수

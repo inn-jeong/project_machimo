@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_machimo.gyuha.order.dao.OrderDAO">
+
+
+    <insert id="insertOrder">
+        INSERT INTO ORDERS values (order_id_seq.nextval, #{userId},0, #{createdAt}, null,#{orderReq},
+        #{orderAddress}, #{orderAddressSub},
+         #{orderPrice},#{usedPointResult})
+    </insert>
+
+    <insert id="insertOrderProducts">
+        insert into ORDER_PRODUCTS (order_id, product_id, p_price,user_id)
+        select #{orderId}, #{productId}, p_direct,#{userId}
+        from PRODUCTS
+        where PRODUCT_ID = #{productId}
+
+    </insert>
+    <update id="updateUserPoint">
+        update USERS set U_POINT = U_POINT -#{point}
+        where USER_ID = #{userId}
+    </update>
+    <update id="updateSalesStatus">
+        update PRODUCTS set P_SALES_STATUS = 1
+        where PRODUCT_ID = #{param1}
+    </update>
+
+    <delete id="deleteOrder">
+        delete orders where
+        ORDER_ID = #{orderID}
+    </delete>
+    <delete id="deleteOrderProducts">
+        delete order_products where order_id = #{orderID}
+    </delete>
+    <select id="getProduct" resultType="com.example.project_machimo.gyuha.order.vo.BuyProductVO">
+        select PRODUCT_ID,P_NAME,USER_ID,P_DIRECT,p_b_price,p_sale_type from PRODUCTS
+        where PRODUCT_ID = #{0}
+    </select>
+    <select id="getUser" resultType="com.example.project_machimo.gyuha.order.vo.BuyerVO">
+        select USER_ID,U_NAME,U_POINT,U_ADDRESS,U_ADDRESS_SUB,u_phone,u_email,u_addr_postcode from USERS
+        where USER_ID = #{0}
+    </select>
+    <select id="getOrderId" resultType="java.lang.Integer">
+        select nvl(max(ORDER_ID),0)+1 from ORDERS
+    </select>
+    <select id="getTotalAmount" resultType="java.lang.Integer">
+        select P_DIRECT from products where product_id =#{0}
+    </select>
+    <select id="getOrderProductTotal" resultType="java.lang.Integer">
+        select sum(p_price) from order_products
+        where order_id=#{orderId}
+    </select>
+    <select id="getAmountResult" resultType="java.lang.Integer">
+        select p_direct from products where product_id = #{param1}
+    </select>
+    <select id="getUserPoint" resultType="java.lang.Integer">
+        select u_point from users where user_id = #{param1}
+
+    </select>
+</mapper>

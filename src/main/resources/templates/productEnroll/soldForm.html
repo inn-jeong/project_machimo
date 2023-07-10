@@ -6,12 +6,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="/js/jusoPopup.js"></script>
 
-    <div th:replace="fragments/header :: fragment-header"></div>
+    <div th:replace="fragments/header :: headerFragment"></div>
 
     <style>
         /* Center align the container */
         .container-sm {
-            width: 900px;
+            width: 700px;
             margin: 0 auto;
             padding: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -27,7 +27,7 @@
 <div class="container-sm mb-4" style="padding: 60px;">
         <h1 class="fw-bold text-center text-success mb-4">판매 신청 폼</h1>
     <form class="was-validated" action="/productEnroll/enroll" method="post" id="enrollForm" name="enrollForm" enctype="multipart/form-data">
-        <input type="hidden" name="userId" value="11" />
+        <input type="hidden" name="userId" th:value="${session.user.userId}" />
         <input type="hidden" id="getProductId" th:value="${getProductId}" />
 
         <div class="mb-3">
@@ -43,9 +43,10 @@
         <div class="mb-3">
             <label id="cid2" class="form-label"></label>
             <div th:each="category:${categories}">
-                <select class="catego2 form-select" th:id="'category2-'+${category.cId}" style="display: none" name="category1" id="'category2-'+${category.cId}">
+                <select class="catego2 form-select" name="category1" th:id="'category2-'+${category.cId}" style="display: none">
+<!--                <select class="catego2 form-select" th:id="'category2-'+${category.cId}" style="display: none" name="category1" id="'category2-'+${category.cId}">-->
                     <option value="">전체</option>
-                    <option th:each="subcategory:${subcategory[category.cId]}" th:value="${subcategory.cId}" th:text="${subcategory.cName}"></option>
+                    <option th:each="subcatego:${subcategory[category.cId]}" th:value="${subcatego.cId}" th:text="${subcatego.cName+subcatego.cId+subcatego.cId2}"></option>
                 </select>
             </div>
         </div>
@@ -133,16 +134,14 @@
 <input type="hidden" th:value="${getProductId}">
 
 <!--footer-->
-<div th:replace="fragments/footer.html :: fragment-footer"></div>
+<div th:replace="fragments/footer.html :: footerFragment"></div>
 </body>
 
 <script>
     function selectSubcategory() {
         var catego = $(".catego1").filter(":selected").val();
-        // $(".catego2").css("display","none");
         $(".catego2").css({"display":"none"}).prop('disabled',true);
-        // $("#category2-"+catego).css("display","inline-block");
-        $("#category2-"+catego).css({"display":"inline-block"}).prop('disabled',false);
+        $("#category2-"+catego).css("display","inline-block").prop('disabled',false);
 
         console.log(catego);
 

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Document</title>
 
 
@@ -14,6 +15,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/gyuha/js/header.js"></script>
     <style>
         body {
             min-height: 100vh;
@@ -43,11 +45,11 @@
         }
     </style>
 </head>
+<div th:replace="fragments/header :: headerFragment"></div>
 
-<!--<div th:replace="fragments/header :: fragment-header"></div>-->
 <body>
 
-<div class="container-sm" style="padding: 70px;">
+<div class="container-sm">
     <div class="input-form-backgroud row">
         <div class="input-form col-md-12 mx-auto">
             <h4 class="mb-3">
@@ -118,7 +120,7 @@
     </footer>
 </div>
 </body>
-<!--<div th:replace="fragments/footer.html :: fragment-footer"></div>-->
+<div th:replace="fragments/footer.html :: footerFragment"></div>
 
 <script src="/js/jquery.js"></script>
 <script type="text/javascript"></script>

@@ -1,6 +1,6 @@
 package com.example.project_machimo.jomuragi.review.controller;
 
-import com.example.project_machimo.jomuragi.productEnroll.dto.UsersDto;
+import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.jomuragi.review.dto.CommentVO;
 import com.example.project_machimo.jomuragi.review.service.CommentService;
 import jakarta.servlet.http.HttpSession;

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.project_machimo.inn_jeong.basket.Dao.BasketDao">
+    <delete id="deleteItem">
+        delete from basket where user_id=#{param1} and product_id=#{param2}
+    </delete>
+<!--    <select id="getBasket" resultType="com.example.project_machimo.basket.Dto.BasketDto">-->
+<!--        select * from basket where user_id=#{param1}-->
+<!--    </select>-->
+<!--    <select id="getItemInfo" resultType="com.example.project_machimo.basket.Dto.BasketItemDto">-->
+<!--        select a.product_id, a.user_id, c.u_name, a.p_name, a.p_direct, a.p_sales_status, b.i_sub_img-->
+<!--         from products a-->
+<!--         join product_images b-->
+<!--         on a.product_id = b.product_id-->
+<!--         join users c on a.user_id = c.user_id where a.product_id=#{param1}-->
+<!--    </select>-->
+    <select id="getBasketItems" resultType="com.example.project_machimo.inn_jeong.basket.Dto.BasketItemDto">
+        select b.product_id,b.user_id,u.u_name,p.p_name,p.p_direct,p.p_sales_status,i.i_sub_img
+        from basket b
+        join products p on p.product_id = b.product_id
+        join users u on u.user_id = b.user_id
+        join product_images i on i.product_id = b.product_id
+        where b.user_id = #{param1}
+    </select>
+    <!--    <select id="getItemInfo" resultType="com.example.project_machimo.basket.Dto.ProductsDto">-->
+<!--        select * from products where product_id=#{param1}-->
+<!--    </select>-->
+</mapper>

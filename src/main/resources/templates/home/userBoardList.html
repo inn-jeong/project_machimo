@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>boardWrite</title>
+    <!--header-->
+    <th:block th:replace="fragments/header"></th:block>
+</head>
+<body>
+        <!--관리자 or 유저일경우 활성화-->
+        <div class="container" th:if="${session.user.uRole == 1 || session.user.userId != null }">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h5 class="fw-bold fs-4">고객센터</h5>
+                </div>
+            </div>
+
+            <div class="border-bottom mb-5" style="width: 65rem"></div>
+
+            <div class="container-box d-flex pb-3">
+                <div class="row g-3 py-2">
+                    <div class="col-auto">
+                        <form th:action="@{/home/boardWrite}" method="GET" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-primary mx-1">글쓰기</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex justify-content-end">
+                            <form id="searchForm" method="get" class="d-flex align-items-center ms-auto">
+                                <label class="mb-0 me-2">
+                                    <select name="type" class="form-select form-select-sm form-control form-control-sm">
+                                        <option selected value="C" th:selected="${pageMaker.cri.type eq 'C'?'selected':''}">유형</option>
+                                        <option value="T" th:selected="${pageMaker.cri.type eq 'T'?'selected':''}">제목</option>
+                                        <option value="W" th:selected="${pageMaker.cri.type eq 'W'?'selected':''}">작성자</option>
+                                        <option value="TW" th:selected="${pageMaker.cri.type eq 'TW'?'selected':''}">제목+작성자</option>
+                                        <option value="CTW" th:selected="${pageMaker.cri.type eq 'CTW'?'selected':''}">유형+제목+작성자</option>
+                                    </select>
+                                </label>
+                                <label class="mb-0 me-2">
+                                    <input type="text" class="form-control form-control-sm" placeholder="search" name="keyword" th:value="${pageMaker.cri.keyword}">
+                                </label>
+                                <div id="dataTable_filter" class="col dataTables_filter">
+                                    <button class="btn btn-sm btn-outline-primary" type="submit">search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row py-2">
+                <table class="table table-hover table-responsive text-nowrap mb-0 align-middle">
+                    <colgroup>
+                        <col width="2%" />
+                        <col width="5%" />
+                        <col width="30%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                    </colgroup>
+                    <thead class="table-light text-dark fs-5">
+                    <tr>
+                        <th class="border-bottom-0">No</th>
+                        <th class="border-bottom-0">유형</th>
+                        <th class="border-bottom-0">제목</th>
+                        <th class="border-bottom-0">작성자</th>
+                        <th class="border-bottom-0">등록일</th>
+                        <th class="border-bottom-0">조회수</th>
+                        <!-- admin일때만 -->
+                        <th th:if="${session.user.uRole == 1}" class="border-bottom-0">관리</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="board: ${boardList}">
+                    <tr  th:if="${board != null}">
+                        <td th:text="${board.boardId}"></td>
+                        <td th:text="${board.bCategory}"></td>
+                        <td>
+                            <a class="move_link" th:data-id="${board.boardId}">
+                                <span th:text="${board.BTitle}"></span>
+                            </a>
+                        </td>
+                        <td th:text="${board.BWriter}"></td>
+                        <td th:text="${#dates.format(board.BDate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${board.BHit}"></td>
+
+                        <!-- admin일때만 -->
+                        <td th:if="${session.user.uRole == 1}">
+                            <button class="btn btn-sm btn-danger rounded-pill px-3" type="button" th:onclick="'boardDelete(\''+${board.boardId}+'\')'">
+                                삭제
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--페이징-->
+                <div class="row py-3">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                            showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                            <ul class="pagination">
+                                <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
+                                    <a th:href="@{${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
+                                        Previous
+                                    </a>
+                                </li>
+                                <li class="paginate_button page-link" th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                                    <a th:href="${num}" th:text="${num}">
+                                    </a>
+                                </li>
+                                <li th:if="${pageMaker.next}" class="paginate_button page-item next page-link" id="dataTable_next">
+                                    <a th:href="@{${pageMaker.endPage + 1}}" th:text="'Next'" aria-controls="dataTable" data-dt-idx="7" tabindex="0">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form th:method="get" id="actionForm">
+            <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+            <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+        </form>
+
+        <!--footer-->
+        <th:block th:replace="fragments/footer"></th:block>
+</body>
+</html>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            var actionForm = $("#actionForm");
+
+            /////////////////페이지번호 처리/////////////////
+            $(".paginate_button a").on('click', function (e){
+                // 기본 동작 막음: 페이지 링크를 통해서 이동
+                e.preventDefault();
+                console.log("click~!");
+                console.log("@# href ===>"+$(this).attr("href"));
+                // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+                var bno = actionForm.find("input[name='boardId']").val();
+                if(bno !== ''){
+                    actionForm.find("input[name='boardId']").remove();
+                }
+                actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+                actionForm.submit();
+            });
+            // /////////////////게시글 처리/////////////////
+            $(".move_link").on("click", function (e){
+                e.preventDefault();
+                var boardId = $(this).attr("data-id")
+
+                // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
+                var bno = actionForm.find("input[name='boardId']").val();
+                if(bno !== ''){
+                    actionForm.find("input[name='boardId']").remove();
+                }
+
+                actionForm.append("<input type='hidden' name='boardId' value='"+boardId+"'>");
+                console.log("boardId= "+boardId);
+                actionForm.attr("action","boardView").submit();
+            });
+
+            window.onpageshow = function (event){
+                if(event.persisted || (window.performance && window.performance.navigation.type==2)){
+                    location.reload();
+                }
+            }
+
+            function boardDelete(boardId){
+                console.log("@# boardDelete")
+
+                var chk = confirm("정말 삭제하시겠습니까?");
+                if(chk){
+                    $.ajax({
+                        url:'/admin/boardDelete',
+                        method: 'POST',
+                        data: {
+                            'boardId':boardId
+                        },
+                        success: function (response){
+                            if(response === "deleteOk"){
+                                alert("게시물이 삭제되었습니다.")
+                                location.href="/admin/boardList";
+                            }
+                            else{
+                                alert("게시물 삭제에 실패했습니다.")
+                            }
+                        },
+                        error: function (xhr, status, error){
+                            alert("에러 발생: "+error);
+                        }
+                    });
+                }
+            }
+
+        </script>
