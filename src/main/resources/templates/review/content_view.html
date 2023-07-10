@@ -129,7 +129,7 @@
             <input type="hidden" name="bno" th:value="${content_view.reviewId}"/>
             <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요.">
             <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" name="commentInsertBtn">등록</button>
+                    <button class="btn btn-primary" type="button" name="commentInsertBtn">등록</button>
                </span>
           </div>
         </form>
@@ -141,7 +141,8 @@
           <div th:each="comment : ${comment}">
             <p th:text="${comment.content}"></p>
             <!-- 댓글 수정 버튼 -->
-            <button class="btn btn-primary" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
+<!--            <button class="btn btn-primary" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>-->
+            <button class="btn btn-primary" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
             <!-- 댓글 삭제 버튼 -->
             <button class="btn btn-danger" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
           </div>
@@ -190,7 +191,7 @@
         $.each(data, function(key, value){
           a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
           // a += '<div class="commentInfo'+value.cno+'">'+'댓글번호 : '+value.cno+' / 작성자 : '+value.writer;
-          a += '<div class="commentInfo'+value.cno+'">'+' 작성자 : '+value.writer;
+          a += '<div class="commentInfo'+value.cno+'">'+' 작성자 : '+value.writter;
           a += '<a onclick="commentUpdate('+value.cno+',\''+value.content+'\');"> 수정 </a>';
           a += '<a onclick="commentDelete('+value.cno+');"> 삭제 </a> </div>';
           a += '<div class="commentContent'+value.cno+'"> <p> 내용 : '+value.content +'</p>';
