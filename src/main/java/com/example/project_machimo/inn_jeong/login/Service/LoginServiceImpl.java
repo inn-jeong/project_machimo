@@ -71,6 +71,12 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
+    public void updateUser(HashMap<String, String> param) {
+        LoginDao dao = sqlSession.getMapper(LoginDao.class);
+        dao.updateUser(param);
+    }
+
+    @Override
     public Map<String, String> validateHandling(Errors errors) {
         Map<String, String> validatorResult = new HashMap<>();
 
