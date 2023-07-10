@@ -46,7 +46,7 @@
                     LEFT JOIN report r ON u.user_id = r.user_id
                     LEFT join (select max(report_count) report_count,user_id from report group by user_id) r2 on r2.user_id = u.user_id
                     WHERE u.u_signout = 'N'
- 
+
             ]]>
                  <where>
                      <include refid="criteria"></include>
