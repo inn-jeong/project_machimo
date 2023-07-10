@@ -28,6 +28,8 @@
   <script>
 
    var id = getQueryStringObject().reviewId;
+
+   console.log("  var id@@@@@@@@@@@@@@@@@@@@@"+id);
    function getQueryStringObject() {
      var a = window.location.search.substr(1).split('&');
      if (a == "") return {};
@@ -140,7 +142,7 @@
           <div th:each="comment : ${comment}">
             <p th:text="${comment.content}"></p>
             <!-- 댓글 수정 버튼 -->
-            <button class="btn btn-primary" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
+            <button class="btn btn-primary" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
             <!-- 댓글 삭제 버튼 -->
             <button class="btn btn-danger" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
           </div>
@@ -170,7 +172,6 @@
   // var bno = '${content_view.reviewId}'; //게시글 번호
   // content_view?pageNum=1&amount=10&reviewId=139 를 다 받아와야 그 페이지가 보이므로 그냥 reviewId만 불러오면 댓글이안보인다
   var bno = id;
-
   $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시
     var insertData = $('[name=commentInsertForm]').serialize(); //commentInsertForm의 내용을 가져옴
     commentInsert(insertData); //Insert 함수호출(아래)
