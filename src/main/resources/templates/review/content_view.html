@@ -226,7 +226,8 @@
 
     a += '<div class="input-group">';
     a += '<input type="text" class="form-control" name="content_'+cno+'" value="'+content+'"/>';
-    a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
+    // a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
+    a += '<span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
     a += '</div>';
 
     $('.commentContent'+cno).html(a);
