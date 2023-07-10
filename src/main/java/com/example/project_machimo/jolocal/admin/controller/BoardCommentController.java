@@ -1,7 +1,9 @@
 package com.example.project_machimo.jolocal.admin.controller;
 
 import com.example.project_machimo.jolocal.admin.dto.CommentVO;
-import com.example.project_machimo.jolocal.admin.service.CommentService;
+import com.example.project_machimo.jolocal.admin.dto.UsersDto1;
+import com.example.project_machimo.jolocal.admin.service.BoardCommentService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,17 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/comment")
-public class CommentController {
+@RequestMapping("/boardComment")
+public class BoardCommentController {
     @Autowired
     private
-    CommentService commentService;
+    BoardCommentService boardCommentService;
 
 
     @RequestMapping("/list") //댓글 리스트
     @ResponseBody
     private List<CommentVO> mCommentServiceList(Model model, int bno) throws Exception{
-        return commentService.commentListService(bno);
+        return boardCommentService.commentListService(bno);
     }
 
     @RequestMapping("/insert") //댓글 작성
@@ -34,11 +36,9 @@ public class CommentController {
         comment.setBno(bno);
         comment.setContent(content);
         //로그인 기능을 구현했거나 따로 댓글 작성자를 입력받는 폼이 있다면 입력 받아온 값으로 사용하면 됨
-        comment.setWriter("test");
+//        comment.setWriter("test");
 
-
-
-        return commentService.commentInsertService(comment);
+        return boardCommentService.commentInsertService(comment);
     }
 
     @RequestMapping("/update") //댓글 수정
@@ -49,13 +49,13 @@ public class CommentController {
         comment.setCno(cno);
         comment.setContent(content);
 
-        return commentService.commentUpdateService(comment);
+        return boardCommentService.commentUpdateService(comment);
     }
 
     @RequestMapping("/delete/{cno}") //댓글 삭제
     @ResponseBody
     private int mCommentServiceDelete(@PathVariable int cno) throws Exception{
 
-        return commentService.commentDeleteService(cno);
+        return boardCommentService.commentDeleteService(cno);
     }
 }

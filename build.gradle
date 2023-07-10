@@ -94,7 +94,10 @@ dependencies {
 //	기존에 있던 타임리프 스프링 스타터 버전으로 변경
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-
+//  최규하 배포에 필요한 그래들
+	implementation 'com.oracle.database.security:oraclepki:21.1.0.0'
+    implementation 'com.oracle.database.security:osdt_core:21.1.0.0'
+    implementation 'com.oracle.database.security:osdt_cert:21.1.0.0'
 
 
 }
