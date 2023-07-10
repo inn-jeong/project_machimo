@@ -2,8 +2,8 @@ package com.example.project_machimo.gyuha.auction.vo;
 
 public record Test(
         Integer productId
-        ,Byte cId
-        ,Byte cId2
+        ,Integer cId
+        ,Integer cId2
         ,String pName
         ,String pInfo
         ,Integer pDirect
