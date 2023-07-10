@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>boardWrite</title>
-    <!--header-->
 </head>
-    <th:block th:replace="fragments/header.html :: headerFragment"></th:block>
+    <!--header-->
+    <th:block th:replace="fragments/header"></th:block>
 <body>
     <!-- 관리자 or 로그인한 유저만 활성화-->
     <div class="container p-5 mb-4" th:if="${session.user.uRole == 1 || session.user.userId != null }">
-<!--    <div class="container p-5 mb-4">-->
 
         <div class="row py-3 mb-5 border-bottom m-3">
             <h2 class="m-0 fw-bold text-secondary">게시물 등록</h2>
@@ -70,8 +69,10 @@
             </div>
         </form>
     </div>
+
     <!--footer-->
-    <th:block th:replace="fragments/footer.html :: footerFragment"></th:block>
+    <th:block th:replace="fragments/footer"></th:block>
+
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
