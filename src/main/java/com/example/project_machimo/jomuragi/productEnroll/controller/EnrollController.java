@@ -1,10 +1,12 @@
 package com.example.project_machimo.jomuragi.productEnroll.controller;
 
 
+import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.jomuragi.productEnroll.dto.ProductImageVO;
 import com.example.project_machimo.jomuragi.productEnroll.service.EnrollService;
 import com.example.project_machimo.jomuragi.productEnroll.dto.CategoryDto;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.IOUtils;
@@ -67,7 +69,11 @@ public class EnrollController {
     }
 
     @RequestMapping("/enroll_form")
-    public String enroll_form(Model model){
+    public String enroll_form(Model model, HttpSession session){
+        UsersDto user = (UsersDto) session.getAttribute("user");
+        if(user == null){
+            return "redirect:/loginT/login?login_try=no";
+        }
         //        // 모든 카테고리와 그에 해당하는 하위 카테고리를 가져옴
         ArrayList<CategoryDto> categories = service.getCategories();
         Map<Integer, ArrayList<CategoryDto>> subcategory = new HashMap<>();
@@ -81,6 +87,8 @@ public class EnrollController {
 
 //        Map안에 배열을 담은 형태
         model.addAttribute("subcategory", subcategory);
+        log.info("category:"+categories);
+        log.info("subcategory:"+subcategory);
 //        log.info("@# category ===>"+categories.get(0).getCId());
 //        log.info("@# category ===>"+model.getAttribute("categories"));
 
@@ -102,10 +110,11 @@ public class EnrollController {
 //        //        카테고리 값을 model에 저장 하고 넘어감
 //        model.addAttribute("categories", categories);
 //        model.addAttribute("subcategory", subcategory);
-
+        log.info("@# write 1:"+param.get("category1"));
+        log.info("@# write 2:"+param.get("category2"));
         service.write(param);
 //        return "productEnroll/success";
-        return "shop/allItemView";
+        return "redirect:/shop/allItemView";
     }
 
 
