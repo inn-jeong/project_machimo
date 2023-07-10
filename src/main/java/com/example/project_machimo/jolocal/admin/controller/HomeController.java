@@ -2,7 +2,7 @@ package com.example.project_machimo.jolocal.admin.controller;
 
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
-import com.example.project_machimo.jolocal.admin.dto.PageDto;
+import com.example.project_machimo.jolocal.admin.dto.LocalPageDto;
 import com.example.project_machimo.jolocal.admin.dto.UsersDto1;
 import com.example.project_machimo.jolocal.admin.service.AdminService;
 import com.example.project_machimo.jolocal.admin.service.HomeService;
@@ -40,7 +40,7 @@ public class HomeController {
         session.setAttribute("user",user);
         int total = service.getTotalCount();
         model.addAttribute("boardList",service.userBoardList(cri));
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
         return "home/userBoardList";
     }
 
@@ -70,7 +70,7 @@ public class HomeController {
         System.out.println("@# boaradWriteView start");
 
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
 
         return "home/boardWrite";
     }
