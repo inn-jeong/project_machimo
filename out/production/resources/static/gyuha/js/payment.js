@@ -1,24 +1,28 @@
 function all_use_point() {
 
     const result = Number(document.getElementById('result').innerText);
+    const used_point = Number(document.getElementById('result').innerText);
     if (result === 0 || result === 1) {
         return;
     }
     var use_point = document.getElementById("user_point").innerText
 
+
     console.log(use_point)
     if (use_point >= result) {
 
         document.getElementById('user_point').innerText = use_point - result + 1;
-        document.getElementById('used_point').innerText = Number(result - 1);
+        document.getElementById('used_point').innerText = Number(used_point+used_point+1);
         document.getElementById('result').innerText = 1;
+        document.getElementById('result2').innerText = Number(1).toLocaleString('ko-kr') + "원"
+        document.getElementById('result4').innerText = Number(1).toLocaleString('ko-kr') + "원"
+        console.log("여기로옴")
     } else {
         document.getElementById('used_point').innerText = document.getElementById("u_point").value
         document.getElementById('result').innerText = Number(result - use_point);
         document.getElementById('result2').innerText = Number(result - use_point).toLocaleString('ko-kr') + "원"
-
         document.getElementById('result4').innerText = Number(result - use_point).toLocaleString('ko-kr') + "원"
-        document.getElementById('user_point').innerText = 0
+        document.getElementById('user_point').innerText = Number(result - use_point)
     }
     console.log(result)
 }
@@ -83,7 +87,7 @@ function points() {
     }
 
     let innerText = Number(result - point).toString().toLocaleString('ko-kr');
-    console.log(innerText+"값")
+    console.log(innerText + "값")
     document.getElementById('result').innerText = innerText;
     document.getElementById('result2').innerText = Number(result - point).toLocaleString('ko-kr') + "원"
     document.getElementById('result4').innerText = Number(result - point).toLocaleString('ko-kr') + "원"

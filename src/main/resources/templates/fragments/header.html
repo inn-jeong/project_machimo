@@ -119,11 +119,11 @@
                             <form action="/search/searchList" method="get" class="d-flex" role="search" id="frm">
                                 <label>
                                     <select name="searchOption" style="height: 32px" th:value="${session.searchOption}">
-                                        <option value="userNickName"
-                                                th:selected="${session.searchOption == 'userNickName'}">작성자
-                                        </option>
                                         <option value="productName"
                                                 th:selected="${session.searchOption == 'productName'}">상품명
+                                        </option>
+                                        <option value="userNickName"
+                                                th:selected="${session.searchOption == 'userNickName'}">작성자
                                         </option>
                                         <option value="productInfo"
                                                 th:selected="${session.searchOption == 'productInfo'}">내용
