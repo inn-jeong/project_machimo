@@ -47,7 +47,7 @@
 
   <title>리뷰 내용</title>
   <link rel="stylesheet" th:href="@{/css/board.css}" />
-  <div th:replace="fragments/header :: fragment-header"></div>
+  <div th:replace="fragments/header :: headerFragment"></div>
 
 </head>
 
@@ -152,7 +152,7 @@
     </tr>
 </table>
 </div>
-<div th:replace="fragments/footer.html :: fragment-footer"></div>
+<div th:replace="fragments/footer.html :: footerFragment"></div>
 
 <script>
   // 별점 값을 가져와서 해당 별점까지 별을 색칠하는 함수
