@@ -24,7 +24,7 @@ public interface AdminDao {
 
 
     //공지,문의//
-    ArrayList<BoardDto> BoardList(Criteria cri);
+    ArrayList<BoardDto> adminboardList(Criteria cri);
 
     BoardDto boardView(int boardId);
 
@@ -34,7 +34,6 @@ public interface AdminDao {
 
     void boardDelete(int boardId);
 
-//    void boardModify(BoardDto dto);
     void boardModify(BoardDto dto);
 
     BoardDto boardModifyView(int boardId);

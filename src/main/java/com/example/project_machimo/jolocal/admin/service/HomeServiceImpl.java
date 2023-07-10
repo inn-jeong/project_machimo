@@ -1,5 +1,6 @@
 package com.example.project_machimo.jolocal.admin.service;
 
+import com.example.project_machimo.jolocal.admin.dao.AdminDao;
 import com.example.project_machimo.jolocal.admin.dao.HomeDao;
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
@@ -15,15 +16,33 @@ import java.util.ArrayList;
 public class HomeServiceImpl implements HomeService {
     @Autowired
     private SqlSession sqlSession;
-    @Override
-    public ArrayList<BoardDto> boardList(Criteria cri) {
-        HomeDao dao = sqlSession.getMapper(HomeDao.class);
-        return dao.boardList(cri);
-    }
 
     @Override
     public int getTotalCount() {
         HomeDao dao = sqlSession.getMapper(HomeDao.class);
         return dao.getTotalCount();
     }
+    @Override
+    public ArrayList<BoardDto> userBoardList(Criteria cri) {
+        HomeDao dao = sqlSession.getMapper(HomeDao.class);
+        return dao.userBoardList(cri);
+    }
+    @Override
+    public void updateHits(int boardId) {
+        HomeDao dao = sqlSession.getMapper(HomeDao.class);
+        dao.updateHits(boardId);
+    }
+
+//    @Override
+//    public ArrayList<BoardDto> boardList(Criteria cri) {
+//        HomeDao dao = sqlSession.getMapper(HomeDao.class);
+//        return dao.boardList(cri);
+//    }
+
+//    @Override
+//    public ArrayList<BoardDto> userQnAList(Criteria cri) {
+//        HomeDao dao = sqlSession.getMapper(HomeDao.class);
+//        return dao.userQnAList(cri);
+//    }
+
 }

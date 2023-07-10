@@ -64,9 +64,6 @@
                 <tr th:each="list: ${pList}" th:if="${list != null}">
                     <td th:text="${list.productId}"></td>
                     <td th:text="${list.cName}"></td>
-
-                    <!-- 병합시 제품명 클릭하면 판매글로 이동-->
-<!--                    <td th:text="${list.pName}">-->
                     <td>
                         <a th:href="@{/auction/action-list/{id}(id=${list.productId})}">
                             <span th:text="${list.pName}"></span>
@@ -127,7 +124,7 @@
                     <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                         <ul class="pagination">
                             <li th:if="${pageMaker.prev}" class="paginate_button page-link" id="dataTable_previous">
-                                <a th:href="@{'/page/'+${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
+                                <a th:href="@{${pageMaker.startPage -1}}" aria-controls="dataTable" data-dt-idx="0" tabindex="0">
                                     Previous
                                 </a>
                             </li>
@@ -160,9 +157,9 @@
             // 기본 동작 막음: 페이지 링크를 통해서 이동
             e.preventDefault();
             // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-            var bno = actionForm.find("input[name='user_id']").val();
+            var bno = actionForm.find("input[name='productId']").val();
             if(bno !== ''){
-                actionForm.find("input[name='user_id']").remove();
+                actionForm.find("input[name='productId']").remove();
             }
             actionForm.find("input[name='pageNum']").val($(this).attr("href"));
             actionForm.submit();
@@ -172,9 +169,9 @@
             e.preventDefault();
             var productId = $(this).attr("data-id")
             // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지
-            var bno = actionForm.find("input[name='user_id']").val();
+            var bno = actionForm.find("input[name='productId']").val();
             if(bno !== ''){
-                actionForm.find("input[name='user_id']").remove();
+                actionForm.find("input[name='productId']").remove();
             }
             actionForm.append("<input type='hidden' name='productId' value='"+productId+"'>");
             console.log("productId= "+productId);

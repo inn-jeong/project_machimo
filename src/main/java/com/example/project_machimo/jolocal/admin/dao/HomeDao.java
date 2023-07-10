@@ -8,7 +8,12 @@ import java.util.ArrayList;
 
 @Mapper
 public interface HomeDao {
-    ArrayList<BoardDto> boardList(Criteria cri);
 
+    ArrayList<BoardDto> userBoardList(Criteria cri);
     int getTotalCount();
+    public Integer updateHits(Integer boardId);
+
+//    ArrayList<BoardDto> boardList(Criteria cri);
+//    ArrayList<BoardDto> userQnAList(Criteria cri);
+
 }

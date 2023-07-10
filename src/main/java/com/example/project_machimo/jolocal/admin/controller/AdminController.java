@@ -1,6 +1,5 @@
 package com.example.project_machimo.jolocal.admin.controller;
 
-import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.jolocal.admin.dto.*;
 import com.example.project_machimo.jolocal.admin.service.AdminService;
 import com.example.project_machimo.jolocal.admin.service.ProductStatusService;
@@ -33,24 +32,21 @@ public class AdminController {
     }
 
     //사용자관리//
-
-    @RequestMapping("/index")
-    public String main(){
-        return "admin/index";
-    }
-
     @RequestMapping("/adminList")
-    public String adminList(Criteria cri, Model model,HttpSession session){
+    public String adminList(Criteria cri, Model model){
         System.out.println("@# adminList start");
-        //admin session
-//        UsersDto1 user = new UsersDto1();
-//        user.setUserId(1); //admin
-//        user.setUNickname("admin");
-//        session.setAttribute("user",user);
-        UsersDto user = (UsersDto)session.getAttribute("user");
-        if(user == null){
-            return "redirect:/loginT/login?login_try=no";
-        }
+        UsersDto1 user = new UsersDto1();
+        user.setUserId(1);
+        user.setURole(1);
+        user.setUNickname("ADMIN");
+        session.setAttribute("user",user);
+
+        //리팀장 dto로 수정해야함
+//        UsersDto1 user = (UsersDto1) session.getAttribute("user");
+//        if(user == null){
+//            return "redirect:/login/login?login_try=no";
+//        }
+
         model.addAttribute("adminList",service.adminList(cri));
         int total = service.getTotalCount();
         model.addAttribute("pageMaker",new LocalPageDto(total, cri));
@@ -63,17 +59,23 @@ public class AdminController {
         service.adminDelete(userId);
         return "redirect:/admin/adminList";
     }
-    @RequestMapping("/Authorization/{userId}")
-    public ResponseEntity<?> Authorization(@PathVariable Integer userId){
-        System.out.println("@# controller adminModify userId = "+ userId );
+//    @RequestMapping("/Authorization/{userId}")
+//    public ResponseEntity<?> Authorization(@PathVariable Integer userId){
+    @RequestMapping("/Authorization")
+    public ResponseEntity<?> Authorization(@RequestBody Integer userId){
+        log.info("------------Authorization controller------------");
         service.Authorization(userId);
         return ResponseEntity.ok().build();
     }
     @GetMapping("/userView")
     public String userView(@RequestParam int userId, Model model){
         System.out.println("@# adminList userView");
+        UsersDto1 user = new UsersDto1();
+        user.setUserId(1);
+        user.setURole(1);
+        user.setUNickname("ADMIN");
+        session.setAttribute("user",user);
 
-//        UsersDto dto = service.userView(userId);
         model.addAttribute("userView",service.userView(userId));
 //        model.addAttribute("pageMaker",param);
         return "admin/userView";
@@ -101,16 +103,19 @@ public class AdminController {
     public String boardList(@RequestParam HashMap<String,Object>param, Criteria cri, Model model){
         System.out.println("@# controller boardList");
 
-//        UsersDto1 user = new UsersDto1();
-//        user.setUserId(1); //admin
-//        user.setUNickname("admin");
-//        session.setAttribute("user",user);
-
         model.addAttribute("boardList",service.boardList(cri));
         int total = service.getTotalCount();
         model.addAttribute("pageMaker",new LocalPageDto(total,cri));
 
         return "admin/boardList";
+    }
+    @PostMapping("/boardDelete")
+    @ResponseBody
+    public String boardDelete(@RequestParam String boardId){
+        System.out.println("@# controller boardDelete start");
+        int bId = Integer.parseInt(boardId);
+        service.boardDelete(bId);
+        return "deleteOk";
     }
 
 //    @RequestMapping(value = "/boardView", method = RequestMethod.GET)
@@ -173,15 +178,6 @@ public class AdminController {
 //        service.boardModify(dto);
 //        return "redirect:/admin/boardList";
 //    }
-
-    @PostMapping("/boardDelete")
-    @ResponseBody
-    public String boardDelete(@RequestParam String boardId){
-        System.out.println("@# controller boardDelete start");
-        int bId = Integer.parseInt(boardId);
-        service.boardDelete(bId);
-        return "deleteOk";
-    }
 
 
     /////////제품관리/////////

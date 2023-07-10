@@ -8,8 +8,8 @@
     <th:block th:replace="fragments/header.html :: headerFragment"></th:block>
 <body>
     <!-- 관리자 or 로그인한 유저만 활성화-->
-<!--    <div class="container p-5 mb-4" th:if="${session.user.uRole == 1 || session.user.userId != null }">-->
-    <div class="container p-5 mb-4">
+    <div class="container p-5 mb-4" th:if="${session.user.uRole == 1 || session.user.userId != null }">
+<!--    <div class="container p-5 mb-4">-->
 
         <div class="row py-3 mb-5 border-bottom m-3">
             <h2 class="m-0 fw-bold text-secondary">게시물 등록</h2>
@@ -62,7 +62,7 @@
 
             <div class="m-3 py-3">
                 <label for="bContent" class="form-label fw-semibold text-break">내용</label>
-                <input name="bContent" type="text" class="form-control" id="bContent" style="height: 15rem" placeholder="내용을 입력해주세요.">
+                <textarea name="bContent" type="text" class="form-control" id="bContent" style="height: 15rem" placeholder="내용을 입력해주세요."></textarea>
             </div>
 
             <div class="d-flex gap-2 justify-content-center py-5">

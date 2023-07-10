@@ -1,6 +1,7 @@
 package com.example.project_machimo.jolocal.admin.service;
 
 import com.example.project_machimo.jolocal.admin.dao.AdminDao;
+import com.example.project_machimo.jolocal.admin.dao.HomeDao;
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
 import com.example.project_machimo.jolocal.admin.dto.ProductDto;
@@ -88,7 +89,7 @@ public class AdminServiceImpl implements AdminService  {
     @Override
     public ArrayList<BoardDto> boardList(Criteria cri) {
         AdminDao dao = sqlSession.getMapper(AdminDao.class);
-        return dao.BoardList(cri);
+        return dao.adminboardList(cri);
     }
     @Override
     public BoardDto boardView(int boardId) {
