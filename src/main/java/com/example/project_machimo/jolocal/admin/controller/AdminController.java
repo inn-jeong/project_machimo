@@ -62,7 +62,8 @@ public class AdminController {
 //    @RequestMapping("/Authorization/{userId}")
 //    public ResponseEntity<?> Authorization(@PathVariable Integer userId){
     @RequestMapping("/Authorization")
-    public ResponseEntity<?> Authorization(@RequestBody Integer userId){
+    @ResponseBody
+    public ResponseEntity<?> Authorization(@RequestParam(value = "userId") Integer userId){
         log.info("------------Authorization controller------------");
         service.Authorization(userId);
         return ResponseEntity.ok().build();
