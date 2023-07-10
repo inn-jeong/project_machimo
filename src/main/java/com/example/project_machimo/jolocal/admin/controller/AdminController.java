@@ -35,6 +35,7 @@ public class AdminController {
     @RequestMapping("/adminList")
     public String adminList(Criteria cri, Model model){
         System.out.println("@# adminList start");
+
         UsersDto1 user = new UsersDto1();
         user.setUserId(1);
         user.setURole(1);
