@@ -47,7 +47,8 @@
 
   <title>리뷰 내용</title>
   <link rel="stylesheet" th:href="@{/css/board.css}" />
-  <div th:replace="fragments/header :: headerFragment"></div>
+<!--  <div th:replace="fragments/header :: headerFragment"></div>-->
+  <div th:replace="~{fragments/header :: headerFragment}"></div>
 
 </head>
 
@@ -55,7 +56,8 @@
 <div class="container">
 <h1>리뷰 내용</h1>
 <table class="board_detail">
-  <form method="post" action="modify_view">
+<!--  <form method="post" action="modify_view">-->
+  <form method="post" action="/review/modify_view">
     <input type="hidden" name="pageNum" th:value="${pageMaker.pageNum}">
     <input type="hidden" name="amount" th:value="${pageMaker.amount}">
     <input type="hidden" name="reviewId" th:value="${pageMaker.reviewId}">
@@ -130,7 +132,7 @@
             <input type="hidden" name="bno" th:value="${content_view.reviewId}"/>
             <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요.">
             <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" name="commentInsertBtn">등록</button>
+                    <button class="btn btn-primary" type="button" name="commentInsertBtn">등록</button>
                </span>
           </div>
         </form>
@@ -142,7 +144,8 @@
           <div th:each="comment : ${comment}">
             <p th:text="${comment.content}"></p>
             <!-- 댓글 수정 버튼 -->
-            <button class="btn btn-primary" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
+<!--            <button class="btn btn-primary" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>-->
+            <button class="btn btn-primary" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
             <!-- 댓글 삭제 버튼 -->
             <button class="btn btn-danger" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
           </div>
@@ -152,7 +155,8 @@
     </tr>
 </table>
 </div>
-<div th:replace="fragments/footer.html :: footerFragment"></div>
+<!--<div th:replace="fragments/footer.html :: footerFragment"></div>-->
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
 
 <script>
   // 별점 값을 가져와서 해당 별점까지 별을 색칠하는 함수
@@ -191,7 +195,7 @@
         $.each(data, function(key, value){
           a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
           // a += '<div class="commentInfo'+value.cno+'">'+'댓글번호 : '+value.cno+' / 작성자 : '+value.writer;
-          a += '<div class="commentInfo'+value.cno+'">'+' 작성자 : '+value.writer;
+          a += '<div class="commentInfo'+value.cno+'">'+' 작성자 : '+value.writter;
           a += '<a onclick="commentUpdate('+value.cno+',\''+value.content+'\');"> 수정 </a>';
           a += '<a onclick="commentDelete('+value.cno+');"> 삭제 </a> </div>';
           a += '<div class="commentContent'+value.cno+'"> <p> 내용 : '+value.content +'</p>';
@@ -226,7 +230,8 @@
 
     a += '<div class="input-group">';
     a += '<input type="text" class="form-control" name="content_'+cno+'" value="'+content+'"/>';
-    a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
+    // a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
+    a += '<span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
     a += '</div>';
 
     $('.commentContent'+cno).html(a);
