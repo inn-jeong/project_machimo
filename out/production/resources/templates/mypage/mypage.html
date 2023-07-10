@@ -122,7 +122,8 @@
                         <tbody th:each="item, count:${items}" th:id="${item.productId}" class="item-show">
                         <tr>
                             <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
-                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>
+<!--                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>-->
+                            <td><img src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg" style="width: 100px; height: 120px"></td>
                             <td style="width: 200px; text-align: left">
                                 <div th:switch="${item.pSaleType}">
                                     판매유형:

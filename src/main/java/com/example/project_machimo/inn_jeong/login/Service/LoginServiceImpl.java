@@ -26,16 +26,19 @@ public class LoginServiceImpl implements LoginService{
     //메일 전송 서비스를 위한 변수와 생성자 추가
     private final JavaMailSender mailSender;
 
+    //메일 전송 서비스 사용하기 위한 mailSender 세팅
     public LoginServiceImpl(JavaMailSender mailSender){
         this.mailSender = mailSender;
     }
 
+    //uId를 사용하여 계정 찾기
     @Override
     public UsersDto findUser(HashMap<String, String> param) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         return dao.findUser(param);
     }
 
+    //비밀번호가 맞는지 비교하여 로그인 성공여부 판단
     @Override
     public int loginYn(HashMap<String, String> param) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
@@ -58,28 +61,32 @@ public class LoginServiceImpl implements LoginService{
         return re;
     }
 
+    //일반 회원가입 사용자 삽입
     @Override
     public void userInsert(HashMap<String, String> param) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         dao.userInsert(param);
     }
 
+    //소셜로그인 회원가입자의 삽입
     @Override
     public void socialUserInsert(HashMap<String, String> param) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         dao.socialUserInsert(param);
     }
 
+    //회원정보 수정 적용
     @Override
     public void updateUser(HashMap<String, String> param) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         dao.updateUser(param);
     }
 
+    //유효성 검사를 위한 메소드
     @Override
     public Map<String, String> validateHandling(Errors errors) {
         Map<String, String> validatorResult = new HashMap<>();
-
+        //에러가 있는 값은 이름 앞에 "valid_" 가 붙음
         for (FieldError error : errors.getFieldErrors()) {
             String validKeyName = String.format("valid_%s", error.getField());
             validatorResult.put(validKeyName, error.getDefaultMessage());
@@ -87,6 +94,7 @@ public class LoginServiceImpl implements LoginService{
         return validatorResult;
     }
 
+    //유효성 검사 dto를 hashmap으로 변환
     @Override
     public HashMap<String, String> switchRequestToUser(UserRequestDto requestDto) {
         HashMap<String,String> param = new HashMap<>();
@@ -114,6 +122,7 @@ public class LoginServiceImpl implements LoginService{
         return param;
     }
 
+    //naver 로그인 유저 객체를 유효성 검사 객체로 변환
     @Override
     public UserRequestDto convertNaver(UsersDto usersDto) {
         UserRequestDto requestDto = new UserRequestDto();
@@ -125,6 +134,7 @@ public class LoginServiceImpl implements LoginService{
         return requestDto;
     }
 
+    //kakao 로그인 유저 객체를 유효성 검사 객체로 변환
     @Override
     public UserRequestDto convertKakao(UsersDto usersDto) {
         UserRequestDto requestDto = new UserRequestDto();
@@ -134,7 +144,8 @@ public class LoginServiceImpl implements LoginService{
         return requestDto;
     }
 
-        @Override
+    //uId로 계쩡을 찾음
+    @Override
     public UsersDto findUserId(String uSocial) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         log.info("@# dao u_social ===> "+uSocial);
@@ -150,18 +161,21 @@ public class LoginServiceImpl implements LoginService{
         return dto;
     }
 
+    //폰번호로 계정을 찾음
     @Override
     public UsersDto findUserPhone(String uPhone) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         return dao.findMemPhone(uPhone);
     }
 
+    //이메일로 계정을 찾음
     @Override
     public UsersDto findUserEmail(String uEmail) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
         return dao.findMemEmail(uEmail);
     }
 
+    //임시비밀번호를 보낼 메일의 내용
     @Override
     public MailDto createMailAndChangePassword(String userEmail) {
         String str = getTempPassword();
@@ -174,6 +188,7 @@ public class LoginServiceImpl implements LoginService{
         return dto;
     }
 
+    //임시비밀번호를 전송하고 수정하기 위한 메소드
     @Override
     public void updatePassword(String userEmail, String password) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);
@@ -181,6 +196,7 @@ public class LoginServiceImpl implements LoginService{
         dao.updatePassword(userId,password);
     }
 
+    //무작위의 문자를 가지고 임시비밀번호를 만듦
     @Override
     public String getTempPassword() {
         char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
@@ -198,6 +214,7 @@ public class LoginServiceImpl implements LoginService{
         return str;
     }
 
+    //메일 전송
     @Override
     public void mailSend(MailDto mailDto) {
         log.info("전송 완료!");
@@ -211,6 +228,7 @@ public class LoginServiceImpl implements LoginService{
         mailSender.send(message);
     }
 
+    //신고유저 확인
     @Override
     public UserSuspension checkBlur(Integer userId) {
         LoginDao dao = sqlSession.getMapper(LoginDao.class);

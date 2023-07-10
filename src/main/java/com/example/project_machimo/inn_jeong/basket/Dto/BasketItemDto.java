@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//장바구니 아이템
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

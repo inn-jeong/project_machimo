@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
+//제품 Dto
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

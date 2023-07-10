@@ -7,9 +7,8 @@ import java.util.ArrayList;
 
 @Mapper
 public interface BasketDao {
-//    public ArrayList<BasketDto> getBasket(Integer userId);
-//    public ProductsDto getItemInfo(Integer product_id);
-//    public BasketItemDto getItemInfo(Integer productId);
+    //장바구니에서 제품 삭제
     public int deleteItem(Integer userId, Integer productId);
+    //장바구니 테이블을 통해 제품 조회
     ArrayList<BasketItemDto> getBasketItems(Integer userId);
 }

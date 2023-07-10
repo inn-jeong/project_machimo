@@ -30,44 +30,53 @@ import java.util.Map;
 public class MypageController {
     @Autowired
     private MypageService service;
-
+    //장바구니 추가를 위한 규하 패키지에서 가져옴
     @Autowired
     private BasketService service2;
-
+    //관심상품 삭제를 위해 규하 패키지에서 가져옴
     @Autowired
     private WishListsService service3;
 
+    //마이페이지 컨트롤러
     @RequestMapping("/mypage_page")
     public String mypage(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        //마이페이지 진입 전 세션 검사를 통해 보안 기능 추가
         UsersDto user = (UsersDto)session.getAttribute("user");
-        if(user == null){
+        if(user == null){//로그인 상태가 아니면 로그인 페이지로 넘어감
             return "redirect:/loginT/login?login_try=no";
         }
+        //개인정보 수정 후 넘어왔을 경우 수정 완료 알림을 띄우기 위해 값을 넘김
         String modify = request.getParameter("modify");
         if(modify != null) model.addAttribute("modify","success");
+
+        //마이페이지 기본 페이지가 구매내역이기에 구매내역 조회 후 model에 담아 넘김
         Integer userId = user.getUserId();
         log.info("@# basket user_id===>" +userId);
         List<PurchaseItem> items = service.getPurchaseItems(userId);
         model.addAttribute("items",items);
-        model.addAttribute("type","main");
+        model.addAttribute("type","main"); //type은 main
         return "mypage/mypage";
     }
 
+    //주문내역(구매내역)
     @RequestMapping("/orderlist")
     public String orderList(HttpSession session, Model model){
+        //세션 검사
         UsersDto user = (UsersDto)session.getAttribute("user");
         if(user == null){
             return "redirect:/loginT/login?login_try=no";
         }
+        //구매내역을 조회하여 넘김
         Integer userId = user.getUserId();
         log.info("@# basket user_id===>" +userId);
         List<PurchaseItem> items = service.getPurchaseItems(userId);
         model.addAttribute("items",items);
-        model.addAttribute("type","order");
+        model.addAttribute("type","order"); //type은 order
         return "mypage/mypage";
     }
 
+    //판매내역
     @RequestMapping("/saleslist")
     public String salesList(HttpSession session, Model model){
         UsersDto user = (UsersDto)session.getAttribute("user");
@@ -78,10 +87,11 @@ public class MypageController {
         log.info("@# basket user_id===>" +userId);
         List<SalesItem> items = service.getSalesItems(userId);
         model.addAttribute("salesItems",items);
-        model.addAttribute("type","sales");
+        model.addAttribute("type","sales");//type은 sales
         return "mypage/mypage";
     }
 
+    //제품 삭제
     @ResponseBody
     @RequestMapping("/delete_item")
     public String deleteItem(HttpServletRequest request, Model model){
@@ -96,6 +106,7 @@ public class MypageController {
         return result;
     }
 
+    //개인정보 수정
     @RequestMapping("/modify")
     public String modify(HttpSession session, Model model){
         UsersDto user = (UsersDto) session.getAttribute("user");
@@ -109,8 +120,8 @@ public class MypageController {
         return "mypage/mypage";
     }
 
+    //유효성 검사
     @RequestMapping("/joinProc")
-//    @ResponseBody
     public String joinProc(@Valid UserUpdateRequestDto userDto, Errors errors, HttpSession session, Model model) {
         String result;
         if (errors.hasErrors()) {
@@ -137,19 +148,20 @@ public class MypageController {
         }
         model.addAttribute("type","main");
         int re = service.updateUser(service.switchRequestToUser(userDto));
-//        return "redirect:/loginT/login";
+
         log.info("@# register success=============");
-        if(re == 1){
+        if(re == 1){//정보 수정 성공시
             result = "redirect:/mypage/mypage_page?modify=success";
-        }else{
+        }else{//정보 수정 실패시
             result = "redirect:/mypage/mypage_page?modify=fail";
         }
+        //수정된 개인정보로 된 세션 새로 세팅
         UsersDto user = service.findUser(userDto.getUId());
         session.setAttribute("user",user);
         return result;
-//        return "mypage/mypage";
     }
 
+    //관심상품
     @RequestMapping("/wishlist")
     public String wishList(HttpSession session,Model model){
         UsersDto user = (UsersDto) session.getAttribute("user");
@@ -163,6 +175,7 @@ public class MypageController {
         return "mypage/mypage";
     }
 
+    //입찰상품
     @RequestMapping("/auctionlist")
     public String auctionList(HttpSession session,Model model){
         UsersDto user = (UsersDto) session.getAttribute("user");
@@ -175,6 +188,7 @@ public class MypageController {
         return "mypage/mypage";
     }
 
+    //나의 문의내역
     @RequestMapping("/boardlist")
     public String boardList(HttpSession session, Model model){
         UsersDto user = (UsersDto) session.getAttribute("user");
@@ -187,6 +201,7 @@ public class MypageController {
         return "mypage/mypage";
     }
 
+    //탈퇴
     @RequestMapping("/withdrawal")
     public String withdrawal(HttpSession session,Model model){
         UsersDto user = (UsersDto) session.getAttribute("user");
@@ -197,6 +212,7 @@ public class MypageController {
         return "mypage/mypage";
     }
 
+    //탈퇴 처리
     @RequestMapping("/check_withdrawal")
     @ResponseBody
     public String checkWithdrawal(HttpServletRequest request){
@@ -215,6 +231,7 @@ public class MypageController {
         return result;
     }
 
+    //관심상품에서 장바구니로 이동시
     @RequestMapping("/wishTobasket")
     public String wishTobasket(@RequestParam List<Integer> productId, Model model, HttpSession session){
         UsersDto user = (UsersDto) session.getAttribute("user");

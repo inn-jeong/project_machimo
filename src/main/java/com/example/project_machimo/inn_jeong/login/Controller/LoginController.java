@@ -300,7 +300,6 @@ public class LoginController {
     //ajax로 카카오 로그인 처리
     @RequestMapping("/kakaoLogin_process")
     @ResponseBody
-//    public String naverLogin_ok(@RequestParam HashMap<String,String> param, HttpServletRequest request, Model model) {
     public String kakaoLogin_ok(@RequestBody UsersDto usersDto, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         String result;
@@ -311,16 +310,17 @@ public class LoginController {
 
         //가져온 정보 kakaoUser 로 세션에 저장
         session.setAttribute("kakaoUser", usersDto);
-        //해당
+        //해당 soscialId 를 가지고 가입된 유저 조회
         UsersDto kakaoDto = service.findUserId(usersDto.getUSocial());
-        if(kakaoDto == null){
+        if(kakaoDto == null){ //가입된 계정이 없다면
             result= "denined";
-        }else {
+        }else {//가입된 계정이 있다면
             result = "confirm";
         }
         return result;
     }
 
+    //카카오 계정으로 로그인 성공시
     @RequestMapping("/kakaoLogin_ok")
     public String kakaoLogin(@RequestParam("login_ok") String login_ok,
                              HttpServletRequest request,
@@ -329,32 +329,33 @@ public class LoginController {
         HttpSession session = request.getSession();
         UsersDto kakaoUser = (UsersDto)session.getAttribute("kakaoUser");
         if (login_ok.equals("yes")){
-//            page = "login/login_ok";
-            page = "redirect:/";
+            page = "redirect:/"; //기본 이동페이지는 메인 페이지
             UsersDto user = service.findUserId(kakaoUser.getUSocial());
+            //신고건을 조회하여 5회 이상인 유저는 3일간 정지
             UserSuspension checkBlur = service.checkBlur(user.getUserId());
             log.info("@# checkBlur ===>"+checkBlur);
-            if(checkBlur != null){
+            if(checkBlur != null){//정지 유저는 로그인을 하지 못하고 로그인 페이지로 이동
                 return "redirect:/loginT/login?blur=yes&suspension="+checkBlur.getUSuspension();
             }
+            //user 객체와 user_id 값을 세션에 저장
             session.setAttribute("user",user);
             session.setAttribute("userId",user.getUserId());
-        }else{
+        }else{//계정이 없어 로그인 실패시 회원가입 폼으로 이동
             page = "redirect:/loginT/register_page?kakaoMem=yes";
         }
 
         return page;
     }
 
+    //로그아웃
     @RequestMapping("/logout")
     public String logout(HttpSession session, Model model){
-//        HttpSession session = request.getSession();
-        session.invalidate();
+        session.invalidate(); //세션 초기화
         model.addAttribute("logout","yes");
-//        return "login/loginTest";
         return "index";
     }
 
+    //주소검색
     @RequestMapping("/jusoPopup")
     public String jusoPopup(HttpServletRequest request, Model model){
         //request.setCharacterEncoding("UTF-8");  //한글깨지면 주석제거
@@ -392,29 +393,32 @@ public class LoginController {
         log.info("@# juso input ===> "+inputYn);
         log.info("@# juso part1 ===> "+roadAddrPart1);
 
+        //필요한 값만 가져와 사용
         model.addAttribute("inputYn",inputYn);
         model.addAttribute("roadAddrPart1",roadAddrPart1);
         model.addAttribute("addrDetail",addrDetail);
         model.addAttribute("zipNo",zipNo);
 
-
         return "login/jusoPopup";
     }
 
+    //비밀번호 찾기 페이지
     @RequestMapping("/findPassword_page")
     public String findPassword(){
         return "login/findPassword";
     }
 
+    //이메일 전송 컨트롤러
     @Transactional
     @RequestMapping("/sendEmail")
     public String sendEmail(@RequestParam("userEmail") String userEmail,Model model){
-        MailDto dto = service.createMailAndChangePassword(userEmail);
+        MailDto dto = service.createMailAndChangePassword(userEmail); //임시 비밀번호 생성
         service.mailSend(dto);
         model.addAttribute("userEmail",userEmail);
         return "login/childWin";
     }
 
+    //이메일 유효성 검사
     @RequestMapping("/emailDuplication")
     @ResponseBody
     public String emailDuplication(@RequestParam("userEmail") String userEmail){
@@ -428,16 +432,19 @@ public class LoginController {
         return result;
     }
 
+    //아이디 찾기 페이지
     @RequestMapping("/findId_page")
     public String findId_page(HttpServletRequest request, Model model){
 
         return "login/findId";
     }
+
+    //아이디 찾기 로직 구현
     @RequestMapping("/findId")
     @ResponseBody
     public String findId(HttpServletRequest request, Model model){
         String uEmail = request.getParameter("userEmail");
-        UsersDto dto = service.findUserEmail(uEmail);
+        UsersDto dto = service.findUserEmail(uEmail); //이메일로 계정 찾음
         if(dto != null){
             log.info(dto.getUId());
         }else{
