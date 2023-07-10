@@ -11,7 +11,7 @@
     <style>
         /* Center align the container */
         .container-sm {
-            width: 700px;
+            width: 900px;
             margin: 0 auto;
             padding: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -139,8 +139,10 @@
 <script>
     function selectSubcategory() {
         var catego = $(".catego1").filter(":selected").val();
-        $(".catego2").css("display","none");
-        $("#category2-"+catego).css("display","inline-block");
+        // $(".catego2").css("display","none");
+        $(".catego2").css({"display":"none"}).prop('disabled',true);
+        // $("#category2-"+catego).css("display","inline-block");
+        $("#category2-"+catego).css({"display":"inline-block"}).prop('disabled',false);
 
         console.log(catego);
 

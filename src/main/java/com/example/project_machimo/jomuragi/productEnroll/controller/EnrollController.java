@@ -104,8 +104,8 @@ public class EnrollController {
 //        model.addAttribute("subcategory", subcategory);
 
         service.write(param);
-//        return "productEnroll/success";
-        return "shop/allItemView";
+        return "productEnroll/success";
+//        return "shop/allItemView";
     }
 
 

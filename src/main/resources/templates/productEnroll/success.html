@@ -3,8 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card-header h1 {
+            font-family: 'Arial', sans-serif;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .card-body p {
+            font-family: 'Arial', sans-serif;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-  <h1>제출완료</h1>
+<div th:replace="fragments/header :: fragment-header"></div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="text-center">제출 완료</h1>
+                </div>
+                <div class="card-body">
+                    <p class="text-center">신청이 완료되었습니다. 신청 내역은 마이페이지에서 확인 가능합니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer.html :: fragment-footer"></div>
 </body>
 </html>
