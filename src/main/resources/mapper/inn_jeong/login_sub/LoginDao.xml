@@ -79,7 +79,8 @@
         select * from users where u_email = #{uEmail} and u_signout='N'
     </select>
     <select id="checkBlur" resultType="com.example.project_machimo.inn_jeong.login.Dto.UserSuspension">
-        select user_id,to_char(u_suspension,'MM/DD HH24:MI') u_suspension from users where user_id=#{param1} and u_suspension > sysdate
+        select user_id,to_char(u_suspension,'MM/DD HH24:MI') u_suspension
+        from users where user_id=#{param1} and u_suspension > sysdate
     </select>
     <insert id="userInsert">
                 insert into users(

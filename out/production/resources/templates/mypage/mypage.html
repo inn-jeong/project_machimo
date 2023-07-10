@@ -307,11 +307,11 @@
                                     <span th:text="${item.pName}"></span>
                                 </a>
                             </td>
-                            <td th:text="${item.uName}"></td>
+                            <td th:text="${item.uNickname}"></td>
                             <td class="price" th:text="${item.pDirect}"></td>
                             <td><button th:inline="javascript" class="btn btn-secondary" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
                         </tr>
-                        <tr th:if="${item.pSalesStatus==2}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="table-active">
+                        <tr th:if="${item.pSalesStatus==2}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="table-active align-middle" >
                             <td></td>
                             <td>품절</td>
 <!--                            <td th:text="${item.iSubImg}"></td>-->
@@ -322,7 +322,7 @@
                                     <span th:text="${item.pName}"></span>
                                 </a>
                             </td>
-                            <td th:text="${item.uName}"></td>
+                            <td th:text="${item.uNickname}"></td>
                             <td th:text="${item.pDirect}"></td>
                             <td><button th:inline="javascript" class="btn btn-secondary" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
                         </tr>
@@ -377,7 +377,7 @@
                         <tbody th:if="${item.pSalesStatus == 1}" th:id="${item.productId}" th:each="item, count:${items}">
                         <tr>
                             <td rowspan="3" style="width: 20px;" class="align-middle">
-                                <input type="checkbox" class="checkBoxItem" th:value="${item.productId}" checked>
+                                <input th:if="${item.pSaleType==1}" type="checkbox" class="checkBoxItem" th:value="${item.productId}" checked>
                             </td>
                             <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
 <!--                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle item-show"></td>-->
@@ -746,13 +746,6 @@
         $("#selectAllBasket").change(function() {
             $(".checkBoxItem").prop('checked', $(this).is(':checked'));
         });
-        // $(".item-show").on('click',function (){
-        //     var productId = Number($(this).attr('id'));
-        //     console.log("id:"+productId);
-        //     location.href="/auction/action-list/"+productId;
-        //     $("#productId").val(productId);
-        //     $("#frm_show_item").submit();
-        // });
     });
 
     var actionForm = $("#actionForm");
@@ -892,7 +885,6 @@
 
         form.attr("action","/order/buyDirect").submit();
     });
-
     var form = $("#purcahaseForm");
     $("#insertBasket").on("click", function (e){
         e.preventDefault();
@@ -905,20 +897,5 @@
 
         form.attr("action","/mypage/wishTobasket").submit();
     });
-
-    // function purchase() {
-    //     // const selectedItems = getSelectedItems(); // JSON 데이터 생성
-    //
-    //     var form = $("#purcahaseForm");
-    //     // form.action = '/order/buyDirect'; // 다음 페이지의 URL을 지정해야 합니다.
-    //     $(".checkBoxItem:checked").each(function() {
-    //         var value = $(this).val();
-    //         console.log("test:"+$(this).val());
-    //         form.append("<input type='hidden' name='productId' value='"+value+"'>");
-    //     });
-    //
-    //     form.attr("action","/order/buyDirect").submit();
-    //
-    // }
 
 </script>

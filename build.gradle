@@ -63,7 +63,6 @@ dependencies {
 	//    AOP
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 
-
 	// thumbnailator
 	implementation 'net.coobird:thumbnailator:0.4.8'
 
@@ -89,7 +88,7 @@ dependencies {
 
 //	메일 전송을 위한 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-expression:5.3.10'
+//	implementation 'org.springframework.boot:spring-expression:5.3.10'
 
 //	기존에 있던 타임리프 스프링 스타터 버전으로 변경
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
