@@ -47,7 +47,8 @@
 
   <title>리뷰 내용</title>
   <link rel="stylesheet" th:href="@{/css/board.css}" />
-  <div th:replace="fragments/header :: headerFragment"></div>
+<!--  <div th:replace="fragments/header :: headerFragment"></div>-->
+  <div th:replace="~{fragments/header :: headerFragment}"></div>
 
 </head>
 
@@ -55,7 +56,8 @@
 <div class="container">
 <h1>리뷰 내용</h1>
 <table class="board_detail">
-  <form method="post" action="modify_view">
+<!--  <form method="post" action="modify_view">-->
+  <form method="post" action="/review/modify_view">
     <input type="hidden" name="pageNum" th:value="${pageMaker.pageNum}">
     <input type="hidden" name="amount" th:value="${pageMaker.amount}">
     <input type="hidden" name="reviewId" th:value="${pageMaker.reviewId}">
@@ -153,7 +155,8 @@
     </tr>
 </table>
 </div>
-<div th:replace="fragments/footer.html :: footerFragment"></div>
+<!--<div th:replace="fragments/footer.html :: footerFragment"></div>-->
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
 
 <script>
   // 별점 값을 가져와서 해당 별점까지 별을 색칠하는 함수
