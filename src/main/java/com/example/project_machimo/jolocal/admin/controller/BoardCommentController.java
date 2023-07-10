@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/comment")
+@RequestMapping("/boardComment")
 public class BoardCommentController {
     @Autowired
     private

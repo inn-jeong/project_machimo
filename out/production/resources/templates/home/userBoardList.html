@@ -8,22 +8,23 @@
 </head>
 <body>
         <!--관리자 or 유저일경우 활성화-->
-<!--        <div class="container" th:if="${session.user.uRole == 1 || session.user.userId != null }">-->
+        <div class="container" th:if="${session.user.uRole == 1 || session.user.userId != null }">
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h5 class="mb-4 py-3 fw-bold fs-4">공지사항</h5>
+                    <h5 class="fw-bold fs-4">고객센터</h5>
                 </div>
             </div>
 
-            <div class="border-bottom mb-3" style="width: 65rem"></div>
+            <div class="border-bottom mb-5" style="width: 65rem"></div>
 
-            <div class="container-box d-flex">
+            <div class="container-box d-flex pb-3">
                 <div class="row g-3 py-2">
                     <div class="col-auto">
-<!--                        <div th:if="${session.user.uRole == 1}">-->
+                        <!-- admin일때만 -->
+                        <div th:if="${session.user.uRole == 1}">
                             <form th:action="@{/home/boardWrite}" method="GET" class="d-inline">
-                                <button type="submit" class="btn btn-sm btn-outline-primary mx-1">글쓰기</button>
+                                <button type="submit" class="btn btn-sm btn-primary mx-1">글쓰기</button>
                             </form>
                         </div>
                     </div>
@@ -70,10 +71,11 @@
                         <th class="border-bottom-0">작성자</th>
                         <th class="border-bottom-0">등록일</th>
                         <th class="border-bottom-0">조회수</th>
-<!--                        <th th:if="${session.user.uRole == 1}" class="border-bottom-0">관리</th>-->
+                        <!-- admin일때만 -->
+                        <th th:if="${session.user.uRole == 1}" class="border-bottom-0">관리</th>
                     </tr>
                     </thead>
-                    <tbody th:if="${board.bCategory=='공지'}" th:each="board: ${boardList}">
+                    <tbody th:each="board: ${boardList}">
                     <tr  th:if="${board != null}">
                         <td th:text="${board.boardId}"></td>
                         <td th:text="${board.bCategory}"></td>
@@ -85,11 +87,13 @@
                         <td th:text="${board.BWriter}"></td>
                         <td th:text="${#dates.format(board.BDate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${board.BHit}"></td>
-<!--                        <td th:if="${session.user.uRole == 1}">-->
-<!--                            <button class="btn btn-sm btn-danger rounded-pill px-3" type="button" th:onclick="'boardDelete(\''+${board.boardId}+'\')'">-->
-<!--                                삭제-->
-<!--                            </button>-->
-<!--                        </td>-->
+
+                        <!-- admin일때만 -->
+                        <td th:if="${session.user.uRole == 1}">
+                            <button class="btn btn-sm btn-danger rounded-pill px-3" type="button" th:onclick="'boardDelete(\''+${board.boardId}+'\')'">
+                                삭제
+                            </button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

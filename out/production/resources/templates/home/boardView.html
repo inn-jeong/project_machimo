@@ -64,11 +64,11 @@
               <div th:each="comment : ${comment}">
                 <p th:text="${comment.content}"></p>
                 <!-- 댓글 수정 버튼 -->
-                <div>
+                <div th:if="${session.user.userId == loginUser || session.user.uRole==1}">
                   <button class="btn btn-primary" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
-                </div>
                   <!-- 댓글 삭제 버튼 -->
-                <button class="btn btn-danger" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
+                  <button class="btn btn-danger" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
+                </div>
               </div>
             </div>
           </div>
