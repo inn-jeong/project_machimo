@@ -8,4 +8,6 @@ import java.util.ArrayList;
 public interface HomeService {
     ArrayList<BoardDto> boardList(Criteria cri);
     public int getTotalCount();
+    ArrayList<BoardDto> userQnAList (Criteria cri);
+    ArrayList<BoardDto> userBoardList (Criteria cri);
 }

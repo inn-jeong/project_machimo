@@ -166,14 +166,15 @@
             e.preventDefault();
             var userId = $(this).attr("data-id")
             var uId = $(this).attr("data-uId")
+            con
             console.log("@# uId ====>"+ uId)
             var chk = confirm(uId + ' 사용자에게 관리자 권한을 부여하시겠습니까?');
             if(chk){
                 $.ajax({
-                    url:'/admin/Authorization/',
+                    url:'/admin/Authorization',
                     method:'POST',
                     data: JSON.stringify({
-                        userId:userId
+                        userId: userId
                     }),
                     success: function(response) {
                         alert("권한부여 완료");

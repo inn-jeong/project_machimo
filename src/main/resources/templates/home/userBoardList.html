@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>boardWrite</title>
     <!--header-->
+    <th:block th:replace="fragments/header.html :: fragment-header"></th:block>
 </head>
-    <div th:replace="fragments/header.html :: headerFragment"></div>
 <body>
         <!--관리자 or 유저일경우 활성화-->
 <!--        <div class="container" th:if="${session.user.uRole == 1 || session.user.userId != null }">-->
@@ -18,12 +18,14 @@
 
             <div class="border-bottom mb-3" style="width: 65rem"></div>
 
-            <div class="container-box d-flex align-items-center">
+            <div class="container-box d-flex">
                 <div class="row g-3 py-2">
                     <div class="col-auto">
-                        <form th:action="@{/home/boardWrite}" method="GET" class="d-inline">
-                            <button type="submit" class="btn btn-sm btn-outline-primary mx-1">글쓰기</button>
-                        </form>
+<!--                        <div th:if="${session.user.uRole == 1}">-->
+                            <form th:action="@{/home/boardWrite}" method="GET" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-outline-primary mx-1">글쓰기</button>
+                            </form>
+                        </div>
                     </div>
                     <div class="col">
                         <div class="d-flex justify-content-end">
@@ -49,7 +51,6 @@
                 </div>
             </div>
 
-
             <div class="row py-2">
                 <table class="table table-hover table-responsive text-nowrap mb-0 align-middle">
                     <colgroup>
@@ -69,7 +70,7 @@
                         <th class="border-bottom-0">작성자</th>
                         <th class="border-bottom-0">등록일</th>
                         <th class="border-bottom-0">조회수</th>
-                        <th th:if="${session.user.uRole == 1}" class="border-bottom-0">관리</th>
+<!--                        <th th:if="${session.user.uRole == 1}" class="border-bottom-0">관리</th>-->
                     </tr>
                     </thead>
                     <tbody th:if="${board.bCategory=='공지'}" th:each="board: ${boardList}">
@@ -84,11 +85,11 @@
                         <td th:text="${board.BWriter}"></td>
                         <td th:text="${#dates.format(board.BDate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${board.BHit}"></td>
-                        <td th:if="${session.user.uRole == 1}">
-                            <button class="btn btn-sm btn-danger rounded-pill px-3" type="button" th:onclick="'boardDelete(\''+${board.boardId}+'\')'">
-                                삭제
-                            </button>
-                        </td>
+<!--                        <td th:if="${session.user.uRole == 1}">-->
+<!--                            <button class="btn btn-sm btn-danger rounded-pill px-3" type="button" th:onclick="'boardDelete(\''+${board.boardId}+'\')'">-->
+<!--                                삭제-->
+<!--                            </button>-->
+<!--                        </td>-->
                     </tr>
                     </tbody>
                 </table>
@@ -128,7 +129,8 @@
             <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
         </form>
 
-
+        <!--footer-->
+        <th:block th:replace="fragments/footer.html :: fragment-footer"></th:block>
 </body>
 </html>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -197,4 +199,5 @@
                     });
                 }
             }
+
         </script>

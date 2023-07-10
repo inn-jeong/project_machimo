@@ -10,27 +10,72 @@
         order by review_id desc
     </select>
 
+<!--    <select id="listWithPaging" resultType="com.example.project_machimo.jomuragi.review.dto.ReviewDto">-->
+<!--&lt;!&ndash;        (select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit&ndash;&gt;-->
+
+<!--        <![CDATA[-->
+<!--                select * from (-->
+<!--                select rownum rn, temp.* from-->
+<!--                (select *-->
+<!--                from review-->
+<!--                order by review_id desc ) temp-->
+<!--                where rownum <= ( #{pageNum} * #{amount}))-->
+<!--                where rn > (#{pageNum} -1) * #{amount}-->
+<!--                ]]>-->
+<!--    </select>-->
+    <sql id = "criteria">
+<!--        <trim prefix="(" suffix=") AND" prefixOverrides="AND | OR">-->
+        <trim prefix="(" suffix=") " prefixOverrides="OR">
+<!--            item="type" : 분기처리 기준-->
+<!--            collection="typeArr": type 값을 처리(mybatis에서getTypeArr() 메소드 호출 )-->
+            <foreach item="type" collection="typeArr">
+<!--                조건 2개 이상일때 or 추가-->
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'T'.toString()">
+                            review_title like '%' || #{keyword} || '%'
+                        </when>
+                        <when test="type == 'C'.toString()">
+                            review_content like '%' || #{keyword} || '%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            review_writter like '%' || #{keyword} || '%'
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    </sql>
+<!--    //prefix: 쿼리 내용 시작할 때 추가-->
+<!--    //suffix: 쿼리 내용 마지막에 추가-->
     <select id="listWithPaging" resultType="com.example.project_machimo.jomuragi.review.dto.ReviewDto">
-<!--        (select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit-->
-
+        <!--        (select review_id, products_id, review_writter, review_title, review_content, review_star, review_img, review_date, review_hit-->
         <![CDATA[
-                select * from (
-                select rownum rn, temp.* from
-                (select *
-                from review
-                order by review_id desc ) temp
-                where rownum <= ( #{pageNum} * #{amount}))
-                where rn > (#{pageNum} -1) * #{amount}
-                ]]>
-    </select>
+            select * from (
+                select rownum rn, temp.* from (
+                    select *
+                    from review
+                    ]]>
+                    <where>
+                        <include refid="criteria"></include>
+                    </where>
+        <![CDATA[
+                    order by review_id desc
+                ) temp
+                where rownum <= (#{pageNum} * #{amount})
+            )
+            where rn > (#{pageNum} - 1) * #{amount}
+        ]]>
 
+    </select>
 
 
     <insert id="write" parameterType="hashmap">
 
         INSERT INTO review (review_id, product_id, review_writter, review_title, review_content, review_star)
 <!--        VALUES ((SELECT MAX(review_id)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})-->
-        VALUES (review_id_sqe.nextval, #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})
+<!--        VALUES ((SELECT count(*)+1 FROM review), #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})-->
+        VALUES (review_seq.NEXTVAL, #{productId}, #{reviewWritter}, #{reviewTitle}, #{reviewContent}, #{reviewStar})
     </insert>
 
 
@@ -38,9 +83,6 @@
 
     <select id="contentView" resultType="com.example.project_machimo.jomuragi.review.dto.ReviewDto" parameterType="HashMap">
         SELECT
-<!--        review_id, product_id, review_writter, review_title, review_content, review_star, review_date, review_hit,-->
-<!--        (SELECT MAX(id)+1 FROM c_review)-->
-<!--        image_list-->
         *
         FROM review
         WHERE review_id = #{reviewId}
@@ -53,7 +95,6 @@
         UPDATE review
         SET review_title = #{reviewTitle},
         review_star = #{reviewStar},
-<!--        review_img = #{reviewImg},-->
         review_content = #{reviewContent}
         WHERE review_id = #{reviewId}
     </update>

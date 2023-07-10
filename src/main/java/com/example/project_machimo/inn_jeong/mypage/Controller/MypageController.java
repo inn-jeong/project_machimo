@@ -1,5 +1,6 @@
 package com.example.project_machimo.inn_jeong.mypage.Controller;
 
+import com.example.project_machimo.gyuha.basket.dto.BasketDTO;
 import com.example.project_machimo.gyuha.basket.service.BasketService;
 import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.inn_jeong.mypage.Dto.*;
@@ -211,7 +212,15 @@ public class MypageController {
 
     @RequestMapping("/wishTobasket")
     public String wishTobasket(@RequestParam List<Integer> productId, Model model, HttpSession session){
-//        service2.addBasket();
+        UsersDto user = (UsersDto) session.getAttribute("user");
+        Integer userId = user.getUserId();
+        for(Integer pId:productId){
+            BasketDTO basket = new BasketDTO();
+            basket.setProductId(pId);
+            basket.setUserId(userId);
+            int re = service2.addBasket(basket);
+
+        }
         model.addAttribute("type","wishlist");
         return "redirect:/mypage/mypage";
     }

@@ -28,6 +28,8 @@
   <script>
 
    var id = getQueryStringObject().reviewId;
+
+   console.log("  var id@@@@@@@@@@@@@@@@@@@@@"+id);
    function getQueryStringObject() {
      var a = window.location.search.substr(1).split('&');
      if (a == "") return {};
@@ -45,6 +47,8 @@
 
   <title>리뷰 내용</title>
   <link rel="stylesheet" th:href="@{/css/board.css}" />
+  <div th:replace="fragments/header :: fragment-header"></div>
+
 </head>
 
 <body>
@@ -93,21 +97,15 @@
       </td>
       <input type="hidden" id="reviewStar" th:value="${content_view.reviewStar}">
     </tr>
-    <tr>
+    <tr th:unless="${imagePaths.isEmpty()}">
       <td colspan="2">
         <!-- 이미지 표시 -->
-          <span th:each="imagePath : ${imagePaths}">
-<!--            <img th:if="${!imagePaths.isEmpty()}" th:src="@{'/upload/' + ${imagePath}}" alt="/img/noImage.png" style="width: 300px; height: 200px;">-->
-<!--            <img th:if="${imagePaths.isEmpty()}" th:src="@{'/img/noImage.png'}" style="width: 300px; height: 200px;">-->
-<!--            <img th:src="@{/upload/}+${imagePath}" style="width: 300px; height: 200px;">-->
-<!--            <img th:src="${imagePath}" style="width: 300px; height: 200px;">-->
+        <span th:each="imagePath : ${imagePaths}">
             <img th:src="@{'/upload/' + ${imagePath}}" style="width: 300px; height: 200px;">
-               <script th:inline="javascript">
-                  /* imagePath의 값을 콘솔에 출력 */
-                  console.log("@#@###################=>"+[[@{imagePath}]]);
-                </script>
-          </span>
+        </span>
+      </td>
     </tr>
+
     <tr>
     <td>내용:</td>
     <td><span th:text="${content_view.reviewContent}"></span></td>
@@ -115,9 +113,9 @@
 
   <tr>
     <td colspan="3">
-      <input class="btn" type="submit" value="수정" formaction="modify_view" style="width: 100px; height: 30px;">
-      <input class="btn" type="submit" value="목록보기" formaction="list" style="width: 100px; height: 30px;">
-      <input class="btn" type="submit" value="삭제" formaction="delete" style="width: 100px; height: 30px;">
+      <input class="btn btn-primary rounded-pill" type="submit" value="수정" formaction="modify_view" style="width: 100px; height: 30px;">
+      <input class="btn btn-secondary rounded-pill" type="submit" value="목록보기" formaction="list" style="width: 100px; height: 30px;">
+      <input class="btn btn-danger rounded-pill" type="submit" value="삭제" formaction="delete" style="width: 100px; height: 30px;">
     </td>
   </tr>
   </form>
@@ -144,7 +142,7 @@
           <div th:each="comment : ${comment}">
             <p th:text="${comment.content}"></p>
             <!-- 댓글 수정 버튼 -->
-            <button class="btn btn-primary" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
+            <button class="btn btn-primary" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
             <!-- 댓글 삭제 버튼 -->
             <button class="btn btn-danger" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
           </div>
@@ -154,6 +152,7 @@
     </tr>
 </table>
 </div>
+<div th:replace="fragments/footer.html :: fragment-footer"></div>
 
 <script>
   // 별점 값을 가져와서 해당 별점까지 별을 색칠하는 함수
@@ -173,7 +172,6 @@
   // var bno = '${content_view.reviewId}'; //게시글 번호
   // content_view?pageNum=1&amount=10&reviewId=139 를 다 받아와야 그 페이지가 보이므로 그냥 reviewId만 불러오면 댓글이안보인다
   var bno = id;
-
   $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시
     var insertData = $('[name=commentInsertForm]').serialize(); //commentInsertForm의 내용을 가져옴
     commentInsert(insertData); //Insert 함수호출(아래)

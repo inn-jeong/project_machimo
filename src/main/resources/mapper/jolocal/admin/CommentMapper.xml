@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.project_machimo.jolocal.admin.dao.CommentMapper">
+
+    <select id="commentList" parameterType="int" resultType="com.example.project_machimo.jolocal.admin.dto.CommentVO">
+        SELECT
+            *
+        FROM COMMENTS
+        WHERE BNO = #{bno}
+        ORDER BY CNO
+    </select>
+
+    <insert id="commentInsert" parameterType="com.example.project_machimo.jolocal.admin.dto.CommentVO">
+        INSERT INTO
+            COMMENTS (CNO, BNO, CONTENT, WRITER, REG_DATE)
+        VALUES(#{cno},#{bno},#{content},#{writer},SYSDATE)
+    </insert>
+
+    <update id="commentUpdate" parameterType="com.example.project_machimo.jolocal.admin.dto.CommentVO">
+        UPDATE COMMENTS
+        SET
+            CONTENT = #{content}
+        WHERE CNO = #{cno}
+    </update>
+
+    <delete id="commentDelete" parameterType="int">
+        DELETE FROM COMMENTS WHERE CNO = #{cno}
+    </delete>
+</mapper>
