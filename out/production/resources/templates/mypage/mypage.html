@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>마취모: 마이페이지</title>
+    <title>마취모:마이페이지</title>
 <!--    <script type="text/javascript" src="/login/jquery.min.js" ></script>-->
 <!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">-->
 <!--    <script src="/gyuha/js/header.js"></script>-->
@@ -56,7 +56,7 @@
         }
         a {
             text-decoration-line: none;
-            color: #2d4373;
+            color: darkgray;
         }
     </style>
 </head>
@@ -132,16 +132,25 @@
                             </td>
                             <td th:text="${item.createdAt}" rowspan="3" style="width: 120px" class="align-middle"></td>
                             <td th:text="${item.orderId}" rowspan="3" style="width: 80px" class="align-middle"></td>
+                            <!--                            판매유형에 따른 가격 출력-->
                             <td th:if="${item.pSaleType == 1}" rowspan="3" style="width: 100px" class="align-middle">즉시구매가<br><span th:text="${item.pDirect}"></span>원</td>
                             <td th:if="${item.pSaleType == 0}" rowspan="3" style="width: 100px" class="align-middle">낙찰가<br><span th:text="${item.pBPrice}"></span>원</td>
                             <td th:text="${item.orderStatus}" rowspan="3" style="width: 80px" class="align-middle"></td>
-                            <td rowspan="3" style="width: 80px" class="align-middle"><button onclick="">후기작성</button></td>
+                            <td rowspan="3" style="width: 100px" class="align-middle">
+                                <a th:href="@{/review/write_view/{productId}(productId=${item.productId})}" class="btn btn-success">
+                                    후기작성
+                                </a>
+                            </td>
                         </tr>
                         <tr>
-                            <td th:text="${item.uName}" style="text-align: left"></td>
+                            <td th:text="'판매자:'+${item.uName}" style="text-align: left"></td>
                         </tr>
                         <tr>
-                            <td th:text="${item.pName}" style="text-align: left"></td>
+                            <td style="text-align: left">
+                                <a th:href="@{/auction/action-list/{id}(id=${item.productId})}">
+                                    <span th:text="${item.pName}"></span>
+                                </a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -182,8 +191,8 @@
                             <td th:if="${item.pSaleType == 0}" rowspan="3" style="width: 100px" class="align-middle">낙찰가<br><span th:text="${item.pBPrice}"></span>원</td>
                             <td th:text="${item.orderStatus}" rowspan="3" style="width: 80px" class="align-middle"></td>
                             <td rowspan="3" style="width: 80px" class="align-middle">
-                                <a th:href="@{/review/write_view/{productId}(productId=${item.productId})}">
-                                    <button>후기작성</button>
+                                <a th:href="@{/review/write_view/{productId}(productId=${item.productId})}" class="btn btn-success">
+                                    후기작성
                                 </a>
                             </td>
                         </tr>
@@ -191,7 +200,11 @@
                             <td th:text="'판매자:'+${item.uName}" style="text-align: left"></td>
                         </tr>
                         <tr>
-                            <td th:text="${item.pName}" style="text-align: left"></td>
+                            <td style="text-align: left">
+                                <a th:href="@{/auction/action-list/{id}(id=${item.productId})}">
+                                    <span th:text="${item.pName}"></span>
+                                </a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -475,7 +488,7 @@
                                 <td th:text="${item.currentAmount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
                                 <td th:text="${item.uBidsNickname}"  rowspan="3" style="width: 80px" class="align-middle"></td>
                                 <td th:text="${item.bidsAt}"  rowspan="3" style="width: 100px" class="align-middle"></td>
-                                <td rowspan="3" style="width: 80px" class="align-middle">
+                                <td rowspan="3" style="width: 100px" class="align-middle">
                                     <div th:switch="${item.pSalesStatus}">
                                         <input type="hidden" th:value="${item.pSalesStatus}" class="sale_status">
                                         <!--                                    <span th:case="0">판매승인전</span>-->
@@ -587,7 +600,6 @@
 <!--                                        <button type="button" id="check_btn" class="btn btn-secondary" onclick="sendRequest()" style="display: inline">중복 체크</button>-->
 <!--                                        <span id="check_result"></span>-->
 <!--                                        <span class="fs-6 text-danger" th:text="${valid_uId}"></span>-->
-
                                     </td>
                                 </tr>
                                 <tr height="60">
@@ -652,7 +664,7 @@
                                 </tr>
                                 <tr height="60">
                                     <td colspan="2" align="center">
-                                        <input type="submit" id="insert_mem" class="btn btn-success" value="수정" disabled="disabled">
+                                        <input type="submit" id="insert_mem" class="btn btn-success" value="수정">
                                         <input type="reset" value="다시입력" class="btn btn-secondary">
                                         <input type="button" value="취소" class="btn btn-secondary" onclick="javascript:window.location='/mypage/mypage_page'">
                                     </td>
@@ -660,90 +672,6 @@
                             </table>
                         </form>
                     </div>
-<!--                    <form name="frm_update" id="frm_update" class="table-primary" method="post" action="/mypage/joinProc">-->
-<!--                        <input th:if="${user}" type="hidden" name="uSocial" th:value="${user.uSocial}">-->
-<!--                        &lt;!&ndash;    <input type="text" name="u_social" th:value="${user.getU_social()}">&ndash;&gt;-->
-<!--                        <table align="center">-->
-<!--                            <tr height="60">-->
-<!--                                <td style="width: 100px">User ID</td>-->
-<!--                                <td>-->
-<!--                                    <input name="uId" id="uId" type="text" th:value="${user.uId}" size="20" readonly>-->
-<!--&lt;!&ndash;                                    <button type="button" id="check_btn" onclick="sendRequest()">중복 체크</button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <span id="check_result"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <span class="fs-6 text-danger" th:text="${valid_uId}"></span>&ndash;&gt;-->
-
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                            <tr height="60">-->
-<!--                                <td>암    호</td>-->
-<!--                                <td>-->
-<!--                                    <input name="uPassword" type="password" size="20">-->
-<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uPassword}"></span></div>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                            <tr height="60">-->
-<!--                                <td>암호 확인</td>-->
-<!--                                <td>-->
-<!--                                    <input name="uPwdCheck" type="password" size="20">-->
-<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uPwdCheck}"></span></div>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                            <tr height="60">-->
-<!--                                <td>이   름</td>-->
-<!--                                <td>-->
-<!--                                    <input name="uName" type="text" th:value="${user.uName}" size="20" readonly>-->
-<!--                                    &lt;!&ndash;        <input name="u_name" type="text" size="20">*&ndash;&gt;-->
-<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uName}"></span></div>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                            <tr height="60">-->
-<!--                                <td>생년월일</td>-->
-<!--                                <td>-->
-<!--                                    <input name="uJumin" type="text" th:value="${user.uJumin}" size="20" placeholder="예) 960429" readonly>-->
-<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uJumin}"></span></div>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                            <tr height="60">-->
-<!--                                <td>전화번호</td>-->
-<!--                                <td>-->
-<!--                                    <input name="uPhone" type="text" th:value="${user.uPhone}" size="20" placeholder="예) 01x-xxxx-xxxx">-->
-<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uPhone}"></span></div>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                            <tr height="60">-->
-<!--                                <td>닉네임</td>-->
-<!--                                <td>-->
-<!--                                    <input name="uNickname" type="text" th:value="${user.uNickname}" size="20">-->
-<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uNickname}"></span></div>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                            <tr height="60">-->
-<!--                                <td>E-mail</td>-->
-<!--                                <td>-->
-<!--                                    <input name="uEmail" type="text" th:value="${user.uEmail}" size="60">-->
-<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uEmail}"></span></div>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                            <tr height="60">-->
-<!--                                <td>주    소</td>-->
-<!--                                <td>-->
-<!--                                    <input name="uAddrPostcode" id="uAddrPostcode" type="text" th:value="${user.uAddrPostcode}" size="10" readonly placeholder="우편번호"> <br>-->
-<!--                                    <input name="uAddress" id="uAddress" type="text" th:value="${user.uAddress}" size="40" readonly>-->
-<!--                                    <input type="button"  value="주소검색" onclick="goPopup();"> <br>-->
-<!--                                    <input name="uAddressSub" id="uAddressSub" type="text" th:value="${user.uAddressSub}" size="20" placeholder="상세 주소">-->
-<!--                                    <div><span class="fs-6 text-danger" th:text="${valid_uAddress}"></span> <br></div>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                            <tr height="60">-->
-<!--                                <td colspan="2" align="center">-->
-<!--&lt;!&ndash;                                    <button onclick="updateUser()">수정</button>&ndash;&gt;-->
-<!--                                    <input type="submit" id="insert_mem" value="수정">-->
-<!--                                    <input type="reset" value="다시입력">-->
-<!--                                    <input type="button" value="취소" onclick="javascript:window.location='/mypage/mypage_page'">-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                        </table>-->
-<!--                    </form>-->
                 </div>
                 <div th:if="${type.equals('withdrawal')}" class="order_list">
                     <div class="list_subtitle">
@@ -966,7 +894,7 @@
             form.append("<input type='hidden' name='productId' value='"+value+"'>");
         });
 
-        form.attr("action","/").submit();
+        form.attr("action","/mypage/wishTobasket").submit();
     });
 
     // function purchase() {
