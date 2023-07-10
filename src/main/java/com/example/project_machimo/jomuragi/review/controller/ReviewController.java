@@ -74,7 +74,6 @@ public class ReviewController {
 //        user.setUNickname("admin");
 //        session.setAttribute("user",user);
 
-
 //        ArrayList<ReviewDto> list = service.list();
         model.addAttribute("list",service.list(cri));
         int total = service.getTotalCount();
