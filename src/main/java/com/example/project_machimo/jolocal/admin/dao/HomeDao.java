@@ -11,4 +11,8 @@ public interface HomeDao {
     ArrayList<BoardDto> boardList(Criteria cri);
 
     int getTotalCount();
+
+    ArrayList<BoardDto> userQnAList(Criteria cri);
+
+    ArrayList<BoardDto> userBoardList(Criteria cri);
 }

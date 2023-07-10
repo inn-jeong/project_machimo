@@ -26,4 +26,16 @@ public class HomeServiceImpl implements HomeService {
         HomeDao dao = sqlSession.getMapper(HomeDao.class);
         return dao.getTotalCount();
     }
+
+    @Override
+    public ArrayList<BoardDto> userQnAList(Criteria cri) {
+        HomeDao dao = sqlSession.getMapper(HomeDao.class);
+        return dao.userQnAList(cri);
+    }
+
+    @Override
+    public ArrayList<BoardDto> userBoardList(Criteria cri) {
+        HomeDao dao = sqlSession.getMapper(HomeDao.class);
+        return dao.userBoardList(cri);
+    }
 }
