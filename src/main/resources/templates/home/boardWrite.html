@@ -14,7 +14,7 @@
             <h2 class="m-0 fw-bold text-secondary">게시물 등록</h2>
         </div>
 
-        <form class="needs-validation" novalidate id="frm" action="/admin/boardWrite" method="post">
+        <form id="frm" action="/admin/boardWrite" method="post">
 
             <div class="m-3 py-3">
                 <label class="form-label fw-semibold">항목을 선택해주세요.</label>
@@ -32,7 +32,7 @@
                     </label>
                 </div>
 
-                <div id="addCheckBox" style="display: none;">
+                <div id="addCheckBox">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="inquiryCategory" value="상품문의" id="상품문의" checked>
                         <label class="form-check-label" for="상품문의">
@@ -81,7 +81,7 @@
         console.log("boardWrite start")
         // form 요소 자체
         var formData = $("#frm").serialize();
-
+        console.log("tset:"+$("#문의").val())
         $.ajax({
             url: "/home/boardWrite",
             type: 'POST',

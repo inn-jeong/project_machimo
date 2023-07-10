@@ -80,6 +80,7 @@ public class HomeController {
     @ResponseBody
     public ResponseEntity<? extends Object> boardWrite(BoardDto dto, Model model){
         System.out.println("@# controller boardWrite"+ dto.getBCategory());
+        System.out.println("@# controller boardWrite"+ dto.getBWriter());
         System.out.println("@# boardWrite start");
         aservice.boardWrite(dto);
 
