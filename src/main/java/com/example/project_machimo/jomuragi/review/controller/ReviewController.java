@@ -1,5 +1,6 @@
 package com.example.project_machimo.jomuragi.review.controller;
 
+import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.jomuragi.review.dto.AttachImageVO;
 import com.example.project_machimo.jomuragi.review.dto.Criteria;
 import com.example.project_machimo.jomuragi.review.dto.PageDTO;
@@ -91,16 +92,16 @@ public class ReviewController {
     @RequestMapping("/write")
     public String write(@RequestParam HashMap<String, String> param, Model model) {
         log.info("@# write");
+
         service.write(param);
         return "redirect:list";
     }
 
 
     @RequestMapping("/content_view")
-    public String contentView(@RequestParam HashMap<String, String> param, Model model) {
+    public String contentView(@RequestParam HashMap<String, String> param, Model model, HttpSession session) {
         log.info("@# contentView");
         ReviewDto dto = service.contentView(param);
-
 
         //이미지 불러오기
         List<AttachImageVO> images = service.getAttachList(Integer.parseInt(param.get("reviewId")));

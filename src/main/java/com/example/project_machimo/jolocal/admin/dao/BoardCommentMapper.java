@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 @Mapper
-public interface CommentMapper {
+public interface BoardCommentMapper {
     List<CommentVO> commentList(int bno);
 
     int commentInsert(CommentVO comment);

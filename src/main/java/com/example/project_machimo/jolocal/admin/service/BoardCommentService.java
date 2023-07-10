@@ -4,7 +4,7 @@ import com.example.project_machimo.jolocal.admin.dto.CommentVO;
 
 import java.util.List;
 
-public interface CommentService {
+public interface BoardCommentService {
     List<CommentVO> commentListService(int bno);
     int commentInsertService(CommentVO comment);
     int commentUpdateService(CommentVO comment);

@@ -2,9 +2,10 @@ package com.example.project_machimo.jolocal.admin.controller;
 
 import com.example.project_machimo.jolocal.admin.dto.BoardDto;
 import com.example.project_machimo.jolocal.admin.dto.Criteria;
-import com.example.project_machimo.jolocal.admin.dto.PageDto;
+import com.example.project_machimo.jolocal.admin.dto.LocalPageDto;
 import com.example.project_machimo.jolocal.admin.dto.UsersDto1;
 import com.example.project_machimo.jolocal.admin.service.AdminService;
+import com.example.project_machimo.jolocal.admin.service.HomeService;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,43 +23,41 @@ import org.springframework.web.bind.annotation.*;
 public class HomeController {
 
     @Autowired
-    private AdminService service;
+    private HomeService service;
+    @Autowired
+    private AdminService aservice;
 
     //유저가보는 공지//
     @GetMapping("/userBoardList")
-    public String boardList(Criteria cri, Model model){
+    public String boardList(Criteria cri, Model model, HttpSession session){
         System.out.println("@# ==> home boardList start");
 
+        UsersDto1 user = new UsersDto1();
+        user.setUserId(1);
+        user.setUNickname("admin");
+        user.setURole(1);
+
+        session.setAttribute("user",user);
         int total = service.getTotalCount();
-        model.addAttribute("boardList",service.boardList(cri));
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("boardList",service.userBoardList(cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
         return "home/userBoardList";
     }
 
-    //유저가보는 문의//
-    @GetMapping("/userQnAList")
-    public String userQnaAList(Criteria cri, Model model){
-        System.out.println("@# ==> home boardList start");
-
-        int total = service.getTotalCount();
-        model.addAttribute("boardList",service.boardList(cri));
-        model.addAttribute("pageMaker",new PageDto(total, cri));
-        return "home/userQnAList";
-    }
 
     //게시글보기
     @RequestMapping(value = "/boardView", method = RequestMethod.GET)
-    public String boardView(@RequestParam int boardId, Model model){
+    public String boardView(@RequestParam int boardId, Model model, HttpSession session){
         System.out.println("@# home boardView start");
 
         service.updateHits(boardId);
-        int userId = service.loginUser(boardId);
+        int userId = aservice.loginUser(boardId);
 
         //로그인한 user 체크
-        model.addAttribute("loginUser", service.loginUser(boardId));
+        model.addAttribute("loginUser", aservice.loginUser(boardId));
         System.out.println("@# ===> 게시글작성자"+userId);
 
-        BoardDto dto = service.boardView(boardId);
+        BoardDto dto = aservice.boardView(boardId);
         model.addAttribute("boardView",dto);
         System.out.println("@# board_id ==> "+boardId);
 
@@ -71,7 +70,7 @@ public class HomeController {
         System.out.println("@# boaradWriteView start");
 
         int total = service.getTotalCount();
-        model.addAttribute("pageMaker",new PageDto(total, cri));
+        model.addAttribute("pageMaker",new LocalPageDto(total, cri));
 
         return "home/boardWrite";
     }
@@ -82,7 +81,7 @@ public class HomeController {
     public ResponseEntity<? extends Object> boardWrite(BoardDto dto, Model model){
         System.out.println("@# controller boardWrite"+ dto.getBCategory());
         System.out.println("@# boardWrite start");
-        service.boardWrite(dto);
+        aservice.boardWrite(dto);
 
         //관리자인지 유저인지 확인후 분기처리
         Integer userId = dto.getUserId();
@@ -97,7 +96,7 @@ public class HomeController {
 
     @GetMapping("/boardModifyView/{boardId}")
     public String boardModifyView(@PathVariable int boardId, Model model){
-        model.addAttribute("boardView",service.boardView(boardId));
+        model.addAttribute("boardView",aservice.boardView(boardId));
         return "home/boardModify";
     }
 
@@ -108,7 +107,7 @@ public class HomeController {
         System.out.println("@# Controller boardModify");
 
         //게시글 수정
-        service.boardModify(dto);
+        aservice.boardModify(dto);
 
         String category = dto.getBCategory();
         System.out.println("카테고리" + category);
@@ -136,4 +135,20 @@ public class HomeController {
         private String message;
     }
 
+
+    //유저가보는 문의//
+//    @GetMapping("/userQnAList")
+//    public String userQnaAList(Criteria cri, Model model){
+//        System.out.println("@# ==> home boardList start");
+//
+//        int total = service.getTotalCount();
+//        model.addAttribute("boardList",service.boardList(cri));
+//        model.addAttribute("pageMaker",new PageDto(total, cri));
+//        return "home/userQnAList";
+//    }
+
+//    @GetMapping("/규리지앵")
+//    public String 규리지앵(){
+//        return"home/규리지앵";
+//    }
 }
