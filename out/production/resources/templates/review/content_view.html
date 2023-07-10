@@ -113,9 +113,9 @@
 
   <tr>
     <td colspan="3">
-      <input class="btn btn-primary rounded-pill" type="submit" value="수정" formaction="modify_view" style="width: 100px; height: 30px;">
+      <input th:if="${content_view.reviewWritter == session.user.getUNickname() || session.user.getURole() == 1}" class="btn btn-primary rounded-pill" type="submit" value="수정" formaction="modify_view" style="width: 100px; height: 30px;">
       <input class="btn btn-secondary rounded-pill" type="submit" value="목록보기" formaction="list" style="width: 100px; height: 30px;">
-      <input class="btn btn-danger rounded-pill" type="submit" value="삭제" formaction="delete" style="width: 100px; height: 30px;">
+      <input th:if="${content_view.reviewWritter == session.user.getUNickname() || session.user.getURole() == 1}" class="btn btn-danger rounded-pill" type="submit" value="삭제" formaction="delete" style="width: 100px; height: 30px;">
     </td>
   </tr>
   </form>
@@ -144,7 +144,7 @@
             <!-- 댓글 수정 버튼 -->
             <button class="btn btn-primary" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
             <!-- 댓글 삭제 버튼 -->
-            <button class="btn btn-danger" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
+            <button class="btn btn-danger" th:if="${comment.writter == session.user.getUNickname() || session.user.getURole() == 1}" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
           </div>
         </div>
       </div>
