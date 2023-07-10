@@ -6,10 +6,14 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" th:href="@{/css/board.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+<!--    <script src="/gyuha/js/header.js"></script>-->
     <title>Document</title>
 </head>
+<th:block th:replace="fragments/header"></th:block>
 <body>
-<div class="container">
+<div class="container1">
     <h2>게시판 목록</h2>
     <table class="board_list">
                 <colgroup>
@@ -35,7 +39,28 @@
             <td th:text="${list.productId}"></td>
             <td th:text="${list.reviewWritter}"></td>
             <td th:text="${list.reviewTitle}"></td>
-            <td th:text="${list.reviewStar}"></td>
+<!--            <td th:text="${list.reviewStar}"></td>-->
+            <td>
+                <div class="star-rating">
+                    <script th:inline="javascript">
+                        /* 변수 선언 및 별점 값 가져오기 */
+                        var reviewStar = [[${list.reviewStar}]];
+                        var stars = "";
+
+                        /* 별점 값에 따라 별 아이콘 생성 */
+                        for (var i = 1; i <= 5; i++) {
+                            if (i <= reviewStar) {
+                                stars += '<span class="fas fa-star"></span>';
+                            } else {
+                                stars += '<span class="far fa-star"></span>';
+                            }
+                        }
+
+                        /* 별점 표시 */
+                        document.write(stars);
+                    </script>
+                </div>
+            </td>
             <td th:text="${list.reviewDate}"></td>
             <td th:text="${list.reviewHit}"></td>
         </tr>
@@ -44,7 +69,7 @@
         </tr>
         </tbody>
     </table>
-    <a href="/review/write_view" class="btn">글 쓰기</a>
+<!--    <a href="/review/write_view" class="btn" th:data-id="${session.user}">글 쓰기</a>-->
     <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
         showing <span th:text="${pageMaker.getCri().getPageNum()}"></span> to <span th:text="${pageMaker.getCri().getAmount()}"></span> of <span th:text="${pageMaker.getTotal()}"></span> entries
     </div>
@@ -77,6 +102,22 @@
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<th:block th:replace="fragments/footer"></th:block>
+
+<script>
+    // 별점 값을 가져와서 해당 별점까지 별을 색칠하는 함수
+    function fillStarRating(starRating) {
+        const stars = document.querySelectorAll('.star-rating .fa-star');
+        for (let i = 0; i < starRating; i++) {
+            stars[i].classList.remove('far');
+            stars[i].classList.add('fas');
+        }
+    }
+
+    // 페이지 로드 시 별점 값을 가져와서 별을 색칠합니다
+    // const reviewStar = $("#reviewStar").val();
+    fillStarRating(reviewStar);
+</script>
 <script>
     var actionForm = $("#actionForm");
 
@@ -92,6 +133,19 @@
         var reviewId = $(this).attr("data-id");
         actionForm.append("<input type='hidden' name='reviewId' value='" + reviewId + "'>");
         actionForm.attr("action", "/review/content_view").submit();
+    });
+
+
+    // ////////////////로그인체크////////////////
+    $(".btn").on("click", function (e) {
+        e.preventDefault();
+        var user = $(this).attr("data-id")
+        if (user != null){
+            location.href="/review/write_view";
+        }else{
+            alert("로그인이 필요한 기능입니다!")
+            location.reload();
+        }
     });
 
     // 게시글 클릭 후 뒤로가기 누를때 &bid=번호 계속 누적되는거 방지

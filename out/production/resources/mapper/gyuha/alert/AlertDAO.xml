@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_machimo.gyuha.alert.dao.AlertDAO">
+
+    <insert id="executeWinningBid">
+        INSERT INTO alerts (alert_ID, USER_ID, PRODUCT_ID, AL_COUNT, CHECKED_FLAG, P_NAME, AL_MESSAGE, AL_CREATE_AT)
+        SELECT al_id_seq.nextval,
+        max_bids.USER_ID,
+        max_bids.PRODUCTS_ID,
+        (SELECT (nvl(max(AL_COUNT), 0) + 1) FROM ALERTS WHERE user_id = max_bids.USER_ID),
+        0,
+        P_NAME,
+        p.P_NAME || '이(가) 낙찰 되었습니다',
+        sysdate
+        FROM USERS u
+        JOIN PRODUCTS p ON u.USER_ID = p.USER_ID
+        JOIN (SELECT b.USER_ID, b.PRODUCTS_ID, max(b.AMOUNT) as max_bid
+        FROM BIDS b
+        JOIN PRODUCTS p ON p.PRODUCT_ID = b.PRODUCTS_ID
+        WHERE b.AMOUNT IS NOT NULL
+        AND p.P_SALES_STATUS = 3
+        GROUP BY b.PRODUCTS_ID, b.USER_ID) max_bids ON p.PRODUCT_ID = max_bids.PRODUCTS_ID
+        WHERE NOT EXISTS (
+        SELECT 1 FROM alerts
+        WHERE USER_ID = max_bids.USER_ID
+        AND PRODUCT_ID = max_bids.PRODUCTS_ID
+        AND AL_MESSAGE = p.P_NAME || '이(가) 낙찰 되었습니다'
+        )
+    </insert>
+
+    <insert id="failedAuctionNoBids">
+        INSERT INTO alerts (alert_ID, USER_ID, PRODUCT_ID, AL_COUNT, CHECKED_FLAG, P_NAME, AL_MESSAGE, AL_CREATE_AT)
+        SELECT al_id_seq.nextval,
+        p.USER_ID,
+        p.PRODUCT_ID,
+        (SELECT NVL(MAX(AL_COUNT), 0) FROM ALERTS al WHERE al.USER_ID = p.USER_ID) + 1,
+        0,
+        p.P_NAME,
+        p.P_NAME || '이 경매에 실패하였습니다.',
+        sysdate
+        FROM PRODUCTS p
+        WHERE P_SALES_STATUS = 4
+        AND NOT EXISTS (
+        SELECT 1 FROM alerts al
+        WHERE al.USER_ID = p.USER_ID
+        AND al.PRODUCT_ID = p.PRODUCT_ID
+        AND al.AL_MESSAGE = p.P_NAME || '이 경매에 실패하였습니다.'
+        )
+    </insert>
+    <update id="checkedFlag">
+        update ALERTS
+        set CHECKED_FLAG = 1,
+        AL_COUNT = 0
+        where alert_ID = #{0}
+    </update>
+    <delete id="delete">
+        delete
+        from ALERTS
+        where ALERT_ID = #{param1}
+    </delete>
+    <delete id="deleteAll">
+        delete from alerts
+        where user_id = ${param1}
+    </delete>
+
+    <select id="alertResult" resultType="java.lang.Integer">
+        select nvl(sum(AL_COUNT),0)
+        from ALERTS
+        where USER_ID = #{0}
+    </select>
+    <select id="alList" resultType="com.example.project_machimo.gyuha.alert.vo.AlertVO">
+        select * from ALERTS where USER_ID = #{uId}
+    </select>
+    <select id="alAlList" resultType="com.example.project_machimo.gyuha.alert.vo.AlertVO">
+        select * from alerts;
+    </select>
+
+
+</mapper>

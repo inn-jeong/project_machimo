@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>boardView</title>
+  <!--header-->
+  <th:block th:replace="fragments/header.html :: headerFragment"></th:block>
+</head>
+<body>
+<!--관리자 or 로그인한 유저 활성화-->
+<!--  <div class="container p-5 mb-4" th:if="${session.user.uRole == 1 || session.user.userId != null }">-->
+  <div class="container p-5 mb-4" th:if="${session.user.uRole == 1 || session.user.userId != null }">
+
+    <div class="row py-3 border-bottom m-3">
+      <h2 class="m-0 fw-bold text-secondary" th:if="${boardView.bCategory == '공지'}" th:text="'['+ ${boardView.bCategory} +']'"></h2>
+      <h2 class="m-0 fw-bold text-secondary" th:if="${boardView.bCategory == '문의'}" th:text="'['+ ${boardView.inquiryCategory} +']'"></h2>
+    </div>
+    <div class="row pt-2 m-3">
+      <div class="col">
+        <h4 class="display-7 fw-bold" th:text="'제목: '+ ${boardView.bTitle}"></h4>
+      </div>
+    </div>
+    <div class="row border-bottom pb-3 m-3">
+      <div class="col">
+        <h4 class="fs-6" th:text="'작성자: '+ ${boardView.bWriter}"></h4>
+        <h4 class="fs-6" th:text="'작성일자: ' + ${#dates.format(boardView.bDate, 'YYYY-MM-DD')}"></h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col fs-5 m-4 text-break" style="height: 15rem">
+        <p th:text="${boardView.bContent}"></p>
+      </div>
+    </div>
+    <div class="d-flex gap-2 justify-content-center py-5">
+      <button class="btn btn btn-outline-primary d-inline-flex align-items-center" type="button">
+        <a class="text-decoration-none text-primary" href="/home/userBoardList">목록보기</a>
+      </button>
+      <!--게시글 작성자 or 관리자에게만 활성화-->
+      <div th:if="${session.user.userId == loginUser || session.user.uRole==1}">
+        <button class="btn btn btn-outline-primary d-inline-flex align-items-center" type="button" >
+          <a class="text-decoration-none" th:href="@{/home/boardModifyView/{boardId}(boardId=${boardView.boardId})}">수정</a>
+        </button>
+        <button class="btn btn-outline-primary" type="button" th:onclick="'boardDelete(\''+${boardView.boardId}+'\')'">
+          삭제
+        </button>
+      </div>
+
+    </div>
+  </div>
+  <!--footer-->
+  <th:block th:replace="fragments/footer.html :: footerFragment"></th:block>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:inline="javascript">
+  function boardDelete(boardId){
+    console.log("@# boardDelete")
+
+    var chk = confirm("정말 삭제하시겠습니까?");
+    if(chk){
+      $.ajax({
+        url:'/admin/boardDelete',
+        method: 'POST',
+        data: {
+          'boardId':boardId
+        },
+        success: function (response){
+          if(response === "deleteOk"){
+            alert("게시물이 삭제되었습니다.")
+            location.href="/admin/boardList";
+          }
+          else{
+            alert("게시물 삭제에 실패했습니다.")
+          }
+        },
+        error: function (xhr, status, error){
+          alert("에러 발생: "+error);
+        }
+      });
+    }
+  }
+</script>

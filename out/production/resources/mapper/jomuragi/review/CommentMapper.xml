@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_machimo.jomuragi.review.dao.CommentMapper">
+
+    <select id="commentCount" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM COMMENTS
+    </select>
+
+    <select id="commentList" parameterType="int" resultType="com.example.project_machimo.jomuragi.review.dto.CommentVO">
+<!--    <select id="commentList" resultType="com.example.project_machimo.jomuragi.review.dto.CommentVO">-->
+        SELECT
+        *
+        FROM COMMENTS
+        WHERE BNO = #{bno}
+        ORDER BY CNO
+    </select>
+
+
+    <insert id="commentInsert" parameterType="com.example.project_machimo.jomuragi.review.dto.CommentVO">
+<!--        <selectKey keyProperty="cno" resultType="int" order="BEFORE">-->
+<!--&lt;!&ndash;            SELECT MAX(CNO) + 1 FROM COMMENTS WHERE BNO = #{bno}&ndash;&gt;-->
+<!--&lt;!&ndash;            SELECT comments_seq.NEXTVAL FROM COMMENTS WHERE BNO = #{bno}&ndash;&gt;-->
+<!--            SELECT comments_seq.NEXTVAL FROM DUAL-->
+<!--        </selectKey>-->
+        INSERT INTO
+        COMMENTS (CNO, BNO, CONTENT, WRITER, REG_DATE)
+        VALUES(#{cno},#{bno},#{content},#{writer},SYSDATE)
+    </insert>
+
+    <update id="commentUpdate" parameterType="com.example.project_machimo.jomuragi.review.dto.CommentVO">
+        UPDATE COMMENTS
+        SET
+        CONTENT = #{content}
+        WHERE CNO = #{cno}
+    </update>
+
+    <delete id="commentDelete" parameterType="int">
+        DELETE FROM COMMENTS WHERE CNO = #{cno}
+    </delete>
+</mapper>

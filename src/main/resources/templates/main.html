@@ -5,6 +5,56 @@
     <title>Title</title>
 </head>
 <body>
+    mainPage
+    <div>
+        <!-- 이미지와 상품 정보를 반복하여 표시 -->
+        <div th:each="newest : ${newestItem}">
+            <!-- 이미지 -->
+            <div class="item-image">
+                <p><span th:text="${newest.iSubImage}"></span></p>
+            </div>
+            <div>
+                <!-- 닉네임 -->
+                <h4 th:text="${newest.uNickname}"></h4>
+                <!-- 상품 이름 -->
+                <p th:text="${newest.pName}"></p>
+                <!-- 가격 -->
+                <p>
+                    <span th:if="${newest.pSaleType == 0}" th:text="${newest.pBPrice}"></span>
+                    <span th:if="${newest.pSaleType == 1}" th:text="${newest.pDirect}"></span>
+                </p>
+            </div>
+        </div>
+    </div>
 
+    <a href="/shop/allItemView">
+        <button type="button">더보기</button>
+    </a>
+
+    <div>
+        <!-- 이미지와 상품 정보를 반복하여 표시 -->
+        <div th:each="popular : ${popularItem}">
+            <!-- 이미지 -->
+            <div class="item-image">
+                <p><span th:text="${popular.iSubImage}"></span></p>
+            </div>
+            <div>
+                <!-- 닉네임 -->
+                <h4 th:text="${popular.uNickname}"></h4>
+                <!-- 상품 이름 -->
+                <p th:text="${popular.pName}"></p>
+                <!-- 가격 -->
+                <p>
+                    <span th:if="${popular.pSaleType == 0}" th:text="${popular.pBPrice}"></span>
+                    <span th:if="${popular.pSaleType == 1}" th:text="${popular.pDirect}"></span>
+                </p>
+                <span th:if="${popular.pSaleType == 0}" th:text="경매가"></span>
+                <span th:if="${popular.pSaleType == 1}" th:text="즉시구매가"></span>
+            </div>
+        </div>
+    </div>
+    <a href="/shop/allItemView">
+        <button type="button">더보기</button>
+    </a>
 </body>
 </html>

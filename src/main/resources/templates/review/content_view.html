@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">
+<!--<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">-->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
@@ -10,47 +11,36 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
-  <style>
-    .fakeimg {
-      height: 200px;
-      background: #aaa;
+  <script src="/gyuha/js/header.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <style type="text/css">
+    #result_card img{
+      max-width: 100%;
+      height: auto;
+      display: block;
+      padding: 5px;
+      margin-top: 10px;
+      margin: auto;
     }
-    .subReply {
-      padding-left: 50px;
-    }
+
   </style>
   <script>
-    var id = getQueryStringObject().reviewId;
-    function getQueryStringObject() {
-      var a = window.location.search.substr(1).split('&');
-      if (a == "") return {};
-      var b = {};
-      for (var i = 0; i < a.length; ++i) {
-        var p = a[i].split('=', 2);
-        if (p.length == 1)
-          b[p[0]] = "";
-        else
-          b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
-      }
-      return b;
-    }
-    // /* 댓글쓰기 */
-    // $(".reply_button_wrap").on("click", function(e){
-    //
-    //   e.preventDefault();
-    //
-    //   const userId = '${user.userId}';
-    //   // 로그인 정보 들고와서 연결하기
-    //   const reviewId = '${content_view.reviewId}';
-    //   // 현재 게시글 번호
-    //
-    //   let popUrl = "/review/replyEnroll/" + userId + "?reviewId=" + reviewId;
-    //   console.log(popUrl);
-    //   let popOption = "width = 490px, height=490px, top=300px, left=300px, scrollbars=yes";
-    //
-    //   window.open(popUrl,"댓글 쓰기",popOption);
-    //
-    // });
+
+   var id = getQueryStringObject().reviewId;
+   function getQueryStringObject() {
+     var a = window.location.search.substr(1).split('&');
+     if (a == "") return {};
+     var b = {};
+     for (var i = 0; i < a.length; ++i) {
+       var p = a[i].split('=', 2);
+       if (p.length == 1)
+         b[p[0]] = "";
+       else
+         b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+     }
+     return b;
+   }
   </script>
 
   <title>리뷰 내용</title>
@@ -90,20 +80,34 @@
     <td>제목:</td>
     <td><span th:text="${content_view.reviewTitle}"></span></td>
   </tr>
-  <tr>
-    <td>별점:</td>
-    <td><span th:text="${content_view.reviewStar}"></span></td>
-  </tr>
-<!--  <tr>-->
-<!--    <td>이미지:</td>-->
-<!--    <td><span th:text="${content_view.reviewImg}"></span></td>-->
-<!--  </tr>-->
-<!--    <tr>-->
-<!--      <td>이미지:</td>-->
-<!--&lt;!&ndash;      <td><img th:src="${content_view.reviewImg}" alt="Review Image" /></td>&ndash;&gt;-->
-<!--      <td><img th:src="'./display?fileName='+${content_view.reviewImg}"></td>-->
-<!--    </tr>-->
-
+    <tr>
+      <td>별점:</td>
+      <td>
+        <div class="star-rating">
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+          <span class="far fa-star"></span>
+        </div>
+      </td>
+      <input type="hidden" id="reviewStar" th:value="${content_view.reviewStar}">
+    </tr>
+    <tr>
+      <td colspan="2">
+        <!-- 이미지 표시 -->
+          <span th:each="imagePath : ${imagePaths}">
+<!--            <img th:if="${!imagePaths.isEmpty()}" th:src="@{'/upload/' + ${imagePath}}" alt="/img/noImage.png" style="width: 300px; height: 200px;">-->
+<!--            <img th:if="${imagePaths.isEmpty()}" th:src="@{'/img/noImage.png'}" style="width: 300px; height: 200px;">-->
+<!--            <img th:src="@{/upload/}+${imagePath}" style="width: 300px; height: 200px;">-->
+<!--            <img th:src="${imagePath}" style="width: 300px; height: 200px;">-->
+            <img th:src="@{'/upload/' + ${imagePath}}" style="width: 300px; height: 200px;">
+               <script th:inline="javascript">
+                  /* imagePath의 값을 콘솔에 출력 */
+                  console.log("@#@###################=>"+[[@{imagePath}]]);
+                </script>
+          </span>
+    </tr>
     <tr>
     <td>내용:</td>
     <td><span th:text="${content_view.reviewContent}"></span></td>
@@ -116,81 +120,154 @@
       <input class="btn" type="submit" value="삭제" formaction="delete" style="width: 100px; height: 30px;">
     </td>
   </tr>
+  </form>
 
     <tr>
-<!--        <div class="content_bottom">-->
-<!--            <div class="reply_subject">-->
-<!--              <h2>댓글</h2>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--&lt;!&ndash;        로그인 해야 볼 수 있도록&ndash;&gt;-->
-<!--&lt;!&ndash;        <div th:if="${member != null}">&ndash;&gt;-->
-<!--          <div class="reply_button_wrap">-->
-<!--            <button>댓글 쓰기</button>-->
-<!--          </div>-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-
-      <!--/* 댓글 작성 */-->
-      <th:block layout:fragment="content">
       <td colspan="3">
-      <div class="cm_write">
-        <fieldset>
-          <legend class="skipinfo">댓글 입력</legend>
-          <div class="cm_input">
-            <p><textarea id="content" name="content" onkeyup="countingLength(this);" cols="90" rows="4" placeholder="댓글을 입력해 주세요."></textarea></p>
-            <span><button type="button" class="btns" onclick="saveComment();">등 록</button> <i id="counter">0/300자</i></span>
+      <!--  댓글  -->
+      <div class="container">
+        <label for="content">comment</label>
+        <form name="commentInsertForm">
+          <div class="input-group">
+            <input type="hidden" name="bno" th:value="${content_view.reviewId}"/>
+            <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요.">
+            <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" name="commentInsertBtn">등록</button>
+               </span>
           </div>
-        </fieldset>
+        </form>
       </div>
-      </th:block>
+
+      <div class="container">
+        <div class="commentList">
+          <!-- 댓글 목록 출력 -->
+          <div th:each="comment : ${comment}">
+            <p th:text="${comment.content}"></p>
+            <!-- 댓글 수정 버튼 -->
+            <button class="btn btn-primary" th:data-cno="${comment.cno}" th:onclick="showUpdateForm(this)">수정</button>
+            <!-- 댓글 삭제 버튼 -->
+            <button class="btn btn-danger" th:data-cno="${comment.cno}" th:onclick="deleteComment(this)">삭제</button>
+          </div>
+        </div>
+      </div>
+      </td>
     </tr>
-
-
-  </form>
 </table>
 </div>
+
 <script>
-  // 댓글 길이 카운팅
-  function countingLength(content) {
-    if (content.value.length > 300) {
-      alert('댓글을 300자 이하로 입력해 주세요.');
-      content.value = content.value.substring(0, 300);
-      content.focus();
+  // 별점 값을 가져와서 해당 별점까지 별을 색칠하는 함수
+  function fillStarRating(starRating) {
+    const stars = document.querySelectorAll('.star-rating .fa-star');
+    for (let i = 0; i < starRating; i++) {
+      stars[i].classList.remove('far');
+      stars[i].classList.add('fas');
     }
-    document.getElementById('counter').innerText = content.value.length + '/300자';
+  }
+
+  // 페이지 로드 시 별점 값을 가져와서 별을 색칠합니다
+  const reviewStar = $("#reviewStar").val();
+  fillStarRating(reviewStar);
+</script>
+<script>
+  // var bno = '${content_view.reviewId}'; //게시글 번호
+  // content_view?pageNum=1&amount=10&reviewId=139 를 다 받아와야 그 페이지가 보이므로 그냥 reviewId만 불러오면 댓글이안보인다
+  var bno = id;
+
+  $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시
+    var insertData = $('[name=commentInsertForm]').serialize(); //commentInsertForm의 내용을 가져옴
+    commentInsert(insertData); //Insert 함수호출(아래)
+  });
+
+
+
+  //댓글 목록
+  function commentList(){
+    $.ajax({
+      url : '/comment/list',
+      type : 'get',
+      data : {'bno':bno},
+      // data : bno,
+      success : function(data){
+        var a ='';
+        $.each(data, function(key, value){
+          a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+          // a += '<div class="commentInfo'+value.cno+'">'+'댓글번호 : '+value.cno+' / 작성자 : '+value.writer;
+          a += '<div class="commentInfo'+value.cno+'">'+' 작성자 : '+value.writer;
+          a += '<a onclick="commentUpdate('+value.cno+',\''+value.content+'\');"> 수정 </a>';
+          a += '<a onclick="commentDelete('+value.cno+');"> 삭제 </a> </div>';
+          a += '<div class="commentContent'+value.cno+'"> <p> 내용 : '+value.content +'</p>';
+          a += '</div></div>';
+        });
+
+        $(".commentList").html(a);
+      }
+    });
   }
 
 
-  // 댓글 저장
-  function saveComment() {
+  //댓글 등록
+  function commentInsert(insertData){
+    $.ajax({
+      url : '/comment/insert',
+      type : 'post',
+      data : insertData,
+      success : function(data){
+        if(data == 1) {
+          // commentList(); //댓글 작성 후 댓글 목록 reload
+          commentList(bno); //댓글 작성 후 댓글 목록 reload // 인서트후에 새로고침 없이도 업데이트됨
+          $('[name=content]').val('');
+        }
+      }
+    });
+  }
 
-    const content = document.getElementById('content');
-    // isValid(content, '댓글');
+  //댓글 수정 - 댓글 내용 출력을 input 폼으로 변경
+  function commentUpdate(cno, content){
+    var a ='';
 
-    const reviewId = [[ ${content_view.reviewId} ]];
-    // const reviewId = "${content_view.reviewId}";
-    const params = {
-      reviewId : reviewId,
-      content : content.value,
-      writer : '홍길동'
-    }
+    a += '<div class="input-group">';
+    a += '<input type="text" class="form-control" name="content_'+cno+'" value="'+content+'"/>';
+    a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
+    a += '</div>';
+
+    $('.commentContent'+cno).html(a);
+
+  }
+
+  //댓글 수정
+  function commentUpdateProc(cno){
+    var updateContent = $('[name=content_'+cno+']').val();
 
     $.ajax({
-      // url : "/review/"+reviewId+"/comments",
-      url : `/review/${reviewId}/comments`,
+      url : '/comment/update',
       type : 'post',
-      contentType : 'application/json; charset=utf-8',
-      dataType : 'json',
-      data : JSON.stringify(params),
-      async : false,
-      success : function (response) {
-        console.log(response);
-      },
-      error : function (request, status, error) {
-        console.log(error)
+      data : {'content' : updateContent, 'cno' : cno},
+      success : function(data){
+        if(data == 1) commentList(bno); //댓글 수정후 목록 출력
       }
-    })
+    });
   }
+
+  //댓글 삭제
+  function commentDelete(cno){
+    $.ajax({
+      url : '/comment/delete/'+cno,
+      type : 'post',
+      success : function(data){
+        if(data == 1) commentList(bno); //댓글 삭제후 목록 출력
+      }
+    });
+  }
+
+  $(document).ready(function(){
+    // commentList(); //페이지 로딩시 댓글 목록 출력
+    commentList(bno); //페이지 로딩시 댓글 목록 출력
+
+  });
+
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>

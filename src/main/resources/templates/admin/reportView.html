@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout/layout}">
+
+<th:block layout:fragment="admin-content">
+<!--    <div class="justify-content-center mx-5" th:if="${session.user.uRole == 1}">-->
+    <div class="justify-content-center mx-5">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800 py-3">신고 내역</h1>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">reportCode: <span th:text="${report.reportId}"></span></h6>
+            </div>
+
+            <div class="userInfo_group" >
+                <div class="container py-5 px-5">
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            신고자 :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${report.userId}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            판매자 :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${report.sellerUserId}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            신고생성일자 :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <td th:text="${#dates.format(report.reportDate, 'yyyy-MM-dd')}"></td>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            신고횟수 :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${report.reportCount}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-4 text-black-50 text-center">
+                            신고내용 :
+                        </div>
+                        <div class="col-4 text-black text-center">
+                            <span th:text="${report.reportContent}"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="border-bottom my-3" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-grid d-md-flex justify-content-md-center pb-5">
+                <button th:onclick="|location.href='@{/admin/removeReport/(userId=${userId})}'|" class="btn btn-primary" type="button">신고반려</button>
+                <button class="btn btn-primary mx-2" type="button">회원정지</button>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+</html>

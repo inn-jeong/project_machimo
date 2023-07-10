@@ -3,8 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
+    <script>
+
+    </script>
     <title>Title</title>
+
 </head>
+<script>
+
+</script>
 <style>
     /*.test1{*/
     /*        background-color: orange;*/
@@ -20,31 +27,30 @@
     /*        height: 250px;*/
     /*        overflow-y: auto;*/
     /*    }*/
+
+
 </style>
-<script>
-    function delete_alert() {
-
-
-    }
-</script>
-<link rel="stylesheet" href="/headerCss/header.css">
-
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-</script>
-
-<body>
-
-
 <th:block th:fragment="headerFragment">
+
+    <link rel="stylesheet" href="/gyuha/css/header.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+            charset="utf-8"></script>
+    <!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js" charset="utf-8"></script>-->
+    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js" charset="utf-8"></script>
+    <script src="/login/login.js"></script>
+    <script src="/gyuha/js/header.js"></script>
+    <body>
+
+
     <!-- Dropdown - Alerts -->
-
-
-
     <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
         <header class="py-1 fixed">
             <div class="container">
@@ -52,26 +58,32 @@
                 <div class="d-flex justify-content-end pt-1">
 
                     <ul class="top_list nav nav-pills">
-                        <li class="nav-item"><a href="/admin/boardList "
+                        <li th:if="${session.user != null && session.user.userId == 1}" class="nav-item"><a href="/admin/adminList"
+                                                class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">관리자페이지</a>
+                        </li>
+                        <li class="nav-item"><a href="/home/userBoardList"
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">고객센터</a>
                         </li>
-                        <li class="nav-item"><a href="/mypage/mypage_page"
-                                                class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">마이페이지</a>
+
+                        <li th:if="${hasSession}" class="nav-item"><a href="/mypage/mypage_page"
+                                                                      class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">마이페이지</a>
                         </li>
-                        <li class="nav-item"><a href="#"
+                        <li class="nav-item"><a href="/mypage/wishlist"
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">관심상품</a>
                         </li>
 
-                        <li class="nav-item"><a href="#" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"
-                                                class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">알림
-                            <th:block th:if="${alertResult != null && alertResult != 0}">
-                                <span class="test1" th:text="${alertResult}"></span>
+                        <li th:if="${hasSession}" class="nav-item"><a href="#" data-bs-toggle="modal"
+                                                                      data-bs-target="#exampleModal"
+                                                                      class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">알림
+                            <span th:if="${alertResult != null && alertResult != 0}" id="alerts">
+
+                                <span id="alNum" th:text="${alertResult > 9 ? '9+' : alertResult}"></span>
+                                <input hidden="hidden" th:value="${alertResult}" id="alertRes">
                                 <!--                                <span>erroer</span>-->
-                            </th:block>
+                            </span>
                         </a>
                         </li>
-                        <li class="nav-item"><a href="/loginT/login" th:if="${hasSession}"
+                        <li class="nav-item"><a href="/loginT/logout" th:if="${hasSession}" id="logout_btn1"
                                                 class="text-dark nav-link fs-8 link-underline link-underline-opacity-0">로그아웃
                         </a>
                         </li>
@@ -94,29 +106,37 @@
 
                     </a>
                     <ul class="gnb_list nav nav-pills">
-                        <li class="nav-item"><a href="#"
+                        <li class="nav-item"><a href="/"
                                                 class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">HOME</a>
                         </li>
-                        <li class="nav-item"><a href="#"
+                        <li class="nav-item"><a href="/review/list"
                                                 class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">STYLE</a>
                         </li>
-                        <li class="nav-item"><a href="#"
+                        <li class="nav-item"><a href="/shop/allItemView"
                                                 class="text-dark nav-link fw-semibold fs-4 link-underline link-underline-opacity-0">SHOP</a>
                         </li>
                         <li class="nav-item">
-                            <form action="/search/searchList" method="get" class="d-flex" role="search">
+                            <form action="/search/searchList" method="get" class="d-flex" role="search" id="frm">
                                 <label>
-                                    <select name="searchOption" style="height: 32px">
-                                        <option value="userNickName">작성자</option>
-                                        <option value="productName">상품명</option>
-                                        <option value="productInfo">내용</option>
-                                        <option value="proNameOrProInfo">상품명+내용</option>
+                                    <select name="searchOption" style="height: 32px" th:value="${session.searchOption}">
+                                        <option value="userNickName"
+                                                th:selected="${session.searchOption == 'userNickName'}">작성자
+                                        </option>
+                                        <option value="productName"
+                                                th:selected="${session.searchOption == 'productName'}">상품명
+                                        </option>
+                                        <option value="productInfo"
+                                                th:selected="${session.searchOption == 'productInfo'}">내용
+                                        </option>
+                                        <option value="proNameOrProInfo"
+                                                th:selected="${session.searchOption == 'proNameOrProInfo'}">상품명+내용
+                                        </option>
                                     </select>
                                 </label>
-                                <input name="keyword" type="search" placeholder="search">
+                                <input type="text" id="keyword" name="keyword" th:value="${session.keyword}" />
                                 <input type="hidden" name="pageNum" value="1">
-                                <input type="hidden" name="amount" value="10">
-                                <button id="search" onclick="test()" type="button" style="border: none" class="bg-body-tertiary">
+                                <input type="hidden" name="amount" value="12">
+                                <button id="search" type="button" style="border: none" class="bg-body-tertiary">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                                          class="bi bi-search" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -129,7 +149,12 @@
             </div>
         </header>
         <nav>
-
+            <div class="container d-flex flex-wrap gab-0">
+                <ul class="nav me-auto">
+                    <li class="nav-item"><a href="/shop/allItemView" class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">랭킹</a></li>
+                    <li class="nav-item"><a href="/productEnroll/enroll_form" class="text-dark nav-link fs-6 link-underline link-underline-opacity-0">판매하기</a></li>
+                </ul>
+            </div>
         </nav>
     </div>
     <div class="modal fade  modal-dialog-scrollable" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -141,21 +166,31 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div th:each="alert : ${alList}">
-                        <a class="move_alert" th:href="@{/test23(alId=${alert.alId})}"
-                           th:text="${alert.alMessage} +'  '+${#dates.format(alert.alCreateAt, 'yyyy-MM-dd HH:mm')}"
-                           th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''"></a>
+                    <div id="al_All">
+                        <div th:each="alert : ${alList}">
+                            <a class="move_alert" th:href="@{/test23(alId=${alert.alertId})}"
+                               th:id="'alert'+${alert.alertId}"
+                               th:text="${alert.alMessage} +'  '+${#dates.format(alert.alCreateAt, 'yyyy-MM-dd')+'   '}"
+                               th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''"></a>
+                            <span id="alert">
+                            <a class="fs-6" th:id="'alert'+${alert.alertId}"
+                               th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''"
+                               th:attr="data-value=${alert.alertId}"
+                               href="#" id="selectRemove">
+                                <strong style="text-align: center"> X</strong>
+                            </a>
+                        </span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="delete_alert()">전체 삭제</button>
+                    <button type="button" class="btn btn-primary" id="remove_all">전체 삭제</button>
                 </div>
             </div>
         </div>
     </div>
+
+    </body>
 </th:block>
-
-</body>
 </html>
-
