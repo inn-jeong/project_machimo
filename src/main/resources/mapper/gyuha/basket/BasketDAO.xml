@@ -3,7 +3,7 @@
 <mapper namespace="com.example.project_machimo.gyuha.basket.dao.BasketDAO">
 
     <insert id="addBasket">
-        insert into BASKET values (bas_id_sqe.nextval,#{userId},#{productId})
+        insert into BASKET values (bas_id_seq.nextval,#{userId},#{productId})
     </insert>
     <delete id="deleteBasketList">
         delete from BASKET where PRODUCT_ID = #{param1}

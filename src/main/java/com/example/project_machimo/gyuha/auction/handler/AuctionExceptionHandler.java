@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice(basePackageClasses = {AuctionController.class})
 public class AuctionExceptionHandler {
 
-    @ExceptionHandler(value = {NullPointerException.class})
+//    @ExceptionHandler(value = {NullPointerException.class})
     public String error(){
         return "auctions/error";
     }

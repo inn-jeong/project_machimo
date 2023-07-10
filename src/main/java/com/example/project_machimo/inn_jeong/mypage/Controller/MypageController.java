@@ -2,6 +2,8 @@ package com.example.project_machimo.inn_jeong.mypage.Controller;
 
 import com.example.project_machimo.gyuha.basket.dto.BasketDTO;
 import com.example.project_machimo.gyuha.basket.service.BasketService;
+import com.example.project_machimo.gyuha.wishlists.dto.WishlistsDTO;
+import com.example.project_machimo.gyuha.wishlists.service.WishListsService;
 import com.example.project_machimo.inn_jeong.login.Dto.UsersDto;
 import com.example.project_machimo.inn_jeong.mypage.Dto.*;
 import com.example.project_machimo.inn_jeong.mypage.Service.MypageService;
@@ -31,6 +33,9 @@ public class MypageController {
 
     @Autowired
     private BasketService service2;
+
+    @Autowired
+    private WishListsService service3;
 
     @RequestMapping("/mypage_page")
     public String mypage(HttpServletRequest request, Model model){
@@ -218,10 +223,13 @@ public class MypageController {
             BasketDTO basket = new BasketDTO();
             basket.setProductId(pId);
             basket.setUserId(userId);
+            WishlistsDTO wishlist = new WishlistsDTO();
+            wishlist.setProductId(pId);
+            wishlist.setUserId(userId);
             int re = service2.addBasket(basket);
-
+            service3.deleteWish(wishlist);
         }
         model.addAttribute("type","wishlist");
-        return "redirect:/mypage/mypage";
+        return "redirect:/mypage/mypage_page";
     }
 }

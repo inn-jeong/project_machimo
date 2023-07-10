@@ -228,7 +228,7 @@ public class LoginController {
     //유효성 검사
     @PostMapping("/joinProc")
     public String joinProc(@Valid UserRequestDto userDto, Errors errors, HttpSession session, Model model) {
-
+        UsersDto user = (UsersDto) session.getAttribute("user");
         if (errors.hasErrors()) {// 유효성 통과 못 했을 경우
             model.addAttribute("userDto", userDto);
             /* 회원가입 실패시 입력 데이터 값을 유지 */
@@ -250,6 +250,10 @@ public class LoginController {
             return "login/registerTest";
         }
 
+        if(user != null){
+            service.updateUser(service.switchRequestToUser(userDto));
+            return "redirect:/mypage/mypage_page";
+        }
         //naver 유저나 kakao 유저가 아니면 u_social 값이 null이므로 다른 쿼리를 적용하기 위해 분기처리        
         if(session.getAttribute("naverUser") == null && session.getAttribute("kakaoUser") == null){
             service.userInsert(service.switchRequestToUser(userDto));

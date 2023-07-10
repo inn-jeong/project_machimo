@@ -15,6 +15,7 @@ public interface LoginService {
     public int loginYn(HashMap<String, String> param);
     public void userInsert(HashMap<String, String> param);
     public void socialUserInsert(HashMap<String, String> param);
+    public void updateUser(HashMap<String, String> param);
     public Map<String, String> validateHandling(Errors errors);
 //    public MemDto switchMem(MemberRequestDto requestDto);
     public HashMap<String,String> switchRequestToUser(UserRequestDto requestDto);
