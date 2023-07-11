@@ -219,11 +219,11 @@ public class LoginServiceImpl implements LoginService{
     public void mailSend(MailDto mailDto) {
         log.info("전송 완료!");
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(mailDto.getAddress());
-        message.setSubject(mailDto.getTitle());
-        message.setText(mailDto.getMessage());
-        message.setFrom("innjeong429@gmail.com");
-        message.setReplyTo("innjeong429@gmail.com");
+        message.setTo(mailDto.getAddress()); //메일주소 세팅
+        message.setSubject(mailDto.getTitle()); //제목 세팅
+        message.setText(mailDto.getMessage()); //내용 세팅
+        message.setFrom("innjeong429@gmail.com"); //발신자 세팅
+        message.setReplyTo("innjeong429@gmail.com"); //답신자 세팅
         log.info("message"+message);
         mailSender.send(message);
     }

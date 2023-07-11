@@ -218,16 +218,18 @@ public class MypageController {
     public String checkWithdrawal(HttpServletRequest request){
         HttpSession session = request.getSession();
         String result;
-        String uPassword = ((UsersDto)session.getAttribute("user")).getUPassword();
+        UsersDto user = (UsersDto)session.getAttribute("user");
+        String uPassword = user.getUPassword();
+        log.info("@# pass =====>"+uPassword);
         String inputPwd = request.getParameter("uPassword");
         String checkWith = request.getParameter("checkWith");
 
-        if(uPassword.equals(inputPwd) && checkWith.equals("탈퇴하겠습니다")){
+        if(uPassword.equals(inputPwd) && checkWith.equals("탈퇴하겠습니다.")){
             result = "confirm";
+            session.invalidate();
         }else{
             result = "denined";
         }
-        session.invalidate();
         return result;
     }
 

@@ -111,7 +111,7 @@
                     <table th:unless="${items.isEmpty()}" class="table table-hover mx-auto text-center" style="width: 1000px">
                         <thead>
                         <tr class="table-active">
-                            <td>번호</td>
+                            <td></td>
                             <th colspan="2">상품정보</th>
                             <th>주문일자</th>
                             <th>주문번호</th>
@@ -121,9 +121,9 @@
                         </thead>
                         <tbody th:each="item, count:${items}" th:id="${item.productId}" class="item-show">
                         <tr>
-                            <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
+                            <td th:text="${count.count}" rowspan="3" style="width: 20px" class="align-middle"></td>
 <!--                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>-->
-                            <td><img src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg" style="width: 100px; height: 120px"></td>
+                            <td rowspan="3" style="width: 100px"><img src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg" style="width: 100px; height: 100px"></td>
                             <td style="width: 200px; text-align: left">
                                 <div th:switch="${item.pSaleType}">
                                     판매유형:
@@ -131,7 +131,7 @@
                                     <span th:case="1">즉시판매</span>
                                 </div>
                             </td>
-                            <td th:text="${item.createdAt}" rowspan="3" style="width: 120px" class="align-middle"></td>
+                            <td th:text="${item.createdAt}" rowspan="3" style="width: 100px" class="align-middle"></td>
                             <td th:text="${item.orderId}" rowspan="3" style="width: 80px" class="align-middle"></td>
                             <!--                            판매유형에 따른 가격 출력-->
                             <td th:if="${item.pSaleType == 1}" rowspan="3" style="width: 100px" class="align-middle">즉시구매가<br><span th:text="${item.pDirect}"></span>원</td>
@@ -166,7 +166,7 @@
                     <table th:unless="${items.isEmpty()}" class="table table-hover mx-auto text-center" style="width: 1000px">
                         <thead>
                         <tr class="table-active">
-                            <td>번호</td>
+                            <td></td>
                             <th colspan="2">상품정보</th>
                             <th>주문일자</th>
                             <th>주문번호</th>
@@ -176,8 +176,9 @@
                         </thead>
                         <tbody th:each="item, count:${items}" th:id="${item.productId}" class="item-show">
                         <tr>
-                            <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
-                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>
+                            <td th:text="${count.count}" rowspan="3" style="width: 20px" class="align-middle"></td>
+<!--                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>-->
+                            <td rowspan="3" style="width: 100px"><img src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg" style="width: 100px; height: 100px"></td>
                             <td style="width: 200px; text-align: left">
                                 <div th:switch="${item.pSaleType}">
                                     판매유형:
@@ -185,13 +186,13 @@
                                     <span th:case="1">즉시판매</span>
                                 </div>
                             </td>
-                            <td th:text="${item.createdAt}" rowspan="3" style="width: 120px" class="align-middle"></td>
+                            <td th:text="${item.createdAt}" rowspan="3" style="width: 100px" class="align-middle"></td>
                             <td th:text="${item.orderId}" rowspan="3" style="width: 80px" class="align-middle"></td>
                             <!--                            판매유형에 따른 가격 출력-->
                             <td th:if="${item.pSaleType == 1}" rowspan="3" style="width: 100px" class="align-middle">즉시구매가<br><span th:text="${item.pDirect}"></span>원</td>
                             <td th:if="${item.pSaleType == 0}" rowspan="3" style="width: 100px" class="align-middle">낙찰가<br><span th:text="${item.pBPrice}"></span>원</td>
                             <td th:text="${item.orderStatus}" rowspan="3" style="width: 80px" class="align-middle"></td>
-                            <td rowspan="3" style="width: 80px" class="align-middle">
+                            <td rowspan="3" style="width: 100px" class="align-middle">
                                 <a th:href="@{/review/write_view/{productId}(productId=${item.productId})}" class="btn btn-success">
                                     후기작성
                                 </a>
@@ -231,7 +232,8 @@
                         <tbody th:each="item, count:${salesItems}" th:id="${item.productId}" class="item-show">
                         <tr>
                             <td th:text="${count.count}" rowspan="2" style="width: 40px" class="align-middle"></td>
-                            <td th:text="${item.iSubImg}" rowspan="2" style="width: 100px" class="align-middle"></td>
+<!--                            <td th:text="${item.iSubImg}" rowspan="2" style="width: 100px" class="align-middle"></td>-->
+                            <td rowspan="2" style="width: 100px"><img src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg" style="width: 100px; height: 100px"></td>
                             <td style="width: 200px; text-align: left">
                                 <div th:switch="${item.pSaleType}">
                                     판매유형:
@@ -292,33 +294,35 @@
                         </thead>
                         <tbody class="text-center">
                         <!--            <tr th:each="item, count:${basketItems}" th:id="${item.product_id}" >-->
-                        <tr th:if="${item.pSalesStatus==1}" th:id="${item.productId}" th:each="item, count:${basketItems}">
+                        <tr th:if="${item.pSalesStatus==1}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="align-middle">
                             <td style="width: 20px;" class="align-middle">
                                 <input type="checkbox" name="productId" class="checkBoxItem" th:value="${item.productId}" checked>
                             </td>
                             <td th:class="count" th:text="${count.count}"></td>
-                            <td th:text="${item.iSubImg}" class="item-show"></td>
+<!--                            <td th:text="${item.iSubImg}" class="item-show"></td>-->
+                            <td style="width: 100px"><img src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg" style="width: 100px; height: 100px"></td>
                             <td th:text="${item.productId}"></td>
                             <td class="item-show">
                                 <a th:href="@{/auction/action-list/{id}(id=${item.productId})}">
                                     <span th:text="${item.pName}"></span>
                                 </a>
                             </td>
-                            <td th:text="${item.uName}"></td>
+                            <td th:text="${item.uNickname}"></td>
                             <td class="price" th:text="${item.pDirect}"></td>
                             <td><button th:inline="javascript" class="btn btn-secondary" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
                         </tr>
-                        <tr th:if="${item.pSalesStatus==2}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="table-active">
+                        <tr th:if="${item.pSalesStatus==2}" th:id="${item.productId}" th:each="item, count:${basketItems}" class="table-active align-middle" >
                             <td></td>
                             <td>품절</td>
-                            <td th:text="${item.iSubImg}"></td>
+<!--                            <td th:text="${item.iSubImg}"></td>-->
+                            <td style="width: 100px"><img src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg" style="width: 100px; height: 100px"></td>
                             <td th:text="${item.productId}"></td>
                             <td>
                                 <a th:href="@{/auction/action-list/{id}(id=${item.productId})}">
                                     <span th:text="${item.pName}"></span>
                                 </a>
                             </td>
-                            <td th:text="${item.uName}"></td>
+                            <td th:text="${item.uNickname}"></td>
                             <td th:text="${item.pDirect}"></td>
                             <td><button th:inline="javascript" class="btn btn-secondary" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button></td>
                         </tr>
@@ -373,10 +377,11 @@
                         <tbody th:if="${item.pSalesStatus == 1}" th:id="${item.productId}" th:each="item, count:${items}">
                         <tr>
                             <td rowspan="3" style="width: 20px;" class="align-middle">
-                                <input type="checkbox" class="checkBoxItem" th:value="${item.productId}" checked>
+                                <input th:if="${item.pSaleType==1}" type="checkbox" class="checkBoxItem" th:value="${item.productId}" checked>
                             </td>
                             <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
-                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle item-show"></td>
+<!--                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle item-show"></td>-->
+                            <td rowspan="3" style="width: 100px"><img src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg" style="width: 100px; height: 100px"></td>
                             <td style="width: 200px; text-align: left">
                                 <div th:switch="${item.pSaleType}" class="item-show">
                                     판매유형:
@@ -398,7 +403,9 @@
 <!--                                    <span th:case="5">판매보류</span>-->
                                 </div>
                             </td>
-                            <td rowspan="3" style="width: 80px" class="align-middle"><button class="btn btn-secondary">삭제</button></td>
+                            <td rowspan="3" style="width: 80px" class="align-middle">
+                                <button class="btn btn-secondary" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button>
+                            </td>
                         </tr>
                         <tr>
                             <td th:text="'판매자:'+${item.uNickname}" style="text-align: left" class="item-show"></td>
@@ -417,7 +424,8 @@
 <!--                                <input type="checkbox" th:value="${item.productId}">-->
                             </td>
                             <td th:text="${count.count}" rowspan="3" style="width: 40px" class="align-middle"></td>
-                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>
+<!--                            <td th:text="${item.iSubImg}" rowspan="3" style="width: 100px" class="align-middle"></td>-->
+                            <td rowspan="3" style="width: 100px"><img src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg" style="width: 100px; height: 100px"></td>
                             <td style="width: 200px; text-align: left">
                                 <div th:switch="${item.pSaleType}">
                                     판매유형:
@@ -470,7 +478,7 @@
                     <table th:unless="${items.isEmpty()}" class="table table-hover mx-auto text-center" style="width: 1000px">
                         <thead>
                         <tr class="table-active">
-                            <td>번호</td>
+                            <td></td>
                             <th colspan="2">상품정보</th>
                             <th>입찰코드</th>
                             <th>입찰가격</th>
@@ -482,8 +490,9 @@
 <!--                        <tbody th:if="${item.pSalesStatus==1}" th:id="${item.productId}" th:each="item, count:${items}" class="text-center item-show">-->
                         <tbody th:if="${item.pSalesStatus == 1 || (item.pSalesStatus == 3 && item.userBidsId.equals(session.user.userId))}" th:id="${item.productsId}" th:each="item, count:${items}" class="text-center item-show">
                             <tr>
-                                <td th:text="${count.count}" rowspan="3" style="width: 40px"  class="align-middle"></td>
-                                <td th:text="${item.iSubImg}"  rowspan="3" style="width: 100px" class="align-middle"></td>
+                                <td th:text="${count.count}" rowspan="3" style="width: 20px"  class="align-middle"></td>
+<!--                                <td th:text="${item.iSubImg}"  rowspan="3" style="width: 100px" class="align-middle"></td>-->
+                                <td rowspan="3" style="width: 100px"><img src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg" style="width: 100px; height: 100px"></td>
                                 <td th:text="${item.uNickname}" style="width: 200px; text-align: left" class="align-middle"></td>
                                 <td th:text="${item.auctionId}"  rowspan="3" style="width: 80px" class="align-middle"></td>
                                 <td th:text="${item.currentAmount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
@@ -517,7 +526,8 @@
                         <tbody th:unless="${item.pSalesStatus == 1 || item.pSalesStatus == 3 && item.userBidsId.equals(session.user.userId)}" th:id="${item.productsId}" th:each="item, count:${items}" class="text-center item-show table-active">
                         <tr>
                             <td th:text="${count.count}" rowspan="3" style="width: 40px"  class="align-middle"></td>
-                            <td th:text="${item.iSubImg}"  rowspan="3" style="width: 100px" class="align-middle"></td>
+<!--                            <td th:text="${item.iSubImg}"  rowspan="3" style="width: 100px" class="align-middle"></td>-->
+                            <td rowspan="3" style="width: 100px"><img src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg" style="width: 100px; height: 100px"></td>
                             <td th:text="${item.uNickname}" style="width: 200px; text-align: left" class="align-middle"></td>
                             <td th:text="${item.auctionId}"  rowspan="3" style="width: 80px" class="align-middle"></td>
                             <td th:text="${item.currentAmount}"  rowspan="3" style="width: 80px" class="align-middle"></td>
@@ -695,7 +705,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" id="checkWith" class="form-control" placeholder="'탈퇴하겠습니다'를 입력해주세요." style="width: 400px; margin: 0 auto">
+                                <input type="text" id="checkWith" class="form-control" placeholder="'탈퇴하겠습니다.'를 입력해주세요." style="width: 400px; margin: 0 auto">
                             </td>
                         </tr>
 
@@ -738,13 +748,6 @@
         $("#selectAllBasket").change(function() {
             $(".checkBoxItem").prop('checked', $(this).is(':checked'));
         });
-        // $(".item-show").on('click',function (){
-        //     var productId = Number($(this).attr('id'));
-        //     console.log("id:"+productId);
-        //     location.href="/auction/action-list/"+productId;
-        //     $("#productId").val(productId);
-        //     $("#frm_show_item").submit();
-        // });
     });
 
     var actionForm = $("#actionForm");
@@ -849,7 +852,7 @@
                 }
             },
             error: function (response){
-                alert(response);
+                alert("문구를 정확히 입력해주세요.");
             }
         });
     }
@@ -884,7 +887,6 @@
 
         form.attr("action","/order/buyDirect").submit();
     });
-
     var form = $("#purcahaseForm");
     $("#insertBasket").on("click", function (e){
         e.preventDefault();
@@ -897,20 +899,5 @@
 
         form.attr("action","/mypage/wishTobasket").submit();
     });
-
-    // function purchase() {
-    //     // const selectedItems = getSelectedItems(); // JSON 데이터 생성
-    //
-    //     var form = $("#purcahaseForm");
-    //     // form.action = '/order/buyDirect'; // 다음 페이지의 URL을 지정해야 합니다.
-    //     $(".checkBoxItem:checked").each(function() {
-    //         var value = $(this).val();
-    //         console.log("test:"+$(this).val());
-    //         form.append("<input type='hidden' name='productId' value='"+value+"'>");
-    //     });
-    //
-    //     form.attr("action","/order/buyDirect").submit();
-    //
-    // }
 
 </script>
