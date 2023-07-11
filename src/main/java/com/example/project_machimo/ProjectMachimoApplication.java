@@ -16,16 +16,13 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 //@SpringBootApplication
 //@Configuration
 @EnableScheduling
-public class ProjectMachimoApplication  extends SpringBootServletInitializer {
+public class ProjectMachimoApplication   {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectMachimoApplication.class, args);
 	}
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(ProjectMachimoApplication.class);
-	}
+
 	//	@Bean
 //	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
 //		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();

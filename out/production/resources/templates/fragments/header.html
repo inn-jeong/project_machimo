@@ -168,10 +168,12 @@
                 <div class="modal-body">
                     <div id="al_All">
                         <div th:each="alert : ${alList}">
-                            <a class="move_alert" th:href="@{/test23(alId=${alert.alertId})}"
+                            <input hidden="hidden" id="h-al">
+                            <a class="move_alert"  name="al_hr"
                                th:id="'alert'+${alert.alertId}"
                                th:text="${alert.alMessage} +'  '+${#dates.format(alert.alCreateAt, 'yyyy-MM-dd')+'   '}"
                                th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''"></a>
+
                             <span id="alert">
                             <a class="fs-6" th:id="'alert'+${alert.alertId}"
                                th:style="${alert.checkedFlag}==1 ? 'background-color: gray' : ''"

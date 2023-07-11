@@ -110,10 +110,10 @@ function requestPay() {
 
     var radioVal = $('input[name="payWith"]:checked').val();
     var amount = Number(document.getElementById("result").innerText)
+    let used_point_result = document.getElementById("used_point").innerText
     console.log(amount)
     console.log(radioVal + "콘솔의 값")
 
-    let used_point_result = document.getElementById("used_point").innerText
     console.log("총 사용한 포인트는 =  = = " + used_point_result)
     var p_name = null;
 
@@ -247,7 +247,7 @@ function requestPay() {
                             }
 
                         })
-
+                // 어먼트가 다를때
                     } else {
 
                         alert("결제 실패");

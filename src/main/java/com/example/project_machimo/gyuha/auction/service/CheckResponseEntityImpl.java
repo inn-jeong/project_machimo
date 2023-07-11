@@ -75,16 +75,13 @@ private ResponseEntity<?> processBid(Long bids, int productId, Long firstPrice,I
 
      if (bids > amount && bids > firstPrice) {
          return updateExistingBid(bids, productId, userId);
+
+
      }else if(bids.equals(amount)){
         CustomResponse response = new CustomResponse();
         response.setMessage("입찰가가 기존 금액과 동일합니다.");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-     }else if(bids.equals(firstPrice)){
-        CustomResponse response = new CustomResponse();
-        response.setMessage("입찰가가 기존 금액과 동일합니다.");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-    }
-
+     }
      return null;
 }
 

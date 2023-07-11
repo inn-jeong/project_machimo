@@ -81,6 +81,7 @@ public class AuctionController {
         Integer integer = wishListsDAO.likeCheck(userId, id);
 
         log.info("@#첫 가격은  === > {}", pView.pBPrice());
+        log.info("@# 판매자 아이디 ===> {}",pView.productsId());
         boolean saleEnded = auctionService.isSaleEnded(pView.pDur(), pView.pSalesStatus());
         boolean isLiked = integer != null;
         auctionService.updateHit(id);

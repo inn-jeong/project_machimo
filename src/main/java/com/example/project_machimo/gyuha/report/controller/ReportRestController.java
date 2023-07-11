@@ -39,6 +39,8 @@ public class ReportRestController {
     @PostMapping("/send")
     @LoginCheck
     public ResponseEntity<? extends Object> sendResponse(@RequestBody ReportDTO reportDTO, HttpSession session) {
+        System.out.println(reportDTO.getUserId()+"윱아");
+        System.out.println(reportDTO.getProductId()+"프아");
         String message;
         boolean duplicateReporting = reportService.isDuplicateReporting(reportDTO);
         if (duplicateReporting) {

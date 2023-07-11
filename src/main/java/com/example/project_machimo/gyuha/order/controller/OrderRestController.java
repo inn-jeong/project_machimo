@@ -120,7 +120,7 @@ public class OrderRestController {
     위에 코드가 실행되고 db에 데이터와 결제금액 및 유저가 사용한 포인트와 가지고 있는 포인트가 다를시
     ajax가 이 주소로 요청을 보냄
     */
-    @RequestMapping("cancel-db")
+    @RequestMapping("/cancel-db")
     public ResponseEntity<?> cancel(@RequestBody OrderDTO orderDTO) {
         List<Integer> productIdList = orderDTO.getProductIdList();
         int result = orderService.cancelDb(orderDTO) + productIdList.size();

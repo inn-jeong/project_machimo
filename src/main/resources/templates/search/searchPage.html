@@ -31,7 +31,7 @@
             <!-- title -->
             <div class="product_title py-3">
                 <div class="title fs-4 fw-bold -4" th:text="${message+'에 대한 검색결과'}"></div>
-                <div class="sub_title fs-8 fw-light fs-3" th:text="${pageMaker.total+'개'}"></div>
+                <div class="sub_title fs-8 fw-light fs-3" th:text="${pageMaker.total+'건'}"></div>
 
             </div>
             <div class="col-sm-12 col-md-5 py-3 ms-auto" style="text-align: right;">
@@ -49,7 +49,7 @@
                         <a th:href="@{/auction/action-list/{id}(id=${result.productId()})}">
                             <div class="card h-100">
                                 <div class="card-image">
-                                    <img src="https://volcanoshop.net/web/product/medium/202207/2246137a254cc292520136388d752dd5.jpg"
+                                    <img  src="https://volcanoshop.net/web/product/medium/202207/4c2325b943f439b5eccb9ed5423caebc.jpg"
                                          class="card-img-top object-fit-cover border rounded">
                                     <th:block th:switch="${result.pSalesStatus()}">
                                         <small th:case="${1}">판매중</small>

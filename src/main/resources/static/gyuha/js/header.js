@@ -3,6 +3,7 @@ function t() {
 }
 
 $(document).ready(function () {
+
     if ($("#logout").val() == 'yes') {
         location.href = "/";
     }
@@ -85,4 +86,43 @@ $(document).ready(function () {
 
 
     })
+        $("a[name='al_hr']").on("click", function (e) {
+        e.preventDefault();
+        let val1 = $("#h-al").val();
+        console.log("동작함")
+        $.ajax({
+            url: "alert/test",
+            contentType: "application/json",
+            type: 'POST',
+            data: JSON.stringify({
+                id: val1
+            }),
+            success: function () {
+                window.location.href = "/mypage/mypage_page";
+            }
+        });
+    });
+
 });
+function add_basket() {
+    let pid = $("#pid").val();
+    let user_id = $("#sss").val();
+    console.log(user_id)
+    console.log(pid)
+    $.ajax({
+
+        url: "/basket/addBasket",
+        type: 'POST',
+        contentType: "application/json",
+        data: JSON.stringify({
+            user_id: user_id,
+            product_id: pid
+        }),
+        success: function () {
+            alert("장바구니에 추가되었습니다.")
+        },
+        error: function (response) {
+            alert(response.responseText)
+        }
+    })
+}

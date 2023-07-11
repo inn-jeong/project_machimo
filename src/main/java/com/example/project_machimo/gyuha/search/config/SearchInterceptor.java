@@ -10,7 +10,7 @@ public class SearchInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
         String requestURI = request.getRequestURI();
-        if (!requestURI.startsWith("/search/searchList")) { // '/search'로 시작하지 않는 요청에 대해서만 검색 기록 삭제
+        if (!requestURI.startsWith("/search/searchList")) {
             session.removeAttribute("keyword");
             session.removeAttribute("searchOption");
         }

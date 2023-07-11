@@ -29,8 +29,6 @@ $(document).ready(function () {
         })
 
     })
-
-
 })
 
 $(document).ready(function () {
@@ -89,7 +87,7 @@ $(document).ready(function () {
             return
         }
 
-        let pid = $("#pid").val();
+        let pid = $("#pd").val();
         let cancelBtn = $("#report_cancel");
         let seller_user_id = $("#seller").val()
         let user_id = $("#sss").val();
@@ -129,7 +127,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         let checkbox = $("#likebox");
-        let pid = $("#pid").val();
+        let pid = $("#pd").val();
         let user_id = $("#sss").val(); // 사용자 아이디 가져오기
 
         if (checkbox.prop('checked')) {
@@ -167,25 +165,3 @@ $(document).ready(function () {
     });
 })
 
-function add_basket() {
-    let pid = $("#pid").val();
-    let user_id = $("#sss").val();
-    console.log(user_id)
-    console.log(pid)
-    $.ajax({
-
-        url: "/basket/addBasket",
-        type: 'POST',
-        contentType: "application/json",
-        data: JSON.stringify({
-            user_id: user_id,
-            product_id: pid
-        }),
-        success: function () {
-            alert("장바구니에 추가되었습니다.")
-        },
-        error: function (response) {
-            alert(response.responseText)
-        }
-    })
-}

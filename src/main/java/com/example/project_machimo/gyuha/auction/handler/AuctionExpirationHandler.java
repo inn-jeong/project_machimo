@@ -24,10 +24,10 @@ public class AuctionExpirationHandler {
         this.session = session;
     }
 
-//    @Scheduled(fixedDelay = 10000)
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(fixedDelay = 10000)
+//    @Scheduled(cron = "0 0 * * * *")
     public void executeTask() {
-        System.out.println("동작하니??");
+
 
         ProductsDAO productsDAO = session.getMapper(ProductsDAO.class);
         BidsDAO bidsDAO = session.getMapper(BidsDAO.class);
