@@ -403,7 +403,9 @@
 <!--                                    <span th:case="5">판매보류</span>-->
                                 </div>
                             </td>
-                            <td rowspan="3" style="width: 80px" class="align-middle"><button class="btn btn-secondary">삭제</button></td>
+                            <td rowspan="3" style="width: 80px" class="align-middle">
+                                <button class="btn btn-secondary" th:onclick="'deleteItem(\''+${item.productId}+'\')'">삭제</button>
+                            </td>
                         </tr>
                         <tr>
                             <td th:text="'판매자:'+${item.uNickname}" style="text-align: left" class="item-show"></td>
@@ -703,7 +705,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" id="checkWith" class="form-control" placeholder="'탈퇴하겠습니다'를 입력해주세요." style="width: 400px; margin: 0 auto">
+                                <input type="text" id="checkWith" class="form-control" placeholder="'탈퇴하겠습니다.'를 입력해주세요." style="width: 400px; margin: 0 auto">
                             </td>
                         </tr>
 
@@ -850,7 +852,7 @@
                 }
             },
             error: function (response){
-                alert(response);
+                alert("문구를 정확히 입력해주세요.");
             }
         });
     }
