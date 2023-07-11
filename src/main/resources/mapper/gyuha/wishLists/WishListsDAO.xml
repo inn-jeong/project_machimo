@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.project_machimo.gyuha.wishlists.dao.WishListsDAO">
     <insert id="insertWish">
-        insert into WISHLISTS values(wish_id_sqe.nextval,#{userId},#{productId})
+        insert into WISHLISTS values(wish_id_seq.nextval,#{userId},#{productId})
     </insert>
     <delete id="deleteWish">
         delete WISHLISTS

@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>리뷰 수정하기</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <title>마취모 : 리뷰 수정</title>
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
         function fn_submit() {
@@ -68,7 +68,7 @@
     <div class="card border-success shadow" style="max-width: 700px; margin: 0 auto;">
         <div class="card-body">
             <h1 class="card-title text-center text-success font-weight-bold">리뷰 수정하기</h1>
-            <form id="frm" action="modify" method="post">
+            <form id="frm" action="/review/modify" method="post">
                 <input type="hidden" th:name="reviewId" th:value="${content_view.reviewId}" />
                 <div class="row mb-3">
                     <label for="reviewId" class="col-sm-2 col-form-label">리뷰 ID:</label>

@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 
 public record ProductsVO(
         Integer productsId
-        ,Byte cId
-        ,Byte cId2
+        ,Integer cId
+        ,Integer cId2
         ,Integer userId
         ,String pName
         ,String pInfo

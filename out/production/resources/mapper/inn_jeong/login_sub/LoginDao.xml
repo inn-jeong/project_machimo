@@ -50,6 +50,19 @@
     <update id="secessionUser">
         update users set u_signout='Y' where user_id=#{param1}
     </update>
+    <update id="updateUser">
+        update users set u_password=#{uPassword},
+                        u_email=#{uEmail},
+                        u_name=#{uName},
+                        u_jumin=#{uJumin},
+                        u_phone=#{uPhone},
+                        u_addr_postcode=#{uAddrPostcode},
+                        u_address=#{uAddress},
+                        u_address_sub=#{uAddressSub},
+                        u_nickname=#{uNickname},
+                        u_updated_at=sysdate
+        where u_id=#{uId}
+    </update>
     <delete id="initialReport">
         update report set report_count=0 where seller_user_id = #{param1}
     </delete>
@@ -66,7 +79,8 @@
         select * from users where u_email = #{uEmail} and u_signout='N'
     </select>
     <select id="checkBlur" resultType="com.example.project_machimo.inn_jeong.login.Dto.UserSuspension">
-        select user_id,to_char(u_suspension,'MM/DD HH24:MI') u_suspension from users where user_id=#{param1} and u_suspension > sysdate
+        select user_id,to_char(u_suspension,'MM/DD HH24:MI') u_suspension
+        from users where user_id=#{param1} and u_suspension > sysdate
     </select>
     <insert id="userInsert">
                 insert into users(

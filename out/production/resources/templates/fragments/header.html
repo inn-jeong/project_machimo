@@ -43,8 +43,8 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
             charset="utf-8"></script>
-    <!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js" charset="utf-8"></script>-->
     <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js" charset="utf-8"></script>
+    <!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js" charset="utf-8"></script>-->
     <script src="/login/login.js"></script>
     <script src="/gyuha/js/header.js"></script>
     <body>
@@ -101,9 +101,9 @@
                 <div class="main_inner d-flex flex-wrap justify-content-center mb-1">
                     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto"
                        style="text-decoration: none;">
+                        <img src="/img/machimoLogo_small.png" style="width: 80px;height: 40px" class="mr-4">
                         <svg class="bi me-2" width="5" height="32"></svg>
-                        <span class="text-dark fs-2 fw-bold">MACHIMMO</span>
-
+                        <span class="text-dark fs-2 fw-bold">MACHIMO</span>
                     </a>
                     <ul class="gnb_list nav nav-pills">
                         <li class="nav-item"><a href="/"
@@ -119,11 +119,11 @@
                             <form action="/search/searchList" method="get" class="d-flex" role="search" id="frm">
                                 <label>
                                     <select name="searchOption" style="height: 32px" th:value="${session.searchOption}">
-                                        <option value="userNickName"
-                                                th:selected="${session.searchOption == 'userNickName'}">작성자
-                                        </option>
                                         <option value="productName"
                                                 th:selected="${session.searchOption == 'productName'}">상품명
+                                        </option>
+                                        <option value="userNickName"
+                                                th:selected="${session.searchOption == 'userNickName'}">작성자
                                         </option>
                                         <option value="productInfo"
                                                 th:selected="${session.searchOption == 'productInfo'}">내용

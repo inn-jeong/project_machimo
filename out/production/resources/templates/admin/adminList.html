@@ -13,7 +13,7 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">MACHIMO USER LIST</h6>
+                <h6 class="m-0 font-weight-bold text-info">MACHIMO USER LIST</h6>
             </div>
             <!-- 검색기능 -->
             <div class="card-body">
@@ -76,7 +76,7 @@
                                 </td>
                                 <td>
                                     <form th:action="@{/admin/adminDelete/{userId}(userId=${user.userId})}" method="GET" class="d-inline" onsubmit="return confirm('정말로 탈퇴하시겠습니까?');">
-                                        <button type="submit" class="btn btn-sm btn-primary rounded-pill px-3 mx-1">탈퇴</button>
+                                        <button type="submit" class="btn btn-sm btn-danger rounded-pill px-3 mx-1">탈퇴</button>
                                     </form>
                                     <button type="submit" class="confirmAdmin btn btn-sm btn-primary rounded-pill px-3 " th:data-userId="${user.userId}" th:data-uId="${user.uId}">
                                         <span th:text="권한"></span>

@@ -5,113 +5,122 @@
 
 <th:block layout:fragment="admin-content">
     <!-- 관리자일경우 활성화 -->
-    <div class="container" th:if="${session.user.uRole == 1}">
-        <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">제품 관리</h5>
+    <div class="justify-content-center mx-5" th:if="${session.user.uRole == 1}">
+<!--        <h5 class="mb-4 py-3 fw-bold fs-4 border-bottom">제품 관리</h5>-->
+        <h1 class="h3 mb-2 text-gray-800 py-2 mb-3">제품 관리</h1>
 
-        <!-- 검색기능 -->
-        <div>
-            <form id="searchForm" method="get">
-                <label>
-                    <select name="type">
-                        <option value="C" th:selected="${pageMaker.cri.type eq 'C'?'selected':''}">카테고리</option>
-                        <option value="T" th:selected="${pageMaker.cri.type eq 'T'?'selected':''}">제품명</option>
-                        <option value="I" th:selected="${pageMaker.cri.type eq 'I'?'selected':''}">상품정보</option>
-                        <option value="Y" th:selected="${pageMaker.cri.type eq 'Y'?'selected':''}">판매유형</option>
-                        <option value="P" th:selected="${pageMaker.cri.type eq 'P'?'selected':''}">판매가</option>
-                        <option value="A" th:selected="${pageMaker.cri.type eq 'A'?'selected':''}">경매가</option>
-                        <option value="U" th:selected="${pageMaker.cri.type eq 'U'?'selected':''}">등록일자</option>
-                        <option value="S" th:selected="${pageMaker.cri.type eq 'S'?'selected':''}">판매상태</option>
-                    </select>
-                </label>
-                <label>
-                    <input type="text" name="keyword" th:value="${pageMaker.cri.keyword}">
-                </label>
-                <button type="submit">search</button>
-            </form>
-        </div>
-
-        <div class="row">
-            <table class="table table-hover table-responsive text-nowrap mb-0 align-middle">
-                <colgroup>
-                    <col width="2%" />
-                    <col width="5%" />
-                    <col width="30%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="10%" />
-                    <col width="5%" />
-                </colgroup>
-                <thead class="table-light text-dark fs-5">
-                <tr>
-                    <th class="border-bottom-0">No</th>
-                    <th class="border-bottom-0">카테고리</th>
-                    <th class="border-bottom-0">제품명</th>
-                    <th class="border-bottom-0">상품정보</th>
-                    <th class="border-bottom-0">판매유형</th>
-                    <th class="border-bottom-0">판매가</th>
-                    <th class="border-bottom-0">경매가</th>
-                    <th class="border-bottom-0">등록일자</th>
-                    <th class="border-bottom-0">수정일자</th>
-                    <th class="border-bottom-0">판매상태</th>
-                    <th class="border-bottom-0">관리</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="list: ${pList}" th:if="${list != null}">
-                    <td th:text="${list.productId}"></td>
-                    <td th:text="${list.cName}"></td>
-                    <td>
-                        <a th:href="@{/auction/action-list/{id}(id=${list.productId})}">
-                            <span th:text="${list.pName}"></span>
-                        </a>
-<!--                    <td>-->
-<!--                        <a class="move_link" th:data-id="${list.productId}">-->
-<!--                            <span th:text="${list.pName}"></span>-->
-<!--                        </a>-->
-<!--                    </td>-->
-                    </td>
-
-                    <td th:text="${list.pInfo}"></td>
-                    <!-- 판매유형) 경매:0 즉시판매:1-->
-                    <td th:switch="${list.pSaleType}">
-                        <span th:case=0 th:text="경매"></span>
-                        <span th:case=1 th:text="즉시판매"></span>
-                    </td>
-                    <!-- 판매가(즉시판매) -->
-                    <td th:text="${list.pDirect}"></td>
-                    <!-- 경매가 -->
-                    <td th:text="${list.pBPrice}"></td>
-                    <td th:text="${#dates.format(list.pCreatedAt, 'YYYY-MM-DD')}"></td>
-                    <td th:text="${#dates.format(list.pUpdatedAt, 'YYYY-MM-DD')}"></td>
-                    <!-- 판매상태) 대기중(판매승인전):0 , 판매중:1, 판매완료:2, 낙찰:3, 경매실패:4-->
-                    <td th:switch="${list.pSalesStatus}">
-                        <span th:case=0 >
-                            <div class="btn-group me-2">
-                                <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        th:onclick="'updateStatus(\''+${list.productId}+'\',\''+1+'\',\''+${list.pSaleType}+'\')'">승인</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        th:onclick="'updateStatus(\''+${list.productId}+'\',\''+5+'\',\''+${list.pSaleType}+'\')'">거절</button>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-info">MACHIMO PRODUCT LIST</h6>
+            </div>
+            <!-- 검색기능 -->
+            <div class="card-body">
+                <div class="table">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <form id="searchForm" method="get">
+                            <div class="row float-right pr-3 py-2">
+                                <div class="col">
+                                    <label>
+                                        <select name="type">
+                                            <option value="C" th:selected="${pageMaker.cri.type eq 'C'?'selected':''}">카테고리</option>
+                                            <option value="T" th:selected="${pageMaker.cri.type eq 'T'?'selected':''}">제품명</option>
+                                            <option value="I" th:selected="${pageMaker.cri.type eq 'I'?'selected':''}">상품정보</option>
+                                            <option value="Y" th:selected="${pageMaker.cri.type eq 'Y'?'selected':''}">판매유형</option>
+                                            <option value="P" th:selected="${pageMaker.cri.type eq 'P'?'selected':''}">판매가</option>
+                                            <option value="A" th:selected="${pageMaker.cri.type eq 'A'?'selected':''}">경매가</option>
+                                            <option value="U" th:selected="${pageMaker.cri.type eq 'U'?'selected':''}">등록일자</option>
+                                            <option value="S" th:selected="${pageMaker.cri.type eq 'S'?'selected':''}">판매상태</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div id="dataTable_filter"  class="dataTables_filter">
+                                    <label>
+                                        <input type="text" class="form-control form-control-sm" placeholder="search" name="keyword" th:value="${pageMaker.cri.keyword}">
+                                    </label>
+                                    <button class="btn-sm btn-outline-secondary d-inline-flex align-items-center"  type="submit">search</button>
+                                </div>
                             </div>
-                        </span>
-                        <span th:case=1 >판매중</span>
-                        <span th:case=2 >판매완료</span>
-                        <span th:case=3 >낙찰</span>
-                        <span th:case=4 >낙찰실패</span>
-                        <span th:case=5 >판매반려</span>
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-danger rounded-pill px-3" type="button" th:onclick="'productDelete(\''+${list.productId}+'\')'">
-                            삭제
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                        </form>
+                        <colgroup>
+                            <col width="2%" />
+                            <col width="6%" />
+                            <col width="20%" />
+                            <col width="15%" />
+                            <col width="10%" />
+                            <col width="5%" />
+                            <col width="5%" />
+                            <col width="10%" />
+                            <col width="10%" />
+                            <col width="10%" />
+                            <col width="10%" />
+                        </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="border-bottom-0">No</th>
+                        <th class="border-bottom-0">카테고리</th>
+                        <th class="border-bottom-0">제품명</th>
+                        <th class="border-bottom-0">상품정보</th>
+                        <th class="border-bottom-0">판매유형</th>
+                        <th class="border-bottom-0">판매가</th>
+                        <th class="border-bottom-0">경매가</th>
+                        <th class="border-bottom-0">등록일자</th>
+                        <th class="border-bottom-0">수정일자</th>
+                        <th class="border-bottom-0">판매상태</th>
+                        <th class="border-bottom-0">관리</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="list: ${pList}" th:if="${list != null}">
+                        <td th:text="${list.productId}"></td>
+                        <td th:text="${list.cName}"></td>
+                        <td>
+                            <a th:href="@{/auction/action-list/{id}(id=${list.productId})}">
+                                <span th:text="${list.pName}"></span>
+                            </a>
+    <!--                    <td>-->
+    <!--                        <a class="move_link" th:data-id="${list.productId}">-->
+    <!--                            <span th:text="${list.pName}"></span>-->
+    <!--                        </a>-->
+    <!--                    </td>-->
+                        </td>
 
+                        <td th:text="${list.pInfo}"></td>
+                        <!-- 판매유형) 경매:0 즉시판매:1-->
+                        <td th:switch="${list.pSaleType}">
+                            <span th:case=0 th:text="경매"></span>
+                            <span th:case=1 th:text="즉시판매"></span>
+                        </td>
+                        <!-- 판매가(즉시판매) -->
+                        <td th:text="${list.pDirect}"></td>
+                        <!-- 경매가 -->
+                        <td th:text="${list.pBPrice}"></td>
+                        <td th:text="${#dates.format(list.pCreatedAt, 'YYYY-MM-DD')}"></td>
+                        <td th:text="${#dates.format(list.pUpdatedAt, 'YYYY-MM-DD')}"></td>
+                        <!-- 판매상태) 대기중(판매승인전):0 , 판매중:1, 판매완료:2, 낙찰:3, 경매실패:4-->
+                        <td th:switch="${list.pSalesStatus}">
+                            <span th:case=0 >
+                                <div class="btn-group me-2">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            th:onclick="'updateStatus(\''+${list.productId}+'\',\''+1+'\',\''+${list.pSaleType}+'\')'">승인</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            th:onclick="'updateStatus(\''+${list.productId}+'\',\''+5+'\',\''+${list.pSaleType}+'\')'">거절</button>
+                                </div>
+                            </span>
+                            <span th:case=1 >판매중</span>
+                            <span th:case=2 >판매완료</span>
+                            <span th:case=3 >낙찰</span>
+                            <span th:case=4 >낙찰실패</span>
+                            <span th:case=5 >판매반려</span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-danger rounded-pill px-3" type="button" th:onclick="'productDelete(\''+${list.productId}+'\')'">
+                                삭제
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         <!--페이징-->
             <div class="row py-4">
                 <div class="col-sm-12 col-md-5">
@@ -139,7 +148,9 @@
                     </div>
                 </div>
             </div>
+        </div>
     </div>
+</div>
 
     <form th:method="get" id="actionForm">
         <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">

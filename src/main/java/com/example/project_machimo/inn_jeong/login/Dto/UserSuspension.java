@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//정지여부를 조회하기 위한 Dto
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

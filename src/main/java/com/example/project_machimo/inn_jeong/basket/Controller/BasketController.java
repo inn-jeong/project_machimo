@@ -21,6 +21,7 @@ public class BasketController {
     @Autowired
     private BasketService service;
 
+    //장바구니 페이지
     @RequestMapping("/page")
     public String cart(HttpServletRequest request,HttpSession session, Model model){
 //        HttpSession session = request.getSession();
@@ -30,30 +31,23 @@ public class BasketController {
         }
         Integer userId = user.getUserId();
         log.info("@# basket user_id===>" +userId);
-//        ArrayList<BasketDto> basket = service.getBasket(userId);
-//        List<ProductsDto> basketItems = service.getBasketItems(basket);
-//        log.info("@# basket basket=====>"+basket);
-//        if(!basket.isEmpty()){
-//            List<BasketItemDto> basketItems = service.getBasketItems(basket);
-//            if(!basketItems.isEmpty()){
-////                log.info("@# basket product_id ===>"+basketItems.get(0).getProductId());
-////                log.info("@# basket p_name ===>"+basketItems.get(0).getPName());
-////                log.info("@# basket p_direct ===>"+basketItems.get(0).getPDirect());
-//                model.addAttribute("basketItems",basketItems);
-//            }
-//        }
+
+        //장바구니에서 join하여 제품 목록 조회
         ArrayList<BasketItemDto> items = service.getBasketItems(userId);
         model.addAttribute("basketItems",items);
         model.addAttribute("type","basket");
         return "mypage/mypage";
     }
 
+    //장바구니에서 제품 삭제(ajax)
     @RequestMapping("/deleteItem")
     @ResponseBody
     public String deleteItem(HttpServletRequest request, Model model){
+        //ajax로 productId를 받음
         Integer productId = Integer.valueOf(request.getParameter("product_id"));
         HttpSession session = request.getSession();
         Integer userId = ((UsersDto) session.getAttribute("user")).getUserId();
+        //해당 유저의 장바구니에서 제품을 삭제
         int deleteResult = service.deleteItem(userId,productId);
         String result;
         if(deleteResult == 1){

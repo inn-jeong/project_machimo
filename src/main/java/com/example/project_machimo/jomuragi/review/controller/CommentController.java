@@ -39,8 +39,8 @@ public class CommentController {
             comment.setBno(bno);
             comment.setContent(content);
             //로그인 기능을 구현했거나 따로 댓글 작성자를 입력받는 폼이 있다면 입력 받아온 값으로 사용하면 됨
-//            comment.setWriter("test");
-            comment.setWriter(((UsersDto)session.getAttribute("user")).getUNickname());
+            comment.setWriter("test");
+//            comment.setWriter(((UsersDto)session.getAttribute("user")).getUNickname());
 
             return mCommentService.commentInsertService(comment);
         }

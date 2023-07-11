@@ -20,4 +20,5 @@ public interface LoginDao {
     public UserSuspension checkBlur(Integer userId);
     public void initialReport(Integer userId);
     public void secessionUser(Integer userId);
+    public void updateUser(HashMap<String, String> param);
 }
