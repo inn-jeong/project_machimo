@@ -5,7 +5,7 @@
   <thead>
     <tr>
       <th>날짜</th>
-      <th width="100px">작성자</th>
+      <th width="80px">작성자</th>
       <th>Done(작업내용)</th>
       <th>To DO(해야할 작업)</th>
       <th>이슈사항</th>
