@@ -1,13 +1,50 @@
 # project_machimo(마이너한 취미 모음집)
 
-# 작업일지
-## 230616
-### Done
+## 작업일지
 <table>
-  <tr>
-    <td>test</td>
-    <td>test2</td>
-  </tr>
+  <thead>
+    <tr>
+      <th>날짜</th>
+      <th>작성자</th>
+      <th>Done(작업내용)</th>
+      <th>To DO(해야할 작업)</th>
+      <th>이슈사항</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="5">06월 16일</td>
+      <td>이진영</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>조수현</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>최규하</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>박기현</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>조현지</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
 </table>
 
 
