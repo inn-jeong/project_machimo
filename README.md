@@ -5,9 +5,9 @@
   <thead>
     <tr>
       <th width="10%">날짜</th>
-      <th width="10%">작성자</th>
+      <th width="8%">작성자</th>
       <th width="30%">Done(작업내용)</th>
-      <th width="30%">To DO(해야할 작업)</th>
+      <th width="32%">To DO(해야할 작업)</th>
       <th width="20%">이슈사항</th>
     </tr>
   </thead>
