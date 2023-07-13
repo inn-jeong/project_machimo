@@ -1,4 +1,26 @@
-# project_machimo
+# project_machimo(마이너한 취미 모음집)
+
+# 작업일지
+## 230616
+### Done
+<table>
+  <tr>
+    <td>test</td>
+    <td>test2</td>
+  </tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 230708 1차 병합
 jolocal의 Dto :PageDto -> LocalPageDto 로 변경 후 수동 리펙터링 처리
