@@ -1,4 +1,6 @@
 # project_machimo(마이너한 취미 모음집)
+notion
+https://faint-side-0e1.notion.site/2-cd2527ddab614de58fe77566cef1563e?pvs=4
 
 ## 작업일지
 <table>
