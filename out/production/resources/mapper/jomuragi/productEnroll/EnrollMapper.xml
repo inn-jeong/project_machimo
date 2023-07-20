@@ -7,12 +7,41 @@
 
 
     <insert id="write" parameterType="com.example.project_machimo.jomuragi.productEnroll.dto.ProductDto" >
+<!--        INSERT INTO products-->
+<!--        (product_id, c_id, c_id2, user_id, p_name, p_info, p_created_at, p_sale_type, p_account, p_bank, p_address, p_address_sub, p_addr_postcode)-->
+<!--        VALUES (-->
+<!--&lt;!&ndash;        (SELECT COALESCE(MAX(product_id), 0) + 1 FROM products),&ndash;&gt;-->
+<!--        PRODUCTS_SEQ.NEXTVAL,-->
+<!--        #{cId}, #{cId2}, #{userId}, #{pName}, #{pInfo}, SYSDATE, #{pSaleType}, #{pAccount},  #{pBank}, #{pAddress}, #{pAddressSub}, #{pAddrPostcode}-->
+<!--        <choose>-->
+<!--            <when test="pSaleType == 0">-->
+<!--                #{pBPrice}, #{pDurDate}-->
+<!--            </when>-->
+<!--            <when test="pSaleType == 1">-->
+<!--                , #{pDirect}-->
+<!--            </when>-->
+<!--        </choose>-->
         INSERT INTO products
-        (product_id, c_id, c_id2, user_id, p_name, p_info, p_created_at, p_sale_type, p_account, p_bank, p_address, p_address_sub, p_addr_postcode)
+        (product_id, c_id, c_id2, user_id, p_name, p_info, p_created_at, p_sale_type, p_account, p_bank, p_address, p_address_sub, p_addr_postcode
+        <choose>
+            <when test="pSaleType == 0">
+                , p_b_price, p_dur_date
+            </when>
+            <when test="pSaleType == 1">
+                , p_direct
+            </when>
+        </choose>)
         VALUES (
-<!--        (SELECT COALESCE(MAX(product_id), 0) + 1 FROM products),-->
         PRODUCTS_SEQ.NEXTVAL,
-        #{cId}, #{cId2}, #{userId}, #{pName}, #{pInfo}, SYSDATE, #{pSaleType}, #{pAccount},  #{pBank}, #{pAddress}, #{pAddressSub}, #{pAddrPostcode}
+        #{cId}, #{cId2}, #{userId}, #{pName}, #{pInfo}, SYSDATE, #{pSaleType}, #{pAccount}, #{pBank}, #{pAddress}, #{pAddressSub}, #{pAddrPostcode}
+        <choose>
+            <when test="pSaleType == 0">
+                , ${pBPrice}, ${pDurDate}
+            </when>
+            <when test="pSaleType == 1">
+                , ${pDirect}
+            </when>
+        </choose>
         )
     </insert>
 
