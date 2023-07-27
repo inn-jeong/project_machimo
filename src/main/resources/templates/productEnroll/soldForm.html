@@ -32,8 +32,10 @@
 
         <div class="mb-3">
             <label for="category1" class="form-label">1차 카테고리:</label>
+<!--            1차 카테고리를 고르면, selectSubcategory() 함수 실행-->
             <select id="category1" name="category2" onchange="selectSubcategory()" class="form-select" required>
                 <option value="1">전체</option>
+<!--                컨트롤러에서 받은 category 모델을 foreach문으로 돌려서, 카테고리이름을 보여준다-->
                 <option class="catego1" th:each="category : ${categories}" th:value="${category.cId}" th:text="${category.cName}"></option>
             </select>
             <div class="invalid-feedback">Please select a category.</div>
@@ -42,10 +44,11 @@
 
         <div class="mb-3">
             <label id="cid2" class="form-label"></label>
+<!--           1차 카테고리 for문을 돌리고, 그 안에 속한 2차 카테고리를 보여주기 위해서 div 클래스로 for문을 돌린다-->
             <div th:each="category:${categories}">
                 <select class="catego2 form-select" name="category1" th:id="'category2-'+${category.cId}" style="display: none">
-<!--                <select class="catego2 form-select" th:id="'category2-'+${category.cId}" style="display: none" name="category1" id="'category2-'+${category.cId}">-->
                     <option value="">전체</option>
+<!--                    2차카테고리는 1차카테고리의 cid를 매개변수로 해서, 거기에 속한 2차 카테고리만 보여야한다.-->
                     <option th:each="subcatego:${subcategory[category.cId]}" th:value="${subcatego.cId}" th:text="${subcatego.cName+subcatego.cId+subcatego.cId2}"></option>
                 </select>
             </div>
@@ -139,12 +142,16 @@
 
 <script>
     function selectSubcategory() {
+        // catego  = 유저가 고른 1차 카테고리의 cid
         var catego = $(".catego1").filter(":selected").val();
+        // 유저가 1차 카테고리를 고르기 전에는, 2차 카테고리가 보이지않고, 사용되지도 않게 (값이 넘어가지 않게)해야한다.
         $(".catego2").css({"display":"none"}).prop('disabled',true);
+        // catego가 존재 == 유저가 1차 카테고리를 고른 상태이므로 그에 맞는 2차카테고리를 보여주고, 사용가능하게 함
         $("#category2-"+catego).css("display","inline-block").prop('disabled',false);
 
         console.log(catego);
 
+        // 1차 카테고리를 고르기 전 2차 카테고리 항목을 안보이게 하기 위한 코드
         if (catego == null){
              $("#cid2").text("");
         }else{
